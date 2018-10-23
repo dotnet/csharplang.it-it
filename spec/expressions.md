@@ -125,12 +125,12 @@ La tabella seguente riepiloga tutti gli operatori in ordine di precedenza dalla 
 | [Operatori relazionali e di test del tipo](expressions.md#relational-and-type-testing-operators) | Uguaglianza                    | `==`  `!=`    | 
 | [Operatori logici](expressions.md#logical-operators)                                         | AND logico                 | `&`           | 
 | [Operatori logici](expressions.md#logical-operators)                                         | XOR logico                 | `^`           | 
-| [Operatori logici](expressions.md#logical-operators)                                         | OR logico                  | `|`           |
+| [Operatori logici](expressions.md#logical-operators)                                         | OR logico                  | <code>&#124;</code>           |
 | [Operatori logici condizionali](expressions.md#conditional-logical-operators)                 | AND condizionale             | `&&`          | 
-| [Operatori logici condizionali](expressions.md#conditional-logical-operators)                 | OR condizionale              | `||`          | 
+| [Operatori logici condizionali](expressions.md#conditional-logical-operators)                 | OR condizionale              | <code>&#124;&#124;</code>          | 
 | [Operatore null-coalescing](expressions.md#the-null-coalescing-operator)                   | Null-coalescing             | `??`          | 
 | [Operatore condizionale](expressions.md#conditional-operator)                                   | Condizionale                 | `?:`          | 
-| [Gli operatori di assegnazione](expressions.md#assignment-operators), [espressioni di funzioni anonime](expressions.md#anonymous-function-expressions)  | Assegnazione ed espressione lambda | `=`  `*=`  `/=`  `%=`  `+=`  `-=`  `<<=`  `>>=`  `&=`  `^=`  `|=`  `=>` | 
+| [Gli operatori di assegnazione](expressions.md#assignment-operators), [espressioni di funzioni anonime](expressions.md#anonymous-function-expressions)  | Assegnazione ed espressione lambda | `=`  `*=`  `/=`  `%=`  `+=`  `-=`  `<<=`  `>>=`  `&=`  `^=`  <code>&#124;=</code>  `=>` | 
 
 Se un operando si trova tra i due operatori con la stessa precedenza, l'associatività degli operatori determina l'ordine in cui vengono eseguite le operazioni:
 
@@ -3503,7 +3503,7 @@ bool? operator |(bool? x, bool? y);
 
 Nella tabella seguente sono elencati i risultati prodotti da questi operatori per tutte le combinazioni dei valori `true`, `false`, e `null`.
 
-| `x`     | `y`     | `x & y` | ' x | y' |
+| `x`     | `y`     | `x & y` | <code>x &#124; y</code> |
 |:-------:|:-------:|:-------:|:-------:|
 | `true`  | `true`  | `true`  | `true`  | 
 | `true`  | `false` | `false` | `true`  | 

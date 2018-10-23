@@ -277,13 +277,13 @@ Nella tabella seguente sono riepilogati gli operatori di #, elenca le categorie 
 |                                  | `x != y`          | Non uguaglianza |
 | AND logico                      | `x & y`           | Integer bit per bit AND, AND logico booleano |
 | XOR logico                      | `x ^ y`           | XOR Integer bit per bit, XOR logico booleano |
-| OR logico                       | ' x | y'           | OR Integer bit per bit, OR logico booleano |
+| OR logico                       | <code>x &#124; y</code> | OR Integer bit per bit, OR logico booleano |
 | AND condizionale                  | `x && y`          | Viene valutata `y` solo se `x` è `true` |
-| OR condizionale                   | ' x || y'          | Viene valutata `y` solo se `x` è `false` |
+| OR condizionale                   | <code>x &#124;&#124; y</code> | Viene valutata `y` solo se `x` è `false` |
 | Null-coalescing                  | `X ?? y`          | Viene valutata `y` se `x` viene `null`, a `x` in caso contrario, |
 | Condizionale                      | `x ? y : z`       | Viene valutata `y` se `x` viene `true`, `z` se `x` è `false` |
 | Assegnazione o funzione anonima | `x = y`           | Assegnazione |
-|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` `|=` |
+|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` <code>&#124;=</code> |
 |                                  | `(T x) => y`      | Funzione anonima (espressione lambda) |
 
 ## <a name="statements"></a>Istruzioni
