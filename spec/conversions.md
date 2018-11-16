@@ -366,7 +366,7 @@ class X<T>
 }
 ```
 
-Se la conversione esplicita di direct `t` a `int` fosse consentito, ci si aspetterebbe facilmente che `X<int>.F(7)` restituirebbe `7L`. Tuttavia, non lo avrebbe, poiché le conversioni numeriche standard vengono considerate solo quando i tipi sono noti per essere un valore numerico in fase di associazione. Per rendere la semantica chiari, nell'esempio precedente sarà necessario scrivere:
+Se la conversione esplicita di direct `t` a `int` fosse consentito, ci si aspetterebbe facilmente che `X<int>.F(7)` restituirebbe `7L`. Tuttavia, non lo avrebbe, poiché le conversioni numeriche standard vengono considerate solo quando i tipi sono noti per essere un valore numerico in fase di associazione. Per rendere la semantica chiari, nell'esempio precedente sarà necessario scrivere:
 ```csharp
 class X<T>
 {
@@ -738,7 +738,7 @@ L'applicazione in fase di compilazione di una conversione da un gruppo di metodi
 *  Il metodo selezionato `M` devono essere compatibili ([compatibilità dei delegati](delegates.md#delegate-compatibility)) con il tipo di delegato `D`, oppure in caso contrario, si è verificato un errore in fase di compilazione.
 *  Se il metodo selezionato `M` è un metodo di istanza, l'espressione dell'istanza associata `E` determina l'oggetto di destinazione del delegato.
 *  Se il metodo selezionato M è un metodo di estensione che è identificato per mezzo di un accesso ai membri in un'espressione dell'istanza, tale espressione dell'istanza determina l'oggetto di destinazione del delegato.
-*  Il risultato della conversione è un valore di tipo `D`, vale a dire un delegato appena creato che fa riferimento all'oggetto di destinazione e metodo selezionato.
+*  Il risultato della conversione è un valore di tipo `D`, vale a dire un delegato appena creato che fa riferimento all'oggetto di destinazione e metodo selezionato.
 *  Si noti che questo processo può portare alla creazione di un delegato a un metodo di estensione, se l'algoritmo di [chiamate al metodo](expressions.md#method-invocations) non riesce a trovare un metodo di istanza, ma ha esito positivo nell'elaborazione della chiamata di `E(A)` come un'estensione chiamata al metodo ([chiamate al metodo di estensione](expressions.md#extension-method-invocations)). Consente di acquisire un delegato creato in questo modo il metodo di estensione così come primo argomento.
 
 L'esempio seguente illustra le conversioni dei gruppi di metodo:
@@ -770,7 +770,7 @@ class Test
 
 L'assegnazione al `d1` converte in modo implicito il gruppo di metodi `F` su un valore di tipo `D1`.
 
-L'assegnazione al `d2` Mostra come è possibile creare un delegato a un metodo che dispone di meno derivati di tipi di parametro (controvariante) e un tipo più derivato (covariante restituito).
+L'assegnazione al `d2` Mostra come è possibile creare un delegato a un metodo che dispone di tipi di parametro meno derivati (controvarianti) e un tipo più derivato (covariante restituito).
 
 L'assegnazione al `d3` Mostra come non esiste alcuna conversione se il metodo non è applicabile.
 
