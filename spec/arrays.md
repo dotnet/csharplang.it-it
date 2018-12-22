@@ -4,7 +4,7 @@ Una matrice è una struttura di dati che contiene un numero di variabili accessi
 
 Una matrice con una classificazione che determina il numero di indici associati a ogni elemento della matrice. L'ordine delle matrici è detta anche le dimensioni della matrice. Una matrice a un rango pari a uno viene definita un' ***matrici unidimensionali***. Una matrice con un numero di dimensioni superiore a uno viene chiamato un ***matrice multidimensionale***. Matrici multidimensionali con dimensioni specifiche sono spesso detta matrici bidimensionali, le matrici tridimensionali ne e così via.
 
-Ogni dimensione della matrice è associata una lunghezza che è un numero intero maggiore o uguale a zero. Le lunghezze delle dimensioni non fanno parte del tipo di matrice, ma piuttosto vengono stabilite quando viene creata un'istanza del tipo di matrice in fase di esecuzione. La lunghezza di una dimensione determina l'intervallo valido degli indici per tale dimensione: per una dimensione di lunghezza `N`, gli indici può essere compreso tra `0` a `N - 1` inclusivo. Il numero totale di elementi in una matrice è il prodotto delle lunghezze di ogni dimensione della matrice. Se uno o più delle dimensioni della matrice ha una lunghezza pari a zero, la matrice viene considerata può essere vuoto.
+Ogni dimensione della matrice è associata una lunghezza che è un numero intero maggiore o uguale a zero. Le lunghezze delle dimensioni non fanno parte del tipo di matrice, ma piuttosto vengono stabilite quando viene creata un'istanza del tipo di matrice in fase di esecuzione. La lunghezza di una dimensione determina l'intervallo valido degli indici per tale dimensione: Per una dimensione di lunghezza `N`, gli indici può essere compreso tra `0` a `N - 1` inclusivo. Il numero totale di elementi in una matrice è il prodotto delle lunghezze di ogni dimensione della matrice. Se uno o più delle dimensioni della matrice ha una lunghezza pari a zero, la matrice viene considerata può essere vuoto.
 
 L'elemento di una matrice può essere di qualsiasi tipo, anche di tipo matrice.
 
@@ -32,7 +32,7 @@ dim_separator
 
 Oggetto *non_array_type* eventuale *tipo* vale a dire non è un *array_type*.
 
-Il numero di dimensioni di tipo matrice è dato dai più a sinistra *rank_specifier* nel *array_type*: un *rank_specifier* indica che la matrice è una matrice a un rango pari a uno più il numero di "`,`" token nel *rank_specifier*.
+Il numero di dimensioni di tipo matrice è dato dai più a sinistra *rank_specifier* nel *array_type*: Oggetto *rank_specifier* indica che la matrice è una matrice a un rango pari a uno più il numero di "`,`" i token nel *rank_specifier*.
 
 Il tipo di elemento di tipo matrice è il tipo che deriva dall'eliminazione di più a sinistra *rank_specifier*:
 

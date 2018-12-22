@@ -28,7 +28,7 @@ Ogni file di origine in un programma c# deve essere conforme per il *input* prod
 
 La grammatica sintattica del linguaggio c# viene descritta nei capitoli e appendici, come indicato di seguito in questo capitolo. I simboli terminali della grammatica sintattico sono i token definiti dalla grammatica lessicale e sintattica grammatica specifica come i token vengono combinati per formare c# programmi.
 
-Ogni file di origine in un programma c# deve essere conforme per il *compilation_unit* produzione della grammatica sintattica ([unità di compilazione](namespaces.md#compilation-units)).
+Ogni file di origine in un C# programma deve essere conforme al *compilation_unit* produzione della grammatica sintattica ([unità di compilazione](namespaces.md#compilation-units)).
 
 ## <a name="lexical-analysis"></a>Analisi lessicale
 
@@ -55,7 +55,7 @@ input_element
     ;
 ```
 
-Cinque elementi di base costituiscono la struttura lessicale di un file di origine c#: i caratteri di terminazione di riga ([dei caratteri di terminazione di riga](lexical-structure.md#line-terminators)), gli spazi vuoti ([spazi vuoti](lexical-structure.md#white-space)), i commenti ([commenti](lexical-structure.md#comments)), token ([token](lexical-structure.md#tokens)), le direttive di pre-elaborazione e ([direttive di pre-elaborazione](lexical-structure.md#pre-processing-directives)). Tra questi elementi di base, solo i token sono importanti nella grammatica sintattica di un programma c# ([grammatica lessicale](lexical-structure.md#syntactic-grammar)).
+Cinque elementi di base costituiscono la struttura lessicale di un C# file di origine: I caratteri di terminazione di riga ([dei caratteri di terminazione di riga](lexical-structure.md#line-terminators)), gli spazi vuoti ([gli spazi vuoti](lexical-structure.md#white-space)), commenti ([commenti](lexical-structure.md#comments)), i token ([token](lexical-structure.md#tokens)), e direttive di pre-elaborazione ([direttive di pre-elaborazione](lexical-structure.md#pre-processing-directives)). Tra questi elementi di base, solo i token sono importanti nella grammatica sintattica di un programma c# ([grammatica lessicale](lexical-structure.md#syntactic-grammar)).
 
 L'elaborazione di un file di origine c# lessicale consiste nella riduzione del file in una sequenza di token che diventa l'input per l'analisi sintattica. I caratteri di terminazione di riga, gli spazi vuoti e commenti possono essere usato per separare i token e le direttive di pre-elaborazione possono causare sezioni del file di origine deve essere ignorato, ma in caso contrario, questi elementi lessicali avere alcun impatto sulla struttura sintattica di un programma c#.
 
@@ -467,7 +467,7 @@ Si noti che in un valore letterale reale, cifre decimali sono sempre obbligatori
 
 Un valore letterale carattere rappresenta un singolo carattere e in genere costituito da un carattere racchiuso tra virgolette, come in `'a'`.
 
-Nota: La notazione grammaticale ANTLR effettua quanto segue confusione. In ANTLR, quando si scrivono `\'` è l'acronimo di una virgoletta singola `'`. E quando si scrivono `\\` è l'acronimo di una singola barra rovesciata `\`. Pertanto la prima regola per un valore letterale carattere significa che inizia con una virgoletta singola, seguito da un carattere e quindi una virgoletta singola. E sono sequenze di escape semplici possibili undici `\'`, `\"`, `\\`, `\0`, `\a`, `\b`, `\f`, `\n`, `\r`, `\t`, `\v`.
+Nota: La notazione grammaticale ANTLR rende poco chiaro quanto segue. In ANTLR, quando si scrivono `\'` è l'acronimo di una virgoletta singola `'`. E quando si scrivono `\\` è l'acronimo di una singola barra rovesciata `\`. Pertanto la prima regola per un valore letterale carattere significa che inizia con una virgoletta singola, seguito da un carattere e quindi una virgoletta singola. E sono sequenze di escape semplici possibili undici `\'`, `\"`, `\\`, `\0`, `\a`, `\b`, `\f`, `\n`, `\r`, `\t`, `\v`.
 
 ```antlr
 character_literal

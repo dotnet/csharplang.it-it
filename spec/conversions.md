@@ -512,7 +512,7 @@ Ai fini della brevità, in questa sezione Usa la versione abbreviata per i tipi 
 
 Un'espressione lambda `F` è compatibile con un tipo di albero delle espressioni `Expression<D>` se `F` compatibile con il tipo di delegato `D`. Si noti che questo non è applicabile ai metodi anonimi, solo le espressioni lambda.
 
-Alcune espressioni lambda non possono essere convertiti a tipi di albero delle espressioni: anche se la conversione *esiste*, ha esito negativo in fase di compilazione. Ciò si verifica quando l'espressione lambda:
+Alcune espressioni lambda non possono essere convertiti in tipi di albero delle espressioni: Anche se la conversione *esiste*, ha esito negativo in fase di compilazione. Ciò si verifica quando l'espressione lambda:
 
 *  È un *blocco* corpo
 *  Contiene gli operatori di assegnazione semplice o composta
@@ -723,7 +723,7 @@ class Test
 }
 ```
 
-La stessa tecnica applicata qui per acquisire le variabili locali può essere utilizzata anche durante la conversione di funzioni anonime in alberi delle espressioni: i riferimenti a oggetti generato dal compilatore possono essere archiviati nell'albero delle espressioni e può essere l'accesso alle variabili locali rappresentati come campo accede su tali oggetti. Il vantaggio di questo approccio è che consente le variabili locali "elevate" devono essere condivisi tra i delegati e gli alberi delle espressioni.
+La stessa tecnica applicata qui per acquisire le variabili locali può essere usata anche la conversione di funzioni anonime in alberi delle espressioni: Riferimenti agli oggetti generato dal compilatore possono essere archiviati nell'albero delle espressioni e l'accesso alle variabili locali può essere rappresentata come campo accede su tali oggetti. Il vantaggio di questo approccio è che consente le variabili locali "elevate" devono essere condivisi tra i delegati e gli alberi delle espressioni.
 
 ## <a name="method-group-conversions"></a>Conversioni dei metodi di gruppo
 

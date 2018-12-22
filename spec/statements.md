@@ -202,7 +202,7 @@ int F(int x) {
 
 Esecuzione di un'istruzione con etichetta corrisponde esattamente all'esecuzione dell'istruzione che segue l'etichetta.
 
-Oltre la raggiungibilità fornita da normale flusso di controllo, un'istruzione con etichetta è raggiungibile solo se l'etichetta fa riferimento un raggiungibile `goto` istruzione. (Eccezione: se un `goto` istruzione si trova in un `try` che include un `finally` si blocca e l'istruzione con etichetta non è compreso il `try`e il punto finale del `finally` blocco non è raggiungibile, quindi l'istruzione con etichetta non è raggiungibile da quella `goto` istruzione.)
+Oltre la raggiungibilità fornita da normale flusso di controllo, un'istruzione con etichetta è raggiungibile solo se l'etichetta fa riferimento un raggiungibile `goto` istruzione. (Eccezione: Se un `goto` istruzione si trova all'interno una `try` che include un `finally` blocco e l'istruzione con etichetta non è compreso il `try`e il punto finale del `finally` blocco non è raggiungibile, quindi l'istruzione con etichetta non è raggiungibile da che `goto` istruzione.)
 
 ## <a name="declaration-statements"></a>Istruzioni di dichiarazione
 
@@ -801,7 +801,7 @@ Il corpo del blocco finally viene costruito seguendo i passaggi seguenti:
 
    La variabile locale `d` non è visibile e accessibile a qualsiasi codice utente. In particolare, non è in conflitto con qualsiasi altra variabile il cui ambito include il blocco finally.
 
-L'ordine in cui `foreach` scorre gli elementi di una matrice, è il seguente: per gli elementi di matrici unidimensionali vengono attraversati in ordine di indice crescente, partire dall'indice `0` fino all'indice `Length - 1`. Per le matrici multidimensionali, gli elementi vengono scorsi in modo che gli indici della dimensione più a destra vengono prima un aumento, quindi la successiva dimensione a sinistra, e così via a sinistra.
+L'ordine in cui `foreach` scorre gli elementi di una matrice, è il seguente: Per gli elementi di matrici unidimensionali vengono attraversati in ordine di indice crescente, partire dall'indice `0` fino all'indice `Length - 1`. Per le matrici multidimensionali, gli elementi vengono scorsi in modo che gli indici della dimensione più a destra vengono prima un aumento, quindi la successiva dimensione a sinistra, e così via a sinistra.
 
 Ciascun valore in una matrice bidimensionale, in ordine degli elementi viene visualizzato nell'esempio seguente:
 ```csharp

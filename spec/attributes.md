@@ -821,7 +821,7 @@ Per le chiamate che si verificano all'interno delle dichiarazioni dei costruttor
 
 ## <a name="attributes-for-interoperation"></a>Attributi per l'interoperabilità
 
-Nota: In questa sezione è applicabile solo per l'implementazione .NET di Microsoft del linguaggio c#.
+Nota: In questa sezione è applicabile solo per l'implementazione di Microsoft .NET di C#.
 
 ### <a name="interoperation-with-com-and-win32-components"></a>Interazione con componenti COM e Win32
 

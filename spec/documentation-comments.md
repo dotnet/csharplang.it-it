@@ -597,13 +597,13 @@ Quando genera le stringhe di ID, il generatore di documentazione osserva le rego
 *  La seconda parte della stringa è il nome completo dell'elemento, iniziando dalla radice dello spazio dei nomi. Il nome dell'elemento, relativa inclusione i tipi e lo spazio dei nomi sono separati da punti. Se il nome dell'elemento stesso contiene punti, vengono sostituiti con `#(U+0023)` caratteri. (Si presuppone che nessun elemento dispone di tale carattere nel nome.)
 *  Per i metodi e proprietà con argomenti, l'elenco degli argomenti nel seguente modo, racchiuso tra parentesi. Per coloro che senza argomenti, le parentesi vengono omesse. Gli argomenti sono separati da virgole. La codifica di ciascun argomento è lo stesso come firma dell'interfaccia della riga, come indicato di seguito:
    *  Gli argomenti sono rappresentati dal relativo nome di documentazione che si basa sul nome completo, modificato come segue:
-      * Gli argomenti che rappresentano i tipi generici hanno un'aggiunta "'" carattere seguito dal numero di parametri di tipo
+      * Gli argomenti che rappresentano i tipi generici hanno un'aggiunta `` ` `` carattere (apice inverso) seguito dal numero di parametri di tipo
       * Negli argomenti con la `out` oppure `ref` modificatore hanno un `@` dopo il nome del tipo. Gli argomenti passati per valore o mediante `params` non hanno una speciale notazione.
-      * Gli argomenti di matrici vengono rappresentati come `[lowerbound:size, ... , lowerbound:size]` in cui il numero di virgole indica il numero di dimensioni meno uno e i limiti inferiore e dimensioni di ogni dimensione, se è noto, sono rappresentati in formato decimale. Se non vengano specificata un limite inferiore o dimensioni, viene omesso. Se vengono omessi il limite inferiore e le dimensioni per una determinata dimensione, il "`:`" viene omesso anche. Le matrici multidimensionali sono rappresentate da una "`[]`" per ogni livello.
+      * Gli argomenti di matrici vengono rappresentati come `[lowerbound:size, ... , lowerbound:size]` in cui il numero di virgole indica il numero di dimensioni meno uno e i limiti inferiore e dimensioni di ogni dimensione, se è noto, sono rappresentati in formato decimale. Se non vengano specificata un limite inferiore o dimensioni, viene omesso. Se vengono omessi il limite inferiore e le dimensioni per una determinata dimensione, il `:` viene omesso anche. Le matrici multidimensionali sono rappresentate da una `[]` per ogni livello.
       * Gli argomenti che hanno tipi di puntatore diverso da void vengono rappresentati usando un `*` dopo il nome del tipo. Un puntatore void viene rappresentato con un nome di tipo `System.Void`.
-      * Gli argomenti che fanno riferimento a parametri di tipo generico per i tipi di vengono codificati utilizzando la "'" carattere seguito da indice a base zero del parametro di tipo.
-      * Gli argomenti che usano parametri di tipo generico definiti nei metodi utilizzano un double-apice inverso "\`\`" anziché il "\`" utilizzata per i tipi.
-      * Gli argomenti che fanno riferimento a tipi generici costruiti vengono codificati utilizzando il tipo generico, seguito da "{", seguito da un elenco delimitato da virgole degli argomenti di tipo, seguito da "}".
+      * Gli argomenti che fanno riferimento a parametri di tipo generico per i tipi di vengono codificati utilizzando la `` ` `` (apice inverso) carattere seguito da indice a base zero del parametro di tipo.
+      * Gli argomenti che usano parametri di tipo generico definiti nei metodi utilizzano un double-apice inverso ``` `` ``` anziché il `` ` `` utilizzate per i tipi.
+      * Gli argomenti che fanno riferimento a tipi generici costruiti vengono codificati utilizzando il tipo generico, seguito da `{`, seguito da un elenco delimitato da virgole degli argomenti di tipo, seguito da `}`.
 
 ### <a name="id-string-examples"></a>Esempi di stringhe ID
 
@@ -850,7 +850,7 @@ Gli esempi seguenti mostrano un frammento di codice c#, con una stringa ID prodo
    "M:Acme.Widget.op_Implicit(Acme.Widget)~System.Int64"
    ```
 
-## <a name="an-example"></a>Un esempio
+## <a name="an-example"></a>un esempio
 
 ### <a name="c-source-code"></a>Il codice sorgente c#
 

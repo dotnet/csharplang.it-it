@@ -276,7 +276,7 @@ In un contesto unsafe, sono disponibili per l'uso di puntatori di diversi costru
 
 ## <a name="fixed-and-moveable-variables"></a>Variabili fisse e mobili
 
-L'operatore address-of ([l'operatore address-of](unsafe-code.md#the-address-of-operator)) e il `fixed` istruzione ([l'istruzione fixed](unsafe-code.md#the-fixed-statement)) consentono di dividere le variabili in due categorie: ***fissa variabili***e ***spostabile variabili***.
+L'operatore address-of ([l'operatore address-of](unsafe-code.md#the-address-of-operator)) e il `fixed` istruzione ([l'istruzione fixed](unsafe-code.md#the-fixed-statement)) consentono di dividere le variabili in due categorie: ***Fissa le variabili*** e ***variabili mobili***.
 
 Variabili fisse si trovano in posizioni di archiviazione che non sono interessati dall'operazione di garbage collector. (Esempi di variabili fisse includono le variabili locali e parametri con valori di variabili create da dereferenziazione dei puntatori). D'altra parte, le variabili mobili si trovano in posizioni di archiviazione che sono soggetti a spostamenti o eliminazione tramite garbage collector. (Esempi di variabili mobili includono campi negli elementi di matrici e oggetti).
 

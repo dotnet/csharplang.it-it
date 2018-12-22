@@ -189,7 +189,7 @@ public interface IStringList
     string this[int index] { get; set; }
 }
 ```
-dichiara un'interfaccia che contiene tutti i possibili tipi di membri: un metodo, una proprietà, un evento e un indicizzatore.
+dichiara un'interfaccia che contiene tutti i possibili tipi di membri: Un metodo, una proprietà, un evento e un indicizzatore.
 
 Un' *interface_declaration* crea un nuovo spazio di dichiarazione ([dichiarazioni](basic-concepts.md#declarations)) e il *interface_member_declaration*s contenuti immediatamente il *interface_declaration* introducono nuovi membri in tale spazio di dichiarazione. Le regole seguenti riguardano *interface_member_declaration*s:
 
@@ -295,7 +295,7 @@ Il tipo di un indicizzatore di interfaccia deve essere output-safe se è present
 
 I membri di interfaccia sono accessibili tramite l'accesso ai membri ([accesso al membro](expressions.md#member-access)) e l'accesso dell'indicizzatore ([accesso all'indicizzatore](expressions.md#indexer-access)) espressioni nel formato `I.M` e `I[A]`, dove `I` è un tipo di interfaccia, `M` è un metodo, proprietà o evento di quel tipo di interfaccia, e `A` è un elenco di argomenti dell'indicizzatore.
 
-Per le interfacce che sono strettamente a ereditarietà singola (ogni interfaccia nella catena di ereditarietà ha esattamente zero o a un'interfaccia di base diretta), gli effetti della ricerca di membri ([ricerca di membri](expressions.md#member-lookup)), chiamata al metodo ([ Le chiamate ai metodi](expressions.md#method-invocations)) e l'accesso dell'indicizzatore ([accesso all'indicizzatore](expressions.md#indexer-access)) le regole sono esattamente identico a quello di classi e struct: più derivato Nascondi membri meno derivati membri con lo stesso nome o firma. Tuttavia, per le interfacce di ereditarietà multipla, le ambiguità possono verificarsi quando due o più interfacce di base correlate dichiarano membri con lo stesso nome o firma. Questa sezione illustra alcuni esempi di situazioni di questo tipo. In tutti i casi, è possibile utilizzare cast espliciti per risolvere le ambiguità.
+Per le interfacce che sono strettamente a ereditarietà singola (ogni interfaccia nella catena di ereditarietà ha esattamente zero o a un'interfaccia di base diretta), gli effetti della ricerca di membri ([ricerca di membri](expressions.md#member-lookup)), chiamata al metodo ([ Le chiamate ai metodi](expressions.md#method-invocations)) e l'accesso dell'indicizzatore ([accesso all'indicizzatore](expressions.md#indexer-access)) le regole sono esattamente identico a quello di classi e struct: Più derivati Nascondi membri meno derivata i membri con lo stesso nome o firma. Tuttavia, per le interfacce di ereditarietà multipla, le ambiguità possono verificarsi quando due o più interfacce di base correlate dichiarano membri con lo stesso nome o firma. Questa sezione illustra alcuni esempi di situazioni di questo tipo. In tutti i casi, è possibile utilizzare cast espliciti per risolvere le ambiguità.
 
 Nell'esempio
 ```csharp
@@ -380,7 +380,7 @@ class A
 ```
 il `IBase.F` membro viene nascosto per il `ILeft.F` membro. La chiamata `d.F(1)` consente di selezionare `ILeft.F`, anche se `IBase.F` sembra non essere nascosto nel percorso di accesso che assista `IRight`.
 
-La regola intuitiva per nascondere elementi nelle interfacce di ereditarietà multipla è semplice: se un membro viene nascosto in qualsiasi percorso di accesso, è nascosto in tutti i percorsi di accesso. Poiché il percorso di accesso da `IDerived` per `ILeft` a `IBase` nasconde `IBase.F`, il membro viene nascosto anche nel percorso di accesso da `IDerived` per `IRight` a `IBase`.
+La regola intuitiva per nascondere elementi nelle interfacce di ereditarietà multipla è semplicemente la seguente: Se un membro viene nascosto in qualsiasi percorso di accesso, è nascosto in tutti i percorsi di accesso. Poiché il percorso di accesso da `IDerived` per `ILeft` a `IBase` nasconde `IBase.F`, il membro viene nascosto anche nel percorso di accesso da `IDerived` per `IRight` a `IBase`.
 
 ## <a name="fully-qualified-interface-member-names"></a>Nomi dei membri di interfaccia completo
 

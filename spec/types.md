@@ -146,7 +146,7 @@ string s = i.ToString();        // System.Int32.ToString() instance method
 string t = 123.ToString();      // System.Int32.ToString() instance method
 ```
 
-I tipi semplici sono diversi dagli altri tipi di struct in quanto essi consentono alcune operazioni aggiuntive:
+I tipi semplici si differenziano da altri tipi struct in quanto permettono alcune operazioni aggiuntive:
 
 *  La maggior parte dei tipi semplici consentono di valori per essere create scrivendo *valori letterali* ([i valori letterali](lexical-structure.md#literals)). Ad esempio, `123` è un valore letterale di tipo `int` e `'a'` è un valore letterale di tipo `char`. C# non rende in genere non esiste alcun provisioning per i valori letterali dei tipi di struct e i valori non predefiniti di altri tipi di struct vengono sempre creati tramite i costruttori di istanza di tali tipi struct.
 *  Quando gli operandi dell'espressione sono tutte costanti di tipo semplice, è possibile che il compilatore valutare l'espressione in fase di compilazione. Tale espressione è noto come un *constant_expression* ([espressioni costanti](expressions.md#constant-expressions)). Espressioni che includono gli operatori definiti da altri tipi di struct non sono considerate espressioni costanti.
@@ -188,11 +188,11 @@ C# supporta due tipi a virgola mobile: `float` e `double`. Il `float` e `double`
 *  Positivo zero e zero negativo. Nella maggior parte delle situazioni, zero positivo e negativo zero hanno lo stesso comportamento come valore semplice da zero, ma alcune operazioni di distinguono tra i due ([operatore di divisione](expressions.md#division-operator)).
 *  Infinito positivo e un numero infinito negativo. Valori infiniti vengono prodotte da operazioni quali la divisione di un numero diverso da zero per zero. Ad esempio, `1.0 / 0.0` produce un numero infinito positivo, e `-1.0 / 0.0` restituisce infinito negativo.
 *  Il ***non un numero*** valore, spesso abbreviato NaN. NaN generati dalle operazioni a virgola mobile non valide, ad esempio divisione per zero di zero.
-*  Insieme finito di valori zero nel formato `s * m * 2^e`, dove `s` è 1 o -1, e `m` e `e` dipendono dal tipo a virgola mobile particolare: per `float`, `0 < m < 2^24` e `-149 <= e <= 104`e per `double`, `0 < m < 2^53` e `1075 <= e <= 970`. Numeri a virgola mobile denormalizzati sono considerati validi valori diversi da zero.
+*  Insieme finito di valori zero nel formato `s * m * 2^e`, dove `s` è 1 o -1, e `m` e `e` dipendono dal tipo a virgola mobile particolare: Per la `float`, `0 < m < 2^24` e `-149 <= e <= 104`e per `double`, `0 < m < 2^53` e `1075 <= e <= 970`. Numeri a virgola mobile denormalizzati sono considerati validi valori diversi da zero.
 
-Il `float` tipo può rappresentare valori compresi tra circa `1.5 * 10^-45` a `3.4 * 10^38` con una precisione di 7 cifre.
+Il `float` tipo può rappresentare valori compresi tra circa `1.5 * 10^-45` a `3.4 * 10^38` con una precisione di 7 cifre.
 
-Il `double` tipo può rappresentare valori compresi tra circa `5.0 * 10^-324` a `1.7 × 10^308` con un'approssimazione di 15-16 cifre.
+Il `double` tipo può rappresentare valori compresi tra circa `5.0 * 10^-324` a `1.7 × 10^308` con un'approssimazione di 15-16 cifre.
 
 Se uno degli operandi di un operatore binario è di tipo a virgola mobile, quindi l'altro operando deve essere di un tipo integrale o un tipo a virgola mobile e l'operazione viene valutata nel modo seguente:
 
@@ -211,15 +211,15 @@ Operazioni a virgola mobile possono essere eseguite con una maggiore precisione 
 
 ### <a name="the-decimal-type"></a>Il tipo decimal
 
-Il tipo `decimal` è un tipo dati a 128 bit adatto per i calcoli finanziari e monetari. Il `decimal` tipo può rappresentare valori compresi tra `1.0 * 10^-28` a circa `7.9 * 10^28` con 28-29 cifre significative.
+Il tipo `decimal` è un tipo dati a 128 bit adatto per i calcoli finanziari e monetari. Il `decimal` tipo può rappresentare valori compresi tra `1.0 * 10^-28` a circa `7.9 * 10^28` con 28-29 cifre significative.
 
-Insieme finito di valori di tipo `decimal` hanno la forma `(-1)^s * c * 10^-e`, dove il segno `s` è 0 o 1, il coefficiente `c` è dato dai `0 <= *c* < 2^96`e la scala `e` è tale che `0 <= e <= 28`. Il `decimal` tipo nepodporuje zero con segno, valori infiniti o NaN. Oggetto `decimal` è rappresentato come intero a 96 bit scalato in base a una potenza di dieci. Per la `decimal`con un valore assoluto minore `1.0m`, il valore è esatta per la posizione decimale 28, ma non oltre. Per la `decimal`con un valore assoluto maggiore o uguale a `1.0m`, il valore è esatto a 28 o 29 cifre. Contrario al `float` e `double` tipi di dati, i numeri decimali frazionari come 0.1 possono essere rappresentati esattamente nel `decimal` rappresentazione. Nel `float` e `double` rappresentazioni, questi numeri sono spesso infinite frazioni, rendendo più inclini a arrotondamento errori.
+Insieme finito di valori di tipo `decimal` hanno la forma `(-1)^s * c * 10^-e`, dove il segno `s` è 0 o 1, il coefficiente `c` è dato dai `0 <= *c* < 2^96`e la scala `e` è tale che `0 <= e <= 28`. Il `decimal` tipo nepodporuje zero con segno, valori infiniti o NaN. Oggetto `decimal` è rappresentato come intero a 96 bit scalato in base a una potenza di dieci. Per la `decimal`con un valore assoluto minore `1.0m`, il valore è esatta per la posizione decimale 28, ma non oltre. Per la `decimal`con un valore assoluto maggiore o uguale a `1.0m`, il valore è esatto a 28 o 29 cifre. Contrario al `float` e `double` tipi di dati, i numeri decimali frazionari come 0.1 possono essere rappresentati esattamente nel `decimal` rappresentazione. Nel `float` e `double` rappresentazioni, questi numeri sono spesso infinite frazioni, rendendo più inclini a arrotondamento errori.
 
 Se uno degli operandi di un operatore binario JE typu `decimal`, quindi l'altro operando deve essere di tipo integrale o di tipo `decimal`. Se è presente un operando di tipo integrale, questo viene convertito in `decimal` prima che l'operazione viene eseguita.
 
 Il risultato di un'operazione sui valori di tipo `decimal` è che si otterrebbe calcolando un risultato esatto (mantenimento scalabilità, come definito per ogni operatore presente) e quindi arrotondando per adattare la rappresentazione. I risultati vengono arrotondati per di più prossimo valore rappresentabile, e, quando il risultato è egualmente vicino a due valori rappresentabili, il valore con un numero pari alla posizione meno significativo (questo è noto come "il metodo di arrotondamento"). Alcun risultato, ha sempre un segno di 0 e una scala pari a 0.
 
-Se un'operazione aritmetica decimale produce un valore minore o uguale a `5 * 10^-29` in valore assoluto, il risultato dell'operazione diventa zero. Se un `decimal` aritmetica produce un risultato troppo grande per il `decimal` formato, un `System.OverflowException` viene generata un'eccezione.
+Se un'operazione aritmetica decimale produce un valore minore o uguale a `5 * 10^-29` in valore assoluto, il risultato dell'operazione diventa zero. Se un `decimal` aritmetica produce un risultato troppo grande per il `decimal` formato, un `System.OverflowException` viene generata un'eccezione.
 
 Il `decimal` tipo ha una precisione maggiore intervallo di dimensioni ridotte rispetto ai tipi a virgola mobile. Di conseguenza, le conversioni dai tipi a virgola mobile a `decimal` potrebbe generare eccezioni di overflow e le conversioni da `decimal` ai tipi a virgola mobile potrebbe causare la perdita di precisione. Per questi motivi, non esiste alcuna conversione implicite tra i tipi a virgola mobile e `decimal`, e senza cast espliciti, non è possibile combinare a virgola mobile e `decimal` operandi nella stessa espressione.
 
