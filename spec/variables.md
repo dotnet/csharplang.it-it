@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: b7bb7dd575d9e2e6d5dd85bdd3e535411e29fcf4
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229618"
+---
 # <a name="variables"></a>Variabili
 
 Le variabili rappresentano posizioni di archiviazione. Ogni variabile dispone di un tipo che determina quali valori possono essere archiviati nella variabile. C# è un linguaggio indipendente dai tipi e il compilatore C# garantisce che i valori archiviati nelle variabili sono sempre del tipo appropriato. Il valore di una variabile può essere modificato tramite l'assegnazione o tramite l'uso del `++` e `--` operatori.
@@ -304,7 +312,7 @@ return expr ;
 
 *  Lo stato di assegnazione certa del *v* all'inizio del *expr* equivale allo stato di assegnazione certa del *v* all'inizio del *stmt*.
 *  Se *v* è un parametro di output, quindi si deve assolutamente assegnato:
-    * Dopo aver *expr*
+    * after *expr*
     * o alla fine del `finally` block di una `try` - `finally` o `try` - `catch` - `finally` che racchiude il `return` istruzione.
 
 Per un'istruzione stmt del form:

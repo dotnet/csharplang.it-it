@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 61eeae6173eaa19f9cf6d6e985f3dc107d4c3ac9
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "50245526"
+---
 # <a name="conversions"></a>Conversioni
 
 Oggetto ***conversione*** consente a un'espressione deve essere considerato in corso di un determinato tipo. Una conversione potrebbe essere un'espressione di un determinato tipo per essere considerata come se presentasse un tipo diverso, altrimenti potrebbe verificarsi un'espressione senza un tipo da ottenere un tipo. Conversioni possono risultare ***implicita*** oppure ***esplicite***, e determina se è necessario un cast esplicito. Ad esempio, la conversione dal tipo `int` al tipo `long` è implicito, in tal caso espressioni di tipo `int` può essere gestito in modo implicito come tipo `long`. La conversione dal tipo `long` al tipo `int`, è esplicito e pertanto non è richiesto un cast esplicito.

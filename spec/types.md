@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: a28397b1ce97dbead6d5014e2b20e108a1018502
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229642"
+---
 # <a name="types"></a>Tipi
 
 I tipi del linguaggio c# sono suddivisi in due categorie principali: ***i tipi di valore*** e ***fanno riferimento ai tipi***. I tipi di valore e tipi di riferimento possono essere ***i tipi generici***, che accettano uno o più ***parametri di tipo***. I parametri di tipo possono designare entrambi i tipi valore e tipi di riferimento.

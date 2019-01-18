@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 0a09585f4f885647230354c66a2449abb7ef1f44
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229613"
+---
 # <a name="interfaces"></a>Interfacce
 
 Un'interfaccia definisce un contratto. Una classe o struct che implementa un'interfaccia deve aderire al rispettivo contratto. Un'interfaccia può ereditare da più interfacce di base e una classe o struct può implementare più interfacce.

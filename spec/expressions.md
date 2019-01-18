@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 75454072a5137b3044f78bb896317fd88a29e336
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "49640912"
+---
 # <a name="expressions"></a>Espressioni
 
 Un'espressione è una sequenza di operatori e operandi. In questo capitolo definisce la sintassi, l'ordine di valutazione di operandi e operatori e il significato di espressioni.
@@ -2701,8 +2709,8 @@ Di seguito sono elencati gli operatori di moltiplicazione predefiniti. Tutti gli
    |      |      |      |     |     |      |      |     |
    |:----:|-----:|:----:|:---:|:---:|:----:|:----:|:----|
    |      | + y   | -y   | +0  | -0  | +inf | -inf | NaN | 
-   | + x   | + z   | -z   | +0  | -0  | +inf | -inf | NaN | 
-   | -x   | -z   | + z   | -0  | +0  | -inf | +inf | NaN | 
+   | +x   | +z   | -z   | +0  | -0  | +inf | -inf | NaN | 
+   | -x   | -z   | +z   | -0  | +0  | -inf | +inf | NaN | 
    | +0   | +0   | -0   | +0  | -0  | NaN  | NaN  | NaN | 
    | -0   | -0   | +0   | -0  | +0  | NaN  | NaN  | NaN | 
    | +inf | +inf | -inf | NaN | NaN | +inf | -inf | NaN | 
@@ -2753,8 +2761,8 @@ Gli operatori di divisione predefiniti vengono elencati di seguito. Tutti gli op
    |      |      |      |      |      |      |      |      |
    |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
    |      | + y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
-   | + x   | + z   | -z   | +inf | -inf | +0   | -0   | NaN  | 
-   | -x   | -z   | + z   | -inf | +inf | -0   | +0   | NaN  | 
+   | +x   | +z   | -z   | +inf | -inf | +0   | -0   | NaN  | 
+   | -x   | -z   | +z   | -inf | +inf | -0   | +0   | NaN  | 
    | +0   | +0   | -0   | NaN  | NaN  | +0   | -0   | NaN  | 
    | -0   | -0   | +0   | NaN  | NaN  | -0   | +0   | NaN  | 
    | +inf | +inf | -inf | +inf | -inf | NaN  | NaN  | NaN  | 
@@ -2803,7 +2811,7 @@ Di seguito sono elencati gli operatori di resto predefiniti. Tutti gli operatori
    |      |      |      |      |      |      |      |      |
    |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
    |      | + y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
-   | + x   | + z   | + z   | NaN  | NaN  | x    | x    | NaN  | 
+   | +x   | +z   | +z   | NaN  | NaN  | x    | x    | NaN  | 
    | -x   | -z   | -z   | NaN  | NaN  | -x   | -x   | NaN  | 
    | +0   | +0   | +0   | NaN  | NaN  | +0   | +0   | NaN  | 
    | -0   | -0   | -0   | NaN  | NaN  | -0   | -0   | NaN  | 
@@ -3074,7 +3082,7 @@ Operazioni di spostamento mai provocare un overflow e producono gli stessi risul
 
 Quando l'operando sinistro del `>>` operatore è un tipo integrale con segno, l'operatore esegue uno scorrimento aritmetico a destra dove il valore del bit più significativo (il bit di segno) dell'operando viene propagato ai bit vuoti meno significativi. Quando l'operando sinistro del `>>` operatore è di tipo integrale senza segno, l'operatore esegue uno spostamento logico verso destra in cui i bit vuoti meno significativi vengono sempre impostati su zero. Per eseguire l'operazione opposta a quella dedotto dal tipo di operando, è possibile utilizzare i cast espliciti. Ad esempio, se `x` è una variabile di tipo `int`, l'operazione `unchecked((int)((uint)x >> y))` esegue uno spostamento logico a destra del `x`.
 
-## <a name="relational-and-type-testing-operators"></a>Operatori relazionali e di test del tipo
+## <a name="relational-and-type-testing-operators"></a>Operatori relazionali e operatori di test del tipo
 
 Il `==`, `!=`, `<`, `>`, `<=`, `>=`, `is` e `as` gli operatori sono denominati operatori relazionali e test del tipo.
 

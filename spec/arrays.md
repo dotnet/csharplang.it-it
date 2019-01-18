@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 155c1beecddfdfcce2e7948bcb8d6b80428fbd7a
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229648"
+---
 # <a name="arrays"></a>Matrici
 
 Una matrice è una struttura di dati che contiene un numero di variabili accessibili tramite indici calcolati. Le variabili contenute in una matrice, chiamata anche gli elementi della matrice, sono tutti dello stesso tipo, e questo tipo viene definito il tipo di elemento della matrice.

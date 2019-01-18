@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 8f9551b9e7f70379836c23a60f0d37dc02f8e18e
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229702"
+---
 # <a name="statements"></a>Istruzioni
 
 C# offre un'ampia gamma di istruzioni. La maggior parte di queste istruzioni saranno nota agli sviluppatori che conoscono in C e C++.

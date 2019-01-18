@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: af7af574814dc04ee3ece0396b7ae5f86b3ec8eb
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229643"
+---
 # <a name="classes"></a>Classi
 
 Una classe è una struttura di dati che può contenere membri dati costanti e i campi, membri funzione (metodi, proprietà, eventi, indicizzatori, operatori, costruttori di istanze, distruttori e i costruttori statici) e i tipi annidati. I tipi classe supportano l'ereditarietà, un meccanismo in base al quale una classe derivata può estendere e specializzare una classe di base.
@@ -1491,7 +1499,7 @@ Per i campi non volatile, tecniche di ottimizzazione di riordinare le istruzioni
 
 Queste limitazioni garantiscono che tutti i thread considereranno scritture di tipo volatile eseguite da altri thread nell'ordine in cui sono stati eseguiti. Un'implementazione conforme, non è necessario fornire un singolo ordinamento totale di scritture volatili visualizzate da tutti i thread di esecuzione. Il tipo di un campo volatile deve essere uno dei seguenti:
 
-*  Oggetto *reference_type*.
+*  A *reference_type*.
 *  Il tipo `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `char`, `float`, `bool`, `System.IntPtr`, o` System.UIntPtr`.
 *  Un' *enum_type* specificando un tipo di base di enumerazione del `byte`, `sbyte`, `short`, `ushort`, `int`, o `uint`.
 
@@ -1827,7 +1835,7 @@ Oggetto *fixed_parameter* con un *default_argument* è noto come un' ***parametr
 
 Oggetto `ref` oppure `out` parametro non può avere un *default_argument*. Il *espressione* in un *default_argument* deve essere uno dei seguenti:
 
-*  un *constant_expression*
+*  a *constant_expression*
 *  un'espressione nel formato `new S()` in cui `S` è un tipo valore
 *  un'espressione nel formato `default(S)` in cui `S` è un tipo valore
 

@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 08c14d9ef2afe30580f456995066c141653ede92
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229649"
+---
 # <a name="delegates"></a>Delegati
 
 I delegati consentono scenari che gli altri linguaggi, ad esempio C++, la convenzione Pascal e Modula - siano risolti con i puntatori a funzione. A differenza dei puntatori a funzione di C++, tuttavia, i delegati sono completamente orientata agli oggetti e a differenza dei puntatori di C++ per le funzioni membro, i delegati incapsulare un'istanza dell'oggetto e un metodo.

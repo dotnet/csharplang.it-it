@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: ab41a3c99f79c4cc70f7d4720f7e53b91a410859
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "49640899"
+---
 # <a name="introduction"></a>Introduzione
 
 C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# ha le sue radici nella famiglia di linguaggi C e risulterà immediatamente familiare ai programmatori di C, C++ e Java. C# è standardizzato di ECMA International come le ***ECMA-334*** standard e da ISO/IEC come le ***ISO/IEC 23270*** standard. Compilatore c# di Microsoft per .NET Framework è un'implementazione conforme della entrambi questi standard.
@@ -164,14 +172,14 @@ La tabella seguente riepiloga i tipi numerici di #.
 
 | __Categoria__      | __BITS__ | __Type__  | __Intervallo di precisione__ |
 |-------------------|----------|-----------|---------------------|
-| Signed Integer   | 8        | `sbyte`   | -128... 127 |
-|                   | 16       | `short`   | -32,... 768 32, 767 |
-|                   | 32       | `int`     | -2,147,483, 648... 2, 147, 483, 647 |
-|                   | 64       | `long`    | -9,223,372,036,854,775, 808... 9, 223, 372, 036, 854, 775, 807 |
-| Unsigned Integer | 8        | `byte`    | 0... 255 |
-|                   | 16       | `ushort`  | 0... 65.535 |
-|                   | 32       | `uint`    | 0... 4.294.967.295 |
-|                   | 64       | `ulong`   | ... 0 e 18.446.744.073.709.551.615 |
+| Signed Integer   | 8        | `sbyte`   | -128...127 |
+|                   | 16       | `short`   | -32,768...32,767 |
+|                   | 32       | `int`     | -2,147,483,648...2,147,483,647 |
+|                   | 64       | `long`    | -9,223,372,036,854,775,808...9,223,372,036,854,775,807 |
+| Unsigned Integer | 8        | `byte`    | 0...255 |
+|                   | 16       | `ushort`  | 0...65,535 |
+|                   | 32       | `uint`    | 0...4,294,967,295 |
+|                   | 64       | `ulong`   | 0...18,446,744,073,709,551,615 |
 | Virgola mobile    | 32       | `float`   | 1,5 × 10 ^ −45 e 3,4 × 10 ^ 38, precisione di 7 cifre |
 |                   | 64       | `double`  | 5,0 × 10 ^ − 324 e 1,7 × 10 ^ 308 precisione a 15 cifre |
 | Decimale           | 128      | `decimal` | 1.0 × 10 ^ 28 e 7,9 × 10 ^, 28 e precisione di 28 cifre |

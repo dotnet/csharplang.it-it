@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 90001cf3d48f216787fc65e59166ec57c5d0ca34
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229619"
+---
 # <a name="unsafe-code"></a>Codice di tipo unsafe
 
 Il linguaggio c#, come definito nei precedenti capitoli, differisce notevolmente dai linguaggi C e C++ nell'omissione dei puntatori come tipo di dati. Al contrario, c# fornisce riferimenti e la possibilità di creare gli oggetti gestiti da un garbage collector. Rende questa struttura, insieme ad altre funzionalità, in c# un linguaggio molto più sicuro rispetto a C o C++. Nel linguaggio core c# semplicemente non è possibile avere una variabile non inizializzata, un puntatore "inesatti" o un'espressione che indicizza una matrice oltre i limiti. Categorie di intere di bug riscontrati che in continuazione nei C e i programmi C++ in tal modo vengono eliminati.

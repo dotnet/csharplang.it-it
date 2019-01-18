@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: 9c3863c9a139f5b8309fca6e0c099d0fae7677c3
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229720"
+---
 # <a name="namespaces"></a>Spazi dei nomi
 
 Organizzazione dei programmi c# usando spazi dei nomi. Gli spazi dei nomi vengono usati sia come un sistema di organizzazione "interno" per un programma che come un sistema di organizzazione "external", ovvero un modo per presentare gli elementi di programma che vengono esposti ad altri programmi.

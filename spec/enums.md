@@ -1,3 +1,11 @@
+---
+ms.openlocfilehash: c3b716e6eb331be2ee33fffeb42c1e2406cd3a5c
+ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.translationtype: MT
+ms.contentlocale: it-IT
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "47229667"
+---
 # <a name="enums"></a>Enumerazioni
 
 Un' ***tipo di enumerazione*** è un tipo valore distinto ([tipi di valore](types.md#value-types)) che dichiara un set di costanti denominate.
