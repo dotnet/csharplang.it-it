@@ -1,11 +1,3 @@
----
-ms.openlocfilehash: 75454072a5137b3044f78bb896317fd88a29e336
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: MT
-ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "49640912"
----
 # <a name="expressions"></a>Espressioni
 
 Un'espressione è una sequenza di operatori e operandi. In questo capitolo definisce la sintassi, l'ordine di valutazione di operandi e operatori e il significato di espressioni.
@@ -92,7 +84,7 @@ Le sezioni seguenti per ciascun costrutto del linguaggio esattamente quando l'as
 
 ### <a name="types-of-constituent-expressions"></a>Tipi di espressioni che costituiscono
 
-Quando un'operazione in modo statico associata, il tipo di un'espressione che lo costituiscono (ad esempio, un ricevitore e argomenti, un indice o un operando) viene considerato sempre il tipo di fase di compilazione dell'espressione.
+Quando un'operazione in modo statico associata, il tipo di un'espressione che lo costituiscono (ad esempio, un ricevitore, un argomento, un indice o un operando) viene considerato sempre il tipo di fase di compilazione dell'espressione.
 
 Quando un'operazione in modo dinamico è associata, il tipo di un'espressione che lo costituiscono è determinato in modi diversi a seconda del tipo in fase di compilazione dell'espressione che lo costituiscono:
 
@@ -147,7 +139,7 @@ Se un operando si trova tra i due operatori con la stessa precedenza, l'associat
 
 È possibile controllare la precedenza e l'associatività usando le parentesi. Ad esempio, `x + y * z` prima moltiplica `y` per `z` e quindi somma il risultato a `x`, ma `(x + y) * z` prima somma `x` e `y` e quindi moltiplica il risultato per `z`.
 
-### <a name="operator-overloading"></a>L'overload degli operatori
+### <a name="operator-overloading"></a>Overload degli operatori
 
 Tutti gli operatori unari e binari sono predefiniti implementazioni che sono automaticamente disponibili in qualsiasi espressione. Oltre alle implementazioni predefinite, le implementazioni definite dall'utente possono essere introdotta includendo `operator` dichiarazioni di classi e struct ([operatori](classes.md#operators)). Implementazioni di operatori definiti dall'utente hanno sempre la precedenza sulle implementazioni di operatori predefiniti: Solo quando non applicabile operatore definito dall'utente esistano essere considerati le implementazioni di operatori predefiniti, come descritto in [risoluzione dell'overload di operatore unario](expressions.md#unary-operator-overload-resolution) e [overload degli operatori binari risoluzione](expressions.md#binary-operator-overload-resolution).
 
