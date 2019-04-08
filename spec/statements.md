@@ -768,7 +768,7 @@ foreach (var value in values)
 
 f();
 ```
-Se `v` è stato dichiarato all'esterno di while loop, possono essere condivisi tra tutte le iterazioni e il relativo valore dopo il per ciclo sarebbe il valore finale, `13`, ovvero che la chiamata di `f` stamperebbe. Al contrario, poiché ogni iterazione ha il proprio variabile `v`, quella acquisita dal `f` nella prima iterazione continuerà a contenere il valore `7`, che è ciò che sarà stampato. (Nota: le versioni precedenti di c# dichiarato `v` ciclo esterno di while.)
+Se `v` è stato dichiarato all'esterno di while loop, possono essere condivisi tra tutte le iterazioni e il relativo valore dopo il per ciclo sarebbe il valore finale, `13`, ovvero che la chiamata di `f` stamperebbe. Al contrario, poiché ogni iterazione ha il proprio variabile `v`, quella acquisita dal `f` nella prima iterazione continuerà a contenere il valore `7`, che è ciò che sarà stampato. (Nota: le versioni precedenti di C# dichiarato `v` ciclo esterno di while.)
 
 Il corpo del blocco finally viene costruito seguendo i passaggi seguenti:
 
@@ -1100,7 +1100,7 @@ A meno che un `catch` clausola include un nome di variabile di eccezione, non è
 
 Oggetto `catch` clausola che non specifica un' *exception_specifier* viene chiamato un generale `catch` clausola.
 
-Alcuni linguaggi di programmazione possono supportare le eccezioni che non sono rappresentabili come un oggetto derivato da `System.Exception`, anche se tali eccezioni non possono mai essere generate dal codice c#. Generale `catch` clausola può essere usata per intercettare tali eccezioni. Di conseguenza, una general `catch` clausola è semanticamente diversa da quella più specifica il tipo `System.Exception`, in quanto nel primo caso può inoltre rilevare eccezioni da altri linguaggi.
+Alcuni linguaggi di programmazione possono supportare le eccezioni che non sono rappresentabili come un oggetto derivato da `System.Exception`, anche se tali eccezioni non possono mai essere generate dal codice C#. Generale `catch` clausola può essere usata per intercettare tali eccezioni. Di conseguenza, una general `catch` clausola è semanticamente diversa da quella più specifica il tipo `System.Exception`, in quanto nel primo caso può inoltre rilevare eccezioni da altri linguaggi.
 
 Per individuare un gestore per un'eccezione, `catch` clausole vengono esaminate in ordine lessicale. Se un `catch` clausola specifica un tipo, ma nessun filtro eccezioni, è un errore in fase di compilazione per una versione successiva `catch` clausola nella stessa `try` istruzione per specificare un tipo che equivale a o deriva da, indipendente dai tipi. Se un `catch` clausola specifica alcun tipo e alcun filtro, deve essere l'ultimo `catch` clausola tale `try` istruzione.
 

@@ -12,7 +12,7 @@ Gli struct sono simili alle classi che rappresentano le strutture di dati che po
 
 I tipi struct sono particolarmente utili per strutture dati di piccole dimensioni che hanno una semantica di valori. I numeri complessi, i punti di un sistema di coordinate o le coppie chiave-valore di un dizionario sono buoni esempi di struct. Chiave da queste strutture di dati è che dispongono di alcuni membri di dati, che non richiedono l'uso dell'ereditarietà o identità referenziale e che possono essere facilmente implementati usando la semantica dei valori in cui vengono copiati il valore anziché il riferimento all'assegnazione.
 
-Come descritto in [i tipi semplici](types.md#simple-types), i tipi semplici forniti da c#, ad esempio `int`, `double`, e `bool`, sono in effetti tutti i tipi struct. Analogamente a quanto questi tipi predefiniti struct, è anche possibile usare l'overload degli operatori per implementare nuovi tipi di "base" nel linguaggio c# e struct. Alla fine di questo capitolo vengono forniti due esempi di tali tipi ([esempi di Struct](structs.md#struct-examples)).
+Come descritto in [i tipi semplici](types.md#simple-types), i tipi semplici forniti da C#, ad esempio `int`, `double`, e `bool`, sono in effetti tutti i tipi struct. Analogamente a quanto questi tipi predefiniti struct, è anche possibile usare l'overload degli operatori per implementare nuovi tipi di "base" nel linguaggio C# e struct. Alla fine di questo capitolo vengono forniti due esempi di tali tipi ([esempi di Struct](structs.md#struct-examples)).
 
 ## <a name="struct-declarations"></a>Dichiarazioni struct
 

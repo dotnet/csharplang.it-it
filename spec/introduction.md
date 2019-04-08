@@ -8,17 +8,17 @@ ms.locfileid: "49640899"
 ---
 # <a name="introduction"></a>Introduzione
 
-C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# ha le sue radici nella famiglia di linguaggi C e risulterà immediatamente familiare ai programmatori di C, C++ e Java. C# è standardizzato di ECMA International come le ***ECMA-334*** standard e da ISO/IEC come le ***ISO/IEC 23270*** standard. Compilatore c# di Microsoft per .NET Framework è un'implementazione conforme della entrambi questi standard.
+C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# ha le sue radici nella famiglia di linguaggi C e risulterà immediatamente familiare ai programmatori di C, C++ e Java. C# è standardizzato di ECMA International come le ***ECMA-334*** standard e da ISO/IEC come le ***ISO/IEC 23270*** standard. Compilatore C# di Microsoft per .NET Framework è un'implementazione conforme della entrambi questi standard.
 
-C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C# offre costrutti di linguaggio per supportare direttamente questi concetti, rendendo c# un linguaggio estremamente naturale in cui si desidera creare e usare i componenti software.
+C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C# offre costrutti di linguaggio per supportare direttamente questi concetti, rendendo C# un linguaggio estremamente naturale in cui si desidera creare e usare i componenti software.
 
 Diversi C# funzionalità di aiuto nella costruzione di applicazioni affidabili e durevoli: ***Operazione di Garbage collection*** recupera automaticamente la memoria occupata dagli oggetti inutilizzati. ***la gestione delle eccezioni*** offre un approccio strutturato ed estendibile al rilevamento degli errori e il ripristino; e il ***indipendente dai tipi*** progettazione del linguaggio rende impossibili la lettura da variabili non inizializzate, per indicizzare matrici oltre i limiti o per eseguire unchecked cast di tipo.
 
 C# presenta un ***sistema di tipi unificato***. Tutti i tipi C#, inclusi i tipi di primitiva quali `int` e `double`, ereditano da un unico tipo `object` radice. Di conseguenza, tutti i tipi condividono un set di operazioni comuni e i valori dei diversi tipi possono essere archiviati, trasportati e gestiti in modo coerente. C#, inoltre, supporta sia i tipi riferimento sia i tipi valore definiti dall'utente, consentendo l'allocazione dinamica di oggetti e l'archiviazione inline di strutture leggere.
 
-Per garantire che i programmi c# e le librerie possono evolversi nel tempo, in modo compatibile, particolare attenzione è stato inserito nella ***controllo delle versioni*** nella progettazione di #. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti della progettazione di # che direttamente interessati dalle considerazioni sul controllo delle versioni includono distinte `virtual` e `override` modificatori, le regole per la risoluzione dell'overload di metodo e il supporto per le dichiarazioni di membro di interfaccia esplicita.
+Per garantire che i programmi C# e le librerie possono evolversi nel tempo, in modo compatibile, particolare attenzione è stato inserito nella ***controllo delle versioni*** nella progettazione di #. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti della progettazione di # che direttamente interessati dalle considerazioni sul controllo delle versioni includono distinte `virtual` e `override` modificatori, le regole per la risoluzione dell'overload di metodo e il supporto per le dichiarazioni di membro di interfaccia esplicita.
 
-Il resto di questo capitolo vengono descritte le funzionalità essenziali del linguaggio c#. Anche se negli ultimi capitoli descrivono regole ed eccezioni in modo orientato ai dettagli e talvolta matematico, in questo capitolo è impegnata per maggiore chiarezza e brevità a scapito della completezza. Lo scopo consiste nel fornire un'introduzione al linguaggio di grado di agevolerà la scrittura dei primi programmi e la lettura di negli ultimi capitoli il lettore.
+Il resto di questo capitolo vengono descritte le funzionalità essenziali del linguaggio C#. Anche se negli ultimi capitoli descrivono regole ed eccezioni in modo orientato ai dettagli e talvolta matematico, in questo capitolo è impegnata per maggiore chiarezza e brevità a scapito della completezza. Lo scopo consiste nel fornire un'introduzione al linguaggio di grado di agevolerà la scrittura dei primi programmi e la lettura di negli ultimi capitoli il lettore.
 
 ## <a name="hello-world"></a>Hello world
 
@@ -35,7 +35,7 @@ class Hello
 }
 ```
 
-I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel file `hello.cs`, il programma può essere compilato con il compilatore Microsoft c# dalla riga di comando
+I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel file `hello.cs`, il programma può essere compilato con il compilatore Microsoft C# dalla riga di comando
 ```
 csc hello.cs
 ```
@@ -48,7 +48,7 @@ Il programma "Hello World" inizia con una direttiva `using` che fa riferimento a
 
 La classe `Hello` dichiarata dal programma "Hello World" ha un solo membro, ovvero il metodo denominato `Main`. Il `Main` metodo viene dichiarato con la `static` modificatore. Mentre i metodi di istanza possono fare riferimento a una particolare istanza dell'oggetto contenitore usando la parola chiave `this`, i metodi statici operano senza riferimento a un determinato oggetto. Per convenzione, un metodo statico denominato `Main` funge da punto di ingresso di un programma.
 
-L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita da librerie di classi .NET Framework, che, per impostazione predefinita, vengono fatto automaticamente riferimento il compilatore Microsoft c#. Tenere presente che c# stesso non dispone di una libreria di runtime separato. Al contrario, .NET Framework è la libreria di runtime del linguaggio c#.
+L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita da librerie di classi .NET Framework, che, per impostazione predefinita, vengono fatto automaticamente riferimento il compilatore Microsoft C#. Tenere presente che C# stesso non dispone di una libreria di runtime separato. Al contrario, .NET Framework è la libreria di runtime del linguaggio C#.
 
 ## <a name="program-structure"></a>Struttura del programma
 
@@ -1040,7 +1040,7 @@ Come illustrato nell'esempio, è sempre possibile selezionare un metodo specific
 
 ### <a name="other-function-members"></a>Altri membri di funzione
 
-I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. In questa sezione vengono descritti altri membri di funzione supportati da c#: costruttori, proprietà, indicizzatori, eventi, operatori e i distruttori.
+I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. In questa sezione vengono descritti altri membri di funzione supportati da C#: costruttori, proprietà, indicizzatori, eventi, operatori e i distruttori.
 
 Il codice seguente illustra una classe generica denominata `List<T>`, che implementa un elenco espandibile di oggetti. Nella classe sono contenuti alcuni esempi di membri di funzione più comuni.
 
