@@ -1,24 +1,24 @@
 ---
-ms.openlocfilehash: ab41a3c99f79c4cc70f7d4720f7e53b91a410859
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.openlocfilehash: db10046af5d635b430951679a448e23680b18b87
+ms.sourcegitcommit: a19fac74c01a6c3da67d38b2f79527145d4edcbc
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "49640899"
+ms.lasthandoff: 04/09/2019
+ms.locfileid: "59426812"
 ---
 # <a name="introduction"></a>Introduzione
 
-C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# ha le sue radici nella famiglia di linguaggi C e risulterà immediatamente familiare ai programmatori di C, C++ e Java. C# è standardizzato di ECMA International come le ***ECMA-334*** standard e da ISO/IEC come le ***ISO/IEC 23270*** standard. Compilatore C# di Microsoft per .NET Framework è un'implementazione conforme della entrambi questi standard.
+C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# ha le sue radici nella famiglia di linguaggi C e risulterà immediatamente familiare ai programmatori di C, C++ e Java. C# è standardizzato di ECMA International come le ***ECMA-334*** standard e da ISO/IEC come le ***ISO/IEC 23270*** standard. Compilatore c# di Microsoft per .NET Framework è un'implementazione conforme della entrambi questi standard.
 
-C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C# offre costrutti di linguaggio per supportare direttamente questi concetti, rendendo C# un linguaggio estremamente naturale in cui si desidera creare e usare i componenti software.
+C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C# offre costrutti di linguaggio per supportare direttamente questi concetti, rendendo c# un linguaggio estremamente naturale in cui si desidera creare e usare i componenti software.
 
-Diversi C# funzionalità di aiuto nella costruzione di applicazioni affidabili e durevoli: ***Operazione di Garbage collection*** recupera automaticamente la memoria occupata dagli oggetti inutilizzati. ***la gestione delle eccezioni*** offre un approccio strutturato ed estendibile al rilevamento degli errori e il ripristino; e il ***indipendente dai tipi*** progettazione del linguaggio rende impossibili la lettura da variabili non inizializzate, per indicizzare matrici oltre i limiti o per eseguire unchecked cast di tipo.
+Diverse funzionalità C# offrono un valido aiuto per la creazione di applicazioni affidabili e durevoli: ***Operazione di Garbage collection*** recupera automaticamente la memoria occupata dagli oggetti inutilizzati. ***la gestione delle eccezioni*** offre un approccio strutturato ed estendibile al rilevamento degli errori e il ripristino; e il ***indipendente dai tipi*** progettazione del linguaggio rende impossibili la lettura da variabili non inizializzate, per indicizzare matrici oltre i limiti o per eseguire unchecked cast di tipo.
 
 C# presenta un ***sistema di tipi unificato***. Tutti i tipi C#, inclusi i tipi di primitiva quali `int` e `double`, ereditano da un unico tipo `object` radice. Di conseguenza, tutti i tipi condividono un set di operazioni comuni e i valori dei diversi tipi possono essere archiviati, trasportati e gestiti in modo coerente. C#, inoltre, supporta sia i tipi riferimento sia i tipi valore definiti dall'utente, consentendo l'allocazione dinamica di oggetti e l'archiviazione inline di strutture leggere.
 
-Per garantire che i programmi C# e le librerie possono evolversi nel tempo, in modo compatibile, particolare attenzione è stato inserito nella ***controllo delle versioni*** nella progettazione di #. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti della progettazione di # che direttamente interessati dalle considerazioni sul controllo delle versioni includono distinte `virtual` e `override` modificatori, le regole per la risoluzione dell'overload di metodo e il supporto per le dichiarazioni di membro di interfaccia esplicita.
+Per garantire che i programmi c# e le librerie possono evolversi nel tempo, in modo compatibile, particolare attenzione è stato inserito nella ***controllo delle versioni*** nella progettazione di #. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti di C#di progettazione che direttamente interessati dalle considerazioni sul controllo delle versioni includono distinte `virtual` e `override` modificatori, le regole per la risoluzione dell'overload di metodo e il supporto per le dichiarazioni di membro di interfaccia esplicita.
 
-Il resto di questo capitolo vengono descritte le funzionalità essenziali del linguaggio C#. Anche se negli ultimi capitoli descrivono regole ed eccezioni in modo orientato ai dettagli e talvolta matematico, in questo capitolo è impegnata per maggiore chiarezza e brevità a scapito della completezza. Lo scopo consiste nel fornire un'introduzione al linguaggio di grado di agevolerà la scrittura dei primi programmi e la lettura di negli ultimi capitoli il lettore.
+Il resto di questo capitolo vengono descritte le funzionalità essenziali del linguaggio c#. Anche se negli ultimi capitoli descrivono regole ed eccezioni in modo orientato ai dettagli e talvolta matematico, in questo capitolo è impegnata per maggiore chiarezza e brevità a scapito della completezza. Lo scopo consiste nel fornire un'introduzione al linguaggio di grado di agevolerà la scrittura dei primi programmi e la lettura di negli ultimi capitoli il lettore.
 
 ## <a name="hello-world"></a>Hello world
 
@@ -35,7 +35,7 @@ class Hello
 }
 ```
 
-I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel file `hello.cs`, il programma può essere compilato con il compilatore Microsoft C# dalla riga di comando
+I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel file `hello.cs`, il programma può essere compilato con il compilatore Microsoft c# dalla riga di comando
 ```
 csc hello.cs
 ```
@@ -48,7 +48,7 @@ Il programma "Hello World" inizia con una direttiva `using` che fa riferimento a
 
 La classe `Hello` dichiarata dal programma "Hello World" ha un solo membro, ovvero il metodo denominato `Main`. Il `Main` metodo viene dichiarato con la `static` modificatore. Mentre i metodi di istanza possono fare riferimento a una particolare istanza dell'oggetto contenitore usando la parola chiave `this`, i metodi statici operano senza riferimento a un determinato oggetto. Per convenzione, un metodo statico denominato `Main` funge da punto di ingresso di un programma.
 
-L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita da librerie di classi .NET Framework, che, per impostazione predefinita, vengono fatto automaticamente riferimento il compilatore Microsoft C#. Tenere presente che C# stesso non dispone di una libreria di runtime separato. Al contrario, .NET Framework è la libreria di runtime del linguaggio C#.
+L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita da librerie di classi .NET Framework, che, per impostazione predefinita, vengono fatto automaticamente riferimento il compilatore Microsoft c#. Tenere presente che c# stesso non dispone di una libreria di runtime separato. Al contrario, .NET Framework è la libreria di runtime del linguaggio c#.
 
 ## <a name="program-structure"></a>Struttura del programma
 
@@ -135,14 +135,14 @@ C# consente di archiviare il testo di origine di un programma in vari file di or
 
 In C# esistono due generi di tipi: ***tipi valore*** e ***tipi riferimento***. Le variabili dei tipi valore contengono direttamente i propri dati, mentre le variabili dei tipi riferimento archiviano i riferimenti ai propri dati, noti come oggetti. Con i tipi riferimento, due variabili possono fare riferimento allo stesso oggetto e di conseguenza le operazioni su una delle due variabili possono influire sull'oggetto a cui fa riferimento l'altra. Con i tipi valore, ogni variabile ha una propria copia dei dati e non è possibile che le operazioni su una variabile influiscano sull'altra (tranne nel caso delle variabili di parametro `ref` e `out`).
 
-Tipi di valore di # sono ulteriormente suddivisi in ***tipi semplici***, ***tipi enum***, ***i tipi struct***, e ***tipi nullable***e riferimento di # i tipi sono ulteriormente suddivisi in ***tipi di classe***, ***i tipi di interfaccia***, ***tipi matrice***, e ***tipi delegati***.
+C#di tipi di valore sono ulteriormente suddivisi in ***tipi semplici***, ***tipi enum***, ***i tipi struct***, e ***tipi nullable***, e C#del i tipi di riferimento sono ulteriormente suddivise ***tipi di classe***, ***i tipi di interfaccia***, ***tipi matrice***, e ***tipi delegati***.
 
-Nella tabella seguente fornisce una panoramica del sistema di tipi di #.
+Nella tabella seguente offre una panoramica di C#del sistema di tipi.
 
-| __Categoria__    |                 | __Descrizione__ |
+| __Category__    |                 | __Descrizione__ |
 |-----------------|-----------------|-----------------|
-| Tipi valore     | Tipi semplici    | Signed Integer: `sbyte`, `short`, `int`,`long` |
-|                 |                 | Unsigned Integer: `byte`, `ushort`, `uint`,`ulong` |
+| Tipi valore     | Tipi semplici    | Signed Integer: `sbyte`, `short`, `int`, `long` |
+|                 |                 | Integrale senza segno: `byte`, `ushort`, `uint`, `ulong` |
 |                 |                 | Caratteri Unicode: `char` |
 |                 |                 | Virgola mobile IEEE: `float`, `double` |
 |                 |                 | Decimale ad alta precisione: `decimal` |
@@ -154,7 +154,7 @@ Nella tabella seguente fornisce una panoramica del sistema di tipi di #.
 |                 |                 | Stringhe Unicode: `string` |
 |                 |                 | Tipi definiti dall'utente nel formato `class C {...}` |
 |                 | Tipi interfaccia | Tipi definiti dall'utente nel formato `interface I {...}` |
-|                 | Tipi matrice     | Unidimensionale e multidimensionale, ad esempio `int[]` e `int[,]` |
+|                 | Tipi matrice     | Unidimensionali e multidimensionali, ad esempio, `int[]` e `int[,]` |
 |                 | Tipi delegato  | Tipi definiti dall'utente del form, ad esempio `delegate int  D(...)` |
 
 Gli otto tipi integrali offrono supporto per i valori a 8, 16, 32 e 64 bit in formato con segno o senza segno.
@@ -163,14 +163,14 @@ Tipi, i due mobile punto `float` e `double`, vengono rappresentati usando i form
 
 Il tipo `decimal` è un tipo dati a 128 bit adatto per i calcoli finanziari e monetari.
 
-# `bool` Tipo viene usato per rappresentare valori booleani, valori che possono essere `true` o `false`.
+C#del `bool` tipo viene usato per rappresentare valori booleani, valori che possono essere `true` o `false`.
 
 Per l'elaborazione di caratteri e stringhe, in C# viene usata la codifica Unicode. Il tipo `char` rappresenta un'unità di codice UTF-16, mentre il tipo `string` rappresenta una sequenza di unità di codice UTF-16.
 
-La tabella seguente riepiloga i tipi numerici di #.
+La tabella seguente riepiloga C#di tipi numerici.
 
 
-| __Categoria__      | __BITS__ | __Type__  | __Intervallo di precisione__ |
+| __Category__      | __BITS__ | __Tipo__  | __Intervallo di precisione__ |
 |-------------------|----------|-----------|---------------------|
 | Signed Integer   | 8        | `sbyte`   | -128...127 |
 |                   | 16       | `short`   | -32,768...32,767 |
@@ -184,7 +184,7 @@ La tabella seguente riepiloga i tipi numerici di #.
 |                   | 64       | `double`  | 5,0 × 10 ^ − 324 e 1,7 × 10 ^ 308 precisione a 15 cifre |
 | Decimale           | 128      | `decimal` | 1.0 × 10 ^ 28 e 7,9 × 10 ^, 28 e precisione di 28 cifre |
 
-I programmi C# usano le ***dichiarazioni di tipo*** per creare nuovi tipi. Una dichiarazione di tipo consente di specificare il nome e i membri del nuovo tipo. Cinque delle categorie di # dei tipi sono definibili dall'utente: tipi, i tipi struct, tipi interfaccia, tipi enum di classi e tipi di delegati.
+I programmi C# usano le ***dichiarazioni di tipo*** per creare nuovi tipi. Una dichiarazione di tipo consente di specificare il nome e i membri del nuovo tipo. Cinque delle C#di categorie di tipi sono definibili dall'utente: tipi, i tipi struct, tipi interfaccia, tipi enum di classi e tipi di delegati.
 
 Un tipo di classe definisce una struttura di dati che contiene i membri dati (campi) e i membri di funzione (metodi, proprietà e altri). I tipi classe supportano l'ereditarietà singola e il polimorfismo, meccanismi in base ai quali le classi derivate possono estendere e specializzare le classi di base.
 
@@ -202,7 +202,7 @@ C# supporta matrici unidimensionali e multidimensionali di qualsiasi tipo. A dif
 
 Tipi nullable inoltre non devono essere dichiarati prima di poter essere usati. Per ogni tipo di valore non nullable `T` è presente un tipo nullable corrispondente `T?`, che può contenere un valore aggiuntivo `null`. Ad esempio, `int?` è un tipo che può contenere qualsiasi numero intero a 32 bit o il valore `null`.
 
-Il sistema di tipi di # è unificato in modo che un valore di qualsiasi tipo può essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi di valore vengono trattati come oggetti eseguendo ***boxing*** e ***unboxing*** operazioni. Nell'esempio seguente un valore `int` viene convertito in `object` e quindi convertito nuovamente in `int`.
+C#del sistema di tipi è unificato in modo che un valore di qualsiasi tipo può essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi di valore vengono trattati come oggetti eseguendo ***boxing*** e ***unboxing*** operazioni. Nell'esempio seguente un valore `int` viene convertito in `object` e quindi convertito nuovamente in `int`.
 
 ```csharp
 using System;
@@ -218,12 +218,12 @@ class Test
 ```
 Quando un valore di un tipo valore viene convertito nel tipo `object`, un'istanza dell'oggetto, denominata anche "box", viene allocata per contenere il valore e il valore viene copiato nel box. Al contrario, quando un `object` viene eseguito il cast di riferimento a un tipo valore, viene eseguito un controllo che l'oggetto di riferimento sia un box del tipo valore corretto e, se la verifica ha esito positivo, viene copiato il valore nella finestra di.
 
-Sistema di tipi unificato di # ciò significa che i tipi di valore possono diventare oggetti "su"richiesta. Grazie all'unificazione, le librerie generiche che usano il tipo `object` possono essere usate con entrambi i tipi riferimento e valore.
+C#unificato di tipo sistema ciò significa che i tipi di valore possono diventare oggetti "su"richiesta. Grazie all'unificazione, le librerie generiche che usano il tipo `object` possono essere usate con entrambi i tipi riferimento e valore.
 
 In C# sono disponibili diversi tipi di ***variabili***, inclusi campi, elementi matrice, variabili locali e parametri. Le variabili rappresentano posizioni di archiviazione e ogni variabile dispone di un tipo che determina quali valori possono essere archiviati nella variabile, come illustrato nella tabella seguente.
 
 
-| __Tipo di variabile__    | __Possibili contenuti__ |
+| __Il tipo di variabile__    | __Possibili contenuti__ |
 |-------------------------|-----------------------|
 | Tipo valore non-nullable | Valore esattamente del tipo indicato |
 | Tipo valore nullable     | Un valore null o un valore esattamente del tipo |
@@ -241,10 +241,10 @@ Se un'espressione contiene più operatori, la ***precedenza*** degli operatori d
 
 La maggior parte degli operatori può essere***in overload***. L'overload degli operatori consente di specificare implementazioni di operatori definite dall'utente per le operazioni in cui uno o entrambi gli operandi appartengono a un tipo struct o a una classe definita dall'utente.
 
-Nella tabella seguente sono riepilogati gli operatori di #, elenca le categorie di operatori in ordine di precedenza dalla più alta alla più bassa. Gli operatori della stessa categoria hanno uguale precedenza.
+La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori in ordine di precedenza dalla più alta alla più bassa. Gli operatori della stessa categoria hanno uguale precedenza.
 
 
-| __Categoria__                     | __Espressione__    | __Descrizione__ |
+| __Category__                     | __Espressione__    | __Descrizione__ |
 |----------------------------------|-------------------|-----------------|
 | Primario                          | `x.m`             | Accesso ai membri |
 |                                  | `x(...)`          | Chiamata a metodi e delegati |
@@ -252,9 +252,9 @@ Nella tabella seguente sono riepilogati gli operatori di #, elenca le categorie 
 |                                  | `x++`             | Post-incremento |
 |                                  | `x--`             | Post-decremento |
 |                                  | `new T(...)`      | Creazione di oggetti e delegati |
-|                                  | `new T(...){...}` | Creazione di oggetti con inizializzatore |
-|                                  | `new {...}`       | Inizializzatore di oggetto anonimi |
-|                                  | `new T[...]`      | Creazione di matrici |
+|                                  | `new T(...){...}` | creazione di oggetti con inizializzatore |
+|                                  | `new {...}`       | inizializzatore di oggetti anonimo |
+|                                  | `new T[...]`      | creazione di matrici |
 |                                  | `typeof(T)`       | Ottenere `System.Type` dell'oggetto per `T` |
 |                                  | `checked(x)`      | Valutare l'espressione in un contesto controllato (checked) |
 |                                  | `unchecked(x)`    | Valutare l'espressione in un contesto non controllato (unchecked) |
@@ -267,7 +267,7 @@ Nella tabella seguente sono riepilogati gli operatori di #, elenca le categorie 
 |                                  | `++x`             | Pre-incremento |
 |                                  | `--x`             | Pre-decremento |
 |                                  | `(T)x`            | Convertire in modo esplicito `x` al tipo `T` |
-|                                  | `await x`         | Attendere in modo asincrono `x` completamento |
+|                                  | `await x`         | attende in modo asincrono il completamento di `x` |
 | Moltiplicazione                   | `x * y`           | Moltiplicazione |
 |                                  | `x / y`           | Divisione |
 |                                  | `x % y`           | Resto |
@@ -279,19 +279,19 @@ Nella tabella seguente sono riepilogati gli operatori di #, elenca le categorie 
 |                                  | `x > y`           | Maggiore di |
 |                                  | `x <= y`          | Minore o uguale a |
 |                                  | `x >= y`          | Maggiore o uguale a |
-|                                  | `x is T`          | Restituire `true` se `x` è un `T`, `false` in caso contrario, |
+|                                  | `x is T`          | restituisce `true` se `x` è un oggetto `T`, altrimenti `false` |
 |                                  | `x as T`          | Restituire `x` tipizzata come `T`, o `null` se `x` non è un `T` |
 | Uguaglianza                         | `x == y`          | Uguale      |
 |                                  | `x != y`          | Non uguaglianza |
-| AND logico                      | `x & y`           | Integer bit per bit AND, AND logico booleano |
+| AND logico                      | `x & y`           | AND Integer bit per bit, AND logico booleano |
 | XOR logico                      | `x ^ y`           | XOR Integer bit per bit, XOR logico booleano |
 | OR logico                       | <code>x &#124; y</code> | OR Integer bit per bit, OR logico booleano |
 | AND condizionale                  | `x && y`          | Viene valutata `y` solo se `x` è `true` |
 | OR condizionale                   | <code>x &#124;&#124; y</code> | Viene valutata `y` solo se `x` è `false` |
-| Null-coalescing                  | `X ?? y`          | Viene valutata `y` se `x` viene `null`, a `x` in caso contrario, |
+| Null-coalescing                  | `x ?? y`          | Viene valutata `y` se `x` viene `null`, a `x` in caso contrario, |
 | Condizionale                      | `x ? y : z`       | Viene valutata `y` se `x` viene `true`, `z` se `x` è `false` |
 | Assegnazione o funzione anonima | `x = y`           | Assegnazione |
-|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` <code>&#124;=</code> |
+|                                  | `x op= y`         | assegnazione composta. Gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` <code>&#124;=</code> |
 |                                  | `(T x) => y`      | Funzione anonima (espressione lambda) |
 
 ## <a name="statements"></a>Istruzioni
@@ -355,7 +355,7 @@ static void Main() {
 }
 ```
 
-__`if` Istruzione__
+__`if` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -369,7 +369,7 @@ static void Main(string[] args) {
 ```
 
 
-__`switch` Istruzione__
+__`switch` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -388,7 +388,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`while` Istruzione__
+__`while` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -401,7 +401,7 @@ static void Main(string[] args) {
 ```
 
 
-__`do` Istruzione__
+__`do` statement__
 
 ```csharp
 static void Main() {
@@ -413,7 +413,7 @@ static void Main() {
 }
 ```
 
-__`for` Istruzione__
+__`for` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -423,7 +423,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`foreach` Istruzione__
+__`foreach` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -433,7 +433,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`break` Istruzione__
+__`break` statement__
 
 ```csharp
 static void Main() {
@@ -445,7 +445,7 @@ static void Main() {
 }
 ```
 
-__`continue` Istruzione__
+__`continue` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -456,7 +456,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`goto` Istruzione__
+__`goto` statement__
 
 ```csharp
 static void Main(string[] args) {
@@ -469,7 +469,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`return` Istruzione__
+__`return` statement__
 
 ```csharp
 static int Add(int a, int b) {
@@ -482,7 +482,7 @@ static void Main() {
 }
 ```
 
-__`yield` Istruzione__
+__`yield` statement__
 
 ```csharp
 static IEnumerable<int> Range(int from, int to) {
@@ -539,7 +539,7 @@ static void Main() {
 }
 ```
 
-__`lock` Istruzione__
+__`lock` statement__
 
 ```csharp
 class Account
@@ -556,7 +556,7 @@ class Account
 }
 ```
 
-__`using` Istruzione__
+__`using` statement__
 
 ```csharp
 static void Main() {
@@ -602,7 +602,7 @@ I membri di una classe sono entrambi ***i membri statici*** oppure ***membri di 
 Nella tabella seguente fornisce una panoramica dei tipi di membri di che una classe può contenere.
 
 
-| __Membro__   | __Descrizione__ |
+| __Member__   | __Descrizione__ |
 |------------  |-----------------|
 | Costanti    | Valori costanti associati alla classe |
 | Campi       | Variabili della classe |
@@ -1040,7 +1040,7 @@ Come illustrato nell'esempio, è sempre possibile selezionare un metodo specific
 
 ### <a name="other-function-members"></a>Altri membri di funzione
 
-I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. In questa sezione vengono descritti altri membri di funzione supportati da C#: costruttori, proprietà, indicizzatori, eventi, operatori e i distruttori.
+I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. In questa sezione vengono descritti altri membri di funzione supportati da c#: costruttori, proprietà, indicizzatori, eventi, operatori e i distruttori.
 
 Il codice seguente illustra una classe generica denominata `List<T>`, che implementa un elenco espandibile di oggetti. Nella classe sono contenuti alcuni esempi di membri di funzione più comuni.
 
