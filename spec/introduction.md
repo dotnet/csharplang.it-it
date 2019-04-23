@@ -1,9 +1,9 @@
 ---
 ms.openlocfilehash: db10046af5d635b430951679a448e23680b18b87
-ms.sourcegitcommit: a19fac74c01a6c3da67d38b2f79527145d4edcbc
+ms.sourcegitcommit: 4cc6d73a765ac9827ab00c48ad9f09204baf888f
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/09/2019
+ms.lasthandoff: 04/18/2019
 ms.locfileid: "59426812"
 ---
 # <a name="introduction"></a>Introduzione
@@ -139,10 +139,10 @@ C#di tipi di valore sono ulteriormente suddivisi in ***tipi semplici***, ***tipi
 
 Nella tabella seguente offre una panoramica di C#del sistema di tipi.
 
-| __Category__    |                 | __Descrizione__ |
+| __Categoria__    |                 | __Descrizione__ |
 |-----------------|-----------------|-----------------|
-| Tipi valore     | Tipi semplici    | Signed Integer: `sbyte`, `short`, `int`, `long` |
-|                 |                 | Integrale senza segno: `byte`, `ushort`, `uint`, `ulong` |
+| Tipi valore     | Tipi semplici    | Signed Integer: `sbyte`, `short`, `int`,`long` |
+|                 |                 | Unsigned Integer: `byte`, `ushort`, `uint`,`ulong` |
 |                 |                 | Caratteri Unicode: `char` |
 |                 |                 | Virgola mobile IEEE: `float`, `double` |
 |                 |                 | Decimale ad alta precisione: `decimal` |
@@ -154,7 +154,7 @@ Nella tabella seguente offre una panoramica di C#del sistema di tipi.
 |                 |                 | Stringhe Unicode: `string` |
 |                 |                 | Tipi definiti dall'utente nel formato `class C {...}` |
 |                 | Tipi interfaccia | Tipi definiti dall'utente nel formato `interface I {...}` |
-|                 | Tipi matrice     | Unidimensionali e multidimensionali, ad esempio, `int[]` e `int[,]` |
+|                 | Tipi matrice     | Unidimensionale e multidimensionale, ad esempio `int[]` e `int[,]` |
 |                 | Tipi delegato  | Tipi definiti dall'utente del form, ad esempio `delegate int  D(...)` |
 
 Gli otto tipi integrali offrono supporto per i valori a 8, 16, 32 e 64 bit in formato con segno o senza segno.
@@ -170,7 +170,7 @@ Per l'elaborazione di caratteri e stringhe, in C# viene usata la codifica Unicod
 La tabella seguente riepiloga C#di tipi numerici.
 
 
-| __Category__      | __BITS__ | __Tipo__  | __Intervallo di precisione__ |
+| __Categoria__      | __BITS__ | __Type__  | __Intervallo di precisione__ |
 |-------------------|----------|-----------|---------------------|
 | Signed Integer   | 8        | `sbyte`   | -128...127 |
 |                   | 16       | `short`   | -32,768...32,767 |
@@ -223,7 +223,7 @@ C#unificato di tipo sistema ciò significa che i tipi di valore possono diventar
 In C# sono disponibili diversi tipi di ***variabili***, inclusi campi, elementi matrice, variabili locali e parametri. Le variabili rappresentano posizioni di archiviazione e ogni variabile dispone di un tipo che determina quali valori possono essere archiviati nella variabile, come illustrato nella tabella seguente.
 
 
-| __Il tipo di variabile__    | __Possibili contenuti__ |
+| __Tipo di variabile__    | __Possibili contenuti__ |
 |-------------------------|-----------------------|
 | Tipo valore non-nullable | Valore esattamente del tipo indicato |
 | Tipo valore nullable     | Un valore null o un valore esattamente del tipo |
@@ -244,7 +244,7 @@ La maggior parte degli operatori può essere***in overload***. L'overload degli 
 La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori in ordine di precedenza dalla più alta alla più bassa. Gli operatori della stessa categoria hanno uguale precedenza.
 
 
-| __Category__                     | __Espressione__    | __Descrizione__ |
+| __Categoria__                     | __Espressione__    | __Descrizione__ |
 |----------------------------------|-------------------|-----------------|
 | Primario                          | `x.m`             | Accesso ai membri |
 |                                  | `x(...)`          | Chiamata a metodi e delegati |
@@ -255,10 +255,10 @@ La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori i
 |                                  | `new T(...){...}` | creazione di oggetti con inizializzatore |
 |                                  | `new {...}`       | inizializzatore di oggetti anonimo |
 |                                  | `new T[...]`      | creazione di matrici |
-|                                  | `typeof(T)`       | Ottenere `System.Type` dell'oggetto per `T` |
+|                                  | `typeof(T)`       | ottiene l'oggetto `System.Type` per `T` |
 |                                  | `checked(x)`      | Valutare l'espressione in un contesto controllato (checked) |
 |                                  | `unchecked(x)`    | Valutare l'espressione in un contesto non controllato (unchecked) |
-|                                  | `default(T)`      | Ottenere il valore predefinito di tipo `T` |
+|                                  | `default(T)`      | ottiene un valore predefinito di tipo `T` |
 |                                  | `delegate {...}`  | Funzione anonima (metodo anonimo) |
 | Unario                            | `+x`              | identità |
 |                                  | `-x`              | Negazione |
@@ -266,7 +266,7 @@ La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori i
 |                                  | `~x`              | Negazione bit per bit |
 |                                  | `++x`             | Pre-incremento |
 |                                  | `--x`             | Pre-decremento |
-|                                  | `(T)x`            | Convertire in modo esplicito `x` al tipo `T` |
+|                                  | `(T)x`            | converte in modo esplicito `x` al tipo `T` |
 |                                  | `await x`         | attende in modo asincrono il completamento di `x` |
 | Moltiplicazione                   | `x * y`           | Moltiplicazione |
 |                                  | `x / y`           | Divisione |
@@ -280,7 +280,7 @@ La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori i
 |                                  | `x <= y`          | Minore o uguale a |
 |                                  | `x >= y`          | Maggiore o uguale a |
 |                                  | `x is T`          | restituisce `true` se `x` è un oggetto `T`, altrimenti `false` |
-|                                  | `x as T`          | Restituire `x` tipizzata come `T`, o `null` se `x` non è un `T` |
+|                                  | `x as T`          | restituisce `x` tipizzato come `T` oppure `null` se `x` non è un oggetto `T` |
 | Uguaglianza                         | `x == y`          | Uguale      |
 |                                  | `x != y`          | Non uguaglianza |
 | AND logico                      | `x & y`           | AND Integer bit per bit, AND logico booleano |
@@ -289,9 +289,9 @@ La tabella seguente riepiloga C#di operatori, elenca le categorie di operatori i
 | AND condizionale                  | `x && y`          | Viene valutata `y` solo se `x` è `true` |
 | OR condizionale                   | <code>x &#124;&#124; y</code> | Viene valutata `y` solo se `x` è `false` |
 | Null-coalescing                  | `x ?? y`          | Viene valutata `y` se `x` viene `null`, a `x` in caso contrario, |
-| Condizionale                      | `x ? y : z`       | Viene valutata `y` se `x` viene `true`, `z` se `x` è `false` |
+| Condizionale                      | `x ? y : z`       | restituisce `y` se `x` è `true`, `z` se `x` è `false` |
 | Assegnazione o funzione anonima | `x = y`           | Assegnazione |
-|                                  | `x op= y`         | assegnazione composta. Gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` <code>&#124;=</code> |
+|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati sono `*=` `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=` <code>&#124;=</code> |
 |                                  | `(T x) => y`      | Funzione anonima (espressione lambda) |
 
 ## <a name="statements"></a>Istruzioni
@@ -355,7 +355,7 @@ static void Main() {
 }
 ```
 
-__`if` statement__
+__`if` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -369,7 +369,7 @@ static void Main(string[] args) {
 ```
 
 
-__`switch` statement__
+__`switch` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -388,7 +388,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`while` statement__
+__`while` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -401,7 +401,7 @@ static void Main(string[] args) {
 ```
 
 
-__`do` statement__
+__`do` Istruzione__
 
 ```csharp
 static void Main() {
@@ -413,7 +413,7 @@ static void Main() {
 }
 ```
 
-__`for` statement__
+__`for` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -423,7 +423,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`foreach` statement__
+__`foreach` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -433,7 +433,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`break` statement__
+__`break` Istruzione__
 
 ```csharp
 static void Main() {
@@ -445,7 +445,7 @@ static void Main() {
 }
 ```
 
-__`continue` statement__
+__`continue` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -456,7 +456,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`goto` statement__
+__`goto` Istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -469,7 +469,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`return` statement__
+__`return` Istruzione__
 
 ```csharp
 static int Add(int a, int b) {
@@ -482,7 +482,7 @@ static void Main() {
 }
 ```
 
-__`yield` statement__
+__`yield` Istruzione__
 
 ```csharp
 static IEnumerable<int> Range(int from, int to) {
@@ -539,7 +539,7 @@ static void Main() {
 }
 ```
 
-__`lock` statement__
+__`lock` Istruzione__
 
 ```csharp
 class Account
@@ -556,7 +556,7 @@ class Account
 }
 ```
 
-__`using` statement__
+__`using` Istruzione__
 
 ```csharp
 static void Main() {
@@ -602,7 +602,7 @@ I membri di una classe sono entrambi ***i membri statici*** oppure ***membri di 
 Nella tabella seguente fornisce una panoramica dei tipi di membri di che una classe può contenere.
 
 
-| __Member__   | __Descrizione__ |
+| __Membro__   | __Descrizione__ |
 |------------  |-----------------|
 | Costanti    | Valori costanti associati alla classe |
 | Campi       | Variabili della classe |
@@ -1151,8 +1151,8 @@ Oggetto `get` della funzione di accesso corrispondente a un metodo senza paramet
 
 Oggetto `set` funzione di accesso corrisponde a un metodo con un singolo parametro denominato `value` e senza tipo restituito. Se si fa riferimento a una proprietà come destinazione di un'assegnazione o come operando del `++` oppure `--`, il `set` della funzione di accesso viene richiamato con un argomento che fornisce il nuovo valore.
 
-Il `List<T>
-` classe dichiara due proprietà, `Count` e `Capacity`, sola lettura e lettura / scrittura, che sono rispettivamente. Di seguito è riportato un esempio d'uso di queste proprietà.
+La classe `List<T>
+` dichiara due proprietà, `Count` e `Capacity`, che sono rispettivamente di sola lettura e di lettura/scrittura. Di seguito è riportato un esempio d'uso di queste proprietà.
 
 ```csharp
 List<string> names = new List<string>();
