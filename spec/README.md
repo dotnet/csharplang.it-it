@@ -1,7 +1,7 @@
 ---
 ms.openlocfilehash: 4e1534fc5523223042df468c4443a6722910543b
 ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: it-IT
 ms.lasthandoff: 01/18/2019
 ms.locfileid: "47229604"
@@ -11,7 +11,7 @@ ms.locfileid: "47229604"
 
 __Versione 6__
 
-Si tratta di una bozza non ufficiale, inserita qui per comodità. Quando si invia una proposta di specifica c# 6.0 di ECMA (che attualmente viene finalizzato il linguaggio c# 5.0 Standard), verrà condiviso qui.
+Si tratta di una bozza non ufficiale, inserita qui per comodità. Quando si invia una proposta di specifica C# 6.0 di ECMA (che attualmente viene finalizzato il linguaggio C# 5.0 Standard), verrà condiviso qui.
 
 <!--
 (This document is also available for download: [csharp.pdf](CSharp%20Language%20Specification.pdf?raw=true) and [csharp.docx](CSharp%20Language%20Specification.docx?raw=true))

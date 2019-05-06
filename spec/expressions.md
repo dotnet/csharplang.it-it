@@ -1,7 +1,7 @@
 ---
 ms.openlocfilehash: 67019511d49a786a5d6edf6fea442f745fc40f3f
 ms.sourcegitcommit: 0a80f26b8e455c4f09843a10e11e29c24d2d922e
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: it-IT
 ms.lasthandoff: 03/05/2019
 ms.locfileid: "57347274"
@@ -42,13 +42,13 @@ La maggior parte dei Construct che comportano un'espressione in definitiva richi
 
 Il processo volto a determinare il significato di un'operazione in base al tipo o valore di espressioni che costituiscono (argomenti, gli operandi, ricevitori) è spesso detta ***associazione***. Ad esempio il significato di una chiamata al metodo è determinato in base al tipo di ricevitore e argomenti. Il significato di un operatore è determinato in base al tipo dei relativi operandi.
 
-In c# il significato di un'operazione in genere è determinato in fase di compilazione, in base al tipo di fase di compilazione delle relative espressioni che lo costituiscono. Analogamente, se un'espressione contiene un errore, l'errore viene rilevato e segnalato dal compilatore. Questo approccio è noto come ***associazioni statiche***.
+In C# il significato di un'operazione in genere è determinato in fase di compilazione, in base al tipo di fase di compilazione delle relative espressioni che lo costituiscono. Analogamente, se un'espressione contiene un errore, l'errore viene rilevato e segnalato dal compilatore. Questo approccio è noto come ***associazioni statiche***.
 
 Tuttavia, se un'espressione è un'espressione dinamica (ad esempio è di tipo `dynamic`) indica che qualsiasi associazione che fa parte deve essere basati sul relativo tipo in fase di esecuzione (ad esempio il tipo effettivo dell'oggetto indica al runtime) anziché il tipo nel in fase di compilazione. Pertanto, l'associazione di tale operazione viene posticipata fino al momento in cui l'operazione deve essere eseguito durante l'esecuzione del programma. Ciò è detto ***binding dinamico***.
 
 Quando un'operazione in modo dinamico è associata, senza alcuna verifica viene eseguita dal compilatore. Se, invece l'associazione di runtime non riesce, gli errori vengono segnalati come eccezioni in fase di esecuzione.
 
-Le operazioni seguenti nel linguaggio c# sono soggetti a binding:
+Le operazioni seguenti nel linguaggio C# sono soggetti a binding:
 
 *  Accesso ai membri: `e.M`
 *  Chiamata del metodo: `e.M(e1, ..., eN)`
@@ -60,7 +60,7 @@ Le operazioni seguenti nel linguaggio c# sono soggetti a binding:
 *  Gli operatori di assegnazione: `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`, `<<=`, `>>=`
 *  Conversioni implicite ed esplicite
 
-Quando non sono coinvolte espressioni dinamiche, c# impostata automaticamente su associazioni statiche, il che significa che vengono utilizzati i tipi in fase di compilazione di espressioni che costituiscono il processo di selezione. Tuttavia, quando una delle espressioni che costituiscono nelle operazioni elencate in precedenza è un'espressione dinamica, l'operazione viene invece associata in modo dinamico.
+Quando non sono coinvolte espressioni dinamiche, C# impostata automaticamente su associazioni statiche, il che significa che vengono utilizzati i tipi in fase di compilazione di espressioni che costituiscono il processo di selezione. Tuttavia, quando una delle espressioni che costituiscono nelle operazioni elencate in precedenza è un'espressione dinamica, l'operazione viene invece associata in modo dinamico.
 
 ### <a name="binding-time"></a>In fase di associazione
 
@@ -82,11 +82,11 @@ La terza chiamata è associata in modo dinamico: l'overload del metodo `Console.
 
 ### <a name="dynamic-binding"></a>Associazione dinamica
 
-Lo scopo di associazione dinamica è consentire ai programmi c# di interagirvi ***oggetti dinamici***, vale a dire gli oggetti che non seguono le regole normali di C# sistema di tipi. Oggetti dinamici possono essere oggetti di altri linguaggi di programmazione con i sistemi di tipi diversi, o possono essere oggetti che sono a livello di codice per implementare la propria semantica di associazione per diversi di operazioni di installazione.
+Lo scopo di associazione dinamica è consentire ai programmi C# di interagirvi ***oggetti dinamici***, vale a dire gli oggetti che non seguono le regole normali di C# sistema di tipi. Oggetti dinamici possono essere oggetti di altri linguaggi di programmazione con i sistemi di tipi diversi, o possono essere oggetti che sono a livello di codice per implementare la propria semantica di associazione per diversi di operazioni di installazione.
 
-Il meccanismo mediante il quale un oggetto dinamico implementa la propria semantica è definito dall'implementazione. Una determinata interfaccia, anche in questo caso implementazione definita, viene implementata dagli oggetti dinamici per segnalare il codice c# in fase di esecuzione che hanno una semantica speciale. Di conseguenza, ogni volta che le operazioni su un oggetto dinamico di associazione in modo dinamico, la propria semantica di associazione, anziché quelle del linguaggio c# come specificato in questo documento, intervenire.
+Il meccanismo mediante il quale un oggetto dinamico implementa la propria semantica è definito dall'implementazione. Una determinata interfaccia, anche in questo caso implementazione definita, viene implementata dagli oggetti dinamici per segnalare il codice C# in fase di esecuzione che hanno una semantica speciale. Di conseguenza, ogni volta che le operazioni su un oggetto dinamico di associazione in modo dinamico, la propria semantica di associazione, anziché quelle del linguaggio C# come specificato in questo documento, intervenire.
 
-Mentre lo scopo di associazione dinamica è consentire l'interazione con gli oggetti dinamici, c# consente l'associazione dinamica in tutti gli oggetti, se sono dinamici o meno. In questo modo per un'integrazione più uniforme di oggetti dinamici, come i risultati delle operazioni su di essi non stesse possono essere oggetti dinamici, ma sono comunque di un tipo sconosciuto per il programmatore in fase di compilazione. Anche associazione dinamica consente di eliminare il codice basato su reflection soggetta a errori anche quando nessuno degli oggetti interessati è oggetti dinamici.
+Mentre lo scopo di associazione dinamica è consentire l'interazione con gli oggetti dinamici, C# consente l'associazione dinamica in tutti gli oggetti, se sono dinamici o meno. In questo modo per un'integrazione più uniforme di oggetti dinamici, come i risultati delle operazioni su di essi non stesse possono essere oggetti dinamici, ma sono comunque di un tipo sconosciuto per il programmatore in fase di compilazione. Anche associazione dinamica consente di eliminare il codice basato su reflection soggetta a errori anche quando nessuno degli oggetti interessati è oggetti dinamici.
 
 Le sezioni seguenti per ciascun costrutto del linguaggio esattamente quando l'associazione dinamica viene applicato, cosa compilare il controllo in fase: se uno qualsiasi, viene applicata e quali la fase di compilazione risultato ed espressione classificazione è.
 
@@ -780,7 +780,7 @@ Più precisamente, l'inferenza inizia con un *unfixed* variabile di tipo `X`. *I
 
 ### <a name="overload-resolution"></a>Risoluzione dell'overload
 
-Risoluzione dell'overload è un meccanismo in fase di associazione per la selezione il miglior membro di funzione di richiamata, dato un elenco di argomenti e un set di membri di funzione candidati. Risoluzione dell'overload seleziona il membro di funzione da richiamare nei contesti seguenti distinti all'interno di c#:
+Risoluzione dell'overload è un meccanismo in fase di associazione per la selezione il miglior membro di funzione di richiamata, dato un elenco di argomenti e un set di membri di funzione candidati. Risoluzione dell'overload seleziona il membro di funzione da richiamare nei contesti seguenti distinti all'interno di C#:
 
 *  Chiamata di un metodo denominato un *invocation_expression* ([chiamate al metodo](expressions.md#method-invocations)).
 *  Chiamata di un costruttore di istanza denominata un' *object_creation_expression* ([espressioni per la creazione dell'oggetto](expressions.md#object-creation-expressions)).
@@ -4082,13 +4082,13 @@ Per usare queste parole come identificatori all'interno di un'espressione di que
 
 ### <a name="query-expression-translation"></a>Conversione dell'espressione di query
 
-Il linguaggio c# non specifica la semantica di esecuzione delle espressioni di query. Piuttosto, le espressioni di query vengono convertite in chiamate dei metodi che rispettano il *criterio di espressione di query* ([il criterio di espressione di query](expressions.md#the-query-expression-pattern)). In particolare, le espressioni di query vengono convertite in chiamate di metodi denominati `Where`, `Select`, `SelectMany`, `Join`, `GroupJoin`, `OrderBy`, `OrderByDescending`, `ThenBy`, `ThenByDescending`, `GroupBy`, e `Cast`. Questi metodi devono avere firme particolare e tipi di risultati, come descritto in [il criterio di espressione di query](expressions.md#the-query-expression-pattern). Questi metodi possono essere metodi di istanza dell'oggetto sottoposto a query o i metodi di estensione che sono esterni all'oggetto, e implementare l'esecuzione effettiva della query.
+Il linguaggio C# non specifica la semantica di esecuzione delle espressioni di query. Piuttosto, le espressioni di query vengono convertite in chiamate dei metodi che rispettano il *criterio di espressione di query* ([il criterio di espressione di query](expressions.md#the-query-expression-pattern)). In particolare, le espressioni di query vengono convertite in chiamate di metodi denominati `Where`, `Select`, `SelectMany`, `Join`, `GroupJoin`, `OrderBy`, `OrderByDescending`, `ThenBy`, `ThenByDescending`, `GroupBy`, e `Cast`. Questi metodi devono avere firme particolare e tipi di risultati, come descritto in [il criterio di espressione di query](expressions.md#the-query-expression-pattern). Questi metodi possono essere metodi di istanza dell'oggetto sottoposto a query o i metodi di estensione che sono esterni all'oggetto, e implementare l'esecuzione effettiva della query.
 
-La traduzione da espressioni di query per le chiamate ai metodi è un mapping sintattico che si verifica prima di qualsiasi tipo di binding o è stata eseguita la risoluzione dell'overload. La traduzione è garantito che sia sintatticamente corretta, ma non è garantito per produrre codice c# semanticamente corretto. In seguito alla conversione di espressioni di query, le chiamate al metodo risultante vengono elaborati come chiamate di metodo normale e ciò a sua volta potrebbe emergere errori, ad esempio, se non sono presenti i metodi, se gli argomenti hanno tipi non corretti o se i metodi sono generici e l'inferenza del tipo ha esito negativo.
+La traduzione da espressioni di query per le chiamate ai metodi è un mapping sintattico che si verifica prima di qualsiasi tipo di binding o è stata eseguita la risoluzione dell'overload. La traduzione è garantito che sia sintatticamente corretta, ma non è garantito per produrre codice C# semanticamente corretto. In seguito alla conversione di espressioni di query, le chiamate al metodo risultante vengono elaborati come chiamate di metodo normale e ciò a sua volta potrebbe emergere errori, ad esempio, se non sono presenti i metodi, se gli argomenti hanno tipi non corretti o se i metodi sono generici e l'inferenza del tipo ha esito negativo.
 
 Un'espressione di query viene elaborata tramite l'applicazione più volte le seguenti traduzioni fino a quando non sono possibili non ulteriori riduzioni. Le traduzioni sono elencate in ordine di applicazione: ogni sezione si presuppone che le traduzioni nelle sezioni precedenti sono state eseguite con attenzione e una volta esaurito, una sezione sarà non in un secondo momento è possibile accedere durante l'elaborazione dell'espressione di query stessa.
 
-Assegnazione alle variabili di intervallo non è consentito nelle espressioni di query. Un'implementazione c# può tuttavia non impone questa limitazione, poiché ciò potrebbe talvolta non essere possibile con lo schema di conversione sintattica presentato in questo articolo.
+Assegnazione alle variabili di intervallo non è consentito nelle espressioni di query. Un'implementazione C# può tuttavia non impone questa limitazione, poiché ciò potrebbe talvolta non essere possibile con lo schema di conversione sintattica presentato in questo articolo.
 
 Alcune conversioni inseriscono le variabili di intervallo con identificatori trasparenti indicati da `*`. Vengono illustrate le proprietà speciali degli identificatori trasparente ulteriormente in [trasparenti identificatori](expressions.md#transparent-identifiers).
 
@@ -4480,7 +4480,7 @@ Quando una conversione di query inserisce un identificatore trasparente, ulterio
 *  Quando si verifica un identificatore trasparente come parametro in una funzione anonima, i membri del tipo anonimo associato vengono automaticamente nell'ambito del corpo della funzione anonima.
 *  Quando un membro con un identificatore trasparente è nell'ambito, i membri di tale membro rientrano nell'ambito anche.
 *  Quando si verifica un identificatore trasparente come un dichiaratore di membro in un inizializzatore di oggetto anonimi, introduce un membro con un identificatore trasparente.
-*  Nei passaggi della conversione descritti in precedenza, gli identificatori trasparenti vengono sempre introdotte insieme ai tipi anonimi, con l'intenzione di acquisire più variabili di intervallo come membri di un singolo oggetto. Un'implementazione del linguaggio c# può utilizzare un meccanismo diverso rispetto ai tipi anonimi per raggruppare più variabili di intervallo. Gli esempi di conversione seguenti presuppongono che vengono usati tipi anonimi e mostrano come trasparenti identificatori possono essere convertiti da subito.
+*  Nei passaggi della conversione descritti in precedenza, gli identificatori trasparenti vengono sempre introdotte insieme ai tipi anonimi, con l'intenzione di acquisire più variabili di intervallo come membri di un singolo oggetto. Un'implementazione del linguaggio C# può utilizzare un meccanismo diverso rispetto ai tipi anonimi per raggruppare più variabili di intervallo. Gli esempi di conversione seguenti presuppongono che vengono usati tipi anonimi e mostrano come trasparenti identificatori possono essere convertiti da subito.
 
 L'esempio
 ```csharp

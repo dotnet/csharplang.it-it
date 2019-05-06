@@ -1,6 +1,14 @@
+---
+ms.openlocfilehash: 33b3044c4c0a4095f4bf49e6cf23c721f538e911
+ms.sourcegitcommit: 4e3f2e4ea5a50b186b08d1e93d3ffcdb3754596e
+ms.translationtype: HT
+ms.contentlocale: it-IT
+ms.lasthandoff: 02/19/2019
+ms.locfileid: "56411299"
+---
 # <a name="namespaces"></a>Spazi dei nomi
 
-Organizzazione dei programmi c# usando spazi dei nomi. Gli spazi dei nomi vengono usati sia come un sistema di organizzazione "interno" per un programma che come un sistema di organizzazione "external", ovvero un modo per presentare gli elementi di programma che vengono esposti ad altri programmi.
+Organizzazione dei programmi C# usando spazi dei nomi. Gli spazi dei nomi vengono usati sia come un sistema di organizzazione "interno" per un programma che come un sistema di organizzazione "external", ovvero un modo per presentare gli elementi di programma che vengono esposti ad altri programmi.
 
 Direttive using ([direttive Using](namespaces.md#using-directives)) sono fornite per facilitare l'uso degli spazi dei nomi.
 
@@ -14,7 +22,7 @@ compilation_unit
     ;
 ```
 
-Un programma c# è costituito da uno o più unità di compilazione, contenuti ognuno in un file di origine separato. Quando viene compilato un programma c#, tutte le unità di compilazione vengono elaborate insieme. Di conseguenza, unità di compilazione può dipendere tra loro, possibilmente in modo circolare.
+Un programma C# è costituito da uno o più unità di compilazione, contenuti ognuno in un file di origine separato. Quando viene compilato un programma C#, tutte le unità di compilazione vengono elaborate insieme. Di conseguenza, unità di compilazione può dipendere tra loro, possibilmente in modo circolare.
 
 Il *using_directive*s di un effetto di unità di compilazione le *global_attributes* e *namespace_member_declaration*s di tale unità di compilazione, ma non hanno alcun effetto altre unità di compilazione.
 

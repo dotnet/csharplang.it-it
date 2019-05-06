@@ -1,24 +1,24 @@
 ---
 ms.openlocfilehash: 90001cf3d48f216787fc65e59166ec57c5d0ca34
 ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: it-IT
 ms.lasthandoff: 01/18/2019
 ms.locfileid: "47229619"
 ---
 # <a name="unsafe-code"></a>Codice di tipo unsafe
 
-Il linguaggio c#, come definito nei precedenti capitoli, differisce notevolmente dai linguaggi C e C++ nell'omissione dei puntatori come tipo di dati. Al contrario, c# fornisce riferimenti e la possibilità di creare gli oggetti gestiti da un garbage collector. Rende questa struttura, insieme ad altre funzionalità, in c# un linguaggio molto più sicuro rispetto a C o C++. Nel linguaggio core c# semplicemente non è possibile avere una variabile non inizializzata, un puntatore "inesatti" o un'espressione che indicizza una matrice oltre i limiti. Categorie di intere di bug riscontrati che in continuazione nei C e i programmi C++ in tal modo vengono eliminati.
+Il linguaggio C#, come definito nei precedenti capitoli, differisce notevolmente dai linguaggi C e C++ nell'omissione dei puntatori come tipo di dati. Al contrario, C# fornisce riferimenti e la possibilità di creare gli oggetti gestiti da un garbage collector. Rende questa struttura, insieme ad altre funzionalità, in C# un linguaggio molto più sicuro rispetto a C o C++. Nel linguaggio core C# semplicemente non è possibile avere una variabile non inizializzata, un puntatore "inesatti" o un'espressione che indicizza una matrice oltre i limiti. Categorie di intere di bug riscontrati che in continuazione nei C e i programmi C++ in tal modo vengono eliminati.
 
-Sebbene praticamente tutti i costrutti tipo puntatore in C o C++ ha un equivalente di tipo riferimento in c#, nonostante ciò, esistono situazioni in cui l'accesso ai tipi di puntatore diventa una necessità. Ad esempio, l'interazione con il sistema operativo sottostante, l'accesso a un dispositivo con mapping in memoria o implementare un algoritmo potrebbe non essere possibile o fattibile senza accesso a puntatori. Per soddisfare questa esigenza, c# offre la possibilità di scrivere ***codice unsafe***.
+Sebbene praticamente tutti i costrutti tipo puntatore in C o C++ ha un equivalente di tipo riferimento in C#, nonostante ciò, esistono situazioni in cui l'accesso ai tipi di puntatore diventa una necessità. Ad esempio, l'interazione con il sistema operativo sottostante, l'accesso a un dispositivo con mapping in memoria o implementare un algoritmo potrebbe non essere possibile o fattibile senza accesso a puntatori. Per soddisfare questa esigenza, C# offre la possibilità di scrivere ***codice unsafe***.
 
-Nel codice di tipo unsafe è possibile dichiarare e utilizzare con i puntatori, eseguire le conversioni tra puntatori e i tipi integrali, per accettare l'indirizzo di variabili, e così via. In un certo senso, la scrittura di codice unsafe è molto simile a scrivere codice C all'interno di un programma c#.
+Nel codice di tipo unsafe è possibile dichiarare e utilizzare con i puntatori, eseguire le conversioni tra puntatori e i tipi integrali, per accettare l'indirizzo di variabili, e così via. In un certo senso, la scrittura di codice unsafe è molto simile a scrivere codice C all'interno di un programma C#.
 
 Codice unsafe in realtà è una funzionalità "sicura" dal punto di vista di sviluppatori e utenti. Codice unsafe debba essere chiaramente contrassegnato con il modificatore `unsafe`, in modo che gli sviluppatori usare accidentalmente le funzionalità non sicure e il motore di esecuzione si impegna per assicurare che il codice unsafe non può essere eseguito in un ambiente non attendibile.
 
 ## <a name="unsafe-contexts"></a>Contesti non sicuri
 
-Le funzionalità non sicure del linguaggio c# sono disponibili solo in contesti non sicuri. È stato introdotto un contesto unsafe, includendo un' `unsafe` modificatore nella dichiarazione di un tipo o membro, o tramite l'uso di un *unsafe_statement*:
+Le funzionalità non sicure del linguaggio C# sono disponibili solo in contesti non sicuri. È stato introdotto un contesto unsafe, includendo un' `unsafe` modificatore nella dichiarazione di un tipo o membro, o tramite l'uso di un *unsafe_statement*:
 
 *  Una dichiarazione di una classe, struct, interfaccia o delegato può includere un `unsafe` modificatore, in cui il l'intera estensione testuale di tale dichiarazione del tipo (incluso il corpo della classe, struct o interfaccia) viene considerato un contesto non sicuro.
 *  Una dichiarazione di un campo, metodo, proprietà, eventi, l'indicizzatore, operatore, costruttore di istanza, distruttore o costruttore statico potrebbe includere un `unsafe` modificatore, in cui il l'intera estensione testuale che della dichiarazione del membro viene considerato un tipo unsafe contesto.
@@ -205,7 +205,7 @@ Nella tabella seguente sono indicati alcuni esempi di tipi di puntatore:
 
 Per una determinata implementazione, tutti i tipi di puntatore devono avere le stesse dimensioni e rappresentazione.
 
-Diversamente da C e C++, quando vengono dichiarati più puntatori nella stessa dichiarazione, in c# il `*` viene scritto insieme al tipo sottostante, non come un segno di punteggiatura di prefisso su ciascun nome di puntatore. Esempio:
+Diversamente da C e C++, quando vengono dichiarati più puntatori nella stessa dichiarazione, in C# il `*` viene scritto insieme al tipo sottostante, non come un segno di punteggiatura di prefisso su ciascun nome di puntatore. Esempio:
 
 ```csharp
 int* pi, pj;    // NOT as int *pi, *pj;
@@ -1042,7 +1042,7 @@ una `stackalloc` inizializzatore viene utilizzato la `IntToString` metodo per al
 
 ## <a name="dynamic-memory-allocation"></a>Allocazione dinamica della memoria
 
-Fatta eccezione per il `stackalloc` operatore, c# non offre costrutti predefiniti per la gestione della memoria raccolta non garbage. Tali servizi sono in genere forniti dal supporto di librerie di classi o importati direttamente dal sistema operativo sottostante. Ad esempio, il `Memory` classe riportata di seguito viene illustrato come le funzioni heap di un sistema operativo sottostante potrebbe essere possibile accedere da c#:
+Fatta eccezione per il `stackalloc` operatore, C# non offre costrutti predefiniti per la gestione della memoria raccolta non garbage. Tali servizi sono in genere forniti dal supporto di librerie di classi o importati direttamente dal sistema operativo sottostante. Ad esempio, il `Memory` classe riportata di seguito viene illustrato come le funzioni heap di un sistema operativo sottostante potrebbe essere possibile accedere da C#:
 
 ```csharp
 using System;

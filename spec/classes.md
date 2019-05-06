@@ -1,7 +1,7 @@
 ---
 ms.openlocfilehash: af7af574814dc04ee3ece0396b7ae5f86b3ec8eb
 ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: it-IT
 ms.lasthandoff: 01/18/2019
 ms.locfileid: "47229643"
@@ -601,7 +601,7 @@ partial class A
 }
 ```
 
-L'ordinamento dei membri all'interno di un tipo è raramente significativa al codice c#, ma potrebbe essere significativo quando eseguono l'interfacciamento con altri linguaggi e ambienti. In questi casi, è definito l'ordinamento dei membri all'interno di un tipo dichiarato in più parti.
+L'ordinamento dei membri all'interno di un tipo è raramente significativa al codice C#, ma potrebbe essere significativo quando eseguono l'interfacciamento con altri linguaggi e ambienti. In questi casi, è definito l'ordinamento dei membri all'interno di un tipo dichiarato in più parti.
 
 ### <a name="partial-methods"></a>Metodi parziali
 
@@ -1164,15 +1164,15 @@ class Outer<T>
 
 ### <a name="reserved-member-names"></a>Nomi dei membri riservato
 
-Per semplificare il codice c# in fase di esecuzione implementazione sottostante, per ogni dichiarazione di membro di origine che è una proprietà, un evento o un indicizzatore, l'implementazione deve riservare due firme del metodo in base al tipo di dichiarazione del membro, il nome e il relativo tipo. È un errore in fase di compilazione per un programma dichiarare un membro la cui firma corrisponda a uno di questi riservato firme, anche se l'implementazione sottostante in fase di esecuzione non usa tali prenotazioni.
+Per semplificare il codice C# in fase di esecuzione implementazione sottostante, per ogni dichiarazione di membro di origine che è una proprietà, un evento o un indicizzatore, l'implementazione deve riservare due firme del metodo in base al tipo di dichiarazione del membro, il nome e il relativo tipo. È un errore in fase di compilazione per un programma dichiarare un membro la cui firma corrisponda a uno di questi riservato firme, anche se l'implementazione sottostante in fase di esecuzione non usa tali prenotazioni.
 
 Le dichiarazioni non introducono i nomi riservati, pertanto non partecipano in ricerca di membri. Tuttavia, una dichiarazione di metodo riservato associate le firme di partecipare all'ereditarietà ([ereditarietà](classes.md#inheritance)) e possono essere nascosti con il `new` modificatore ([il nuovo modificatore](classes.md#the-new-modifier)).
 
 La prenotazione di questi nomi ha tre scopi:
 
-*  Per consentire l'implementazione sottostante da utilizzare un identificatore standard come un nome di metodo per ottenere o impostare l'accesso alla funzionalità del linguaggio c#.
-*  Consentire ad altri linguaggi interoperare utilizzando un identificatore standard come un nome di metodo per ottenere o impostare l'accesso alla funzionalità del linguaggio c#.
-*  Al fine di garantire che l'origine è accettata da un compilatore conforme è accettato da un'altra, rendendo le specifiche del membro riservato a nomi coerenti in tutte le implementazioni in c#.
+*  Per consentire l'implementazione sottostante da utilizzare un identificatore standard come un nome di metodo per ottenere o impostare l'accesso alla funzionalità del linguaggio C#.
+*  Consentire ad altri linguaggi interoperare utilizzando un identificatore standard come un nome di metodo per ottenere o impostare l'accesso alla funzionalità del linguaggio C#.
+*  Al fine di garantire che l'origine è accettata da un compilatore conforme è accettato da un'altra, rendendo le specifiche del membro riservato a nomi coerenti in tutte le implementazioni in C#.
 
 La dichiarazione di un distruttore ([distruttori](classes.md#destructors)) anche fa sì che una firma per la prenotazione ([i nomi dei membri sono riservati per i distruttori](classes.md#member-names-reserved-for-destructors)).
 
@@ -1389,7 +1389,7 @@ class A
 
 ### <a name="static-and-instance-fields"></a>Campi statici e di istanza
 
-Quando una dichiarazione di campo include un' `static` modificatore, i campi introdotti dalla dichiarazione sono ***i campi statici***. Se non si specifica `static` modificatore è presente, i campi introdotti dalla dichiarazione sono ***campi di istanza***. I campi statici e i campi di istanza sono due dei diversi tipi di variabili ([variabili](variables.md)) supportati da c#, e in alcuni casi vengono definiti per ***variabili statiche*** e ***le variabili di istanze*** , rispettivamente.
+Quando una dichiarazione di campo include un' `static` modificatore, i campi introdotti dalla dichiarazione sono ***i campi statici***. Se non si specifica `static` modificatore è presente, i campi introdotti dalla dichiarazione sono ***campi di istanza***. I campi statici e i campi di istanza sono due dei diversi tipi di variabili ([variabili](variables.md)) supportati da C#, e in alcuni casi vengono definiti per ***variabili statiche*** e ***le variabili di istanze*** , rispettivamente.
 
 Un campo statico non fa parte di un'istanza specifica; In alternativa, è condiviso tra tutte le istanze di un tipo chiuso ([aperto e chiuso tipi](types.md#open-and-closed-types)). Indipendentemente dal numero di istanze di un tipo di classe chiusi venga creato, è sempre un'unica copia di un campo statico per il dominio di applicazione associata.
 
@@ -2434,7 +2434,7 @@ classe `A` dichiara un metodo virtuale, una classe `B` esegue l'override di ques
 
 ### <a name="external-methods"></a>Metodi esterni
 
-Quando una dichiarazione di metodo include un' `extern` modificatore, questo metodo viene definito da un' ***metodo esterno***. Metodi esterni vengono implementati all'esterno, in genere tramite un linguaggio diverso da c#. Poiché una dichiarazione di metodo esterno non fornisce alcuna implementazione effettiva, la *method_body* di un metodo esterno costituita semplicemente da un punto e virgola. Un metodo esterno non può essere generico.
+Quando una dichiarazione di metodo include un' `extern` modificatore, questo metodo viene definito da un' ***metodo esterno***. Metodi esterni vengono implementati all'esterno, in genere tramite un linguaggio diverso da C#. Poiché una dichiarazione di metodo esterno non fornisce alcuna implementazione effettiva, la *method_body* di un metodo esterno costituita semplicemente da un punto e virgola. Un metodo esterno non può essere generico.
 
 Il `extern` modificatore viene in genere usato in combinazione con un `DllImport` attributo ([l'interoperabilità con i componenti di Win32 e COM](attributes.md#interoperation-with-com-and-win32-components)), che consente metodi esterni deve essere implementata da DLL (Dynamic Link Library). L'ambiente di esecuzione potrebbe supportare altri meccanismi in base al quale possono essere fornite le implementazioni di metodi esterni.
 
@@ -4200,7 +4200,7 @@ A's destructor
 ```
 Poiché i distruttori in una catena di ereditarietà vengono chiamati in ordine, dalla maggior parte derivata alla meno derivata.
 
-Eseguendo l'override del metodo virtuale vengono implementati i distruttori `Finalize` su `System.Object`. I programmi c# non sono autorizzati a eseguire l'override di questo metodo oppure chiamare (o le sostituzioni di esso) direttamente. Ad esempio, il programma
+Eseguendo l'override del metodo virtuale vengono implementati i distruttori `Finalize` su `System.Object`. I programmi C# non sono autorizzati a eseguire l'override di questo metodo oppure chiamare (o le sostituzioni di esso) direttamente. Ad esempio, il programma
 ```csharp
 class A 
 {
@@ -4336,7 +4336,7 @@ Oggetto enumerabile fornisce un'implementazione del `GetEnumerator` metodi del `
 
 ### <a name="implementation-example"></a>Esempio di implementazione
 
-Questa sezione illustra una possibile implementazione degli iteratori in termini di costrutti c# standard. L'implementazione descritta di seguito si basa sugli stessi principi usati dal compilatore Microsoft C#, ma è in alcun modo un'implementazione obbligatoria o i possibili solo una.
+Questa sezione illustra una possibile implementazione degli iteratori in termini di costrutti C# standard. L'implementazione descritta di seguito si basa sugli stessi principi usati dal compilatore Microsoft C#, ma è in alcun modo un'implementazione obbligatoria o i possibili solo una.
 
 Quanto segue `Stack<T>` classe implementa il `GetEnumerator` metodo mediante un iteratore. L'iteratore enumera gli elementi dello stack dall'alto verso il basso.
 

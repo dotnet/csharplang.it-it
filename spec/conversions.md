@@ -1,7 +1,7 @@
 ---
 ms.openlocfilehash: 61eeae6173eaa19f9cf6d6e985f3dc107d4c3ac9
 ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: MT
+ms.translationtype: HT
 ms.contentlocale: it-IT
 ms.lasthandoff: 01/18/2019
 ms.locfileid: "50245526"
@@ -589,9 +589,9 @@ Conversione di una funzione anonima in un tipo di albero delle espressioni produ
 
 ### <a name="implementation-example"></a>Esempio di implementazione
 
-Questa sezione illustra una possibile implementazione di conversioni delle funzioni anonime in termini di altri costrutti in c#. L'implementazione descritta di seguito si basa sugli stessi principi usati dal compilatore Microsoft C#, ma è in alcun modo un'implementazione obbligatoria e non è l'unica possibile. Solo brevemente sono indicate le conversioni in alberi delle espressioni, come la semantica esatta esulano dall'ambito di questa specifica.
+Questa sezione illustra una possibile implementazione di conversioni delle funzioni anonime in termini di altri costrutti in C#. L'implementazione descritta di seguito si basa sugli stessi principi usati dal compilatore Microsoft C#, ma è in alcun modo un'implementazione obbligatoria e non è l'unica possibile. Solo brevemente sono indicate le conversioni in alberi delle espressioni, come la semantica esatta esulano dall'ambito di questa specifica.
 
-Il resto di questa sezione vengono forniti vari esempi di codice che contiene funzioni anonime con caratteristiche diverse. Per ogni esempio, viene fornita una traduzione corrispondente al codice che usa solo altri costrutti in c#. Negli esempi, l'identificatore `D` viene assunto da rappresentano il tipo delegato seguenti:
+Il resto di questa sezione vengono forniti vari esempi di codice che contiene funzioni anonime con caratteristiche diverse. Per ogni esempio, viene fornita una traduzione corrispondente al codice che usa solo altri costrutti in C#. Negli esempi, l'identificatore `D` viene assunto da rappresentano il tipo delegato seguenti:
 ```csharp
 public delegate void D();
 ```
