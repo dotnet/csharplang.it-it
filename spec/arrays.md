@@ -1,10 +1,10 @@
 ---
 ms.openlocfilehash: 155c1beecddfdfcce2e7948bcb8d6b80428fbd7a
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229648"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488833"
 ---
 # <a name="arrays"></a>Matrici
 
@@ -87,7 +87,7 @@ Ogni volta che è una conversione implicita o esplicita di riferimento da `S[]` 
 
 Quando un tipo di matrice `S[]` implementa `IList<T>`, alcuni dei membri dell'interfaccia implementata può generare eccezioni. Il comportamento preciso dell'implementazione dell'interfaccia esula dall'ambito di questa specifica.
 
-## <a name="array-creation"></a>Creazione di matrici
+## <a name="array-creation"></a>creazione di matrici
 
 Le istanze di matrice vengono create da *array_creation_expression*s ([espressioni di creazione matrice](expressions.md#array-creation-expressions)) o, campo o dichiarazioni di variabili locali che includono un *array_initializer*([Gli inizializzatori di matrice](arrays.md#array-initializers)).
 

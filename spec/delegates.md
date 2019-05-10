@@ -1,10 +1,10 @@
 ---
 ms.openlocfilehash: 08c14d9ef2afe30580f456995066c141653ede92
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: HT
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229649"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488977"
 ---
 # <a name="delegates"></a>Delegati
 
@@ -51,7 +51,7 @@ Deve essere il tipo restituito di un tipo delegato `void`, o output-safe ([safet
 
 Tutti i tipi di parametri formali di un tipo delegato devono essere di input-safe. Inoltre, qualsiasi `out` o `ref` i tipi di parametro devono essere anche output-safe. Si noti che anche `out` parametri devono essere di input-safe, a causa di una limitazione della piattaforma sottostante di esecuzione.
 
-I tipi di delegati in C# sono il nome equivalenti, non è strutturalmente equivalente. In particolare, due tipi di delegati diversi che hanno lo stesso parametro vengono elencate e restituire tipo sono considerati tipi delegati diversi. Tuttavia, le istanze di due tipi di delegati strutturalmente equivalenti, ma distinti possono risultare uguali ([delegare gli operatori di uguaglianza](expressions.md#delegate-equality-operators)).
+I tipi di delegati in c# sono il nome equivalenti, non è strutturalmente equivalente. In particolare, due tipi di delegati diversi che hanno lo stesso parametro vengono elencate e restituire tipo sono considerati tipi delegati diversi. Tuttavia, le istanze di due tipi di delegati strutturalmente equivalenti, ma distinti possono risultare uguali ([delegare gli operatori di uguaglianza](expressions.md#delegate-equality-operators)).
 
 Ad esempio:
 

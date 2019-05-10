@@ -1,10 +1,10 @@
 ---
 ms.openlocfilehash: 72d17175dfb8ef284dce6cf7e5837420fa06f16a
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: HT
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229607"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488872"
 ---
 # <a name="structs"></a>Struct
 
@@ -12,7 +12,7 @@ Gli struct sono simili alle classi che rappresentano le strutture di dati che po
 
 I tipi struct sono particolarmente utili per strutture dati di piccole dimensioni che hanno una semantica di valori. I numeri complessi, i punti di un sistema di coordinate o le coppie chiave-valore di un dizionario sono buoni esempi di struct. Chiave da queste strutture di dati è che dispongono di alcuni membri di dati, che non richiedono l'uso dell'ereditarietà o identità referenziale e che possono essere facilmente implementati usando la semantica dei valori in cui vengono copiati il valore anziché il riferimento all'assegnazione.
 
-Come descritto in [i tipi semplici](types.md#simple-types), i tipi semplici forniti da C#, ad esempio `int`, `double`, e `bool`, sono in effetti tutti i tipi struct. Analogamente a quanto questi tipi predefiniti struct, è anche possibile usare l'overload degli operatori per implementare nuovi tipi di "base" nel linguaggio C# e struct. Alla fine di questo capitolo vengono forniti due esempi di tali tipi ([esempi di Struct](structs.md#struct-examples)).
+Come descritto in [i tipi semplici](types.md#simple-types), i tipi semplici forniti da c#, ad esempio `int`, `double`, e `bool`, sono in effetti tutti i tipi struct. Analogamente a quanto questi tipi predefiniti struct, è anche possibile usare l'overload degli operatori per implementare nuovi tipi di "base" nel linguaggio c# e struct. Alla fine di questo capitolo vengono forniti due esempi di tali tipi ([esempi di Struct](structs.md#struct-examples)).
 
 ## <a name="struct-declarations"></a>Dichiarazioni struct
 

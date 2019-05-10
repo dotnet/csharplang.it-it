@@ -1,10 +1,10 @@
 ---
 ms.openlocfilehash: 0a09585f4f885647230354c66a2449abb7ef1f44
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229613"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488769"
 ---
 # <a name="interfaces"></a>Interfacce
 

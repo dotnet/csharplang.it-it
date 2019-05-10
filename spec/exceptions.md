@@ -1,25 +1,25 @@
 ---
 ms.openlocfilehash: 75fcd5b00ea5cac218a9f7809c53b179df97825c
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: HT
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229655"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488945"
 ---
 # <a name="exceptions"></a>Eccezioni
 
-Le eccezioni nel linguaggio C# forniscono un modo strutturato, uniforme e indipendente dai tipi di gestire a livello di sistema sia a livello di applicazione condizioni di errore. Il meccanismo delle eccezioni nel linguaggio C# è molto simile a quella di C++, con alcune importanti differenze:
+Le eccezioni nel linguaggio c# forniscono un modo strutturato, uniforme e indipendente dai tipi di gestire a livello di sistema sia a livello di applicazione condizioni di errore. Il meccanismo delle eccezioni nel linguaggio c# è molto simile a quella di C++, con alcune importanti differenze:
 
-*  In C#, tutte le eccezioni devono essere rappresentate da un'istanza di un tipo di classe derivato da `System.Exception`. In C++, qualsiasi valore di qualsiasi tipo è utilizzabile per rappresentare un'eccezione.
-*  In C#, un blocco finally ([l'istruzione try](statements.md#the-try-statement)) può essere usato per scrivere codice di terminazione che viene eseguito in condizioni normali e condizioni eccezionali. Tale codice è difficile scrivere in C++ senza duplicazione del codice.
-*  In C#, le eccezioni a livello di sistema, ad esempio overflow, divisione per zero e null dereferenzia ben definite, le classi di eccezioni ed Equilibra delle condizioni di errore a livello di applicazione.
+*  In c#, tutte le eccezioni devono essere rappresentate da un'istanza di un tipo di classe derivato da `System.Exception`. In C++, qualsiasi valore di qualsiasi tipo è utilizzabile per rappresentare un'eccezione.
+*  In c#, un blocco finally ([l'istruzione try](statements.md#the-try-statement)) può essere usato per scrivere codice di terminazione che viene eseguito in condizioni normali e condizioni eccezionali. Tale codice è difficile scrivere in C++ senza duplicazione del codice.
+*  In c#, le eccezioni a livello di sistema, ad esempio overflow, divisione per zero e null dereferenzia ben definite, le classi di eccezioni ed Equilibra delle condizioni di errore a livello di applicazione.
 
 ## <a name="causes-of-exceptions"></a>Cause delle eccezioni
 
 Eccezione può essere generata in due modi diversi.
 
 *  Oggetto `throw` istruzione ([l'istruzione throw](statements.md#the-throw-statement)) genera un'eccezione immediatamente e in modo incondizionato. Controllo non raggiunga mai l'istruzione che segue immediatamente il `throw`.
-*  Alcune condizioni eccezionali che si verificano durante l'elaborazione di istruzioni C# ed espressione generano un'eccezione in alcuni casi quando l'operazione non può essere completata normalmente. Ad esempio, un'operazione di divisione integer ([operatore di divisione](expressions.md#division-operator)) genera un `System.DivideByZeroException` se il denominatore è zero. Visualizzare [classi di eccezioni comuni](exceptions.md#common-exception-classes) per un elenco delle varie eccezioni che possono verificarsi in questo modo.
+*  Alcune condizioni eccezionali che si verificano durante l'elaborazione di istruzioni c# ed espressione generano un'eccezione in alcuni casi quando l'operazione non può essere completata normalmente. Ad esempio, un'operazione di divisione integer ([operatore di divisione](expressions.md#division-operator)) genera un `System.DivideByZeroException` se il denominatore è zero. Visualizzare [classi di eccezioni comuni](exceptions.md#common-exception-classes) per un elenco delle varie eccezioni che possono verificarsi in questo modo.
 
 ## <a name="the-systemexception-class"></a>La classe System. Exception
 
@@ -47,7 +47,7 @@ Le eccezioni che si verificano durante l'esecuzione del distruttore sono nota pa
 
 ## <a name="common-exception-classes"></a>Classi di eccezioni comuni
 
-Le seguenti eccezioni vengono generate da determinate operazioni in C#.
+Le seguenti eccezioni vengono generate da determinate operazioni in c#.
 
 |                                      |                |
 |--------------------------------------|----------------|

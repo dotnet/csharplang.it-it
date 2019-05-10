@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: db10046af5d635b430951679a448e23680b18b87
-ms.sourcegitcommit: 4cc6d73a765ac9827ab00c48ad9f09204baf888f
+ms.openlocfilehash: 9a9baf63b83ae4eb8af0e3b8c65ed3256222f12f
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/18/2019
-ms.locfileid: "59426812"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488889"
 ---
 # <a name="introduction"></a>Introduzione
 

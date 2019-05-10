@@ -1,18 +1,18 @@
 ---
 ms.openlocfilehash: a8ad8a8b3eda1d00fa745bd92e4371eacc36b79f
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: HT
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229612"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488831"
 ---
 # <a name="attributes"></a>Attributi
 
-Gran parte del linguaggio C# consente al programmatore di specificare informazioni dichiarative sulle entità definite nel programma. Ad esempio, specificare l'accessibilità di un metodo in una classe decorandolo con il *method_modifier*s `public`, `protected`, `internal`, e `private`.
+Gran parte del linguaggio c# consente al programmatore di specificare informazioni dichiarative sulle entità definite nel programma. Ad esempio, specificare l'accessibilità di un metodo in una classe decorandolo con il *method_modifier*s `public`, `protected`, `internal`, e `private`.
 
 C# consente ai programmatori di creare nuovi tipi di informazioni dichiarative, dette ***attributi***. I programmatori possono quindi allegare gli attributi a diverse entità di programma e recuperare informazioni sugli attributi in un ambiente di runtime. Ad esempio, un framework è possibile definire un `HelpAttribute` attributo che può essere inserito su determinati elementi di programma (ad esempio classi e metodi) per fornire un mapping tra gli elementi di programma e la relativa documentazione.
 
-Gli attributi sono definiti tramite la dichiarazione di classi di attributi ([classi Attribute](attributes.md#attribute-classes)), che possono avere parametri posizionali e denominati ([posizionale e i parametri denominati](attributes.md#positional-and-named-parameters)). Gli attributi sono associati all'entità in un programma C# con specifiche per gli attributi ([specifica degli attributi](attributes.md#attribute-specification)) e possono essere recuperati in fase di esecuzione come istanze di attributi ([istanze di attributo](attributes.md#attribute-instances)).
+Gli attributi sono definiti tramite la dichiarazione di classi di attributi ([classi Attribute](attributes.md#attribute-classes)), che possono avere parametri posizionali e denominati ([posizionale e i parametri denominati](attributes.md#positional-and-named-parameters)). Gli attributi sono associati all'entità in un programma c# con specifiche per gli attributi ([specifica degli attributi](attributes.md#attribute-specification)) e possono essere recuperati in fase di esecuzione come istanze di attributi ([istanze di attributo](attributes.md#attribute-instances)).
 
 ## <a name="attribute-classes"></a>Classi di attributi
 
@@ -645,7 +645,7 @@ class Class3
 
 #### <a name="conditional-attribute-classes"></a>Classi di attributo Conditional
 
-Una classe attribute ([classi Attribute](attributes.md#attribute-classes)) decorato con uno o più `Conditional` attributi è un ***classe attribute condizionale***. Una classe attribute condizionale è pertanto associata con i simboli di compilazione condizionale dichiarati nel relativo `Conditional` attributi. In questo esempio:
+Una classe attribute ([classi Attribute](attributes.md#attribute-classes)) decorato con uno o più `Conditional` attributi è un ***classe attribute condizionale***. Una classe attribute condizionale è pertanto associata con i simboli di compilazione condizionale dichiarati nel relativo `Conditional` attributi. Questo esempio:
 
 ```csharp
 using System;
@@ -833,7 +833,7 @@ Nota: In questa sezione è applicabile solo per l'implementazione di Microsoft .
 
 ### <a name="interoperation-with-com-and-win32-components"></a>Interazione con componenti COM e Win32
 
-Il runtime di .NET offre un numero elevato di attributi che consentono ai programmi C# di interoperare con componenti scritti con DLL Win32 e COM. Ad esempio, il `DllImport` attributo può essere utilizzato in un `static extern` metodo per indicare che l'implementazione del metodo deve essere trovato in una DLL Win32. Questi attributi si trovano nel `System.Runtime.InteropServices` dello spazio dei nomi e la documentazione dettagliata per questi attributi sono disponibili nella documentazione di runtime di .NET.
+Il runtime di .NET offre un numero elevato di attributi che consentono ai programmi c# di interoperare con componenti scritti con DLL Win32 e COM. Ad esempio, il `DllImport` attributo può essere utilizzato in un `static extern` metodo per indicare che l'implementazione del metodo deve essere trovato in una DLL Win32. Questi attributi si trovano nel `System.Runtime.InteropServices` dello spazio dei nomi e la documentazione dettagliata per questi attributi sono disponibili nella documentazione di runtime di .NET.
 
 ### <a name="interoperation-with-other-net-languages"></a>Interoperabilità con altri linguaggi .NET
 

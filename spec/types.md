@@ -1,14 +1,14 @@
 ---
 ms.openlocfilehash: a28397b1ce97dbead6d5014e2b20e108a1018502
-ms.sourcegitcommit: 3fc033b6e98ed7ecdf46a85c79b00a3a3ddcf963
-ms.translationtype: HT
+ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/18/2019
-ms.locfileid: "47229642"
+ms.lasthandoff: 04/25/2019
+ms.locfileid: "64488783"
 ---
 # <a name="types"></a>Tipi
 
-I tipi del linguaggio C# sono suddivisi in due categorie principali: ***i tipi di valore*** e ***fanno riferimento ai tipi***. I tipi di valore e tipi di riferimento possono essere ***i tipi generici***, che accettano uno o più ***parametri di tipo***. I parametri di tipo possono designare entrambi i tipi valore e tipi di riferimento.
+I tipi del linguaggio c# sono suddivisi in due categorie principali: ***i tipi di valore*** e ***fanno riferimento ai tipi***. I tipi di valore e tipi di riferimento possono essere ***i tipi generici***, che accettano uno o più ***parametri di tipo***. I parametri di tipo possono designare entrambi i tipi valore e tipi di riferimento.
 
 ```antlr
 type
@@ -23,7 +23,7 @@ La categoria di tipi, i puntatori, finale è disponibile solo nel codice non sic
 
 I tipi di valore differiscono dai tipi di riferimento in quanto le variabili dei tipi valore contengono direttamente i propri dati, mentre le variabili del riferimento a tipi di archivio ***riferimenti*** ai dati, i noti come ***oggetti***. Con i tipi riferimento, è possibile che due variabili possono fare riferimento allo stesso oggetto e pertanto le operazioni su una variabile influiscano sull'oggetto a cui fa riferimento l'altra. Tipi di valore, ogni variabile ha una propria copia dei dati e non è possibile per le operazioni su una variabile influiscano su altra.
 
-Il sistema di tipi di # è unificato in modo che un valore di qualsiasi tipo può essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi di valore vengono trattati come oggetti mediante l'esecuzione di operazioni di conversione boxing e unboxing ([conversioni Boxing e unboxing](types.md#boxing-and-unboxing)).
+C#del sistema di tipi è unificato in modo che un valore di qualsiasi tipo può essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi di valore vengono trattati come oggetti mediante l'esecuzione di operazioni di conversione boxing e unboxing ([conversioni Boxing e unboxing](types.md#boxing-and-unboxing)).
 
 ## <a name="value-types"></a>Tipi valore
 
@@ -215,7 +215,7 @@ Gli operatori a virgola mobile, inclusi gli operatori di assegnazione, mai gener
 *  Se un'operazione a virgola mobile non è valida, il risultato dell'operazione diventa NaN.
 *  Se uno o entrambi gli operandi di un'operazione a virgola mobile è NaN, il risultato dell'operazione diventa NaN.
 
-Operazioni a virgola mobile possono essere eseguite con una maggiore precisione rispetto al tipo di risultato dell'operazione. Ad esempio, alcune architetture hardware supportano un tipo a virgola mobile "extended" o "long double" con una gamma più ampia e offre una precisione maggiore di `double` digitare ed eseguire in modo implicito tutte le operazioni a virgola mobile con questo tipo con precisione superiore. Comporterebbe costi di prestazioni tali architetture hardware per poter eseguire operazioni a virgola mobile con precisione inferiore, e invece di richiedere un'implementazione per rinunciare le prestazioni e la precisione, C# consente di essere un tipo di precisione superiore utilizzato per tutte le operazioni a virgola mobile. Diverso da fornire risultati più precisi, questo raramente ha effetti misurabili. Tuttavia, nelle espressioni del form `x * y / z`, in cui il risultato della moltiplicazione che non è compreso il `double` intervallo, ma la divisione successiva Visualizza i risultati temporanei nel `double` intervallo, il fatto che l'espressione è valutata in un intervallo più alto formato può causare un risultato finito anziché un numero infinito.
+Operazioni a virgola mobile possono essere eseguite con una maggiore precisione rispetto al tipo di risultato dell'operazione. Ad esempio, alcune architetture hardware supportano un tipo a virgola mobile "extended" o "long double" con una gamma più ampia e offre una precisione maggiore di `double` digitare ed eseguire in modo implicito tutte le operazioni a virgola mobile con questo tipo con precisione superiore. Comporterebbe costi di prestazioni tali architetture hardware per poter eseguire operazioni a virgola mobile con precisione inferiore, e invece di richiedere un'implementazione per rinunciare le prestazioni e la precisione, c# consente di essere un tipo di precisione superiore utilizzato per tutte le operazioni a virgola mobile. Diverso da fornire risultati più precisi, questo raramente ha effetti misurabili. Tuttavia, nelle espressioni del form `x * y / z`, in cui il risultato della moltiplicazione che non è compreso il `double` intervallo, ma la divisione successiva Visualizza i risultati temporanei nel `double` intervallo, il fatto che l'espressione è valutata in un intervallo più alto formato può causare un risultato finito anziché un numero infinito.
 
 ### <a name="the-decimal-type"></a>Il tipo decimal
 
@@ -237,7 +237,7 @@ Il `bool` tipo rappresenta le quantità di logiche booleane. I possibili valori 
 
 Non esiste alcuna conversione standard tra `bool` e altri tipi. In particolare, il `bool` è di tipo distinto e separato da tipi integrali e un' `bool` valore non può essere utilizzato al posto di un valore integrale e viceversa.
 
-Nei linguaggi C e C++, un valore pari a zero integrale o a virgola mobile o un puntatore null può essere convertito nel valore booleano `false`, e un valore integrale o a virgola mobile e diverso da zero o un puntatore null non può essere convertito nel valore booleano `true`. In C#, queste conversioni vengono portate a termine confrontando in modo esplicito un valore integrale o a virgola mobile a zero o confrontando in modo esplicito un riferimento a oggetto `null`.
+Nei linguaggi C e C++, un valore pari a zero integrale o a virgola mobile o un puntatore null può essere convertito nel valore booleano `false`, e un valore integrale o a virgola mobile e diverso da zero o un puntatore null non può essere convertito nel valore booleano `true`. In c#, queste conversioni vengono portate a termine confrontando in modo esplicito un valore integrale o a virgola mobile a zero o confrontando in modo esplicito un riferimento a oggetto `null`.
 
 ### <a name="enumeration-types"></a>Tipi di enumerazione
 
@@ -319,13 +319,13 @@ Un tipo di classe definisce una struttura di dati che contiene i membri dati cos
 
 Tipi di classe sono descritte nel [classi](classes.md).
 
-Alcuni tipi di classe predefiniti hanno un significato speciale in C#, come descritto nella tabella seguente.
+Alcuni tipi di classe predefiniti hanno un significato speciale in c#, come descritto nella tabella seguente.
 
 
 | __Tipo di classe__     | __Descrizione__                                         |
 |--------------------|---------------------------------------------------------|
 | `System.Object`    | La classe di base fondamentale di tutti gli altri tipi. Visualizzare [il tipo di oggetto](types.md#the-object-type). | 
-| `System.String`    | Il tipo di stringa del linguaggio C#. Visualizzare [il tipo di stringa](types.md#the-string-type).         |
+| `System.String`    | Il tipo di stringa del linguaggio c#. Visualizzare [il tipo di stringa](types.md#the-string-type).         |
 | `System.ValueType` | Classe di base di tutti i tipi di valore. Visualizzare [System. ValueType di tipo](types.md#the-systemvaluetype-type).          |
 | `System.Enum`      | Classe di base di tutti i tipi di enumerazione. Visualizzare [enumerazioni](enums.md).              |
 | `System.Array`     | Classe di base di tutti i tipi di matrice. Vdere [Matrici](arrays.md).             |
@@ -334,7 +334,7 @@ Alcuni tipi di classe predefiniti hanno un significato speciale in C#, come desc
 
 ### <a name="the-object-type"></a>Il tipo di oggetto
 
-Il `object` il tipo di classe è la classe di base fondamentale di tutti gli altri tipi. In C# ogni tipo deriva direttamente o indirettamente dal `object` tipo di classe.
+Il `object` il tipo di classe è la classe di base fondamentale di tutti gli altri tipi. In c# ogni tipo deriva direttamente o indirettamente dal `object` tipo di classe.
 
 La parola chiave `object` è semplicemente un alias per la classe predefinita `System.Object`.
 
@@ -387,7 +387,7 @@ I tipi delegati sono descritte nel [delegati](delegates.md).
 
 ## <a name="boxing-and-unboxing"></a>Boxing e unboxing
 
-Il concetto di conversione boxing e unboxing è fondamentale per il sistema di tipi di #. Fornisce un collegamento tra *value_type*s e *reference_type*s consentono qualsiasi valore di una *value_type* da convertire in e dal tipo `object`. Boxing e unboxing consente una visualizzazione unificata del sistema di tipi in cui un valore di qualsiasi tipo può essere considerato in definitiva come oggetto.
+Il concetto di conversione boxing e unboxing è fondamentale per il C#del sistema di tipi. Fornisce un collegamento tra *value_type*s e *reference_type*s consentono qualsiasi valore di una *value_type* da convertire in e dal tipo `object`. Boxing e unboxing consente una visualizzazione unificata del sistema di tipi in cui un valore di qualsiasi tipo può essere considerato in definitiva come oggetto.
 
 ### <a name="boxing-conversions"></a>Conversioni boxing
 
