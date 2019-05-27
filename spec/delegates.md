@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 08c14d9ef2afe30580f456995066c141653ede92
-ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.openlocfilehash: 994b22f5375d57cfc4c7537c64345a27ddf3e416
+ms.sourcegitcommit: 09e0ddec3bb6aa99b7340158bbac86a5a8243b43
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/25/2019
-ms.locfileid: "64488977"
+ms.lasthandoff: 05/24/2019
+ms.locfileid: "66193875"
 ---
 # <a name="delegates"></a>Delegati
 
@@ -73,7 +73,7 @@ class B
 }
 ```
 
-I metodi `A.M1` e `B.M1 `compatibili con entrambi i tipi di delegati `D1` e `D2` , dal momento che hanno lo stesso restituisce il tipo e l'elenco parametri, tuttavia, questi tipi di delegati sono due tipi diversi, in modo che non siano intercambiabili. I metodi `B.M2`, `B.M3`, e `B.M4` non sono compatibili con i tipi delegato `D1` e `D2`, dal momento che presentano tipi restituiti diversi o elenchi di parametri.
+I metodi `A.M1` e `B.M1` compatibili con entrambi i tipi di delegati `D1` e `D2` , dal momento che hanno lo stesso restituisce il tipo e l'elenco parametri, tuttavia, questi tipi di delegati sono due tipi diversi, in modo che non siano intercambiabili. I metodi `B.M2`, `B.M3`, e `B.M4` non sono compatibili con i tipi delegato `D1` e `D2`, dal momento che presentano tipi restituiti diversi o elenchi di parametri.
 
 Come altre dichiarazioni di tipo generico, gli argomenti di tipo devono essere concessa a creare un tipo delegato costruito. I tipi di parametro e tipo restituito di un tipo costruito delegato vengono creati tramite la sostituzione, per ogni parametro di tipo nella dichiarazione del delegato, l'argomento di tipo corrispondente del tipo delegato costruito. Il tipo di risultato restituito e i tipi di parametro vengono usati per determinare quali metodi sono compatibili con un tipo delegate costruiti. Ad esempio:
 

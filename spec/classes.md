@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: af7af574814dc04ee3ece0396b7ae5f86b3ec8eb
-ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.openlocfilehash: 917e2f1e196013f85eefbda21fb3d717cc681084
+ms.sourcegitcommit: 09e0ddec3bb6aa99b7340158bbac86a5a8243b43
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/25/2019
-ms.locfileid: "64488906"
+ms.lasthandoff: 05/24/2019
+ms.locfileid: "66193904"
 ---
 # <a name="classes"></a>Classi
 
@@ -1500,7 +1500,7 @@ Per i campi non volatile, tecniche di ottimizzazione di riordinare le istruzioni
 Queste limitazioni garantiscono che tutti i thread considereranno scritture di tipo volatile eseguite da altri thread nell'ordine in cui sono stati eseguiti. Un'implementazione conforme, non è necessario fornire un singolo ordinamento totale di scritture volatili visualizzate da tutti i thread di esecuzione. Il tipo di un campo volatile deve essere uno dei seguenti:
 
 *  A *reference_type*.
-*  Il tipo `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `char`, `float`, `bool`, `System.IntPtr`, o` System.UIntPtr`.
+*  Il tipo `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `char`, `float`, `bool`, `System.IntPtr`, o `System.UIntPtr`.
 *  Un' *enum_type* specificando un tipo di base di enumerazione del `byte`, `sbyte`, `short`, `ushort`, `int`, o `uint`.
 
 L'esempio

@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 9a9baf63b83ae4eb8af0e3b8c65ed3256222f12f
-ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.openlocfilehash: 201db57d243c9d0e22553366bc653d02e183aa4b
+ms.sourcegitcommit: 09e0ddec3bb6aa99b7340158bbac86a5a8243b43
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/25/2019
-ms.locfileid: "64488889"
+ms.lasthandoff: 05/24/2019
+ms.locfileid: "66193867"
 ---
 # <a name="introduction"></a>Introduzione
 
@@ -648,8 +648,7 @@ Pair<int,string> pair = new Pair<int,string> { First = 1, Second = "two" };
 int i = pair.First;     // TFirst is int
 string s = pair.Second; // TSecond is string
 ```
-Un tipo generico con argomenti di tipo specificato, ad esempio `Pair<int,string>
-    ` sopra, viene chiamato un tipo costruito.
+Un tipo generico con argomenti di tipo specificato, ad esempio `Pair<int,string>` sopra, viene chiamato un tipo costruito.
 
 ### <a name="base-classes"></a>Classi di base
 
@@ -1131,9 +1130,7 @@ C# supporta sia costruttori di istanza sia costruttori statici. Un ***costruttor
 
 Un costruttore viene dichiarato come un metodo, senza tipo restituito e con lo stesso nome della classe in cui è contenuto. Se una dichiarazione di costruttore include un `static` modificatore, dichiara un costruttore statico. In caso contrario, dichiara un costruttore di istanza.
 
-Costruttori di istanza possono essere sottoposti a overload. La classe `List<T>
-`, ad esempio, dichiara due costruttori di istanza, uno senza parametri e uno che accetta un parametro `int`. I costruttori di istanza vengono richiamati con l'operatore `new`. Le istruzioni seguenti allocano due `List<string>
-` istanze usando tutti i costruttori dell'ambito di `List` classe.
+Costruttori di istanza possono essere sottoposti a overload. La classe `List<T>`, ad esempio, dichiara due costruttori di istanza, uno senza parametri e uno che accetta un parametro `int`. I costruttori di istanza vengono richiamati con l'operatore `new`. Le istruzioni seguenti allocano due `List<string>` istanze usando tutti i costruttori dell'ambito di `List` classe.
 
 ```csharp
 List<string> list1 = new List<string>();
@@ -1151,8 +1148,7 @@ Oggetto `get` della funzione di accesso corrispondente a un metodo senza paramet
 
 Oggetto `set` funzione di accesso corrisponde a un metodo con un singolo parametro denominato `value` e senza tipo restituito. Se si fa riferimento a una proprietà come destinazione di un'assegnazione o come operando del `++` oppure `--`, il `set` della funzione di accesso viene richiamato con un argomento che fornisce il nuovo valore.
 
-La classe `List<T>
-` dichiara due proprietà, `Count` e `Capacity`, che sono rispettivamente di sola lettura e di lettura/scrittura. Di seguito è riportato un esempio d'uso di queste proprietà.
+La classe `List<T>` dichiara due proprietà, `Count` e `Capacity`, che sono rispettivamente di sola lettura e di lettura/scrittura. Di seguito è riportato un esempio d'uso di queste proprietà.
 
 ```csharp
 List<string> names = new List<string>();
@@ -1188,11 +1184,9 @@ Un ***evento*** è un membro che consente a una classe o a un oggetto di inviare
 
 In una classe che dichiara un membro di evento, l'evento si comporta esattamente come un campo di un tipo delegato, purché l'evento non sia astratto e non dichiari funzioni di accesso. Il campo archivia un riferimento a un delegato che rappresenta i gestori eventi aggiunti all'evento. Se non sono presente alcun gestore eventi, il campo è `null`.
 
-La classe `List<T>
-` dichiara un singolo membro di evento denominato `Changed`, con cui si indica che un nuovo elemento è stato aggiunto all'elenco. Il `Changed` evento viene generato mediante il `OnChanged` metodo virtuale, che prima controlla se l'evento è `null` (vale a dire che è presente alcun gestore). Generare un evento equivale a richiamare il delegato rappresentato dall'evento. Non sono quindi necessari speciali costrutti di linguaggio per generare eventi.
+La classe `List<T>` dichiara un singolo membro di evento denominato `Changed`, con cui si indica che un nuovo elemento è stato aggiunto all'elenco. Il `Changed` evento viene generato mediante il `OnChanged` metodo virtuale, che prima controlla se l'evento è `null` (vale a dire che è presente alcun gestore). Generare un evento equivale a richiamare il delegato rappresentato dall'evento. Non sono quindi necessari speciali costrutti di linguaggio per generare eventi.
 
-I client rispondono agli eventi tramite ***gestori eventi***, che possono essere aggiunti con l'operatore `+=` e rimossi con l'operatore `-=`. Nell'esempio seguente un gestore eventi viene aggiunto all'evento `Changed` di `List<string>
-`.
+I client rispondono agli eventi tramite ***gestori eventi***, che possono essere aggiunti con l'operatore `+=` e rimossi con l'operatore `-=`. Nell'esempio seguente un gestore eventi viene aggiunto all'evento `Changed` di `List<string>`.
 
 ```csharp
 using System;
@@ -1221,10 +1215,7 @@ Negli scenari avanzati in cui è auspicabile controllare l'archiviazione sottost
 
 Un ***operatore*** è un membro che definisce il significato dell'applicazione di un particolare operatore di espressione alle istanze di una classe. È possibile definire tre tipi di operatori: unari, binari e di conversione. Tutti gli operatori devono essere dichiarati come `public` e `static`.
 
-La classe `List<T>
-` dichiara due operatori, `operator==` e `operator!=`, attribuendo così un nuovo significato alle espressioni che applicano questi operatori alle istanze di `List`. In particolare, gli operatori definiscono l'uguaglianza di due `List<T>
-` istanze, confrontando ognuno degli oggetti contenuti con loro `Equals` metodi. Nell'esempio seguente viene usato l'operatore `==` per confrontare due istanze di `List<int>
-`.
+La classe `List<T>` dichiara due operatori, `operator==` e `operator!=`, attribuendo così un nuovo significato alle espressioni che applicano questi operatori alle istanze di `List`. In particolare, gli operatori definiscono l'uguaglianza di due `List<T>` istanze, confrontando ognuno degli oggetti contenuti con loro `Equals` metodi. Nell'esempio seguente viene usato l'operatore `==` per confrontare due istanze di `List<int>`.
 
 ```csharp
 using System;
@@ -1245,9 +1236,7 @@ class Test
 }
 ```
 
-Il primo `Console.WriteLine` restituisce `True` perché i due elenchi contengono lo stesso numero di oggetti con gli stessi valori e nello stesso ordine. Se in `List<T>
-` non fosse stato definito l'operatore `operator==`, il primo `Console.WriteLine` avrebbe restituito `False` perché `a` e `b` fanno riferimento a istanze di `List<int>
-` diverse.
+Il primo `Console.WriteLine` restituisce `True` perché i due elenchi contengono lo stesso numero di oggetti con gli stessi valori e nello stesso ordine. Se in `List<T>` non fosse stato definito l'operatore `operator==`, il primo `Console.WriteLine` avrebbe restituito `False` perché `a` e `b` fanno riferimento a istanze di `List<int>` diverse.
 
 #### <a name="destructors"></a>Distruttori
 
