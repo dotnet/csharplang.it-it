@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 61eeae6173eaa19f9cf6d6e985f3dc107d4c3ac9
-ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.openlocfilehash: d082393a00496b948ad4e3ff9e135d94e89d2448
+ms.sourcegitcommit: 1a46441156b13db6c845f4bbb886284387d73023
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/25/2019
-ms.locfileid: "64488951"
+ms.lasthandoff: 06/13/2019
+ms.locfileid: "67047032"
 ---
 # <a name="conversions"></a>Conversioni
 
@@ -47,7 +47,7 @@ Tuttavia, conversioni dinamiche ([conversioni implicite dinamiche](conversions.m
 
 Una conversione di identità converte da qualsiasi tipo nello stesso tipo. Questa conversione esiste un'entità che dispone già di un tipo di richiesta si può affermare sia convertibile in quel tipo.
 
-*  Poiché object e dynamic vengono considerati equivalenti è una conversione di identità tra `object` e `dynamic`e tra tipi costruiti che sono gli stessi durante la sostituzione di tutte le occorrenze dei `dynamic` con `object`.
+*  In quanto `object` e `dynamic` sono considerati equivalenti è una conversione di identità tra `object` e `dynamic`e tra tipi costruiti che sono gli stessi durante la sostituzione di tutte le occorrenze di `dynamic` con `object`.
 
 ### <a name="implicit-numeric-conversions"></a>Conversioni numeriche implicite
 
