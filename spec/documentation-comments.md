@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: adf81842e3c763c7bbdd3f10bb884dc1207b9099
-ms.sourcegitcommit: 0489cb64b7dfb328813d757f4d447a15b85a5851
+ms.openlocfilehash: 2026fc1bf9d3576b967cbc2e9a670aa44b7eab3a
+ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/11/2019
-ms.locfileid: "70912429"
+ms.lasthandoff: 10/01/2019
+ms.locfileid: "71704014"
 ---
 # <a name="documentation-comments"></a>Commenti sulla documentazione
 
@@ -28,7 +28,7 @@ delimited_doc_comment
     ;
 ```
 
-In una *single_line_doc_comment*, se è presente un carattere di *spazio vuoto* che `///` *segue i caratteri in ogni single_line_doc_comment adiacente al single_line_doc_comment corrente,* il carattere dello spazio vuoto non è incluso nell'output XML.
+In una *single_line_doc_comment*, se è presente un carattere di *spazio vuoto* che segue i `///` caratteri in ogni *single_line_doc_comment*adiacente al *single_line_doc_comment*corrente, lo *spazio vuoto* il carattere non è incluso nell'output XML.
 
 In un commento-doc delimitato, se il primo carattere diverso da uno spazio nella seconda riga è un asterisco e lo stesso modello di spazi vuoti facoltativi e un asterisco vengono ripetuti all'inizio di ogni riga nel commento delimitato-doc- i caratteri del criterio ripetuto non sono quindi inclusi nell'output XML. Il modello può includere spazi vuoti dopo, così come prima, il carattere asterisco.
 
@@ -186,7 +186,7 @@ Questo tag consente di includere informazioni da un documento XML esterno al fil
 
 __Sintassi__
 
-```
+```xml
 <include file="filename" path="xpath" />
 ```
 

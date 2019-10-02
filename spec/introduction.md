@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 8bc4bf6310fb8a8457beee167f18d30aaca10a8e
-ms.sourcegitcommit: 7f7fc6e9e195e51b7ff8229aeaa70aa9fbbb63cb
+ms.openlocfilehash: 300d5fc2a2fadd98472d73c122226146605b01dd
+ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/10/2019
-ms.locfileid: "70876884"
+ms.lasthandoff: 10/01/2019
+ms.locfileid: "71703987"
 ---
 # <a name="introduction"></a>Introduzione
 
@@ -36,11 +36,11 @@ class Hello
 ```
 
 I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel `hello.cs`file, il programma può essere compilato con il C# compilatore Microsoft tramite la riga di comando
-```
+```console
 csc hello.cs
 ```
 che produce un assembly eseguibile `hello.exe`denominato. L'output prodotto da questa applicazione quando viene eseguito è
-```
+```console
 Hello, World
 ```
 
@@ -91,7 +91,7 @@ namespace Acme.Collections
 ```
 dichiara una classe denominata `Stack` in uno spazio dei nomi denominato. `Acme.Collections` Il nome completo di questa classe è `Acme.Collections.Stack`. La classe contiene vari membri: un campo `top`, due metodi `Push` e `Pop` e una classe annidata `Entry`. La classe `Entry` contiene altri tre membri: un campo `next`, un campo `data` e un costruttore. Supponendo che il codice sorgente dell'esempio sia archiviato nel file `acme.cs`, la riga di comando
 
-```
+```console
 csc /t:library acme.cs
 ```
 compila l'esempio come libreria (codice senza un punto di ingresso `Main`) e genera un assembly denominato `acme.dll`.
@@ -119,12 +119,12 @@ class Test
 ```
 Se il programma è `test.cs`archiviato nel file, quando `test.cs` viene compilato, è `/r` possibile `acme.dll` fare riferimento all'assembly usando l'opzione del compilatore:
 
-```
+```console
 csc /r:acme.dll test.cs
 ```
 In questo modo verrà creato un assembly eseguibile denominato `test.exe` che, quando viene eseguito, genera l'output:
 
-```
+```console
 100
 10
 1
@@ -182,7 +182,7 @@ Nella tabella seguente C#sono riepilogati i tipi numerici.
 |                   | 64       | `ulong`   | 0... 18, 446, 744, 073, 709, 551, 615 |
 | Virgola mobile    | 32       | `float`   | 1,5 × 10 ^ − 45 a 3,4 × 10 ^ 38, precisione a 7 cifre |
 |                   | 64       | `double`  | 5,0 × 10 ^ − 324 a 1,7 × 10 ^ 308, precisione di 15 cifre |
-| Decimale           | 128      | `decimal` | 1,0 × 10 ^ − 28 a 7,9 × 10 ^ 28, precisione di 28 cifre |
+| Decimal           | 128      | `decimal` | 1,0 × 10 ^ − 28 a 7,9 × 10 ^ 28, precisione di 28 cifre |
 
 I programmi C# usano le ***dichiarazioni di tipo*** per creare nuovi tipi. Una dichiarazione di tipo consente di specificare il nome e i membri del nuovo tipo. C#Cinque categorie di tipi sono definibili dall'utente: tipi di classe, tipi di struct, tipi di interfaccia, tipi enum e tipi delegati.
 
@@ -277,12 +277,12 @@ Nella tabella seguente sono riepilogati C#gli operatori, che elencano le categor
 |                                  | `x >> y`          | Spostamento a destra |
 | Operatori relazionali e operatori di test del tipo      | `x < y`           | Minore di |
 |                                  | `x > y`           | Maggiore di |
-|                                  | `x <= y`          | Minore o uguale a |
+|                                  | `x <= y`          | Minore o uguale |
 |                                  | `x >= y`          | Maggiore o uguale a |
 |                                  | `x is T`          | restituisce `true` se `x` è un oggetto `T`, altrimenti `false` |
 |                                  | `x as T`          | restituisce `x` tipizzato come `T` oppure `null` se `x` non è un oggetto `T` |
 | Uguaglianza                         | `x == y`          | Uguale      |
-|                                  | `x != y`          | Non uguaglianza |
+|                                  | `x != y`          | Diverso |
 | AND logico                      | `x & y`           | AND Integer bit per bit, AND logico booleano |
 | XOR logico                      | `x ^ y`           | XOR Integer bit per bit, XOR logico booleano |
 | OR logico                       | <code>x &#124; y</code> | OR Integer bit per bit, OR logico booleano |
@@ -595,7 +595,7 @@ Point p2 = new Point(10, 20);
 ```
 La memoria occupata da un oggetto viene recuperata automaticamente quando l'oggetto non è più in uso. In C# non è possibile, né necessario, deallocare oggetti in modo esplicito.
 
-### <a name="members"></a>Membri
+### <a name="members"></a>Members
 
 I membri di una classe sono ***membri statici*** o ***membri di istanza***. I primi appartengono a classi, mentre i secondi appartengono a oggetti, ovvero a istanze di classi.
 

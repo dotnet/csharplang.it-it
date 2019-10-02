@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 5fbe0267b5b33b1a24dbdca493d118c576092573
-ms.sourcegitcommit: 7f7fc6e9e195e51b7ff8229aeaa70aa9fbbb63cb
+ms.openlocfilehash: 4676bcd3f0a92260b4e5e20a0aa5b5ec00bf204e
+ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/10/2019
-ms.locfileid: "70876922"
+ms.lasthandoff: 10/01/2019
+ms.locfileid: "71704066"
 ---
 # <a name="lexical-structure"></a>Struttura lessicale
 
@@ -429,8 +429,8 @@ Come una questione di stile, si consiglia di usare "`L`" invece di "`l`" durante
 
 Per consentire la scrittura dei valori `int` più `long` piccoli e possibili come valori letterali integer decimali, sono disponibili le due regole seguenti:
 
-* Quando un *decimal_integer_literal* con valore 2147483648 (2 ^ 31) e nessun *integer_type_suffix* viene visualizzato come token immediatamente successivo a un token operatore meno unario ([operatore unario meno](expressions.md#unary-minus-operator)), il risultato è una costante di tipo `int`con il valore-2147483648 (-2 ^ 31). In tutti gli altri casi, tale *decimal_integer_literal* è di tipo `uint`.
-* Quando un *decimal_integer_literal* con il valore 9.223.372.036.854.775.808 (2 ^ 63) e nessun *integer_type_suffix* o *integer_type_suffix* `L` o `l` viene visualizzato come token immediatamente dopo un meno unario token operatore ([operatore unario meno](expressions.md#unary-minus-operator)), il risultato è una costante di `long` tipo con il valore-9.223.372.036.854.775.808 (-2 ^ 63). In tutti gli altri casi, tale *decimal_integer_literal* è di tipo `ulong`.
+* Quando un *decimal_integer_literal* con valore 2147483648 (2 ^ 31) e nessun *integer_type_suffix* viene visualizzato come token immediatamente successivo a un token operatore meno unario ([operatore unario meno](expressions.md#unary-minus-operator)), il risultato è una costante di tipo `int` con il valore-2147483648 (-2 ^ 31). In tutti gli altri casi, tale *decimal_integer_literal* è di tipo `uint`.
+* Quando un *decimal_integer_literal* con il valore 9.223.372.036.854.775.808 (2 ^ 63) e nessun *integer_type_suffix* o *integer_type_suffix* `L` o `l` viene visualizzato come token immediatamente dopo un token operatore meno unario ([ Operatore meno unario](expressions.md#unary-minus-operator)), il risultato è una costante di tipo `long` con valore-9.223.372.036.854.775.808 (-2 ^ 63). In tutti gli altri casi, tale *decimal_integer_literal* è di tipo `ulong`.
 
 #### <a name="real-literals"></a>Valori letterali reali
 
@@ -459,7 +459,7 @@ real_type_suffix
     ;
 ```
 
-Se non viene specificato alcun *real_type_suffix* , il tipo del valore letterale `double`reale è. In caso contrario, il suffisso di tipo reale determina il tipo del valore letterale reale, come indicato di seguito:
+Se non viene specificato alcun *real_type_suffix* , il tipo del valore letterale reale è `double`. In caso contrario, il suffisso di tipo reale determina il tipo del valore letterale reale, come indicato di seguito:
 
 *  Un valore letterale reale con `F` suffisso o `f` è `float`di tipo. Ad esempio, `1f`i valori letterali `1.5f` `1e10f`,, e `123.456F` sono tutti di tipo `float`.
 *  Un valore letterale reale con `D` suffisso o `d` è `double`di tipo. Ad esempio, `1d`i valori letterali `1.5d` `1e10d`,, e `123.456D` sono tutti di tipo `double`.
@@ -516,7 +516,7 @@ Una semplice sequenza di escape rappresenta una codifica dei caratteri Unicode, 
 |---------------------|--------------------|----------------------|
 | `\'`                | Virgoletta singola       | `0x0027`             | 
 | `\"`                | Virgoletta doppia       | `0x0022`             | 
-| `\\`| Barra rovesciata |`0x005C`             | 
+| `\\`                | Barra rovesciata          | `0x005C`             | 
 | `\0`                | Null               | `0x0000`             | 
 | `\a`                | Avviso              | `0x0007`             | 
 | `\b`                | Backspace          | `0x0008`             | 
@@ -575,7 +575,7 @@ quote_escape_sequence
     ;
 ```
 
-`\`Un carattere che segue un carattere barra rovesciata () in una *regular_string_literal_character* deve essere uno dei `'` `\`caratteri seguenti: `"`,, `0`, `a`, `b` , , `f`, `n`, `r`, `t`, `u`, `U`, `x`, `v`. In caso contrario, si verifica un errore in fase di compilazione.
+Un carattere che segue un carattere barra rovesciata (`\`) in una *regular_string_literal_character* deve essere uno dei seguenti caratteri: `'`, `"`, `\`, `0`, `a`, `b`, `f`, `n`, 0, 1, @no__ t-12, 3, 4, 5. In caso contrario, si verifica un errore in fase di compilazione.
 
 Esempio
 ```csharp
@@ -782,7 +782,7 @@ single_verbatim_balanced_text_character
 
 Un token *interpolated_string_literal* viene reinterpretato come più token e altri elementi di input come indicato di seguito, in ordine di occorrenza in *interpolated_string_literal*:
 
-* Le occorrenze dei seguenti vengono riinterpretate come singoli token separati: il segno principale `$` , *interpolated_regular_string_whole*, *interpolated_regular_string_start*, *interpolated_regular_string_mid*, *interpolated_regular_string_end*, *interpolated_verbatim_string_whole*, *interpolated_verbatim_string_start*, *interpolated_verbatim_string_mid* e *interpolated_verbatim_string_end*.
+* Le occorrenze dei seguenti elementi vengono riinterpretate come singoli token separati: il segno `$` principale, *interpolated_regular_string_whole*, *interpolated_regular_string_start*, *interpolated_regular_string_mid*,  *interpolated_regular_string_end*, *interpolated_verbatim_string_whole*, *interpolated_verbatim_string_start*, *interpolated_verbatim_string_mid* e *interpolated_verbatim_string_end*.
 * Le occorrenze di *regular_balanced_text* e *verbatim_balanced_text* tra questi vengono rielaborate come *input_section* ([analisi lessicale](lexical-structure.md#lexical-analysis)) e vengono riinterpretate come la sequenza risultante di elementi di input. Questi possono a sua volta includere token letterali stringa interpolati da riinterpretare.
 
 Con l'analisi sintattica i token vengono ricombinati in un *interpolated_string_expression* ([stringhe interpolate](expressions.md#interpolated-strings)).
@@ -1054,13 +1054,13 @@ Come indicato dalla sintassi, le direttive di compilazione condizionale devono e
 
 Un *pp_conditional* seleziona al massimo uno dei *conditional_section*contenuti per l'elaborazione lessicale normale:
 
-*  Gli *pp_expression*delle `#if` direttive e `#elif` vengono `true`valutati in ordine fino a quando non viene restituito un risultato. Se un'espressione restituisce `true`, viene selezionato il *conditional_section* della direttiva corrispondente.
-*  Se tutti i *pp_expression*di `false`produzione e se `#else` è `#else` presente una direttiva, viene selezionato il *conditional_section* della direttiva.
+*  I *pp_expression*delle direttive `#if` e `#elif` vengono valutati in ordine fino a quando non viene restituito `true`. Se un'espressione restituisce `true`, viene selezionato il *conditional_section* della direttiva corrispondente.
+*  Se il valore di *pp_expression*è yield `false` e se è presente una direttiva `#else`, viene selezionato il *conditional_section* della direttiva `#else`.
 *  In caso contrario, non viene selezionato alcun *conditional_section* .
 
 Il *conditional_section*selezionato, se presente, viene elaborato come un normale *input_section*: il codice sorgente contenuto nella sezione deve rispettare la grammatica lessicale; i token vengono generati dal codice sorgente nella sezione. e le direttive di pre-elaborazione nella sezione presentano gli effetti previsti.
 
-Gli eventuali *conditional_section*rimanenti vengono elaborati come *skipped_section*s: ad eccezione delle direttive di pre-elaborazione, il codice sorgente nella sezione non deve rispettare la grammatica lessicale; non viene generato alcun token dal codice sorgente nella sezione. e le direttive di pre-elaborazione nella sezione devono essere corrette dal punto di vista lessicale ma non vengono elaborate in altro modo. All'interno di un *conditional_section* che viene elaborato come *skipped_section*, qualsiasi *conditional_section*annidato, contenuto in un `#if`oggetto annidato... `#endif` e`#region`... i costrutti) vengono elaborati anche come *skipped_section.* `#endregion`
+Gli eventuali *conditional_section*rimanenti vengono elaborati come *skipped_section*s: ad eccezione delle direttive di pre-elaborazione, il codice sorgente nella sezione non deve rispettare la grammatica lessicale; non viene generato alcun token dal codice sorgente nella sezione. e le direttive di pre-elaborazione nella sezione devono essere corrette dal punto di vista lessicale ma non vengono elaborate in altro modo. All'interno di un *conditional_section* che viene elaborato come *skipped_section*, qualsiasi *conditional_section*annidato (contenuto nei costrutti `#if`... `#endif` e `#region`... `#endregion`) viene anche elaborato come *skipped_ sezione*s.
 
 Nell'esempio seguente viene illustrato il modo in cui le direttive di compilazione condizionale possono annidarsi:
 ```csharp
@@ -1115,7 +1115,7 @@ class Hello
 }
 ```
 Restituisce l'output:
-```
+```console
 hello,
 #if Debug
         world
@@ -1160,7 +1160,7 @@ Esempio:
 
 class Test {...}
 ```
-genera sempre un avviso ("Revisione del codice necessaria prima dell'archiviazione") e genera un errore in fase di compilazione ("una compilazione non può essere sia debug che retail") se i `Debug` simboli `Retail` condizionali e sono entrambi definiti. Si noti che un *pp_message* può contenere testo arbitrario; in particolare, non è necessario che contenga token ben formati, come illustrato dalla virgoletta singola della parola `can't`.
+genera sempre un avviso ("Revisione del codice necessaria prima dell'archiviazione") e genera un errore in fase di compilazione ("una compilazione non può essere sia debug che retail") se i `Debug` simboli `Retail` condizionali e sono entrambi definiti. Si noti che un *pp_message* può contenere testo arbitrario; in particolare, non è necessario che contenga token ben formati, come illustrato dalla virgoletta singola nella parola `can't`.
 
 ### <a name="region-directives"></a>Direttive Region
 
@@ -1180,7 +1180,7 @@ pp_end_region
     ;
 ```
 
-Nessun significato semantico associato a un'area; le aree sono destinate all'uso da parte del programmatore o da strumenti automatici per contrassegnare una sezione del codice sorgente. Il messaggio specificato in una `#region` direttiva `#endregion` o non ha un significato semantico, ma serve solo per identificare l'area. Le `#region` direttive e `#endregion` corrispondenti possono avere *pp_message*diverse.
+Nessun significato semantico associato a un'area; le aree sono destinate all'uso da parte del programmatore o da strumenti automatici per contrassegnare una sezione del codice sorgente. Il messaggio specificato in una `#region` direttiva `#endregion` o non ha un significato semantico, ma serve solo per identificare l'area. Le direttive `#region` e `#endregion` corrispondenti possono avere *pp_message*diverse.
 
 Elaborazione lessicale di un'area:
 ```csharp
@@ -1222,13 +1222,13 @@ file_name_character
     ;
 ```
 
-Quando non `#line` è presente alcuna direttiva, il compilatore segnala i numeri di riga reali e i nomi dei file di origine nell'output. Quando si elabora `#line` una direttiva che include un *line_indicator* che non `default`lo è, il compilatore considera la riga dopo la direttiva come avente il numero di riga specificato (e il nome del file, se specificato).
+Quando non `#line` è presente alcuna direttiva, il compilatore segnala i numeri di riga reali e i nomi dei file di origine nell'output. Quando si elabora una direttiva `#line` che include un *line_indicator* che non è `default`, il compilatore considera la riga dopo la direttiva come avente il numero di riga specificato (e il nome del file, se specificato).
 
 Una `#line default` direttiva inverte l'effetto di tutte le direttive #line precedenti. Il compilatore segnala le informazioni sulla riga reale per le righe successive, esattamente `#line` come se non fosse stata elaborata alcuna direttiva.
 
 Una `#line hidden` direttiva non ha alcun effetto sui numeri di riga e file restituiti nei messaggi di errore, ma influisce sul debug a livello di origine. Quando si esegue il debug, tutte `#line hidden` le righe tra una `#line` direttiva e la direttiva successiva `#line hidden`, ovvero not, non dispongono di informazioni sul numero di riga. Quando si esegue il codice istruzione per istruzione nel debugger, queste righe verranno ignorate interamente.
 
-Si noti che un *file_name* differisce da un valore letterale stringa normale in quanto i caratteri di escape non vengono elaborati. il carattere`\`"" indica semplicemente un carattere barra rovesciata comune all'interno di un *file_name*.
+Si noti che un *file_name* differisce da un valore letterale stringa normale in quanto i caratteri di escape non vengono elaborati. il carattere "`\`" designa semplicemente un carattere barra rovesciata comune all'interno di un *file_name*.
 
 ### <a name="pragma-directives"></a>Pragma (direttive)
 
