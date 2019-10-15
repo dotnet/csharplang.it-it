@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 4faef9a12bdff54fa59a55a0206fa72bda4ea585
-ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
+ms.openlocfilehash: dbea611280a644adc25247b9887986e129c59b68
+ms.sourcegitcommit: a5e393b018b04dfa55aae0000290ca087b508495
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/01/2019
-ms.locfileid: "71704058"
+ms.lasthandoff: 10/14/2019
+ms.locfileid: "72310368"
 ---
 # <a name="unsafe-code"></a>Codice di tipo unsafe
 
@@ -385,7 +385,7 @@ dove il tipo di `x` è un tipo di matrice nel formato `T[,,...,]`, `N` è il num
 }
 ```
 
-Le variabili `a`, `i0`, `i1`,..., `iN` non sono visibili o accessibili a `x` o *embedded_statement* o qualsiasi altro codice sorgente del programma. La variabile `v` è di sola lettura nell'istruzione incorporata. Se non è presente una conversione esplicita ([conversioni di puntatore](unsafe-code.md#pointer-conversions)) da `T` (il tipo di elemento) a `V`, viene generato un errore e non vengono eseguiti altri passaggi. Se `x` ha il valore `null`, viene `System.NullReferenceException` generata un'eccezione in fase di esecuzione.
+Le variabili `a`, `i0`, `i1`,..., `iN` non sono visibili o accessibili a `x` o *embedded_statement* o qualsiasi altro codice sorgente del programma. La variabile `v` è di sola lettura nell'istruzione incorporata. Se non è presente una conversione esplicita ([conversioni di puntatore](unsafe-code.md#pointer-conversions)) da `T` (il tipo di elemento) a `V`, viene generato un errore e non vengono eseguiti altri passaggi. Se `x` ha il valore `null`, viene generata un'`System.NullReferenceException` in fase di esecuzione.
 
 ## <a name="pointers-in-expressions"></a>Puntatori nelle espressioni
 
@@ -1048,75 +1048,79 @@ Ad eccezione dell'operatore `stackalloc`, C# non fornisce costrutti predefiniti 
 using System;
 using System.Runtime.InteropServices;
 
-public unsafe class Memory
+public static unsafe class Memory
 {
     // Handle for the process heap. This handle is used in all calls to the
     // HeapXXX APIs in the methods below.
-    static int ph = GetProcessHeap();
-
-    // Private instance constructor to prevent instantiation.
-    private Memory() {}
+    private static readonly IntPtr s_heap = GetProcessHeap();
 
     // Allocates a memory block of the given size. The allocated memory is
     // automatically initialized to zero.
-    public static void* Alloc(int size) {
-        void* result = HeapAlloc(ph, HEAP_ZERO_MEMORY, size);
+    public static void* Alloc(int size)
+    {
+        void* result = HeapAlloc(s_heap, HEAP_ZERO_MEMORY, (UIntPtr)size);
         if (result == null) throw new OutOfMemoryException();
         return result;
     }
 
     // Copies count bytes from src to dst. The source and destination
     // blocks are permitted to overlap.
-    public static void Copy(void* src, void* dst, int count) {
+    public static void Copy(void* src, void* dst, int count)
+    {
         byte* ps = (byte*)src;
         byte* pd = (byte*)dst;
-        if (ps > pd) {
+        if (ps > pd)
+        {
             for (; count != 0; count--) *pd++ = *ps++;
         }
-        else if (ps < pd) {
+        else if (ps < pd)
+        {
             for (ps += count, pd += count; count != 0; count--) *--pd = *--ps;
         }
     }
 
     // Frees a memory block.
-    public static void Free(void* block) {
-        if (!HeapFree(ph, 0, block)) throw new InvalidOperationException();
+    public static void Free(void* block)
+    {
+        if (!HeapFree(s_heap, 0, block)) throw new InvalidOperationException();
     }
 
     // Re-allocates a memory block. If the reallocation request is for a
     // larger size, the additional region of memory is automatically
     // initialized to zero.
-    public static void* ReAlloc(void* block, int size) {
-        void* result = HeapReAlloc(ph, HEAP_ZERO_MEMORY, block, size);
+    public static void* ReAlloc(void* block, int size)
+    {
+        void* result = HeapReAlloc(s_heap, HEAP_ZERO_MEMORY, block, (UIntPtr)size);
         if (result == null) throw new OutOfMemoryException();
         return result;
     }
 
     // Returns the size of a memory block.
-    public static int SizeOf(void* block) {
-        int result = HeapSize(ph, 0, block);
+    public static int SizeOf(void* block)
+    {
+        int result = (int)HeapSize(s_heap, 0, block);
         if (result == -1) throw new InvalidOperationException();
         return result;
     }
 
     // Heap API flags
-    const int HEAP_ZERO_MEMORY = 0x00000008;
+    private const int HEAP_ZERO_MEMORY = 0x00000008;
 
     // Heap API functions
     [DllImport("kernel32")]
-    static extern int GetProcessHeap();
+    private static extern IntPtr GetProcessHeap();
 
     [DllImport("kernel32")]
-    static extern void* HeapAlloc(int hHeap, int flags, int size);
+    private static extern void* HeapAlloc(IntPtr hHeap, int flags, UIntPtr size);
 
     [DllImport("kernel32")]
-    static extern bool HeapFree(int hHeap, int flags, void* block);
+    private static extern bool HeapFree(IntPtr hHeap, int flags, void* block);
 
     [DllImport("kernel32")]
-    static extern void* HeapReAlloc(int hHeap, int flags, void* block, int size);
+    private static extern void* HeapReAlloc(IntPtr hHeap, int flags, void* block, UIntPtr size);
 
     [DllImport("kernel32")]
-    static extern int HeapSize(int hHeap, int flags, void* block);
+    private static extern UIntPtr HeapSize(IntPtr hHeap, int flags, void* block);
 }
 ```
 
@@ -1125,18 +1129,21 @@ Di seguito è riportato un esempio che usa la classe `Memory`:
 ```csharp
 class Test
 {
-    static void Main() {
-        unsafe {
-            byte* buffer = (byte*)Memory.Alloc(256);
-            try {
-                for (int i = 0; i < 256; i++) buffer[i] = (byte)i;
-                byte[] array = new byte[256];
-                fixed (byte* p = array) Memory.Copy(buffer, p, 256); 
-            }
-            finally {
-                Memory.Free(buffer);
-            }
-            for (int i = 0; i < 256; i++) Console.WriteLine(array[i]);
+    static unsafe void Main()
+    {
+        byte* buffer = null;
+        try
+        {
+            const int Size = 256;
+            buffer = (byte*)Memory.Alloc(Size);
+            for (int i = 0; i < Size; i++) buffer[i] = (byte)i;
+            byte[] array = new byte[Size];
+            fixed (byte* p = array) Memory.Copy(buffer, p, Size);
+            for (int i = 0; i < Size; i++) Console.WriteLine(array[i]);
+        }
+        finally
+        {
+            if (buffer != null) Memory.Free(buffer);
         }
     }
 }
