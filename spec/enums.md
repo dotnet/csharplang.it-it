@@ -21,11 +21,11 @@ enum Color
 }
 ```
 
-dichiara un tipo enum denominato `Color` con i membri `Red`, `Green` e `Blue`.
+dichiara un tipo enum denominato `Color` con membri `Red`, `Green`e `Blue`.
 
 ## <a name="enum-declarations"></a>Dichiarazioni enum
 
-Una dichiarazione enum dichiara un nuovo tipo enum. Una dichiarazione enum inizia con la parola chiave `enum` e definisce il nome, l'accessibilità, il tipo sottostante e i membri dell'enumerazione.
+Una dichiarazione enum dichiara un nuovo tipo enum. Una dichiarazione enum inizia con la parola chiave `enum`e definisce il nome, l'accessibilità, il tipo sottostante e i membri dell'enumerazione.
 
 ```antlr
 enum_declaration
@@ -42,7 +42,7 @@ enum_body
     ;
 ```
 
-Ogni tipo di enumerazione ha un tipo integrale corrispondente denominato ***tipo sottostante*** del tipo enum. Questo tipo sottostante deve essere in grado di rappresentare tutti i valori di enumeratore definiti nell'enumerazione. Una dichiarazione enum può dichiarare in modo esplicito un tipo sottostante di `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long` o `ulong`. Si noti che `char` non può essere usato come tipo sottostante. Una dichiarazione enum che non dichiara in modo esplicito un tipo sottostante ha un tipo sottostante di `int`.
+Ogni tipo di enumerazione ha un tipo integrale corrispondente denominato ***tipo sottostante*** del tipo enum. Questo tipo sottostante deve essere in grado di rappresentare tutti i valori di enumeratore definiti nell'enumerazione. Una dichiarazione enum può dichiarare in modo esplicito un tipo sottostante di `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long` o `ulong`. Si noti che non è possibile usare `char` come tipo sottostante. Una dichiarazione enum che non dichiara in modo esplicito un tipo sottostante ha un tipo sottostante di `int`.
 
 Esempio
 
@@ -55,11 +55,11 @@ enum Color: long
 }
 ```
 
-dichiara un'enumerazione con un tipo sottostante di `long`. Uno sviluppatore può scegliere di utilizzare un tipo sottostante di `long`, come nell'esempio, per consentire l'utilizzo di valori compresi nell'intervallo `long` ma non nell'intervallo di `int` oppure per mantenere questa opzione per il futuro.
+dichiara un'enumerazione con un tipo sottostante di `long`. Uno sviluppatore può scegliere di utilizzare un tipo di `long`sottostante, come nell'esempio, per consentire l'utilizzo di valori compresi nell'intervallo di `long` ma non nell'intervallo di `int`oppure per mantenere questa opzione per il futuro.
 
 ## <a name="enum-modifiers"></a>Modificatori enum
 
-Un *enum_declaration* può facoltativamente includere una sequenza di modificatori enum:
+Un *enum_declaration* può includere facoltativamente una sequenza di modificatori enum:
 
 ```antlr
 enum_modifier
@@ -100,7 +100,7 @@ enum Color: uint
 }
 ```
 
-genera un errore in fase di compilazione perché i valori costanti `-1`, `-2` e `-3` non sono compresi nell'intervallo del tipo integrale sottostante `uint`.
+genera un errore in fase di compilazione perché i valori costanti `-1`, `-2`e `-3` non sono compresi nell'intervallo del tipo integrale sottostante `uint`.
 
 Più membri enum possono condividere lo stesso valore associato. Esempio
 
@@ -117,7 +117,7 @@ enum Color
 
 Mostra un'enumerazione in cui due membri enum, `Blue` e `Max`, hanno lo stesso valore associato.
 
-Il valore associato di un membro enum viene assegnato in modo implicito o esplicito. Se la dichiarazione del membro enum dispone di un inizializzatore *constant_expression* , il valore di tale espressione costante, convertito in modo implicito nel tipo sottostante dell'enumerazione, è il valore associato del membro enum. Se la dichiarazione del membro enum non dispone di un inizializzatore, il relativo valore associato viene impostato in modo implicito, come indicato di seguito:
+Il valore associato di un membro enum viene assegnato in modo implicito o esplicito. Se la dichiarazione del membro enum dispone di un inizializzatore di *constant_expression* , il valore di tale espressione costante, convertito in modo implicito nel tipo sottostante dell'enumerazione, è il valore associato del membro enum. Se la dichiarazione del membro enum non dispone di un inizializzatore, il relativo valore associato viene impostato in modo implicito, come indicato di seguito:
 
 *  Se il membro enum è il primo membro enum dichiarato nel tipo enum, il valore associato è zero.
 *  In caso contrario, il valore associato del membro enum viene ottenuto aumentando di uno il valore associato del membro enum testuale precedente. Questo valore maggiore deve essere compreso nell'intervallo di valori che possono essere rappresentati dal tipo sottostante; in caso contrario, si verifica un errore in fase di compilazione.
@@ -192,9 +192,9 @@ I membri enum sono denominati e hanno come ambito un modo esattamente analogo ai
 
 ## <a name="the-systemenum-type"></a>Tipo System. Enum
 
-Il tipo `System.Enum` è la classe di base astratta di tutti i tipi enum (distinti e diversi dal tipo sottostante del tipo enum) e i membri ereditati da `System.Enum` sono disponibili in qualsiasi tipo enum. Una conversione boxing ([conversioni boxing](types.md#boxing-conversions)) esiste da qualsiasi tipo enum a `System.Enum` ed è presente una conversione unboxing (conversione[unboxing](types.md#unboxing-conversions)) da `System.Enum` a qualsiasi tipo enum.
+Il tipo `System.Enum` è la classe di base astratta di tutti i tipi enum (distinti e diversi dal tipo sottostante del tipo enum) e i membri ereditati da `System.Enum` sono disponibili in qualsiasi tipo enum. Una conversione boxing ([conversioni boxing](types.md#boxing-conversions)) esiste da qualsiasi tipo enum a `System.Enum`e una conversione unboxing (conversione[unboxing](types.md#unboxing-conversions)) esiste da `System.Enum` a qualsiasi tipo enum.
 
-Si noti che `System.Enum` non è un *enum_type*. Piuttosto, si tratta di un *class_type* da cui derivano tutti i *enum_type*. Il tipo `System.Enum` eredita dal tipo `System.ValueType` ([il tipo System. ValueType](types.md#the-systemvaluetype-type)), che a sua volta eredita dal tipo `object`. In fase di esecuzione, un valore di tipo `System.Enum` può essere `null` o un riferimento a un valore boxed di qualsiasi tipo enum.
+Si noti che `System.Enum` non è a sua volta una *enum_type*. Piuttosto, si tratta di un *class_type* da cui derivano tutti i *enum_type*. Il tipo `System.Enum` eredita dal tipo `System.ValueType` ([il tipo System. ValueType](types.md#the-systemvaluetype-type)), che a sua volta eredita dal tipo `object`. In fase di esecuzione, un valore di tipo `System.Enum` può essere `null` o un riferimento a un valore boxed di qualsiasi tipo enum.
 
 ## <a name="enum-values-and-operations"></a>Valori e operazioni di enumerazione
 
@@ -202,6 +202,6 @@ Ogni tipo enum definisce un tipo distinto; per la conversione tra un tipo enum e
 
 I membri enum hanno il tipo del tipo enum che lo contiene, tranne che all'interno di altri inizializzatori di membri enum: vedere [membri enum](enums.md#enum-members). Il valore di un membro enum dichiarato nel tipo enum `E` con valore associato `v` è `(E)v`.
 
-Gli operatori seguenti possono essere utilizzati in valori di tipi enum: `==`, `!=`, `<`, `>`, `<=`, `>=` @ no__t-6 ([operatori di confronto di enumerazione](expressions.md#enumeration-comparison-operators)), Binary `+` @ no__t-9 ([operatore di addizione](expressions.md#addition-operator)), @no__t binaria-11 @ no__ t-12 ([operatore di sottrazione](expressions.md#subtraction-operator)), 4, 5, 6 @ no__t-17 ([operatori logici di enumerazione](expressions.md#enumeration-logical-operators)), 9 @ no__t-20 ([operatore di complemento bit per bit](expressions.md#bitwise-complement-operator)), 2 e 3 @ no__t-24 ([incremento suffisso e operatori di decremento](expressions.md#postfix-increment-and-decrement-operators) e [operatori di incremento e decremento del prefisso](expressions.md#prefix-increment-and-decrement-operators)).
+Gli operatori seguenti possono essere utilizzati in valori di tipi enum: `==`, `!=`, `<`, `>`, `<=``>=` ([operatori di confronto di enumerazione](expressions.md#enumeration-comparison-operators)), `+`binario  (operatore di[addizione](expressions.md#addition-operator)), `-`binario  ([operatore di sottrazione](expressions.md#subtraction-operator)), `^`, `&`, `|` ([operatori logici di enumerazione](expressions.md#enumeration-logical-operators)), `~` (operatore di[complemento bit per bit](expressions.md#bitwise-complement-operator)), `++` e `--`[Operatori di incremento e decremento suffissi](expressions.md#postfix-increment-and-decrement-operators) e [operatori di incremento e decremento del prefisso](expressions.md#prefix-increment-and-decrement-operators)). 
 
 Ogni tipo enum deriva automaticamente dalla classe `System.Enum` (che, a sua volta, deriva da `System.ValueType` e `object`). Pertanto, i metodi e le proprietà ereditati di questa classe possono essere utilizzati in valori di un tipo enum.
