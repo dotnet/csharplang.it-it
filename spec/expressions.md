@@ -1,9 +1,9 @@
 ---
 ms.openlocfilehash: f61039abd6bd557ac0ea625e6aac1c8bafa57b02
-ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
+ms.sourcegitcommit: e134bb7058e9848120b93b345f96d6ac0cb8c815
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/01/2019
+ms.lasthandoff: 01/17/2020
 ms.locfileid: "71704080"
 ---
 # <a name="expressions"></a>Espressioni
@@ -14,7 +14,7 @@ Un'espressione è una sequenza di operatori e operandi. Questo capitolo definisc
 
 Un'espressione viene classificata nei seguenti modi:
 
-*  Un valore. Ad ogni valore è associato un tipo.
+*  Valore. Ad ogni valore è associato un tipo.
 *  Variabile. A ogni variabile è associato un tipo, ovvero il tipo dichiarato della variabile.
 *  Spazio dei nomi. Un'espressione con questa classificazione può essere visualizzata solo come parte sinistra di un *member_access* ([accesso ai membri](expressions.md#member-access)). In qualsiasi altro contesto, un'espressione classificata come uno spazio dei nomi causa un errore in fase di compilazione.
 *  Tipo. Un'espressione con questa classificazione può essere visualizzata solo come parte sinistra di un *member_access* ([accesso ai membri](expressions.md#member-access)) o come operando per l'operatore di `as` ([operatore as](expressions.md#the-as-operator)), l'operatore `is` ([l'operatore is](expressions.md#the-is-operator)) o l'operatore `typeof` ([operatore typeof](expressions.md#the-typeof-operator)). In qualsiasi altro contesto, un'espressione classificata come tipo causa un errore in fase di compilazione.
@@ -122,13 +122,13 @@ Se un'espressione contiene più operatori, la ***precedenza*** degli operatori d
 
 La tabella seguente riepiloga tutti gli operatori in ordine di precedenza, dal più alto al più basso:
 
-| __Sezione__                                                                                   | __Categoria__                | __Operatori__ | 
+| __Section__                                                                                   | __Categoria__                | __Operatori__ | 
 |-----------------------------------------------------------------------------------------------|-----------------------------|---------------|
-| [Espressioni primarie](expressions.md#primary-expressions)                                     | Primario                     | `x.y`  `f(x)`  `a[x]`  `x++`  `x--`  `new`  `typeof`  `default`  `checked`  `unchecked`  `delegate` | 
+| [Espressioni primarie](expressions.md#primary-expressions)                                     | Primary                     | `x.y`  `f(x)`  `a[x]`  `x++`  `x--`  `new`  `typeof`  `default`  `checked`  `unchecked`  `delegate` | 
 | [Operatori unari](expressions.md#unary-operators)                                             | Unario                       | `+`  `-`  `!`  `~`  `++x`  `--x`  `(T)x` | 
 | [Operatori aritmetici](expressions.md#arithmetic-operators)                                   | Moltiplicazione              | `*`  `/`  `%` | 
 | [Operatori aritmetici](expressions.md#arithmetic-operators)                                   | Addizione                    | `+`  `-`      | 
-| [Operatori shift](expressions.md#shift-operators)                                             | MAIUSC                       | `<<`  `>>`    | 
+| [Operatori shift](expressions.md#shift-operators)                                             | Shift                       | `<<`  `>>`    | 
 | [Operatori relazionali e di test del tipo](expressions.md#relational-and-type-testing-operators) | Operatori relazionali e operatori di test del tipo | `<`  `>`  `<=`  `>=`  `is`  `as` | 
 | [Operatori relazionali e di test del tipo](expressions.md#relational-and-type-testing-operators) | Uguaglianza                    | `==`  `!=`    | 
 | [Operatori logici](expressions.md#logical-operators)                                         | AND logico                 | `&`           | 
@@ -137,7 +137,7 @@ La tabella seguente riepiloga tutti gli operatori in ordine di precedenza, dal p
 | [Operatori logici condizionali](expressions.md#conditional-logical-operators)                 | AND condizionale             | `&&`          | 
 | [Operatori logici condizionali](expressions.md#conditional-logical-operators)                 | OR condizionale              | <code>&#124;&#124;</code>          | 
 | [Operatore null-coalescing](expressions.md#the-null-coalescing-operator)                   | Null-coalescing             | `??`          | 
-| [Operatore condizionale](expressions.md#conditional-operator)                                   | Condizionale                 | `?:`          | 
+| [Operatore condizionale](expressions.md#conditional-operator)                                   | Accesso                 | `?:`          | 
 | [Operatori di assegnazione](expressions.md#assignment-operators), [espressioni di funzioni anonime](expressions.md#anonymous-function-expressions)  | Assegnazione ed espressione lambda | `=`  `*=`  `/=`  `%=`  `+=`  `-=`  `<<=`  `>>=`  `&=`  `^=`  <code>&#124;=</code>  `=>` | 
 
 Quando si verifica un operando tra due operatori con la stessa precedenza, l'associatività degli operatori controlla l'ordine in cui vengono eseguite le operazioni:
@@ -938,13 +938,13 @@ L'elaborazione in fase di esecuzione della chiamata di un membro di funzione è 
 
 *  Se `M` è un membro della funzione statica:
    * L'elenco di argomenti viene valutato come descritto negli [elenchi di argomenti](expressions.md#argument-lists).
-   * viene richiamato `M`.
+   * Viene richiamato `M`.
 
 *  Se `M` è un membro della funzione di istanza dichiarato in una *value_type*:
    * `E` viene valutata. Se questa valutazione causa un'eccezione, non vengono eseguiti altri passaggi.
    * Se `E` non è classificato come variabile, viene creata una variabile locale temporanea del tipo di `E`e il valore di `E` viene assegnato a tale variabile. `E` viene quindi riclassificato come riferimento a tale variabile locale temporanea. La variabile temporanea è accessibile come `this` all'interno di `M`, ma non in altro modo. Pertanto, solo quando `E` è una vera variabile, il chiamante può osservare le modifiche apportate da `M` a `this`.
    * L'elenco di argomenti viene valutato come descritto negli [elenchi di argomenti](expressions.md#argument-lists).
-   * viene richiamato `M`. La variabile a cui fa riferimento `E` diventa la variabile a cui viene fatto riferimento da `this`.
+   * Viene richiamato `M`. La variabile a cui fa riferimento `E` diventa la variabile a cui viene fatto riferimento da `this`.
 
 *  Se `M` è un membro della funzione di istanza dichiarato in una *reference_type*:
    * `E` viene valutata. Se questa valutazione causa un'eccezione, non vengono eseguiti altri passaggi.
@@ -967,7 +967,7 @@ Un membro di funzione implementato in un *value_type* può essere richiamato tra
 
 In queste situazioni, l'istanza boxed viene considerata come contenente una variabile del *value_type*e questa variabile diventa la variabile a cui fa riferimento `this` all'interno della chiamata del membro della funzione. In particolare, ciò significa che quando un membro di funzione viene richiamato su un'istanza boxed, il membro della funzione può modificare il valore contenuto nell'istanza boxed.
 
-## <a name="primary-expressions"></a>Espressioni primarie
+## <a name="primary-expressions"></a>Espressioni principali:
 
 Le espressioni primarie includono forme di espressioni più semplici.
 
@@ -1539,8 +1539,8 @@ Viene applicata la risoluzione dell'overload dell'operatore unario ([risoluzione
 
 L'elaborazione in fase di esecuzione di un'operazione di incremento o decremento suffisso nel formato `x++` o `x--` prevede i passaggi seguenti:
 
-*   Se `x` è classificato come variabile:
-    * `x` viene valutato per produrre la variabile.
+*   If `x` is classified as a variable:
+    * `x` is evaluated to produce the variable.
     * Il valore di `x` viene salvato.
     * L'operatore selezionato viene richiamato con il valore salvato di `x` come argomento.
     * Il valore restituito dall'operatore viene archiviato nella posizione specificata dalla valutazione del `x`.
@@ -2561,8 +2561,8 @@ Viene applicata la risoluzione dell'overload dell'operatore unario ([risoluzione
 
 L'elaborazione in fase di esecuzione di un'operazione di incremento o decremento del prefisso nel formato `++x` o `--x` prevede i passaggi seguenti:
 
-*   Se `x` è classificato come variabile:
-    * `x` viene valutato per produrre la variabile.
+*   If `x` is classified as a variable:
+    * `x` is evaluated to produce the variable.
     * L'operatore selezionato viene richiamato con il valore di `x` come argomento.
     * Il valore restituito dall'operatore viene archiviato nella posizione specificata dalla valutazione del `x`.
     * Il valore restituito dall'operatore diventa il risultato dell'operazione.
@@ -2708,7 +2708,7 @@ Gli operatori di moltiplicazione predefiniti sono elencati di seguito. Tutti gli
 
    |      |      |      |     |     |      |      |     |
    |:----:|-----:|:----:|:---:|:---:|:----:|:----:|:----|
-   |      | \+ y   | -y   | +0  | -0  | +inf | -inf | NaN | 
+   |      | +y   | -y   | +0  | -0  | +inf | -inf | NaN | 
    | +x   | +z   | -z   | +0  | -0  | +inf | -inf | NaN | 
    | -x   | -z   | +z   | -0  | +0  | -inf | +inf | NaN | 
    | +0   | +0   | -0   | +0  | -0  | NaN  | NaN  | NaN | 
@@ -2760,7 +2760,7 @@ Gli operatori di divisione predefiniti sono elencati di seguito. Tutti gli opera
 
    |      |      |      |      |      |      |      |      |
    |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-   |      | \+ y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
+   |      | +y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
    | +x   | +z   | -z   | +inf | -inf | +0   | -0   | NaN  | 
    | -x   | -z   | +z   | -inf | +inf | -0   | +0   | NaN  | 
    | +0   | +0   | -0   | NaN  | NaN  | +0   | -0   | NaN  | 
@@ -2810,7 +2810,7 @@ Gli operatori di resto predefiniti sono elencati di seguito. Tutti gli operatori
 
    |      |      |      |      |      |      |      |      |
    |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-   |      | \+ y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
+   |      | +y   | -y   | +0   | -0   | +inf | -inf | NaN  | 
    | +x   | +z   | +z   | NaN  | NaN  | x    | x    | NaN  | 
    | -x   | -z   | -z   | NaN  | NaN  | -x   | -x   | NaN  | 
    | +0   | +0   | +0   | NaN  | NaN  | +0   | +0   | NaN  | 
@@ -2858,10 +2858,10 @@ Gli operatori di addizione predefiniti sono elencati di seguito. Per i tipi nume
 
    |      |      |      |      |      |      |      |
    |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-   |      | y    | +0   | -0   | +inf | -inf | NaN  | 
+   |      | s    | +0   | -0   | +inf | -inf | NaN  | 
    | x    | l    | x    | x    | +inf | -inf | NaN  | 
-   | +0   | y    | +0   | +0   | +inf | -inf | NaN  | 
-   | -0   | y    | +0   | -0   | +inf | -inf | NaN  | 
+   | +0   | s    | +0   | +0   | +inf | -inf | NaN  | 
+   | -0   | s    | +0   | -0   | +inf | -inf | NaN  | 
    | +inf | +inf | +inf | +inf | +inf | NaN  | NaN  | 
    | -inf | -inf | -inf | -inf | NaN  | -inf | NaN  | 
    | NaN  | NaN  | NaN  | NaN  | NaN  | NaN  | NaN  | 
@@ -2951,7 +2951,7 @@ Gli operatori di sottrazione predefiniti sono elencati di seguito. Gli operatori
 
    |      |      |      |      |      |      |     |
    |:----:|:----:|:----:|:----:|:----:|:----:|:---:|
-   |      | y    | +0   | -0   | +inf | -inf | NaN | 
+   |      | s    | +0   | -0   | +inf | -inf | NaN | 
    | x    | l    | x    | x    | -inf | +inf | NaN | 
    | +0   | -y   | +0   | +0   | -inf | +inf | NaN | 
    | -0   | -y   | -0   | +0   | -inf | +inf | NaN | 
@@ -3546,7 +3546,7 @@ Gli operatori `&&` e `||` sono versioni condizionali degli operatori `&` e `|`:
 
 Se un operando di un operatore logico condizionale ha il tipo in fase di compilazione `dynamic`, l'espressione viene associata dinamicamente ([associazione dinamica](expressions.md#dynamic-binding)). In questo caso il tipo in fase di compilazione dell'espressione viene `dynamic`e la risoluzione descritta di seguito verrà eseguita in fase di esecuzione usando il tipo di runtime degli operandi che hanno il tipo in fase di compilazione `dynamic`.
 
-Un'operazione del form `x && y` o `x || y` viene elaborata applicando la risoluzione dell'overload ([risoluzione dell'overload dell'operatore binario](expressions.md#binary-operator-overload-resolution)) come se l'operazione fosse stata scritta `x & y` o `x | y`. Quindi
+Un'operazione del form `x && y` o `x || y` viene elaborata applicando la risoluzione dell'overload ([risoluzione dell'overload dell'operatore binario](expressions.md#binary-operator-overload-resolution)) come se l'operazione fosse stata scritta `x & y` o `x | y`. Con questi presupposti,
 
 *  Se la risoluzione dell'overload non riesce a trovare un singolo operatore migliore o se la risoluzione dell'overload seleziona uno degli operatori logici integer predefiniti, si verificherà un errore in fase di binding.
 *  In caso contrario, se l'operatore selezionato è uno degli operatori logici booleani predefiniti ([operatori logici booleani](expressions.md#boolean-logical-operators)) o gli operatori logici booleani nullable ([operatori logici Nullable Nullable](expressions.md#nullable-boolean-logical-operators)), l'operazione viene elaborata come descritto in [operatori logici booleani condizionali](expressions.md#boolean-conditional-logical-operators).
@@ -3913,7 +3913,7 @@ static D[] F() {
     return result;
 }
 ```
-l'output è:
+si ottiene il seguente output:
 ```console
 5
 5
@@ -4607,13 +4607,13 @@ class G<K,T> : C<T>
 
 I metodi precedenti usano i tipi delegati generici `Func<T1,R>` e `Func<T1,T2,R>`, ma potrebbero avere ugualmente usato altri tipi di albero delle espressioni o di delegato con le stesse relazioni nei tipi di parametro e di risultato.
 
-Si noti la relazione consigliata tra `C<T>` e `O<T>` che garantisce che i metodi `ThenBy` e `ThenByDescending` siano disponibili solo sul risultato di un `OrderBy` o `OrderByDescending`. Si noti inoltre la forma consigliata del risultato di `GroupBy`, ovvero una sequenza di sequenze, in cui ogni sequenza interna presenta una proprietà `Key` aggiuntiva.
+Notice the recommended relationship between `C<T>` and `O<T>` which ensures that the `ThenBy` and `ThenByDescending` methods are available only on the result of an `OrderBy` or `OrderByDescending`. Also notice the recommended shape of the result of `GroupBy` -- a sequence of sequences, where each inner sequence has an additional `Key` property.
 
-Lo spazio dei nomi `System.Linq` fornisce un'implementazione del modello di operatore di query per qualsiasi tipo che implementa l'interfaccia `System.Collections.Generic.IEnumerable<T>`.
+The `System.Linq` namespace provides an implementation of the query operator pattern for any type that implements the `System.Collections.Generic.IEnumerable<T>` interface.
 
 ## <a name="assignment-operators"></a>Operatori di assegnazione
 
-Gli operatori di assegnazione assegnano un nuovo valore a una variabile, una proprietà, un evento o un elemento dell'indicizzatore.
+The assignment operators assign a new value to a variable, a property, an event, or an indexer element.
 
 ```antlr
 assignment
@@ -4635,32 +4635,32 @@ assignment_operator
     ;
 ```
 
-L'operando sinistro di un'assegnazione deve essere un'espressione classificata come variabile, un accesso a una proprietà, un accesso all'indicizzatore o un accesso a un evento.
+The left operand of an assignment must be an expression classified as a variable, a property access, an indexer access, or an event access.
 
-L'operatore `=` viene chiamato ***operatore di assegnazione semplice***. Assegna il valore dell'operando destro alla variabile, alla proprietà o all'elemento dell'indicizzatore dato dall'operando sinistro. L'operando sinistro dell'operatore di assegnazione semplice non può essere un accesso a un evento (ad eccezione di quanto descritto in [eventi di tipo campo](classes.md#field-like-events)). L'operatore di assegnazione semplice viene descritto in [assegnazione semplice](expressions.md#simple-assignment).
+The `=` operator is called the ***simple assignment operator***. It assigns the value of the right operand to the variable, property, or indexer element given by the left operand. The left operand of the simple assignment operator may not be an event access (except as described in [Field-like events](classes.md#field-like-events)). The simple assignment operator is described in [Simple assignment](expressions.md#simple-assignment).
 
-Gli operatori di assegnazione diversi dall'operatore `=` vengono chiamati ***operatori di assegnazione composti***. Questi operatori eseguono l'operazione indicata sui due operandi, quindi assegnano il valore risultante alla variabile, alla proprietà o all'elemento dell'indicizzatore dato dall'operando sinistro. Gli operatori di assegnazione composti sono descritti in [assegnazione composta](expressions.md#compound-assignment).
+The assignment operators other than the `=` operator are called the ***compound assignment operators***. These operators perform the indicated operation on the two operands, and then assign the resulting value to the variable, property, or indexer element given by the left operand. The compound assignment operators are described in [Compound assignment](expressions.md#compound-assignment).
 
-Gli operatori `+=` e `-=` con un'espressione di accesso agli eventi come operando sinistro sono detti *operatori di assegnazione degli eventi*. Nessun altro operatore di assegnazione è valido con un accesso a un evento come operando sinistro. Gli operatori di assegnazione eventi sono descritti in [assegnazione evento](expressions.md#event-assignment).
+The `+=` and `-=` operators with an event access expression as the left operand are called the *event assignment operators*. No other assignment operator is valid with an event access as the left operand. The event assignment operators are described in [Event assignment](expressions.md#event-assignment).
 
-Gli operatori di assegnazione sono associativi a destra, ovvero le operazioni sono raggruppate da destra a sinistra. Ad esempio, un'espressione nel formato `a = b = c` viene valutata come `a = (b = c)`.
+The assignment operators are right-associative, meaning that operations are grouped from right to left. For example, an expression of the form `a = b = c` is evaluated as `a = (b = c)`.
 
 ### <a name="simple-assignment"></a>Assegnazione singola
 
-L'operatore `=` viene chiamato operatore di assegnazione semplice.
+The `=` operator is called the simple assignment operator.
 
-Se l'operando sinistro di un'assegnazione semplice è nel formato `E.P` o `E[Ei]` dove `E` ha il tipo in fase di compilazione `dynamic`, l'assegnazione viene associata dinamicamente ([associazione dinamica](expressions.md#dynamic-binding)). In questo caso il tipo in fase di compilazione dell'espressione di assegnazione è `dynamic`e la risoluzione descritta di seguito verrà eseguita in fase di esecuzione in base al tipo di runtime di `E`.
+If the left operand of a simple assignment is of the form `E.P` or `E[Ei]` where `E` has the compile-time type `dynamic`, then the assignment is dynamically bound ([Dynamic binding](expressions.md#dynamic-binding)). In questo caso il tipo in fase di compilazione dell'espressione di assegnazione è `dynamic`e la risoluzione descritta di seguito verrà eseguita in fase di esecuzione in base al tipo di runtime di `E`.
 
-In un'assegnazione semplice, l'operando destro deve essere un'espressione convertibile in modo implicito nel tipo dell'operando sinistro. L'operazione assegna il valore dell'operando destro alla variabile, alla proprietà o all'elemento dell'indicizzatore fornito dall'operando sinistro.
+In a simple assignment, the right operand must be an expression that is implicitly convertible to the type of the left operand. The operation assigns the value of the right operand to the variable, property, or indexer element given by the left operand.
 
-Il risultato di un'espressione di assegnazione semplice è il valore assegnato all'operando sinistro. Il risultato è dello stesso tipo dell'operando sinistro ed è sempre classificato come valore.
+The result of a simple assignment expression is the value assigned to the left operand. The result has the same type as the left operand and is always classified as a value.
 
-Se l'operando sinistro è un accesso a una proprietà o un indicizzatore, è necessario che la proprietà o l'indicizzatore disponga di una funzione di accesso `set`. In caso contrario, si verificherà un errore in fase di binding.
+If the left operand is a property or indexer access, the property or indexer must have a `set` accessor. In caso contrario, si verificherà un errore in fase di binding.
 
-L'elaborazione in fase di esecuzione di un'assegnazione semplice del modulo `x = y` prevede i passaggi seguenti:
+The run-time processing of a simple assignment of the form `x = y` consists of the following steps:
 
-*  Se `x` è classificato come variabile:
-   * `x` viene valutato per produrre la variabile.
+*  If `x` is classified as a variable:
+   * `x` is evaluated to produce the variable.
    * `y` viene valutata e, se necessario, convertita nel tipo di `x` tramite una conversione implicita ([conversioni implicite](conversions.md#implicit-conversions)).
    * Se la variabile fornita da `x` è un elemento di matrice di una *reference_type*, viene eseguito un controllo di runtime per garantire che il valore calcolato per `y` sia compatibile con l'istanza di matrice di cui `x` è un elemento. Il controllo ha esito positivo se `y` viene `null`o se esiste una conversione implicita dei riferimenti ([conversioni di riferimenti impliciti](conversions.md#implicit-reference-conversions)) dal tipo effettivo dell'istanza a cui fa riferimento `y` al tipo di elemento effettivo dell'istanza di matrice che contiene `x`. In caso contrario viene generata un'eccezione `System.ArrayTypeMismatchException`.
    * Il valore risultante dalla valutazione e dalla conversione di `y` viene archiviato nella posizione specificata dalla valutazione di `x`.
@@ -4747,7 +4747,7 @@ tutte le assegnazioni non sono valide perché `r.A` e `r.B` non sono variabili.
 
 Se l'operando sinistro di un'assegnazione composta è nel formato `E.P` o `E[Ei]` dove `E` ha il tipo in fase di compilazione `dynamic`, l'assegnazione viene associata dinamicamente ([associazione dinamica](expressions.md#dynamic-binding)). In questo caso il tipo in fase di compilazione dell'espressione di assegnazione è `dynamic`e la risoluzione descritta di seguito verrà eseguita in fase di esecuzione in base al tipo di runtime di `E`.
 
-Un'operazione del modulo `x op= y` viene elaborata applicando la risoluzione dell'overload dell'operatore binario ([risoluzione dell'overload dell'operatore binario](expressions.md#binary-operator-overload-resolution)) come se l'operazione fosse stata scritta `x op y`. Quindi
+Un'operazione del modulo `x op= y` viene elaborata applicando la risoluzione dell'overload dell'operatore binario ([risoluzione dell'overload dell'operatore binario](expressions.md#binary-operator-overload-resolution)) come se l'operazione fosse stata scritta `x op y`. Con questi presupposti,
 
 *  Se il tipo restituito dell'operatore selezionato è convertibile in modo implicito nel tipo di `x`, l'operazione viene valutata come `x = x op y`, ad eccezione del fatto che `x` viene valutato una sola volta.
 *  In caso contrario, se l'operatore selezionato è un operatore predefinito, se il tipo restituito dell'operatore selezionato è convertibile in modo esplicito nel tipo di `x`e se `y` è convertibile in modo implicito nel tipo di `x` o se l'operatore è un operatore Shift, l'operazione viene valutata come `x = (T)(x op y)`, dove `T` è il tipo di `x`, con la differenza che `x` viene valutato una sola volta
@@ -4792,7 +4792,7 @@ Se l'operando sinistro di un operatore `+=` o `-=` è classificato come accesso 
 
 Un'espressione di assegnazione di evento non restituisce alcun valore. Pertanto, un'espressione di assegnazione eventi è valida solo nel contesto di un *statement_expression* ([istruzioni Expression](statements.md#expression-statements)).
 
-## <a name="expression"></a>Expression
+## <a name="expression"></a>Espressione
 
 Un' *espressione* può essere una *non_assignment_expression* o un' *assegnazione*.
 
