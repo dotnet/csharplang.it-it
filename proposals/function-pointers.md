@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: d9080202f9413f8beb80db222d47f5fc082ae641
-ms.sourcegitcommit: f3170512e7a3193efbcea52ec330648375e36915
+ms.openlocfilehash: 8bf3a18dc42e225e64bd3ccda2106aed89b421ed
+ms.sourcegitcommit: 9aa177443b83116fe1be2ab28e2c7291947fe32d
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 03/11/2020
-ms.locfileid: "79485504"
+ms.lasthandoff: 03/21/2020
+ms.locfileid: "80108389"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 
 Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi IL al quale attualmente non è possibile accedere in modo C# efficiente o, in oggi, `ldftn` e `calli`. Questi codici operativi IL può essere importante nel codice a prestazioni elevate e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
 
@@ -174,7 +174,8 @@ In un contesto unsafe, un metodo `M` è compatibile con un tipo di puntatore a f
 In un contesto non sicuro, esiste una conversione implicita da un'espressione address-of la cui destinazione è un gruppo di metodi `E` a un tipo di puntatore a funzione compatibile `F` se `E` contiene almeno un metodo applicabile nel formato normale a un elenco di argomenti costruito usando i tipi di parametro e i modificatori di `F`, come descritto di seguito.
 - Viene selezionato un solo metodo `M` corrispondente a una chiamata al metodo del form `E(A)` con le modifiche seguenti:
    - L'elenco di argomenti `A` è un elenco di espressioni, ciascuna classificata come variabile e con il tipo e il modificatore (`ref`, `out`o `in`) del _parametro\_formale corrispondente\_elenco_ di `D`.
-   - I metodi candidati sono solo i metodi che sono solo quelli applicabili nel formato normale, non quelli applicabili nella forma espansa.
+   - I metodi candidati sono solo i metodi applicabili nel formato normale, non quelli applicabili nella forma espansa.
+   - I metodi candidati sono solo i metodi statici.
 - Se l'algoritmo delle chiamate di metodo genera un errore, si verifica un errore in fase di compilazione. In caso contrario, l'algoritmo produce un unico metodo migliore `M` avere lo stesso numero di parametri `F` e la conversione viene considerata esistente.
 - Il metodo selezionato `M` deve essere compatibile (come definito in precedenza) con il tipo di puntatore a funzione `F`. In caso contrario, si verifica un errore in fase di compilazione.
 - Il risultato della conversione è un puntatore a funzione di tipo `F`.
@@ -293,7 +294,7 @@ Anziché richiedere `unsafe` a ogni utilizzo di un `delegate*`, richiederlo solo
 
 Questo è il modo in cui la progettazione è stata originariamente progettata. Ma le regole del linguaggio risultavano molto scomode. Non è possibile nascondere il fatto che si tratta di un valore di puntatore e la visualizzazione continua anche senza la parola chiave `unsafe`. La conversione in `object`, ad esempio, non può essere consentita, ma non può essere un membro di un `class`e così via. Il C# progetto prevede di richiedere `unsafe` per tutti gli utilizzi dei puntatori e di conseguenza questa progettazione lo segue.
 
-Gli sviluppatori saranno comunque in grado di presentare un wrapper _sicuro_ oltre ai valori `delegate*` nello stesso modo in cui fanno oggi i normali tipi di puntatore. Prendere in considerazione:
+Gli sviluppatori saranno comunque in grado di presentare un wrapper _sicuro_ oltre ai valori `delegate*` nello stesso modo in cui fanno oggi i normali tipi di puntatore. Valutare:
 
 ``` csharp
 unsafe struct Action {
