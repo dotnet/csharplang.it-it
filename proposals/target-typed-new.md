@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 38740069a2e105f920fa275c443f4560055e2901
-ms.sourcegitcommit: 9aa177443b83116fe1be2ab28e2c7291947fe32d
+ms.openlocfilehash: 07b4afe4a3fcbf10c978f05e642dfd8a47d53ea5
+ms.sourcegitcommit: 194a043db72b9244f8db45db326cc82de6cec965
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 03/21/2020
-ms.locfileid: "80108370"
+ms.lasthandoff: 03/24/2020
+ms.locfileid: "80217203"
 ---
 
 # <a name="target-typed-new-expressions"></a>Espressioni di `new` tipizzate come destinazione
@@ -14,7 +14,7 @@ ms.locfileid: "80108370"
 * [] Implementazione
 * [] Specifica
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 [summary]: #summary
 
 Non richiede la specifica del tipo per i costruttori quando il tipo è noto. 
@@ -80,35 +80,36 @@ Action a = new(() => {}); // "new" is redundant
 
 (int a, int b) t = new(); // ruled out by "use of struct default constructor"
 Action a = new(); // no constructor found
+```
 
-### Miscellaneous
+### <a name="miscellaneous"></a>Varie
 
-`throw new()` is disallowed.
+`throw new()` non è consentito.
 
-Target-typed `new` is not allowed with binary operators.
+Il `new` tipizzato per la destinazione non è consentito con gli operatori binari.
 
-It is disallowed when there is no type to target: unary operators, collection of a `foreach`, in a `using`, in a deconstruction, in an `await` expression, as an anonymous type property (`new { Prop = new() }`), in a `lock` statement, in a `sizeof`, in a `fixed` statement, in a member access (`new().field`), in a dynamically dispatched operation (`someDynamic.Method(new())`), in a LINQ query, as the operand of the `is` operator, as the left operand of the `??` operator,  ...
+Non è consentito quando non è disponibile alcun tipo di destinazione: operatori unari, raccolta di un `foreach`, in una `using`, in una decostruzione, in un'espressione `await` come proprietà di tipo anonimo (`new { Prop = new() }`), in un'istruzione `lock`, in un `sizeof`, in un'istruzione `fixed`, in un accesso ai membri (`new().field`), in un'operazione inviata dinamicamente (`someDynamic.Method(new())`), in una query LINQ, come operando dell'operatore `is`, come operando sinistro dell'operatore `??` ,  ...
 
-It is also disallowed as a `ref`.
+Non è inoltre consentito come `ref`.
 
-## Drawbacks
+## <a name="drawbacks"></a>Svantaggi
 [drawbacks]: #drawbacks
 
-There were some concerns with target-typed `new` creating new categories of breaking changes, but we already have that with `null` and `default`, and that has not been a significant problem.
+Si sono verificati alcuni problemi con tipi di destinazione `new` la creazione di nuove categorie di modifiche di rilievo, ma è già presente con `null` e `default`e questo non è stato un problema significativo.
 
-## Alternatives
+## <a name="alternatives"></a>Alternativi
 [alternatives]: #alternatives
 
-Most of complaints about types being too long to duplicate in field initialization is about *type arguments* not the type itself, we could infer only type arguments like `new Dictionary(...)` (or similar) and infer type arguments locally from arguments or the collection initializer.
+La maggior parte dei reclami relativi ai tipi troppo lunghi per duplicare l'inizializzazione del campo riguarda gli *argomenti di tipo* , non il tipo stesso, è possibile dedurre solo gli argomenti di tipo come `new Dictionary(...)` (o simile) e dedurre gli argomenti di tipo localmente dagli argomenti o dall'inizializzatore di raccolta.
 
-## Questions
+## <a name="questions"></a>Domande
 [questions]: #questions
 
-- Should we forbid usages in expression trees? (no)
-- How the feature interacts with `dynamic` arguments? (no special treatment)
-- How IntelliSense should work with `new()`? (only when there is a single target-type)
+- È consigliabile proibire gli utilizzi negli alberi delle espressioni? non
+- Interazione tra la funzionalità e gli argomenti `dynamic` (nessun trattamento speciale)
+- Funzionamento di IntelliSense con `new()` (solo quando è presente un solo tipo di destinazione)
 
-## Design meetings
+## <a name="design-meetings"></a>Riunioni di progettazione
 
 - [LDM-2017-10-18](https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-10-18.md#100)
 - [LDM-2018-05-21](https://github.com/dotnet/csharplang/blob/master/meetings/2018/LDM-2018-05-21.md)
