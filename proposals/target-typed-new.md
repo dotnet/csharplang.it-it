@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 07b4afe4a3fcbf10c978f05e642dfd8a47d53ea5
-ms.sourcegitcommit: 194a043db72b9244f8db45db326cc82de6cec965
+ms.openlocfilehash: f000dda7eeb1c4f17c26f94c326a12a9d0014288
+ms.sourcegitcommit: 1e1c7c72b156e2fbc54d6d6ac8d21bca9934d8d2
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 03/24/2020
-ms.locfileid: "80217203"
+ms.lasthandoff: 03/26/2020
+ms.locfileid: "80281970"
 ---
 
 # <a name="target-typed-new-expressions"></a>Espressioni di `new` tipizzate come destinazione
@@ -39,37 +39,27 @@ Creare un'istanza di un oggetto senza sillabare il tipo.
 private readonly static object s_syncObj = new();
 ```
 
-## <a name="detailed-design"></a>Progettazione dettagliata
+## <a name="specification"></a>Specifiche
 [design]: #detailed-design
 
-La sintassi *object_creation_expression* verrebbe modificata per rendere facoltativo il *tipo* quando sono presenti parentesi. Questa operazione è necessaria per risolvere l'ambiguità con *anonymous_object_creation_expression*.
+Viene accettata una nuova forma sintattica, *target_typed_new* della *object_creation_expression* , in cui il *tipo* è facoltativo.
+
 ```antlr
 object_creation_expression
-    : 'new' type? '(' argument_list? ')' object_or_collection_initializer?
+    : 'new' type '(' argument_list? ')' object_or_collection_initializer?
     | 'new' type object_or_collection_initializer
+    | target_typed_new
+    ;
+target_typed_new
+    : 'new' '(' argument_list? ')' object_or_collection_initializer?
     ;
 ```
 
-Una `new` tipizzata come destinazione è convertibile in qualsiasi tipo. Di conseguenza, non contribuisce alla risoluzione dell'overload. Questa operazione viene eseguita principalmente per evitare modifiche di rilievo imprevedibili.
+Un'espressione *target_typed_new* non dispone di un tipo. Tuttavia, esiste una nuova *conversione di creazione di oggetti* che è una conversione implicita da Expression, esistente da un *target_typed_new* a ogni tipo.
 
-L'elenco di argomenti e le espressioni dell'inizializzatore verranno associati dopo che il tipo è stato determinato.
+Dato un tipo di destinazione `T`, il tipo `T0` è il tipo sottostante di `T`se `T` è un'istanza di `System.Nullable`. In caso contrario `T0` viene `T`. Il significato di un'espressione *target_typed_new* convertita nel tipo `T` corrisponde al significato di un *object_creation_expression* corrispondente che specifica `T0` come tipo.
 
-Il tipo dell'espressione verrebbe dedotto dal tipo di destinazione, che dovrebbe essere uno dei seguenti:
-
-- **Qualsiasi tipo di struct** (inclusi i tipi di tupla)
-- **Qualsiasi tipo di riferimento** (inclusi i tipi delegati)
-- **Qualsiasi parametro di tipo** con un costruttore o un vincolo `struct`
-
-con le eccezioni seguenti:
-
-- **Tipi enum:** non tutti i tipi enum contengono la costante zero, quindi è consigliabile usare il membro enum esplicito.
-- **Tipi di interfaccia:** si tratta di una funzionalità di nicchia che deve essere preferibile per citare in modo esplicito il tipo.
-- **Tipi di matrice:** le matrici necessitano di una sintassi speciale per fornire la lunghezza.
-- **dinamica:** non è consentito `new dynamic()`, quindi non è consentito `new()` con `dynamic` come tipo di destinazione.
-
-Sono esclusi anche tutti gli altri tipi non consentiti nella *object_creation_expression* , ad esempio i tipi di puntatore.
-
-Quando il tipo di destinazione è un tipo di valore Nullable, il `new` tipizzato di destinazione verrà convertito nel tipo sottostante invece che nel tipo Nullable.
+Si tratta di un errore in fase di compilazione se una *target_typed_new* viene utilizzata come operando di un operatore unario o binario o se viene utilizzata quando non è soggetta alla *conversione della creazione*di un oggetto.
 
 > **Problema di apertura:** è necessario consentire i delegati e le tuple come tipo di destinazione?
 
@@ -78,19 +68,25 @@ Le regole sopra elencate includono i delegati (un tipo di riferimento) e le Tupl
 (int a, int b) t = new(1, 2); // "new" is redundant
 Action a = new(() => {}); // "new" is redundant
 
-(int a, int b) t = new(); // ruled out by "use of struct default constructor"
+(int a, int b) t = new(); // OK; same as (0, 0)
 Action a = new(); // no constructor found
 ```
 
 ### <a name="miscellaneous"></a>Varie
 
-`throw new()` non è consentito.
+Di seguito sono riportate le conseguenze della specifica:
 
-Il `new` tipizzato per la destinazione non è consentito con gli operatori binari.
-
-Non è consentito quando non è disponibile alcun tipo di destinazione: operatori unari, raccolta di un `foreach`, in una `using`, in una decostruzione, in un'espressione `await` come proprietà di tipo anonimo (`new { Prop = new() }`), in un'istruzione `lock`, in un `sizeof`, in un'istruzione `fixed`, in un accesso ai membri (`new().field`), in un'operazione inviata dinamicamente (`someDynamic.Method(new())`), in una query LINQ, come operando dell'operatore `is`, come operando sinistro dell'operatore `??` ,  ...
-
-Non è inoltre consentito come `ref`.
+- `throw new()` è consentito (il tipo di destinazione è `System.Exception`)
+- Il `new` tipizzato per la destinazione non è consentito con gli operatori binari.
+- Non è consentito quando non è disponibile alcun tipo di destinazione: operatori unari, raccolta di un `foreach`, in una `using`, in una decostruzione, in un'espressione `await` come proprietà di tipo anonimo (`new { Prop = new() }`), in un'istruzione `lock`, in un `sizeof`, in un'istruzione `fixed`, in un accesso ai membri (`new().field`), in un'operazione inviata dinamicamente (`someDynamic.Method(new())`), in una query LINQ, come operando dell'operatore `is`, come operando sinistro dell'operatore `??` ,  ...
+- Non è inoltre consentito come `ref`.
+- I tipi di tipi seguenti non sono consentiti come destinazioni della conversione
+  - **Tipi enum:** `new()` funzionerà (`new Enum()` funziona per fornire il valore predefinito), ma `new(1)` non funzionerà perché i tipi enum non dispongono di un costruttore.
+  - **Tipi di interfaccia:** Questa operazione funziona allo stesso modo dell'espressione di creazione corrispondente per i tipi COM.
+  - **Tipi di matrice:** le matrici necessitano di una sintassi speciale per fornire la lunghezza.    
+  - **dinamica:** non è consentito `new dynamic()`, quindi non è consentito `new()` con `dynamic` come tipo di destinazione.
+  - **Tuple:** Hanno lo stesso significato della creazione di un oggetto usando il tipo sottostante.
+  - Sono esclusi anche tutti gli altri tipi non consentiti nella *object_creation_expression* , ad esempio i tipi di puntatore.   
 
 ## <a name="drawbacks"></a>Svantaggi
 [drawbacks]: #drawbacks
@@ -116,3 +112,4 @@ La maggior parte dei reclami relativi ai tipi troppo lunghi per duplicare l'iniz
 - [LDM-2018-06-25](https://github.com/dotnet/csharplang/blob/master/meetings/2018/LDM-2018-06-25.md)
 - [LDM-2018-08-22](https://github.com/dotnet/csharplang/blob/master/meetings/2018/LDM-2018-08-22.md#target-typed-new)
 - [LDM-2018-10-17](https://github.com/dotnet/csharplang/blob/master/meetings/2018/LDM-2018-10-17.md)
+- [LDM-2020-03-25](https://github.com/dotnet/csharplang/blob/master/meetings/2020/LDM-2020-03-25.md)
