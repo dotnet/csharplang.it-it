@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: e29f453eb33e06fb3c84fb542d8b74223af9b975
-ms.sourcegitcommit: 7f0c8e4eac7afe75e4f312f54a554614384cd06b
+ms.openlocfilehash: 1fb1f3b9025d65cb39f675e60bae1cb6415fc184
+ms.sourcegitcommit: 88202acd40ca04b6e513ea1e5993625ee26fac3f
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/08/2020
-ms.locfileid: "80870982"
+ms.lasthandoff: 04/11/2020
+ms.locfileid: "81219628"
 ---
 # <a name="records-work-in-progress"></a>Registra Lavoro in corso
 
@@ -89,18 +89,8 @@ with_expression
 
 Un'espressione `with` consente una "mutazione non distruttiva", progettata per produrre una `anonymous_object_initializer`copia dell'espressione del ricevitore con modifiche alle proprietà elencate nell'oggetto .
 
-Un'espressione valida `with` ha un ricevitore con un tipo non void. Il tipo di ricevitore deve `With` contenere un metodo di istanza accessibile chiamato con i parametri appropriati e il tipo restituito. Si tratta di un errore se `With` sono presenti più metodi non di override. Se sono `With` presenti più override, deve essere `With` presente un metodo non di override, ovvero il metodo di destinazione. In caso contrario, `With` deve essere presente esattamente un metodo.
+Un'espressione valida `with` ha un ricevitore con un tipo non void. Il tipo di ricevitore deve contenere un metodo di istanza senza parametri accessibile chiamato `Clone` il cui tipo restituito deve essere il tipo del tipo espresso del ricevitore o un tipo di base.
 
-Sul lato destro `with` dell'espressione `anonymous_object_initializer` è un con una sequenza di assegnazioni con un campo o una proprietà del ricevitore sul lato sinistro dell'assegnazione e un'espressione arbitraria sul lato destro che è convertibile in modo implicito al tipo del lato sinistro.
+Sul lato destro `with` dell'espressione `anonymous_object_initializer` è un con una sequenza di assegnazioni con una proprietà di record generata dal compilatore del ricevitore sul lato sinistro dell'assegnazione e un'espressione arbitraria sul lato destro che è convertibile in modo implicito al tipo del lato sinistro.
 
-Dato un `With` metodo di destinazione, il tipo restituito deve essere il tipo del tipo di espressione del ricevitore o un tipo di base. Per ogni parametro del `With` metodo, deve essere presente un campo di istanza corrispondente accessibile o una proprietà leggibile nel tipo di ricevitore con lo stesso nome e lo stesso tipo. Ogni proprietà o campo sul lato destro dell'espressione With deve corrispondere anche `With` a un parametro con lo stesso nome nel metodo.
-
-Dato un `With` metodo valido, `with` la valutazione di `With` un'espressione equivale `anonymous_object_initializer` a chiamare il metodo con le espressioni nel parametro sostituito con lo stesso nome della proprietà sul lato sinistro. Se non esiste alcuna proprietà corrispondente `anonymous_object_initializer`per un determinato parametro in , l'argomento è la valutazione del campo o della proprietà con lo stesso nome sul ricevitore.
-
-L'ordine di valutazione degli effetti collaterali è il seguente, con ogni espressione valutata esattamente una volta:
-
-1. Espressione ricevitore
-
-2. Espressioni in `anonymous_object_initializer`ordine lessicale
-
-3. Valutazione di tutte le `With` proprietà corrispondenti ai `With` parametri del metodo, in ordine di definizione dei parametri del metodo.
+La valutazione `with` di un'espressione `Clone` equivale a chiamare il metodo esattamente una volta e quindi a impostare il campo di supporto di `Clone` ogni proprietà di record nell'elenco di argomenti sull'espressione corrispondente, in ordine lessicale, utilizzando il risultato del metodo come ricevitore.
