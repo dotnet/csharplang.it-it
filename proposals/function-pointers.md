@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: 9e7059b579060e547e4665ac50518581fe3512e6
-ms.sourcegitcommit: 52624f54c0ad99a4d659fe4e2560a472be795c49
+ms.openlocfilehash: e5ab385f498c0d96c55e60751bb204e7217f6eab
+ms.sourcegitcommit: 95f5f86ba2e2a23cd4fb37bd9d1ff690c83d1191
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/10/2020
-ms.locfileid: "81005704"
+ms.lasthandoff: 04/21/2020
+ms.locfileid: "81646692"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 
 Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi `ldftn` IL `calli`a cui non è attualmente possibile accedere in modo efficiente o, oggi in C: e . Questi codici operativi IL possono essere importanti nel codice ad alte prestazioni e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
 
@@ -238,6 +238,26 @@ La specifica del membro funzione migliore verrà modificata per includere la rig
 > A `delegate*` è più specifico di`void*`
 
 Ciò significa che è `void*` possibile `delegate*` sovraccaricare e un e ancora in modo ragionevole utilizzare l'operatore address-of.
+
+## <a name="metadata-representation-of-in-out-and-ref-readonly-parameters-and-return-types"></a>Rappresentazione `in`dei `out`metadati dei parametri , e `ref readonly` e dei tipi restituiti
+
+Le firme dei puntatori a funzione non hanno una posizione `in` `out`dei `ref readonly` flag di parametro, pertanto è necessario codificare se i parametri e il tipo restituito sono , o utilizzando modreqs.
+
+### `in`
+
+Viene riutilizzato `System.Runtime.InteropServices.InAttribute`, `modreq` applicato come a all'identificatore ref su un parametro o un tipo restituito, in modo da quanto segue:
+* Se applicato a un identificatore di parametro ref, questo parametro viene considerato come `in`.
+* Se applicato all'identificatore ref del tipo restituito, il tipo restituito viene considerato come `ref readonly`.
+
+### `out`
+
+Utilizziamo `System.Runtime.InteropServices.OutAttribute`, applicato `modreq` come a all'identificatore ref su un tipo `out` di parametro, per indicare che il parametro è un parametro.
+
+### <a name="errors"></a>Errors
+
+* È un errore `OutAttribute` da applicare come modreq a un tipo restituito.
+* È un errore applicare `InAttribute` `OutAttribute` entrambi e come modreq a un tipo di parametro.
+* Se uno dei due sono specificati tramite modopt, vengono ignorati.
 
 ## <a name="open-issues"></a>Open Issues
 
