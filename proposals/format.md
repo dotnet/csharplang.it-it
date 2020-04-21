@@ -245,7 +245,7 @@ Per i casi molto semplici, ad esempio uno a due argomenti C# , il compilatore po
 Il modo in cui si sceglie probabilmente richiederà un'analisi più approfondita e l'analisi delle app reali. Tuttavia, se queste nuove funzioni intrinseche sono disponibili, questo tipo di flessibilità verrà fornito.
 
 ### <a name="why-not-varargs"></a>Perché non varargs? 
-La funzionalità [varargs](https://docs.microsoft.com/en-us/cpp/windows/variable-argument-lists-dot-dot-dot-cpp-cli?view=vs-2017) esistente è stata considerata come una possibile soluzione. Questa funzionalità è tuttavia destinata principalmente C++agli scenari/CLI e presenta buchi noti per altri scenari. Il porting di questo a UNIX comporta inoltre un costo significativo. Quindi non è stata considerata una soluzione valida.
+La funzionalità [varargs](https://docs.microsoft.com/en-us/cpp/windows/variable-argument-lists-dot-dot-dot-cpp-cli?view=vs-2017) esistente è stata considerata come una possibile soluzione. Questa funzionalità è tuttavia destinata principalmente agli scenari C++/CLI e presenta problemi noti per altri scenari. Il porting di questo a UNIX comporta inoltre un costo significativo. Quindi non è stata considerata una soluzione valida.
 
 ## <a name="related-issues"></a>Problemi correlati
 Questa specifica è correlata ai problemi seguenti: 
