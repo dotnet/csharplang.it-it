@@ -1,12 +1,12 @@
 ---
-ms.openlocfilehash: ebbdab6d121f3001ac34a953b3de09768cda6344
-ms.sourcegitcommit: 3f177e90b12e39d4d28f8bb1064df81a8e5912ca
+ms.openlocfilehash: ddcacefebc0580a8121adda4693bfea6eaf16b94
+ms.sourcegitcommit: fea3e4f37432254c00c29988c2ed0efebc7af20a
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81726068"
+ms.lasthandoff: 04/23/2020
+ms.locfileid: "82072300"
 ---
-<a name="init-only-members"></a>Membri solo Init
+<a name="init-only-setters"></a>Solo Setter Init
 =====
 
 ## <a name="summary"></a>Summary
@@ -219,12 +219,12 @@ Restrizioni di questa funzione:
 - Tutti gli override di `init` una proprietà `init`devono avere se la base dispone di . Questa regola si applica anche all'implementazione dell'interfaccia.
 
 ### <a name="metadata-encoding"></a>Codifica dei metadati 
-Le `init` funzioni di accesso alle `set` proprietà verranno generate come funzione di `IsInitOnly`accesso standard con il tipo restituito contrassegnato con un modreq di . Questo è un nuovo tipo che avrà la seguente definizione:
+Le `init` funzioni di accesso alle `set` proprietà verranno generate come funzione di `IsExternalInit`accesso standard con il tipo restituito contrassegnato con un modreq di . Questo è un nuovo tipo che avrà la seguente definizione:
 
 ```cs
 namespace System.Runtime.CompilerServices
 {
-    public sealed class IsInitOnly
+    public sealed class IsExternalInit
     {
     }
 }
@@ -237,7 +237,7 @@ Il compilatore corrisponderà al tipo in base al nome completo. Non è necessari
 
 Se nessuno di questi esiste, verrà generato un errore di ambiguità del tipo.
 
-Il design `IsInitOnly` per è più coperto in [questo numero](https://github.com/dotnet/runtime/issues/34978)
+Il design `IsExternalInit` per è più coperto in [questo numero](https://github.com/dotnet/runtime/issues/34978)
 
 ## <a name="questions"></a>Domande
 

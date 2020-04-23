@@ -1,69 +1,69 @@
 ---
-ms.openlocfilehash: ecdad8c863d0695bc901e4d96d9ca3decbc248eb
-ms.sourcegitcommit: 94a3d151c438d34ede1d99de9eb4ebdc07ba4699
+ms.openlocfilehash: 54f9a372ca0329a284f06876f544e0b4936af02a
+ms.sourcegitcommit: 356ee04506a2a82292be25d7b029e7ce2a39e63a
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/25/2019
-ms.locfileid: "79484615"
+ms.lasthandoff: 04/22/2020
+ms.locfileid: "82037402"
 ---
-# <a name="nullable-reference-types-in-c"></a>Tipi di riferimento nullable inC# #
+# <a name="nullable-reference-types-in-c"></a>Nullable reference types in C # #
 
 L'obiettivo di questa funzionalità è:
 
-* Consente agli sviluppatori di esprimere se una variabile, un parametro o un risultato di un tipo di riferimento è destinato a essere null o meno.
+* Consentire agli sviluppatori di esprimere se una variabile, un parametro o un risultato di un tipo di riferimento deve essere null o meno.
 * Fornire avvisi quando tali variabili, parametri e risultati non vengono utilizzati in base a tale finalità.
 
-## <a name="expression-of-intent"></a>Espressione di finalità
+## <a name="expression-of-intent"></a>Espressione di intenti
 
-Il linguaggio contiene già la sintassi `T?` per i tipi di valore. È semplice estendere questa sintassi ai tipi di riferimento.
+Il linguaggio `T?` contiene già la sintassi per i tipi di valore. È semplice estendere questa sintassi ai tipi di riferimento.
 
-Si presuppone che lo scopo di un tipo di riferimento non decorato `T` non sia null.
+Si presuppone che lo scopo di un `T` tipo di riferimento non decorato sia che sia non null.
 
-## <a name="checking-of-nullable-references"></a>Controllo dei riferimenti Nullable
+## <a name="checking-of-nullable-references"></a>Controllo dei riferimenti nullable
 
-Un'analisi di flusso tiene traccia delle variabili di riferimento Nullable. Se l'analisi considera che non sarebbero null (ad esempio, dopo un controllo o un'assegnazione), il relativo valore verrà considerato un riferimento non null.
+Un'analisi del flusso tiene traccia delle variabili di riferimento nullable. Se l'analisi ritiene che non sarebbero null (ad esempio dopo un assegno o un'assegnazione), il relativo valore verrà considerato un riferimento non null.
 
-Un riferimento Nullable può essere trattato anche in modo esplicito come non null con l'operatore suffisso `x!` (l'operatore "dannazione"), quando l'analisi dei flussi non è in grado di stabilire una situazione non null che lo sviluppatore conosce è presente.
+Un riferimento nullable può anche essere considerato in `x!` modo esplicito come non null con l'operatore suffisso (l'operatore "damnit"), perché quando l'analisi del flusso non può stabilire una situazione non null che lo sviluppatore sa che esiste.
 
-In caso contrario, viene fornito un avviso se un riferimento Nullable è dereferenziato o viene convertito in un tipo non null.
+In caso contrario, viene fornito un avviso se un riferimento nullable viene dereferenziato o viene convertito in un tipo non null.
 
-Quando si esegue la conversione da `S[]` a `T?[]` e da `S?[]` a `T[]`, viene visualizzato un avviso.
+Viene visualizzato un avviso `S[]` durante `T?[]` la `S?[]` `T[]`conversione da e verso a .
 
-Viene fornito un avviso quando si esegue la conversione da `C<S>` a `C<T?>` tranne quando il parametro di tipo è covariante (`out`) e quando si esegue la conversione da `C<S?>` a `C<T>` tranne quando il parametro di tipo è controvariante (`in`).
+Viene visualizzato un avviso `C<S>` durante `C<T?>` la conversione da a`out`except quando il `C<S?>` `C<T>` parametro di tipo è covariante ( ) e quando si esegue la conversione da a except quando il parametro di tipo è controvariante ( ).`in`
 
-Viene visualizzato un avviso in `C<T?>` se il parametro di tipo presenta vincoli non null. 
+Viene visualizzato un `C<T?>` avviso se il parametro di tipo ha vincoli non null.
 
-## <a name="checking-of-non-null-references"></a>Verifica dei riferimenti non null
+## <a name="checking-of-non-null-references"></a>Controllo dei riferimenti non Null
 
-Viene fornito un avviso se un valore letterale null viene assegnato a una variabile non null o passato come parametro non null.
+Viene visualizzato un avviso se un valore letterale null viene assegnato a una variabile non null o passato come parametro non null.
 
-Viene inoltre fornito un avviso se un costruttore non inizializza in modo esplicito i campi di riferimento non null.
+Viene inoltre visualizzato un avviso se un costruttore non inizializza in modo esplicito i campi di riferimento non null.
 
-Non è possibile rilevare adeguatamente che vengono inizializzati tutti gli elementi di una matrice di riferimenti non null. Tuttavia, è possibile emettere un avviso se nessun elemento di una matrice appena creata viene assegnato a prima che la matrice venga letta o passata. Questo potrebbe gestire il caso comune senza essere troppo rumoroso.
+Non è possibile tenere traccia in modo adeguato che tutti gli elementi di una matrice di riferimenti non null vengono inizializzati. Tuttavia, è possibile emettere un avviso se nessun elemento di una matrice appena creata viene assegnato a prima che la matrice viene letta o passata. Questo potrebbe gestire il caso comune senza essere troppo rumoroso.
 
-È necessario decidere se `default(T)` genera un avviso o semplicemente essere considerato come il tipo `T?`.
+Dobbiamo decidere se `default(T)` genera un avviso o viene semplicemente `T?`trattato come di tipo .
 
 ## <a name="metadata-representation"></a>Rappresentazione dei metadati
 
-Le aree di strumenti per il supporto di valori null devono essere rappresentate nei metadati come attributi. Ciò significa che i compilatori di livello inferiore li ignoreranno.
+Gli ornamenti di supporto dei valori Null devono essere rappresentati nei metadati come attributi. Ciò significa che i compilatori di livello inferiore li ignoreranno.
 
-È necessario decidere se sono incluse solo le annotazioni nullable o se è presente anche un'indicazione relativa alla presenza di valori non null nell'assembly.
+È necessario decidere se sono incluse solo le annotazioni nullable o se è anche presente qualche indicazione se non null è "on" nell'assembly.
 
 ## <a name="generics"></a>Generics
 
-Se un parametro di tipo `T` presenta vincoli non nullable, viene considerato come non nullable all'interno del relativo ambito.
+Se un `T` parametro di tipo ha vincoli non nullable, viene considerato come non nullable all'interno del relativo ambito.
 
-Se un parametro di tipo non è vincolato o ha solo vincoli Nullable, la situazione è un po' più complessa: ciò significa che l'argomento di tipo corrispondente *potrebbe essere nullable o non nullable.* La cosa più sicura da fare in questa situazione consiste nel considerare il parametro di *tipo come Nullable* e non nullable, fornendo avvisi quando uno dei due viene violato. 
+Se un parametro di tipo non è vincolato o ha solo vincoli nullable, la situazione è un po' più complessa: ciò significa che l'argomento di tipo corrispondente potrebbe *essere* nullable o non nullable. La cosa sicura da fare in questa situazione è considerare il parametro di tipo *come* nullable e non nullable, dando avvisi quando uno dei due viene violato. 
 
-Vale la pena considerare se devono essere consentiti i vincoli espliciti Nullable Reference. Si noti, tuttavia, che non è possibile evitare che i tipi di riferimento Nullable siano *implicitamente* vincoli in determinati casi (vincoli ereditati).
+È necessario considerare se devono essere consentiti vincoli espliciti di riferimento nullable. Si noti, tuttavia, che non è possibile evitare di avere tipi di riferimento nullable in *modo implicito* essere vincoli in alcuni casi (vincoli ereditati).
 
-Il vincolo `class` è diverso da null. È possibile considerare se `class?` deve essere un vincolo Nullable valido che indica "tipo di riferimento Nullable".
+Il `class` vincolo non è null. È possibile `class?` considerare se deve essere un vincolo nullable valido che denota "tipo di riferimento nullable".
 
-## <a name="type-inference"></a>Inferenza del tipo
+## <a name="type-inference"></a>Inferenza
 
-Nell'inferenza del tipo, se un tipo che contribuisce è un tipo di riferimento Nullable, il tipo risultante deve essere nullable. In altre parole, viene propagato un valore null.
+Nell'inferenza del tipo, se un tipo che contribuisce è un tipo di riferimento nullable, il tipo risultante deve essere nullable. In altre parole, viene propagato il valore null.
 
-È necessario valutare se il valore letterale `null` come espressione partecipante debba contribuire a un valore null. Non è oggi: per i tipi di valore genera un errore, mentre per i tipi di riferimento il valore null viene convertito correttamente nel tipo normale. 
+È necessario considerare `null` se il valore letterale come espressione partecipante deve contribuire con nullità. Non oggi: per i tipi di valore porta a un errore, mentre per i tipi di riferimento il valore null converte correttamente nel tipo normale.
 
 ```csharp
 string? n = "world";
@@ -72,44 +72,84 @@ var y = b ? "Hello" : null; // string? or error
 var z = b ? 7 : null; // Error today, could be int?
 ```
 
+## <a name="null-guard-guidance"></a>Guida di protezione null
+
+Come funzionalità, i tipi di riferimento nullable consentono agli sviluppatori di esprimere la propria finalità e forniscono avvisi tramite l'analisi del flusso se tale finalità è contraddetta. C'è una domanda comune se siano necessarie o meno guardie nulle.
+
+### <a name="example-of-null-guard"></a>Esempio di null guard
+
+```csharp
+public void DoWork(Worker worker)
+{
+    // Guard against worker being null
+    if (worker is null)
+    {
+        throw new ArgumentNullException(nameof(worker));
+    }
+
+    // Otherwise use worker argument
+}
+```
+
+Nell'esempio precedente, `DoWork` la funzione `Worker` accetta a e `null`protegge da esso potenzialmente essere . Se `worker` l'argomento è `null` `throw`, la funzione verrà . `DoWork` Con i tipi di riferimento nullable, il codice `Worker` dell'esempio `null`precedente rende l'intento che il parametro *non* sia . Se `DoWork` la funzione era un'API pubblica, ad esempio un pacchetto NuGet o una libreria condivisa, come guida è consigliabile lasciare le guardie null. Come API pubblica, l'unica garanzia che `null` un chiamante non passa è proteggersi da esso.
+
+### <a name="express-intent"></a>Intento espresso
+
+Un utilizzo più interessante dell'esempio precedente `Worker` consiste `null`nell'esprimere che il parametro potrebbe essere , rendendo così la protezione null più appropriata. Se si rimuove la guardia null nell'esempio seguente, il compilatore avverte che è possibile dereferenziare null. Indipendentemente da ciò, entrambe le guardie nulli sono ancora valide.
+
+```csharp
+public void DoWork(Worker? worker)
+{
+    // Guard against worker being null
+    if (worker is null)
+    {
+        throw new ArgumentNullException(nameof(worker));
+    }
+
+    // Otherwise use worker argument
+}
+```
+
+Per le API non pubbliche, ad esempio il codice sorgente interamente in controllo da uno sviluppatore o un team di sviluppo: i tipi di riferimento nullable potrebbero consentire la rimozione sicura di server di protezione null in cui gli sviluppatori possono garantire che non sia necessario. La funzionalità può essere utile per gli avvisi, ma non `NullReferenceException`può garantire che in fase di esecuzione l'esecuzione del codice possa generare un oggetto .
+
 ## <a name="breaking-changes"></a>Modifiche di rilievo
 
-Gli avvisi non null rappresentano una modifica ovvia del codice esistente e devono essere accompagnati da un meccanismo di consenso esplicito.
+Gli avvisi non Null sono un'ovvia modifica di interruzione del codice esistente e devono essere accompagnati da un meccanismo di consenso esplicito.
 
-Meno ovviamente, gli avvisi dei tipi Nullable (come descritto in precedenza) rappresentano una modifica sostanziale del codice esistente in determinati scenari in cui il supporto di valori null è implicito:
+Meno ovviamente, gli avvisi da tipi nullable (come descritto in precedenza) sono una modifica sostanziale sul codice esistente in alcuni scenari in cui il supporto di valori Null è implicito:Less obviously, warnings from nullable types (as described above) are a breaking change on existing code in certain scenarios where the nullability is implicit:
 
-* I parametri di tipo non vincolati verranno considerati implicitamente Nullable, quindi l'assegnazione a `object` o l'accesso ad, ad esempio `ToString` genererà avvisi.
-* Se l'inferenza del tipo deduce un valore null dalle espressioni `null`, il codice esistente a volte restituisce Nullable anziché i tipi non nullable, che possono causare nuovi avvisi.
+* I parametri di tipo non vincolati verranno considerati `object` come nullable in `ToString` modo implicito, pertanto l'assegnazione a o l'accesso ad esempio produrrà avvisi.
+* se l'inferenza del tipo `null` deduce nullità dalle espressioni, il codice esistente talvolta restituisce nullable anziché tipi non nullable, che possono causare nuovi avvisi.
 
-Pertanto, gli avvisi nullable devono anche essere facoltativi
+Pertanto, gli avvisi nullable devono essere facoltativi
 
-Infine, l'aggiunta di annotazioni a un'API esistente sarà una modifica sostanziale per gli utenti che hanno scelto gli avvisi quando eseguono l'aggiornamento della libreria. Questo, inoltre, merita la possibilità di acconsentire esplicitamente o meno. "Desidero correggere le correzioni di bug, ma non sono pronto per gestire le nuove annotazioni"
+Infine, l'aggiunta di annotazioni a un'API esistente sarà una modifica sostanziale per gli utenti che hanno acconsentito esplicitamente agli avvisi, quando aggiornano la libreria. Anche questo merita la possibilità di aderire o uscire. "Voglio le correzioni di bug, ma non sono pronto ad affrontare le loro nuove annotazioni"
 
-In breve, è necessario essere in grado di acconsentire esplicitamente o meno:
-* Avvisi Nullable
-* Avvisi non null
-* Avvisi da annotazioni in altri file
+In sintesi, è necessario essere in grado di attivare/disattivare:
+* Avvisi nullableNullable warnings
+* Avvisi non Null
+* Avvisi delle annotazioni in altri file
 
-La granularità del consenso esplicito suggerisce un modello di tipo analizzatore, in cui le porzioni di codice possono acconsentire esplicitamente e uscire con i pragma e i livelli di gravità possono essere scelti dall'utente. Inoltre, le opzioni per libreria ("Ignora le annotazioni da JSON.NET fino a quando non si è pronti a gestire il calo") possono essere esprimibile nel codice come attributi.
+La granularità dell'opt-in suggerisce un modello simile a un analizzatore, in cui le fasce di codice possono attivare e disattivare con pragmas e i livelli di gravità possono essere scelti dall'utente. Inoltre, le opzioni per libreria ("ignorare le annotazioni da JSON.NET fino a quando non sono pronto a gestire la caduta") possono essere esprimibili nel codice come attributi.
 
-La progettazione dell'esperienza di consenso esplicito/transizione è fondamentale per il successo e l'utilità di questa funzionalità. È necessario assicurarsi che:
+Il design dell'esperienza di opt-in/transizione è fondamentale per il successo e l'utilità di questa funzione. Dobbiamo assicurarci che:
 
-* Gli utenti possono adottare gradualmente il controllo dei valori null come desiderano
-* Gli autori di librerie possono aggiungere annotazioni di supporto per i valori null senza timore di compromettere
-* Nonostante queste, non c'è un senso di "incubo per la configurazione"
+* Gli utenti possono adottare il controllo della nullità gradualmente come vogliono
+* Gli autori di librerie possono aggiungere annotazioni di supporto ai valori Null senza timore di interrompere i clienti
+* Nonostante questi, non c'è un senso di "incubo di configurazione"
 
 ## <a name="tweaks"></a>Tweaks
 
-È possibile considerare di non usare le annotazioni `?` sulle variabili locali, ma solo di osservare se vengono usate in base a ciò che viene assegnato. Non prediligo questo problema; Credo che dovremmo esprimere in modo uniforme le loro finalità.
+Potremmo considerare di `?` non usare le annotazioni sulla gente del posto, ma solo osservando se vengono utilizzate in base a ciò che viene loro assegnato. Non lo preferisco; Penso che dovremmo lasciare che la gente esprima il loro intento.
 
-È possibile considerare una sintassi abbreviata `T! x` sui parametri, che genera automaticamente un controllo null in fase di esecuzione.
+Potremmo considerare una `T! x` scorciatoia sui parametri, che genera automaticamente un controllo null di runtime.
 
-Alcuni modelli sui tipi generici, ad esempio `FirstOrDefault` o `TryGet`, hanno un comportamento leggermente strano con argomenti di tipo non nullable, perché producono in modo esplicito valori predefiniti in determinate situazioni. Potremmo provare a sfumare il sistema di tipi per adattarlo meglio. Ad esempio, è possibile consentire `?` sui parametri di tipo non vincolati, anche se l'argomento di tipo potrebbe già ammettere valori null. Dubito che valga la pena e che comporti stranezze correlate all'interazione con I tipi di *valore* Nullable. 
+Alcuni modelli su tipi `FirstOrDefault` generici, ad esempio o `TryGet`, hanno un comportamento leggermente strano con argomenti di tipo non nullable, perché restituiscono in modo esplicito valori predefiniti in determinate situazioni. Potremmo cercare di sfumare il sistema di tipo per accogliere questi meglio. Ad esempio, è `?` possibile consentire su parametri di tipo non vincolati, anche se l'argomento di tipo potrebbe già essere nullable. Dubito che ne valga la pena, e porta a stranezze legate all'interazione con i tipi di *valore* nullable. 
 
 ## <a name="nullable-value-types"></a>Tipi valore nullable
 
-È possibile prendere in considerazione l'adozione di parte della semantica precedente anche per i tipi di valore Nullable.
+Si potrebbe prendere in considerazione l'adozione di alcune delle semantica di cui sopra per i tipi di valore nullable pure.
 
-È già stata indicata l'inferenza del tipo, in cui è possibile dedurre `int?` da `(7, null)`, anziché semplicemente restituire un errore.
+Abbiamo già menzionato l'inferenza `int?` del `(7, null)`tipo, dove potremmo dedurre da , invece di dare solo un errore.
 
-Un'altra opportunità consiste nell'applicare l'analisi del flusso ai tipi di valore Nullable. Quando vengono ritenuti non null, si potrebbe effettivamente consentire l'uso di come tipo non nullable in determinati modi, ad esempio l'accesso ai membri. È sufficiente prestare attenzione che siano preferibili gli elementi che *è possibile eseguire* in un tipo di valore Nullable, per motivi di compatibilità.
+Un'altra opportunità consiste nell'applicare l'analisi del flusso ai tipi di valore nullable. Quando sono ritenuti non null, è possibile consentire l'utilizzo come tipo non nullable in alcuni modi (ad esempio l'accesso ai membri). Dobbiamo solo stare attenti che le cose che si possono *già* fare su un tipo di valore nullable sarà preferito, per motivi di compatibilità indietro.
