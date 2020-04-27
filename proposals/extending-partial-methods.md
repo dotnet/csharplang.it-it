@@ -1,19 +1,21 @@
 ---
-ms.openlocfilehash: 04dca01bad04d5c53aa1c7c876343fb7ef33d2fa
-ms.sourcegitcommit: 5c7cc619214ade6a8f3a0caddfb4862635f5241d
+ms.openlocfilehash: 6fbc866af9971d86a287b026013e235e5b25fc21
+ms.sourcegitcommit: ab0873759f86d44adfc5daefb18cb922df8adb8b
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "82021930"
+ms.lasthandoff: 04/27/2020
+ms.locfileid: "82162074"
 ---
-<a name="extending-partial-methods"></a>Estensione di metodi parzialiExtending Partial Methods
+<a name="extending-partial-methods"></a>Estensione di metodi parziali
 =====
 
-## <a name="summary"></a>Summary
-Questa proposta ha lo scopo di `partial` rimuovere tutte le restrizioni relative alle firme dei metodi in C. L'obiettivo è quello di espandere il set di scenari in cui questi metodi possono utilizzare i generatori di origine, nonché essere un formato di dichiarazione più generale per i metodi di C.
+## <a name="summary"></a>Riepilogo
+Questa proposta mira a rimuovere tutte le restrizioni relative alle firme `partial` dei metodi in C#. L'obiettivo è quello di espandere il set di scenari in cui questi metodi possono funzionare con i generatori di origine, nonché un modulo di dichiarazione più generale per i metodi C#.
+
+Vedere anche la [specifica dei metodi parziali originali](/spec/classes.md#partial-methods).
 
 ## <a name="motivation"></a>Motivazione
-Il supporto limitato per gli sviluppatori che suddivide i metodi in dichiarazioni e definizioni/implementazioni. 
+C# offre un supporto limitato per gli sviluppatori che dividono metodi in dichiarazioni e definizioni/implementazioni. 
 
 ```cs 
 partial class C
@@ -29,7 +31,7 @@ partial class C
 }
 ```
 
-Un comportamento `partial` dei metodi è che quando la definizione è assente, il linguaggio cancellerà semplicemente tutte le chiamate al `partial` metodo. Essenzialmente si comporta come una `[Conditional]` chiamata a un metodo in cui la condizione è stata valutata su false. 
+Un comportamento dei `partial` metodi è che, quando la definizione è assente, il linguaggio cancellerà semplicemente tutte le `partial` chiamate al metodo. Sostanzialmente si comporta come una chiamata a un `[Conditional]` metodo in cui la condizione è stata valutata come false. 
 
 ```cs
 partial class D
@@ -45,32 +47,32 @@ partial class D
 }
 ```
 
-La motivazione originale per questa funzionalità è stata la generazione di origine sotto forma di codice generato dalla finestra di progettazione. Gli utenti modificavano costantemente il codice generato perché desideravano associare alcuni aspetti del codice generato. In particolare parti del processo di avvio di Windows Form, dopo l'inizializzazione dei componenti.
+La motivazione originale per questa caratteristica è la generazione di origini sotto forma di codice generato dalla finestra di progettazione. Gli utenti modificavano costantemente il codice generato perché volevano associare un aspetto del codice generato. In particolare parti del processo di avvio Windows Forms, dopo l'inizializzazione dei componenti.
 
-La modifica del codice generato era soggetta a errori perché qualsiasi azione che ha causato la rigenerazione del codice da parte della finestra di progettazione causerebbe la cancellazione della modifica da parte dell'utente. La `partial` funzionalità del metodo ha allentato questa tensione perché ha `partial` permesso ai progettisti di emettere hook sotto forma di metodi. 
+La modifica del codice generato è soggetta a errori poiché qualsiasi azione che ha causato la rigenerazione del codice da parte della finestra di progettazione comporterebbe la cancellazione della modifica dell'utente. La `partial` funzionalità del metodo ha semplificato questa tensione perché ha consentito ai progettisti di creare hook `partial` sotto forma di metodi. 
 
-I progettisti potevano emettere hook come `partial void OnComponentInit()` e gli sviluppatori potevano definire le dichiarazioni per loro o non definirli. In entrambi i casi, anche se il codice generato verrebbe compilato e gli sviluppatori che erano interessati al processo potrebbero eseguire l'hook in base alle esigenze. 
+I progettisti possono creare hook `partial void OnComponentInit()` come e gli sviluppatori possono definire dichiarazioni per loro o non definirli. In entrambi i casi, anche se il codice generato viene compilato e gli sviluppatori interessati al processo potrebbero collegarsi in base alle esigenze. 
 
-Ciò significa che i metodi parziali hanno diverse restrizioni:This does that partial methods have several restrictions:
+Ciò significa che i metodi parziali presentano alcune restrizioni:
 
-1. Deve avere `void` un tipo restituito.
-1. Non `ref` può `out` avere o parametri. 
-1. Non può avere accessibilità `private`(implicitamente).
+1. Deve avere un `void` tipo restituito.
+1. Non possono `out` avere parametri. 
+1. Non può avere alcuna accessibilità ( `private`in modo implicito).
 
-Queste restrizioni esistono perché la lingua deve essere in grado di generare codice quando il sito di chiamata viene cancellato. Dato che possono essere `private` cancellati è l'unica accessibilità possibile perché il membro non può essere esposto nei metadati dell'assembly. Queste restrizioni servono anche a limitare `partial` il set di scenari in cui i metodi possono essere applicati.
+Queste restrizioni sono dovute al fatto che la lingua deve essere in grado di emettere codice quando viene cancellato il sito di chiamata. Dato che possono essere cancellati `private` , l'unica accessibilità possibile è che il membro non può essere esposto nei metadati dell'assembly. Queste restrizioni servono anche per limitare il set di scenari in cui `partial` è possibile applicare i metodi.
 
-La proposta è quella di eliminare tutte `partial` le restrizioni esistenti sui metodi. Essenzialmente lasciare `out`che abbiano , tipi restituiti non void o qualsiasi tipo di accessibilità. Tali `partial` dichiarazioni avrebbero quindi il requisito aggiuntivo che una definizione deve esistere. Ciò significa che la lingua non deve considerare l'impatto della cancellazione dei siti di chiamata. 
+La proposta consiste nel rimuovere tutte le restrizioni esistenti intorno `partial` ai metodi. In sostanza, è `out`possibile consentire l'accesso ai tipi restituiti non void o a qualsiasi tipo di accessibilità. Tali `partial` dichiarazioni avrebbero quindi il requisito aggiuntivo che deve esistere una definizione. Questo significa che la lingua non deve considerare l'effetto della cancellazione dei siti di chiamata. 
 
-Questo espanderebbe l'insieme `partial` di scenari di generatori a cui i metodi potrebbero partecipare e quindi collegarsi bene con la nostra funzionalità dei generatori di origine. Ad esempio, un'espressione regolare può essere definita usando il modello seguente:For example a regex could be defined using the following pattern:
+In questo modo si espande il set di scenari `partial` di generazione che i metodi possono partecipare e quindi si collegano correttamente con la funzionalità generatori di origine. Ad esempio, è possibile definire un'espressione regolare usando il modello seguente:
 
 ```cs
 [RegexGenerated("(dog|cat|fish)")]
 partial bool IsPetMatch(string input);
 ```
 
-Questo dà sia lo sviluppatore un semplice modo dichiarativo di opting in generatori, nonché dando generatori un set molto semplice di dichiarazioni per guardare attraverso nel codice sorgente per guidare il loro output generato. 
+In questo modo, allo sviluppatore viene assegnato un semplice metodo dichiarativo per optare per i generatori e fornire ai generatori un set molto semplice di dichiarazioni da esaminare nel codice sorgente per guidare l'output generato. 
 
-Confrontare che con la difficoltà che un generatore avrebbe agganciando il seguente frammento di codice. 
+Si confronti con la difficoltà che un generatore avrebbe collegato al frammento di codice seguente. 
 
 ```cs
 var regex = new RegularExpression("(dog|cat|fish)");
@@ -80,12 +82,12 @@ if (regex.IsMatch(someInput))
 }
 ```
 
-Dato che il compilatore non consente ai generatori di modificare il codice che collega questo modello sarebbe praticamente impossibile per i generatori. Avrebbero bisogno di ricorrere `IsMatch` alla reflection nell'implementazione o chiedere agli utenti di modificare i loro siti di chiamata a un nuovo metodo - effettuare il refactoring dell'espressione regolare per passare il valore letterale stringa come argomento. È piuttosto disordinato.
+Dato che il compilatore non consente ai generatori di modificare il codice, l'associazione di questo modello potrebbe essere molto impossible per i generatori. Dovranno ricorrere alla reflection nell' `IsMatch` implementazione o chiedere agli utenti di modificare i siti di chiamata in un nuovo metodo e di eseguire il refactoring dell'espressione regolare per passare il valore letterale stringa come argomento. È piuttosto complicato.
 
 ## <a name="detailed-design"></a>Progettazione dettagliata
-Il linguaggio cambierà per consentire `partial` agli metodi di essere annotati con un modificatore di accessibilità esplicito. Ciò significa che possono `private` `public`essere etichettati come , , ecc ... 
+Il linguaggio verrà modificato in modo `partial` da consentire l'annotazione dei metodi con un modificatore di accessibilità esplicito. Ciò significa che possono essere etichettati come `private`, `public`e così via... 
 
-Quando `partial` un metodo dispone di un modificatore di accessibilità esplicito, anche `private`se il linguaggio richiede che la dichiarazione abbia una definizione corrispondente anche quando l'accessibilità è :
+Quando un `partial` metodo dispone di un modificatore di accessibilità esplicita, anche se per il linguaggio è necessario che la dichiarazione includa una definizione corrispondente anche quando l'accessibilità è `private`:
 
 ```cs
 partial class C
@@ -106,7 +108,7 @@ partial class C
 }
 ```
 
-Inoltre il linguaggio rimuoverà tutte le `partial` restrizioni su ciò che può apparire su un metodo che ha un'accessibilità esplicita. Tali dichiarazioni possono contenere tipi `ref` `out` restituiti `extern` non void, o parametri, modificatori e così via. Queste firme avranno l'espressività completa del linguaggio C.
+Oltre al linguaggio verranno rimosse tutte le restrizioni su ciò che può `partial` essere visualizzato in un metodo con un'accessibilità esplicita. Tali dichiarazioni possono contenere tipi restituiti non void, `out` parametri, `extern` modificatori e così via. Queste firme avranno la massima espressività del linguaggio C#.
 
 ```cs
 partial class D
@@ -121,7 +123,7 @@ partial class D
 }
 ```
 
-Ciò consente `partial` in modo `overrides` `interface` esplicito ai metodi di partecipare e alle implementazioni:This explicitly allows for methods to participate to e implementations:
+Questo consente in `partial` `overrides` modo esplicito ai metodi di partecipare `interface` alle implementazioni di e:
 
 ```cs
 interface IStudent
@@ -140,28 +142,28 @@ partial class C
 }
 ```
 
-Il compilatore modificherà l'errore `partial` generato quando un metodo contiene un elemento non valido per dire essenzialmente:
+Il compilatore modificherà l'errore emesso quando un `partial` metodo contiene un elemento non valido per indicare essenzialmente:
 
-> Impossibile `ref` utilizzare `partial` un metodo privo di accessibilità esplicita 
+> Impossibile utilizzare `ref` su un `partial` metodo privo di accessibilità esplicita 
 
-Questo aiuterà gli sviluppatori a indirizzare gli sviluppatori nella giusta direzione quando si utilizza questa funzionalità.
+Ciò consentirà agli sviluppatori di puntare alla direzione corretta quando si usa questa funzionalità.
 
 Restrizioni:
 - `partial`le dichiarazioni con accessibilità esplicita devono avere una definizione
-- `partial`Le dichiarazioni e le firme di definizione devono corrispondere a tutti i modificatori di metodo e parametro. Gli unici aspetti che possono differire sono i nomi dei parametri `partial` e gli elenchi di attributi (questo non è nuovo, ma piuttosto un requisito esistente dei metodi).
+- `partial`le dichiarazioni e le firme delle definizioni devono corrispondere a tutti i modificatori di parametro e metodo. Gli unici aspetti che possono variare sono i nomi di parametro e gli elenchi di attributi (questo non è un nuovo requisito `partial` , ma piuttosto un requisito esistente di metodi).
 
 ## <a name="questions"></a>Domande
 
 ### <a name="partial-on-all-members"></a>parziale su tutti i membri
-Dato che ci stiamo `partial` espandendo per essere più amichevoli ai generatori di origine dovremmo anche espanderlo per lavorare su tutti i membri della classe? Per esempio dovremmo essere `partial` in grado di dichiarare costruttori, operatori, ecc ...
+Dato che la nostra espansione `partial` è più intuitiva per i generatori di origine, dobbiamo espanderla anche per lavorare su tutti i membri della classe? Ad esempio, dovrebbe essere possibile dichiarare `partial` costruttori, operatori e così via...
 
-**Risoluzione** L'idea è valida, ma a questo punto della pianificazione di C è 9 stiamo cercando di evitare inutili funzionalità creep. Vuoi risolvere il problema immediato di espandere la funzione per lavorare con i generatori di origine moderni. 
+**Risoluzione** dei problemi L'idea è valida, ma a questo punto nella pianificazione di C# 9 si sta tentando di evitare il creep della funzionalità non necessaria. Si vuole risolvere il problema immediato dell'espansione della funzionalità per lavorare con i generatori di origine moderni. 
 
-L'estensione `partial` per supportare altri membri verrà considerata per la versione di C . Sembra probabile che prenderemo in considerazione questa estensione.
+L' `partial` estensione per il supporto di altri membri verrà considerata per la versione di C# 10. Sembra probabile che questa estensione verrà considerata.
 
-### <a name="use-abstract-instead-of-partial"></a>Utilizzare astratto anziché parziale
-Il nocciolo di questa proposta garantisce essenzialmente che una dichiarazione abbia una definizione/attuazione corrispondente. Dato che dovremmo `abstract` usare dal momento che è già una parola chiave del linguaggio che costringe lo sviluppatore a pensare di avere un'implementazione?
+### <a name="use-abstract-instead-of-partial"></a>USA abstract anziché partial
+Il punto cruciale di questa proposta è essenzialmente garantire che una dichiarazione disponga di una definizione/implementazione corrispondente. Dato che è necessario usare `abstract` perché è già una parola chiave del linguaggio che impone allo sviluppatore di pensare a un'implementazione?
 
-**Risoluzione** C'è stata una sana discussione su questo, ma alla fine è stato deciso contro.
-Sì, i requisiti sono familiari, ma i concetti sono significativamente diversi.
-Potrebbe facilmente portare lo sviluppatore a credere che stavano creando slot virtuali quando non lo stavano facendo.
+**Risoluzione** dei problemi Si è verificata una discussione di questo aspetto, ma alla fine è stata decisa.
+Sì, i requisiti sono noti ma i concetti sono significativamente diversi.
+Potrebbe facilmente condurre lo sviluppatore a credere che stesse creando slot virtuali quando non lo facevano.
