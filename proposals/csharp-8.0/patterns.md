@@ -1,24 +1,24 @@
 ---
-ms.openlocfilehash: fad1425e2871f395a2eb1f39faccbc773d88d6a3
-ms.sourcegitcommit: da1180f7eacdd5067b32d291a76e6764159e00fe
+ms.openlocfilehash: 8de1a87781716aa7af07677d93b6efefac65490e
+ms.sourcegitcommit: a17f4c8ba82ed19fdad8b9f86ac151a443c89b08
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/05/2019
-ms.locfileid: "79485063"
+ms.lasthandoff: 05/06/2020
+ms.locfileid: "82868429"
 ---
 # <a name="recursive-pattern-matching"></a>Criteri di ricerca ricorsivi
 
 ## <a name="summary"></a>Summary
 [summary]: #summary
 
-Le estensioni di criteri C# di ricerca per consentono molti dei vantaggi dei tipi di dati algebrici e dei criteri di ricerca dai linguaggi funzionali, ma in modo da integrarsi senza problemi con il linguaggio sottostante. Gli elementi di questo approccio sono ispirati dalle funzionalità correlate nei linguaggi [F#](http://www.msr-waypoint.net/pubs/79947/p29-syme.pdf "Criteri di ricerca estendibili tramite un linguaggio leggero") di programmazione e in [scala](https://link.springer.com/content/pdf/10.1007%2F978-3-540-73589-2.pdf "Corrispondenza di oggetti con modelli, pagina 273").
+Le estensioni di criteri di ricerca per C# consentono molti dei vantaggi dei tipi di dati algebrici e dei criteri di ricerca dai linguaggi funzionali, ma in modo da integrarsi perfettamente con l'aspetto del linguaggio sottostante. Gli elementi di questo approccio sono ispirati dalle funzionalità correlate nei linguaggi di programmazione [F #](http://www.msr-waypoint.net/pubs/79947/p29-syme.pdf "Criteri di ricerca estendibili tramite un linguaggio leggero") e [scala](https://link.springer.com/content/pdf/10.1007%2F978-3-540-73589-2.pdf "Corrispondenza di oggetti con modelli, pagina 273").
 
 ## <a name="detailed-design"></a>Progettazione dettagliata
 [design]: #detailed-design
 
 ### <a name="is-expression"></a>Espressione is
 
-L'operatore `is` viene esteso per testare un'espressione rispetto a un *criterio*.
+L' `is` operatore viene esteso per testare un'espressione rispetto a un *criterio*.
 
 ```antlr
 relational_expression
@@ -29,11 +29,11 @@ is_pattern_expression
     ;
 ```
 
-Questa forma di *relational_expression* è aggiunta ai moduli esistenti nella C# specifica. Si tratta di un errore in fase di compilazione se il *relational_expression* a sinistra del token `is` non designa un valore o non dispone di un tipo.
+Questa forma di *relational_expression* è aggiunta ai moduli esistenti nella specifica C#. Si tratta di un errore in fase di compilazione se il *relational_expression* a sinistra del `is` token non designa un valore o non ha un tipo.
 
-Ogni *identificatore* del modello introduce una nuova variabile locale che viene *assegnata definitivamente* dopo che l'operatore `is` è stato `true` (ovvero *assegnato definitivamente quando è true*).
+Ogni *identificatore* del modello introduce una nuova variabile locale *assegnata definitivamente* dopo l' `is` operatore (ovvero `true` *assegnata definitivamente quando è true*).
 
-> Nota: esiste tecnicamente un'ambiguità tra il *tipo* in una `is-expression` e *constant_pattern*, una delle quali potrebbe essere un'analisi valida di un identificatore qualificato. Si tenta di associarlo come tipo per la compatibilità con le versioni precedenti del linguaggio; solo se l'operazione ha esito negativo, viene risolta quando si esegue un'espressione in altri contesti, fino alla prima cosa trovata (che deve essere una costante o un tipo). Questa ambiguità è presente solo sul lato destro di un'espressione `is`.
+> Nota: esiste tecnicamente un'ambiguità tra il *tipo* in `is-expression` e *constant_pattern*, una delle quali potrebbe essere un'analisi valida di un identificatore qualificato. Si tenta di associarlo come tipo per la compatibilità con le versioni precedenti del linguaggio; solo se l'operazione ha esito negativo, viene risolta quando si esegue un'espressione in altri contesti, fino alla prima cosa trovata (che deve essere una costante o un tipo). Questa ambiguità è presente solo sul lato destro di un' `is` espressione.
 
 ### <a name="patterns"></a>Modelli
 
@@ -52,7 +52,7 @@ declaration_pattern
     : type simple_designation
     ;
 constant_pattern
-    : expression
+    : constant_expression
     ;
 var_pattern
     : 'var' designation
@@ -91,11 +91,11 @@ declaration_pattern
     ;
 ```
 
-Il *declaration_pattern* verifica che un'espressione sia di un tipo specificato e ne esegue il cast a tale tipo se il test ha esito positivo. Questo può introdurre una variabile locale del tipo specificato denominato dall'identificatore specificato, se la designazione è un *single_variable_designation*. La variabile locale viene *assegnata definitivamente* quando il risultato dell'operazione di corrispondenza dei modelli viene `true`.
+Il *declaration_pattern* verifica che un'espressione sia di un tipo specificato e ne esegue il cast a tale tipo se il test ha esito positivo. Questo può introdurre una variabile locale del tipo specificato denominato dall'identificatore specificato, se la designazione è un *single_variable_designation*. Tale variabile locale viene *assegnata definitivamente* quando il risultato dell'operazione di corrispondenza dei modelli `true`è.
 
-La semantica di runtime di questa espressione è che testa il tipo di runtime dell'operando di sinistra *relational_expression* sul *tipo* nel modello.  Se è del tipo di runtime (o di un sottotipo) e non `null`, viene `true`il risultato della `is operator`.
+La semantica di runtime di questa espressione è che testa il tipo di runtime dell'operando di sinistra *relational_expression* sul *tipo* nel modello.  Se è di quel tipo di runtime (o di un sottotipo) e `null`non, il risultato di `is operator` è `true`.
 
-Alcune combinazioni di tipo statico del lato sinistro e del tipo specificato vengono considerate incompatibili e generano un errore in fase di compilazione. Un valore di tipo statico `E` viene definito *modello compatibile* con un tipo `T` se esiste una conversione di identità, una conversione di un riferimento implicito, una conversione boxing, una conversione di riferimento esplicita o una conversione unboxing da `E` a `T`oppure se uno di questi tipi è un tipo aperto. Si tratta di un errore in fase di compilazione se un input di tipo `E` non è compatibile con i *modelli* con il *tipo* in un modello di tipo con cui corrisponde.
+Alcune combinazioni di tipo statico del lato sinistro e del tipo specificato vengono considerate incompatibili e generano un errore in fase di compilazione. Un valore di `E` tipo statico viene definito *modello compatibile* con un tipo `T` se esiste una conversione di identità, una conversione di un riferimento implicito, una conversione boxing, una conversione esplicita di un riferimento o una conversione unboxing `E` da `T`a oppure se uno di questi tipi è un tipo aperto. Si tratta di un errore in fase di compilazione se un input `E` di tipo non è compatibile con i *modelli* con il *tipo* in un modello di tipo con cui corrisponde.
 
 Il modello di tipo è utile per l'esecuzione di test dei tipi di riferimento in fase di esecuzione e sostituisce l'idioma
 
@@ -112,14 +112,14 @@ if (expr is Type v) { // code using v
 
 Si tratta di un errore se il *tipo* è un tipo di valore Nullable.
 
-Il modello di tipo può essere usato per testare i valori dei tipi nullable: un valore di tipo `Nullable<T>` (o un `T`boxed) corrisponde a un modello di tipo `T2 id` se il valore è diverso da null e il tipo di `T2` è `T`o un tipo di base o un'interfaccia di `T`. Ad esempio, nel frammento di codice
+Il modello di tipo può essere usato per testare i valori dei tipi nullable: un valore `Nullable<T>` di tipo (o `T`un oggetto boxed) corrisponde `T2 id` a un modello di tipo se il valore è non null `T2` e `T`il tipo di è o di un tipo `T`o di un'interfaccia di base di. Ad esempio, nel frammento di codice
 
 ```csharp
 int? x = 3;
 if (x is int v) { // code using v
 ```
 
-La condizione dell'istruzione `if` viene `true` in fase di esecuzione e la variabile `v` include il valore `3` di tipo `int` all'interno del blocco. Dopo il blocco, la variabile `v` è nell'ambito ma non è definitivamente assegnata.
+La condizione dell' `if` `true` istruzione è in fase di esecuzione e la `v` variabile include il `3` valore di `int` tipo all'interno del blocco. Dopo il blocco, la `v` variabile è nell'ambito ma non è definitivamente assegnata.
 
 #### <a name="constant-pattern"></a>Criterio costante
 
@@ -129,11 +129,11 @@ constant_pattern
     ;
 ```
 
-Un criterio costante verifica il valore di un'espressione rispetto a un valore costante. La costante può essere qualsiasi espressione costante, ad esempio un valore letterale, il nome di una variabile `const` dichiarata o una costante di enumerazione. Quando il valore di input non è un tipo aperto, l'espressione costante viene convertita in modo implicito nel tipo dell'espressione corrispondente. Se il tipo del valore di input non è *compatibile* con il modello con il tipo dell'espressione costante, l'operazione di corrispondenza dei modelli è un errore.
+Un criterio costante verifica il valore di un'espressione rispetto a un valore costante. La costante può essere qualsiasi espressione costante, ad esempio un valore letterale, il nome di `const` una variabile dichiarata o una costante di enumerazione. Quando il valore di input non è un tipo aperto, l'espressione costante viene convertita in modo implicito nel tipo dell'espressione corrispondente. Se il tipo del valore di input non è *compatibile* con il modello con il tipo dell'espressione costante, l'operazione di corrispondenza dei modelli è un errore.
 
-Il modello *c* viene considerato corrispondente al valore di input convertito *e* se `object.Equals(c, e)` restituisce `true`.
+Il modello *c* viene considerato corrispondente al valore di input *e* convertito e `object.Equals(c, e)` se restituisce `true`.
 
-Si prevede di vedere `e is null` come il modo più comune per testare `null` nel codice appena scritto, perché non può richiamare un `operator==`definito dall'utente.
+Si prevede di vedere `e is null` come il modo più comune per eseguire il `null` test nel codice appena scritto, perché non può richiamare un definito `operator==`dall'utente.
 
 #### <a name="var-pattern"></a>Modello var
 
@@ -166,9 +166,9 @@ designations
 
 Se la *designazione* è una *simple_designation*, un'espressione *e* corrisponde al modello. In altre parole, una corrispondenza con un *modello var* ha sempre esito positivo con un *simple_designation*. Se il *simple_designation* è un *single_variable_designation*, il valore di *e* viene associato a una variabile locale appena introdotta. Il tipo della variabile locale è il tipo statico di *e*.
 
-Se la *designazione* è un *tuple_designation*, il modello è equivalente a una *positional_pattern* nel formato `(var` *designazione*,... `)` dove le *designazioni*sono quelle trovate all'interno dell' *tuple_designation*.  Ad esempio, il criterio `var (x, (y, z))` equivale a `(var x, (var y, var z))`.
+Se la *designazione* è un *tuple_designation*, il modello è equivalente a una *positional_pattern* della `(var` *designazione*del modulo... `)` dove la *designazione*s sono quelli trovati all'interno del *tuple_designation*.  Ad esempio, il modello `var (x, (y, z))` è equivalente a `(var x, (var y, var z))`.
 
-Si tratta di un errore se il nome `var` viene associato a un tipo.
+Si tratta di un errore se il `var` nome viene associato a un tipo.
 
 #### <a name="discard-pattern"></a>Elimina modello
 
@@ -178,13 +178,13 @@ discard_pattern
     ;
 ```
 
-Un'espressione *e* corrisponde al modello `_` sempre. In altre parole, ogni espressione corrisponde al modello di scarto.
+Un'espressione *e* corrisponde sempre al `_` modello. In altre parole, ogni espressione corrisponde al modello di scarto.
 
 Un modello di scarto non può essere usato come modello di un *is_pattern_expression*.
 
 #### <a name="positional-pattern"></a>Modello posizionale
 
-Un criterio posizionale verifica che il valore di input non sia `null`, richiama un metodo di `Deconstruct` appropriato ed esegue ulteriori criteri di ricerca sui valori risultanti.  Supporta inoltre una sintassi di tipo tupla (senza il tipo fornito) quando il tipo del valore di input è uguale al tipo che contiene `Deconstruct`o se il tipo del valore di input è un tipo di tupla o se il tipo del valore di input è `object` o `ITuple` e il tipo di runtime dell'espressione implementa `ITuple`.
+Un criterio posizionale verifica che il valore di input non `null`sia, richiama un metodo appropriato `Deconstruct` ed esegue ulteriori criteri di ricerca sui valori risultanti.  Supporta inoltre una sintassi del modello simile a una tupla (senza il tipo fornito) quando il tipo del valore di input è uguale al tipo che contiene `Deconstruct`o se il tipo del valore di input è un tipo di tupla o se il tipo del valore di input è `object` o `ITuple` e il tipo di runtime dell'espressione implementa `ITuple`.
 
 ```antlr
 positional_pattern
@@ -202,14 +202,14 @@ subpattern
 
 Se il *tipo* viene omesso, lo consideriamo come il tipo statico del valore di input.
 
-Data la corrispondenza di un valore di input con il *tipo* di pattern `(` *subpattern_list* `)`, viene selezionato un metodo eseguendo una ricerca nel *tipo* per le dichiarazioni accessibili di `Deconstruct` e selezionando una tra di esse usando le stesse regole della dichiarazione di decostruzione.
+Data la corrispondenza di un valore di input con il *tipo* `(` di pattern *subpattern_list* `)`, viene selezionato un metodo eseguendo una ricerca nel *tipo* per le `Deconstruct` dichiarazioni accessibili e selezionando una tra di esse usando le stesse regole della dichiarazione di decostruzione.
 
 Se un *positional_pattern* omette il tipo, presenta un solo *sottomodello* senza *identificatore*, non ha *property_subpattern* e non ha *simple_designation*. Questo ambiguità tra un *constant_pattern* racchiuso tra parentesi e una *positional_pattern*.
 
 Per estrarre i valori in base ai criteri dell'elenco,
 - Se il *tipo* è stato omesso e il tipo del valore di input è un tipo di tupla, il numero di sottomodelli deve corrispondere alla cardinalità della tupla. Ogni elemento di tupla viene associato al *criterio secondario*corrispondente e la corrispondenza ha esito positivo se tutti gli elementi hanno esito positivo. Se un *sottomodello* ha un *identificatore*, deve denominare un elemento tupla nella posizione corrispondente nel tipo di tupla.
-- In caso contrario, se un `Deconstruct` appropriato esiste come membro di *tipo*, si tratta di un errore in fase di compilazione se il tipo del valore di input non è compatibile con i *modelli* con il *tipo*. In fase di esecuzione il valore di input viene testato rispetto al *tipo*. Se questa operazione ha esito negativo, la corrispondenza del criterio posizionale ha esito negativo. Se ha esito positivo, il valore di input viene convertito in questo tipo e `Deconstruct` viene richiamato con le nuove variabili generate dal compilatore per ricevere i parametri del `out`. Ogni valore ricevuto viene individuato in base al *criterio secondario*corrispondente e la corrispondenza ha esito positivo se tutti questi valori hanno esito positivo. Se un *sottomodello* ha un *identificatore*, deve denominare un parametro nella posizione corrispondente di `Deconstruct`.
-- In caso contrario, se il *tipo* è stato omesso e il valore di input è di tipo `object` o `ITuple` o un tipo che può essere convertito in `ITuple` da una conversione di un riferimento implicito e non viene visualizzato alcun *identificatore* tra i modelli, viene trovata una corrispondenza con `ITuple`.
+- In caso contrario, se `Deconstruct` un oggetto appropriato esiste come membro di *tipo*, si verifica un errore in fase di compilazione se il tipo del valore di input non è compatibile con i *modelli* con il *tipo*. In fase di esecuzione il valore di input viene testato rispetto al *tipo*. Se questa operazione ha esito negativo, la corrispondenza del criterio posizionale ha esito negativo. Se ha esito positivo, il valore di input viene convertito in questo `Deconstruct` tipo e viene richiamato con le nuove variabili generate `out` dal compilatore per ricevere i parametri. Ogni valore ricevuto viene individuato in base al *criterio secondario*corrispondente e la corrispondenza ha esito positivo se tutti questi valori hanno esito positivo. Se un *sottomodello* ha un *identificatore*, deve denominare un parametro nella posizione corrispondente di `Deconstruct`.
+- In caso contrario, se il *tipo* è stato omesso e il valore `object` di `ITuple` input è di tipo o o di un `ITuple` tipo che può essere convertito in mediante una conversione implicita di riferimento e non viene visualizzato alcun *identificatore* tra `ITuple`i modelli, viene trovata una corrispondenza con.
 - In caso contrario, il modello è un errore in fase di compilazione.
 
 L'ordine in cui i criteri di ricerca vengono confrontati in fase di esecuzione non è specificato e una corrispondenza non riuscita potrebbe non tentare di trovare la corrispondenza con tutti i sottomodelli.
@@ -229,7 +229,7 @@ Questo esempio usa molte delle funzionalità descritte in questa specifica
 
 #### <a name="property-pattern"></a>Modello di proprietà
 
-Un modello di proprietà controlla che il valore di input non sia `null` e corrisponda in modo ricorsivo ai valori estratti dall'uso dei campi o delle proprietà accessibili.
+Un modello di proprietà controlla che il valore di input `null` non sia e che corrisponda in modo ricorsivo ai valori estratti dall'uso di proprietà o campi accessibili.
 
 ```antlr
 property_pattern
@@ -252,9 +252,9 @@ if (s is {} x) ... // x is of type string
 if (s is {}) ...
 ```
 
-Data la corrispondenza di un'espressione *e* con il *tipo* di pattern `{` *property_pattern_list* `}`, si tratta di un errore in fase di compilazione se l'espressione *e* non è compatibile con il *modello* con il tipo *t* designato dal *tipo*. Se il tipo è assente, viene importato come tipo statico di *e*. Se l' *identificatore* è presente, viene dichiarata una variabile di modello *di tipo Type.* Ognuno degli identificatori visualizzati sul lato sinistro della relativa *property_pattern_list* deve designare una proprietà leggibile accessibile o un campo di *T*. Se è presente la *simple_designation* del *property_pattern* , definisce una variabile di tipo pattern *T*.
+Data la corrispondenza di un'espressione *e* con il *tipo* `{` di pattern *property_pattern_list* `}`, si tratta di un errore in fase di compilazione se l'espressione *e* non è compatibile con i *modelli* con il tipo *T* designato dal *tipo*. Se il tipo è assente, viene importato come tipo statico di *e*. Se l' *identificatore* è presente, viene dichiarata una variabile di modello *di tipo Type.* Ognuno degli identificatori visualizzati sul lato sinistro della relativa *property_pattern_list* deve designare una proprietà leggibile accessibile o un campo di *T*. Se è presente la *simple_designation* del *property_pattern* , definisce una variabile di tipo pattern *T*.
 
-In fase di esecuzione, l'espressione viene testata rispetto a *T*. Se l'operazione ha esito negativo, la corrispondenza del modello di proprietà ha esito negativo e il risultato viene `false` Se ha esito positivo, ogni campo *property_subpattern* o proprietà viene letto e il relativo valore corrisponde al criterio corrispondente. Il risultato dell'intera corrispondenza viene `false` solo se il risultato di uno di questi è `false`. L'ordine in cui vengono confrontati i modelli non è specificato e una corrispondenza non riuscita potrebbe non corrispondere a tutti i sottomodelli in fase di esecuzione. Se la corrispondenza ha esito positivo e il *simple_designation* del *property_pattern* è un *single_variable_designation*, definisce una variabile di tipo *T* a cui viene assegnato il valore corrispondente.
+In fase di esecuzione, l'espressione viene testata rispetto a *T*. Se l'operazione ha esito negativo, il modello di proprietà non `false`riesce e il risultato è. Se ha esito positivo, ogni campo *property_subpattern* o proprietà viene letto e il relativo valore corrisponde al criterio corrispondente. Il risultato dell'intera corrispondenza è `false` solo se il risultato di uno di questi è. `false` L'ordine in cui vengono confrontati i modelli non è specificato e una corrispondenza non riuscita potrebbe non corrispondere a tutti i sottomodelli in fase di esecuzione. Se la corrispondenza ha esito positivo e il *simple_designation* del *property_pattern* è un *single_variable_designation*, definisce una variabile di tipo *T* a cui viene assegnato il valore corrispondente.
 
 > Nota: il modello di proprietà può essere usato per la corrispondenza dei modelli con i tipi anonimi.
 
@@ -266,9 +266,9 @@ if (o is string { Length: 5 } s)
 
 ### <a name="switch-expression"></a>Espressione switch
 
-Viene aggiunto un *switch_expression* per supportare la semantica di tipo `switch`per un contesto di espressione.
+Viene aggiunta una *switch_expression* alla semantica di tipo supporto `switch`per un contesto dell'espressione.
 
-La C# sintassi del linguaggio è aumentata con le seguenti produzioni sintattiche:
+La sintassi del linguaggio C# è aumentata con le seguenti produzioni sintattiche:
 
 ```antlr
 multiplicative_expression
@@ -297,13 +297,13 @@ Il *switch_expression* non è consentito come *expression_statement*.
 
 > In una revisione futura si sta cercando di rilassarvi.
 
-Il tipo di *switch_expression* è il [*tipo comune migliore*](https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#finding-the-best-common-type-of-a-set-of-expressions) delle espressioni visualizzate a destra dei token `=>` dei *switch_expression_arm*s se tale tipo esiste e l'espressione in ogni ARM dell'espressione switch può essere convertita in modo implicito in tale tipo.  Viene inoltre aggiunta una nuova conversione dell' *espressione switch*, ovvero una conversione implicita predefinita da un'espressione switch a ogni tipo `T` per cui esiste una conversione implicita dall'espressione di ogni arm a `T`.
+Il tipo di *switch_expression* è il [*tipo comune migliore*](https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#finding-the-best-common-type-of-a-set-of-expressions) delle espressioni visualizzate a destra dei `=>` token della *switch_expression_arm*s se tale tipo esiste e l'espressione in ogni ARM dell'espressione switch può essere convertita in modo implicito in tale tipo.  Viene inoltre aggiunta una nuova conversione dell' *espressione switch*, ovvero una conversione implicita predefinita da un'espressione switch a ogni tipo `T` per il quale esiste una conversione implicita dall'espressione di ogni ARM a `T`.
 
 Si tratta di un errore se il modello di un *switch_expression_arm*non può influenzare il risultato perché alcuni criteri e Guard precedenti corrisponderanno sempre.
 
 Un'espressione switch è definita *esauriente* se un ARM dell'espressione switch gestisce ogni valore dell'input.  Il compilatore genera un avviso se un'espressione switch non è *completa*.
 
-In fase di esecuzione, il risultato della *switch_expression* è il valore dell' *espressione* del primo *switch_expression_arm* per il quale l'espressione a sinistra del *switch_expression* corrisponde al modello del *switch_expression_arm*e per il quale il *case_guard* del *switch_expression_arm*, se presente, restituisce `true`. Se non esiste un *switch_expression_arm*di questo tipo, il *switch_expression* genera un'istanza dell'`System.Runtime.CompilerServices.SwitchExpressionException`di eccezione.
+In fase di esecuzione, il risultato della *switch_expression* è il valore dell' *espressione* del primo *switch_expression_arm* per il quale l'espressione sul lato sinistro del *switch_expression* corrisponde al modello del *switch_expression_arm*e per il quale il *case_guard* del *switch_expression_arm*, se presente, restituisce `true`. Se non esiste un *switch_expression_arm*di questo tipo, il *switch_expression* genera un'istanza dell' `System.Runtime.CompilerServices.SwitchExpressionException`eccezione.
 
 ### <a name="optional-parens-when-switching-on-a-tuple-literal"></a>Parentesi opzionali quando si passa a un valore letterale di tupla
 
@@ -327,7 +327,7 @@ le parentesi dell'istruzione switch sono facoltative quando l'espressione da att
 
 Fornire la flessibilità del compilatore per riordinare le operazioni eseguite durante la corrispondenza dei modelli può consentire la flessibilità che può essere usata per migliorare l'efficienza della corrispondenza dei modelli. Il requisito (non applicato) prevede che le proprietà a cui si accede in un modello e i metodi di decostruzione debbano essere "pure" (effetto collaterale gratuito, idempotente e così via). Ciò non significa che verrà aggiunta la purezza come concetto di linguaggio, ma solo che la flessibilità del compilatore verrà riordinata.
 
-**Risoluzione 2018-04-04 LDM**: confermato: il compilatore è autorizzato a riordinare le chiamate a `Deconstruct`, agli accessi di proprietà e alle chiamate di metodi in `ITuple`e può presumere che i valori restituiti siano gli stessi da più chiamate. Il compilatore non deve richiamare funzioni che non possono influire sul risultato e sarà necessario prestare particolare attenzione prima di apportare eventuali modifiche all'ordine di valutazione generato dal compilatore in futuro.
+**Risoluzione 2018-04-04 LDM**: confermato: il compilatore è autorizzato a riordinare le chiamate `Deconstruct`a, gli accessi alle proprietà e le chiamate dei metodi `ITuple`in e può presumere che i valori restituiti siano gli stessi da più chiamate. Il compilatore non deve richiamare funzioni che non possono influire sul risultato e sarà necessario prestare particolare attenzione prima di apportare eventuali modifiche all'ordine di valutazione generato dal compilatore in futuro.
 
 ### <a name="some-possible-optimizations"></a>Alcune possibili ottimizzazioni
 
