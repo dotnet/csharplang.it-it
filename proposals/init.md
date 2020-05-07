@@ -1,15 +1,15 @@
 ---
-ms.openlocfilehash: 8da0f989669c77f724b5369722da3fcc944c348e
-ms.sourcegitcommit: ab0873759f86d44adfc5daefb18cb922df8adb8b
+ms.openlocfilehash: f50299739321818a4877f593ee715f35540132b0
+ms.sourcegitcommit: e006b4808d8c107dad2935348b57d51edbfaf9a7
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/27/2020
-ms.locfileid: "82162100"
+ms.lasthandoff: 05/05/2020
+ms.locfileid: "82820164"
 ---
 <a name="init-only-setters"></a>Setter solo init
 =====
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 Questa proposta aggiunge il concetto di proprietà e indicizzatori solo init a C#. Queste proprietà e indicizzatori possono essere impostati al momento della creazione dell'oggetto, ma diventano `get` efficaci solo dopo il completamento della creazione dell'oggetto.
 In questo modo è possibile disporre di un modello non modificabile molto più flessibile in C#. 
 
@@ -72,6 +72,7 @@ Una proprietà dell'istanza contenente `init` una funzione di accesso viene cons
 - Durante un `with` inizializzatore di espressione
 - All'interno di un costruttore di istanza del tipo che lo contiene `this` o derivato, su o`base`
 - All'interno `init` della funzione di accesso di qualsiasi `this` proprietà, in o`base`
+- Utilizzi degli attributi interni con i parametri denominati
 
 Gli orari in cui è possibile `init` impostare le funzioni di accesso sono definiti collettivamente in questo documento come fase di costruzione dell'oggetto.
 
@@ -243,7 +244,7 @@ Il progetto per `IsExternalInit` è più trattato in [questo problema](https://g
 
 ## <a name="questions"></a>Domande
 
-### <a name="breaking-changes"></a>Modifiche di rilievo
+### <a name="breaking-changes"></a>Modifiche che causano un'interruzione
 Uno dei principali punti cardine nel modo in cui questa funzionalità viene codificata dipende dalla domanda seguente: 
 
 > Si tratta di una modifica di rilievo binaria da sostituire `init` con `set`?
