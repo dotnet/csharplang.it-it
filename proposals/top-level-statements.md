@@ -1,29 +1,29 @@
 ---
-ms.openlocfilehash: 252b7d601ce2f1649b090dcfd97a3aea15d8e132
-ms.sourcegitcommit: 356ee04506a2a82292be25d7b029e7ce2a39e63a
+ms.openlocfilehash: a42c55a8ebeb848cd0df906363c2feb327331ef6
+ms.sourcegitcommit: c2fe8f1d150ac6ac171072d1c6f9df883adcbb40
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "82038235"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83203245"
 ---
 # <a name="top-level-statements"></a>Istruzioni di primo livello
 
-* [x] Proposto
-* [x] Prototipo: Avviato
-* [x] Implementazione: Avviata
-* [ ] Specifica: Non avviato
+* [x] proposto
+* [x] prototipo: avviato
+* Implementazione di [x]: avviata
+* [] Specifica: non avviata
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
-Consentire la verifica di una sequenza di *istruzioni* subito prima delle *namespace_member_declaration*di un *compilation_unit* (ad esempio un file di origine).
+Consente di eseguire una sequenza di *istruzioni* immediatamente prima del *namespace_member_declaration*s di un *compilation_unit* , ad esempio un file di origine.
 
-La semantica è che se tale sequenza di *istruzioni* è presente, la seguente dichiarazione di tipo, modulo il nome effettivo del tipo e il nome del metodo, verrebbe generato:
+La semantica è che, se è presente una sequenza di *istruzioni* di questo tipo, viene emessa la seguente dichiarazione di tipo, modulo del nome del tipo effettivo e del nome del metodo:
 
 ``` c#
 static class Program
 {
-    static async Task Main()
+    static async Task Main(string[] args)
     {
         // statements
     }
@@ -35,14 +35,14 @@ Vedere anche https://github.com/dotnet/csharplang/issues/3117.
 ## <a name="motivation"></a>Motivazione
 [motivation]: #motivation
 
-C'è una certa quantità di boilerplate che circonda anche il `Main` più semplice dei programmi, a causa della necessità di un metodo esplicito. Questo sembra intralciare l'apprendimento delle lingue e la chiarezza del programma. L'obiettivo principale della funzionalità è quindi quello di consentire i programmi c'è senza inutili boilerplate intorno a loro, per il bene degli studenti e la chiarezza del codice.
+Esiste una certa quantità di standard che circonda anche il più semplice dei programmi, a causa della necessità di un metodo esplicito `Main` . Si tratta di una soluzione di apprendimento della lingua e di chiarezza del programma. L'obiettivo principale della funzionalità è quindi quello di consentire i programmi C# senza che siano necessari elementi standard, per gli studenti e la chiarezza del codice.
 
 ## <a name="detailed-design"></a>Progettazione dettagliata
 [design]: #detailed-design
 
 ### <a name="syntax"></a>Sintassi
 
-L'unica sintassi aggiuntiva è consentire una sequenza di *istruzioni*s in un'unità di compilazione, appena prima del *namespace_member_declaration*s:
+L'unica sintassi aggiuntiva consente di eseguire una sequenza di *istruzioni*in un'unità di compilazione, immediatamente prima del *namespace_member_declaration*s:
 
 ``` antlr
 compilation_unit
@@ -50,13 +50,13 @@ compilation_unit
     ;
 ```
 
-Solo un *compilation_unit* può avere *l'istruzione*s. 
+Solo un *compilation_unit* può avere un' *istruzione*s. 
 
 Esempio:
 
 ``` c#
-if (System.Environment.CommandLine.Length == 0
-    || !int.TryParse(System.Environment.CommandLine, out int n)
+if (args.Length == 0
+    || !int.TryParse(args[0], out int n)
     || n < 0) return;
 Console.WriteLine(Fib(n).curr);
 
@@ -70,39 +70,41 @@ Console.WriteLine(Fib(n).curr);
 
 ### <a name="semantics"></a>Semantics
 
-Se sono presenti istruzioni di primo livello in qualsiasi unità di compilazione del programma, il `Main` significato `Program` è come se fossero combinate nel corpo del blocco di un metodo di una classe nello spazio dei nomi globale, come indicato di seguito:
+Se in qualsiasi unità di compilazione del programma sono presenti istruzioni di primo livello, il significato è come se fossero combinate nel corpo del blocco di un `Main` metodo di una `Program` classe nello spazio dei nomi globale, come indicato di seguito:
 
 ``` c#
 static class Program
 {
-    static async Task Main()
+    static async Task Main(string[] args)
     {
         // statements
     }
 }
 ```
 
-Si noti che i nomi "Programma" e "Main" vengono utilizzati solo a scopo illustrativo, i nomi effettivi utilizzati dal compilatore dipendono dall'implementazione e né è possibile fare riferimento al tipo né al metodo per nome dal codice sorgente.
+Si noti che i nomi "Program" e "Main" vengono utilizzati solo a scopo illustrativo, i nomi effettivi utilizzati dal compilatore sono dipendenti dall'implementazione, né il tipo, né il metodo a cui è possibile fare riferimento dal codice sorgente.
 
-Il metodo viene designato come punto di ingresso del programma. I metodi dichiarati in modo esplicito che per convenzione potrebbero essere considerati come candidati di un punto di ingresso vengono ignorati. Un avviso viene segnalato quando ciò si verifica. È un errore `-main:<type>` specificare l'opzione del compilatore quando sono presenti istruzioni di primo livello.
+Il metodo viene designato come punto di ingresso del programma. I metodi dichiarati in modo esplicito che per convenzione potrebbero essere considerati come candidati di un punto di ingresso vengono ignorati. Quando si verifica un avviso, viene visualizzato un avviso. È un errore specificare l' `-main:<type>` opzione del compilatore quando sono presenti istruzioni di primo livello.
 
-Le operazioni asincrone sono consentite nelle istruzioni di primo livello al grado in cui sono consentite nelle istruzioni all'interno di un normale metodo del punto di ingresso asincrono. Tuttavia, non sono `await` necessari, se le espressioni e altre operazioni asincrone vengono omesse, non viene generato alcun avviso.
+Il metodo del punto di ingresso ha sempre un parametro formale, ```string[] args``` . L'ambiente di esecuzione crea e passa un ```string[]``` argomento contenente gli argomenti della riga di comando specificati al momento dell'avvio dell'applicazione. L' ```string[]``` argomento non è mai null, ma può avere una lunghezza pari a zero se non è stato specificato alcun argomento della riga di comando. Il parametro ' args ' si trova nell'ambito all'interno delle istruzioni di primo livello e non è incluso nell'ambito. Si applicano le regole di conflitto/ombreggiatura dei nomi regolari.
 
-La firma del metodo del punto di ingresso generato viene determinata in base alle operazioni utilizzate dalle istruzioni di primo livello come segue:
-**Async-operations - Return-with-expression (Operazioni asincrone- Return-with-expression)** | **Presente** | **Assente**
+Le operazioni asincrone sono consentite nelle istruzioni di primo livello fino al grado in cui sono consentite nelle istruzioni all'interno di un normale metodo del punto di ingresso asincrono. Tuttavia, non sono necessari, se `await` le espressioni e altre operazioni asincrone vengono omesse, non viene generato alcun avviso.
+
+La firma del metodo del punto di ingresso generato viene determinata in base alle operazioni utilizzate dalle istruzioni di primo livello, come indicato di seguito:
+**Async-operations\Return-with-expression** | **Presente** | **Assente**
 ----------------------------------------| -------------|-------------
-**Presente** | ```static Task<int> Main()```| ```static Task Main()```
-**Assente**  | ```static int Main()``` | ```static void Main()```
+**Presente** | ```static Task<int> Main(string[] args)```| ```static Task Main(string[] args)```
+**Assente**  | ```static int Main(string[] args)``` | ```static void Main(string[] args)```
 
-L'esempio precedente produrrebbe la seguente dichiarazione di metodo:The example above would yield the following `$Main` method declaration:
+Nell'esempio precedente viene restituita la `$Main` dichiarazione di metodo seguente:
 
 ``` c#
 static class $Program
 {
-    static void $Main()
+    static void $Main(string[] args)
     {
-        if (System.Environment.CommandLine.Length == 0
-            || !int.TryParse(System.Environment.CommandLine, out int n)
+        if (args.Length == 0
+            || !int.TryParse(args[0], out int n)
             || n < 0) return;
         Console.WriteLine(Fib(n).curr);
         
@@ -116,7 +118,7 @@ static class $Program
 }
 ```
 
-Allo stesso tempo, un esempio come questo:
+Allo stesso tempo, un esempio simile al seguente:
 ``` c#
 await System.Threading.Tasks.Task.Delay(1000);
 System.Console.WriteLine("Hi!");
@@ -126,7 +128,7 @@ produrrebbe:
 ``` c#
 static class $Program
 {
-    static async Task $Main()
+    static async Task $Main(string[] args)
     {
         await System.Threading.Tasks.Task.Delay(1000);
         System.Console.WriteLine("Hi!");
@@ -134,7 +136,7 @@ static class $Program
 }
 ```
 
-Un esempio come questo:
+Un esempio simile al seguente:
 ``` c#
 await System.Threading.Tasks.Task.Delay(1000);
 System.Console.WriteLine("Hi!");
@@ -145,7 +147,7 @@ produrrebbe:
 ``` c#
 static class $Program
 {
-    static async Task<int> $Main()
+    static async Task<int> $Main(string[] args)
     {
         await System.Threading.Tasks.Task.Delay(1000);
         System.Console.WriteLine("Hi!");
@@ -154,7 +156,7 @@ static class $Program
 }
 ```
 
-E un esempio come questo:
+E un esempio simile al seguente:
 ``` c#
 System.Console.WriteLine("Hi!");
 return 2;
@@ -164,7 +166,7 @@ produrrebbe:
 ``` c#
 static class $Program
 {
-    static int $Main()
+    static int $Main(string[] args)
     {
         System.Console.WriteLine("Hi!");
         return 2;
@@ -174,14 +176,14 @@ static class $Program
 
 ### <a name="scope-of-top-level-local-variables-and-local-functions"></a>Ambito delle variabili locali di primo livello e delle funzioni locali
 
-Anche se le funzioni e le variabili locali di primo livello sono "incapsulate" nel metodo del punto di ingresso generato, devono comunque essere nell'ambito in tutto il programma in ogni unità di compilazione.
-Ai fini della valutazione del nome semplice, una volta raggiunto lo spazio dei nomi globale:
-- In primo luogo, viene effettuato un tentativo di valutare il nome all'interno del metodo del punto di ingresso generato e solo se il tentativo non riesce 
-- Viene eseguita la valutazione "regolare" all'interno della dichiarazione dello spazio dei nomi globale. 
+Anche se le funzioni e le variabili locali di primo livello sono "incapsulate" nel metodo del punto di ingresso generato, devono ancora trovarsi nell'ambito del programma in ogni unità di compilazione.
+Ai fini della valutazione con nome semplice, una volta raggiunto lo spazio dei nomi globale:
+- Viene innanzitutto eseguito un tentativo di valutare il nome all'interno del metodo del punto di ingresso generato e solo se il tentativo ha esito negativo 
+- Viene eseguita la valutazione "regular" all'interno della dichiarazione dello spazio dei nomi globale. 
 
-Ciò potrebbe portare allo shadowing dei nomi degli spazi dei nomi e dei tipi dichiarati all'interno dello spazio dei nomi globale, nonché allo shadowing dei nomi importati.
+Questo potrebbe causare l'ombreggiatura dei nomi degli spazi dei nomi e dei tipi dichiarati all'interno dello spazio dei nomi globale, nonché dello shadowing dei nomi importati.
 
-Se la valutazione del nome semplice si verifica al di fuori delle istruzioni di primo livello e la valutazione produce una variabile locale di primo livello o una funzione, ciò dovrebbe causare un errore.
+Se la valutazione del nome semplice viene eseguita al di fuori delle istruzioni di primo livello e la valutazione restituisce una variabile o una funzione locale di primo livello, questo dovrebbe causare un errore.
 
-In questo modo proteggiamo la nostra futura capacità di affrontare https://github.com/dotnet/csharplang/issues/3117)meglio le "funzioni di primo livello" (scenario 2 in , e siamo in grado di dare diagnostica utile agli utenti che erroneamente credono che siano supportati.
+In questo modo, proteggiamo la nostra futura capacità di gestire meglio le "funzioni di primo livello" (scenario 2 in https://github.com/dotnet/csharplang/issues/3117) e sono in grado di fornire una diagnostica utile agli utenti che si ritengono erroneamente supportati.
 
