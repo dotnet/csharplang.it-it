@@ -1,48 +1,48 @@
 ---
-ms.openlocfilehash: 252b7d601ce2f1649b090dcfd97a3aea15d8e132
-ms.sourcegitcommit: 356ee04506a2a82292be25d7b029e7ce2a39e63a
+ms.openlocfilehash: a42c55a8ebeb848cd0df906363c2feb327331ef6
+ms.sourcegitcommit: c2fe8f1d150ac6ac171072d1c6f9df883adcbb40
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/22/2020
-ms.locfileid: "82038235"
+ms.lasthandoff: 05/12/2020
+ms.locfileid: "83203245"
 ---
-# <a name="top-level-statements"></a><span data-ttu-id="79c2c-101">Istruzioni di primo livello</span><span class="sxs-lookup"><span data-stu-id="79c2c-101">Top-level statements</span></span>
+# <a name="top-level-statements"></a><span data-ttu-id="b7121-101">Istruzioni di primo livello</span><span class="sxs-lookup"><span data-stu-id="b7121-101">Top-level statements</span></span>
 
-* <span data-ttu-id="79c2c-102">[x] Proposto</span><span class="sxs-lookup"><span data-stu-id="79c2c-102">[x] Proposed</span></span>
-* <span data-ttu-id="79c2c-103">[x] Prototipo: Avviato</span><span class="sxs-lookup"><span data-stu-id="79c2c-103">[x] Prototype: Started</span></span>
-* <span data-ttu-id="79c2c-104">[x] Implementazione: Avviata</span><span class="sxs-lookup"><span data-stu-id="79c2c-104">[x] Implementation: Started</span></span>
-* <span data-ttu-id="79c2c-105">[ ] Specifica: Non avviato</span><span class="sxs-lookup"><span data-stu-id="79c2c-105">[ ] Specification: Not Started</span></span>
+* <span data-ttu-id="b7121-102">[x] proposto</span><span class="sxs-lookup"><span data-stu-id="b7121-102">[x] Proposed</span></span>
+* <span data-ttu-id="b7121-103">[x] prototipo: avviato</span><span class="sxs-lookup"><span data-stu-id="b7121-103">[x] Prototype: Started</span></span>
+* <span data-ttu-id="b7121-104">Implementazione di [x]: avviata</span><span class="sxs-lookup"><span data-stu-id="b7121-104">[x] Implementation: Started</span></span>
+* <span data-ttu-id="b7121-105">[] Specifica: non avviata</span><span class="sxs-lookup"><span data-stu-id="b7121-105">[ ] Specification: Not Started</span></span>
 
-## <a name="summary"></a><span data-ttu-id="79c2c-106">Summary</span><span class="sxs-lookup"><span data-stu-id="79c2c-106">Summary</span></span>
+## <a name="summary"></a><span data-ttu-id="b7121-106">Riepilogo</span><span class="sxs-lookup"><span data-stu-id="b7121-106">Summary</span></span>
 [summary]: #summary
 
-<span data-ttu-id="79c2c-107">Consentire la verifica di una sequenza di *istruzioni* subito prima delle *namespace_member_declaration*di un *compilation_unit* (ad esempio un file di origine).</span><span class="sxs-lookup"><span data-stu-id="79c2c-107">Allow a sequence of *statements* to occur right before the *namespace_member_declaration*s of a *compilation_unit* (i.e. source file).</span></span>
+<span data-ttu-id="b7121-107">Consente di eseguire una sequenza di *istruzioni* immediatamente prima del *namespace_member_declaration*s di un *compilation_unit* , ad esempio un file di origine.</span><span class="sxs-lookup"><span data-stu-id="b7121-107">Allow a sequence of *statements* to occur right before the *namespace_member_declaration*s of a *compilation_unit* (i.e. source file).</span></span>
 
-<span data-ttu-id="79c2c-108">La semantica è che se tale sequenza di *istruzioni* è presente, la seguente dichiarazione di tipo, modulo il nome effettivo del tipo e il nome del metodo, verrebbe generato:</span><span class="sxs-lookup"><span data-stu-id="79c2c-108">The semantics are that if such a sequence of *statements* is present, the following type declaration, modulo the actual type name and the method name, would be emitted:</span></span>
+<span data-ttu-id="b7121-108">La semantica è che, se è presente una sequenza di *istruzioni* di questo tipo, viene emessa la seguente dichiarazione di tipo, modulo del nome del tipo effettivo e del nome del metodo:</span><span class="sxs-lookup"><span data-stu-id="b7121-108">The semantics are that if such a sequence of *statements* is present, the following type declaration, modulo the actual type name and the method name, would be emitted:</span></span>
 
 ``` c#
 static class Program
 {
-    static async Task Main()
+    static async Task Main(string[] args)
     {
         // statements
     }
 }
 ```
 
-<span data-ttu-id="79c2c-109">Vedere anche https://github.com/dotnet/csharplang/issues/3117.</span><span class="sxs-lookup"><span data-stu-id="79c2c-109">See also https://github.com/dotnet/csharplang/issues/3117.</span></span>
+<span data-ttu-id="b7121-109">Vedere anche https://github.com/dotnet/csharplang/issues/3117.</span><span class="sxs-lookup"><span data-stu-id="b7121-109">See also https://github.com/dotnet/csharplang/issues/3117.</span></span>
 
-## <a name="motivation"></a><span data-ttu-id="79c2c-110">Motivazione</span><span class="sxs-lookup"><span data-stu-id="79c2c-110">Motivation</span></span>
+## <a name="motivation"></a><span data-ttu-id="b7121-110">Motivazione</span><span class="sxs-lookup"><span data-stu-id="b7121-110">Motivation</span></span>
 [motivation]: #motivation
 
-<span data-ttu-id="79c2c-111">C'è una certa quantità di boilerplate che circonda anche il `Main` più semplice dei programmi, a causa della necessità di un metodo esplicito.</span><span class="sxs-lookup"><span data-stu-id="79c2c-111">There's a certain amount of boilerplate surrounding even the simplest of programs, because of the need for an explicit `Main` method.</span></span> <span data-ttu-id="79c2c-112">Questo sembra intralciare l'apprendimento delle lingue e la chiarezza del programma.</span><span class="sxs-lookup"><span data-stu-id="79c2c-112">This seems to get in the way of language learning and program clarity.</span></span> <span data-ttu-id="79c2c-113">L'obiettivo principale della funzionalità è quindi quello di consentire i programmi c'è senza inutili boilerplate intorno a loro, per il bene degli studenti e la chiarezza del codice.</span><span class="sxs-lookup"><span data-stu-id="79c2c-113">The primary goal of the feature therefore is to allow C# programs without unnecessary boilerplate around them, for the sake of learners and the clarity of code.</span></span>
+<span data-ttu-id="b7121-111">Esiste una certa quantità di standard che circonda anche il più semplice dei programmi, a causa della necessità di un metodo esplicito `Main` .</span><span class="sxs-lookup"><span data-stu-id="b7121-111">There's a certain amount of boilerplate surrounding even the simplest of programs, because of the need for an explicit `Main` method.</span></span> <span data-ttu-id="b7121-112">Si tratta di una soluzione di apprendimento della lingua e di chiarezza del programma.</span><span class="sxs-lookup"><span data-stu-id="b7121-112">This seems to get in the way of language learning and program clarity.</span></span> <span data-ttu-id="b7121-113">L'obiettivo principale della funzionalità è quindi quello di consentire i programmi C# senza che siano necessari elementi standard, per gli studenti e la chiarezza del codice.</span><span class="sxs-lookup"><span data-stu-id="b7121-113">The primary goal of the feature therefore is to allow C# programs without unnecessary boilerplate around them, for the sake of learners and the clarity of code.</span></span>
 
-## <a name="detailed-design"></a><span data-ttu-id="79c2c-114">Progettazione dettagliata</span><span class="sxs-lookup"><span data-stu-id="79c2c-114">Detailed design</span></span>
+## <a name="detailed-design"></a><span data-ttu-id="b7121-114">Progettazione dettagliata</span><span class="sxs-lookup"><span data-stu-id="b7121-114">Detailed design</span></span>
 [design]: #detailed-design
 
-### <a name="syntax"></a><span data-ttu-id="79c2c-115">Sintassi</span><span class="sxs-lookup"><span data-stu-id="79c2c-115">Syntax</span></span>
+### <a name="syntax"></a><span data-ttu-id="b7121-115">Sintassi</span><span class="sxs-lookup"><span data-stu-id="b7121-115">Syntax</span></span>
 
-<span data-ttu-id="79c2c-116">L'unica sintassi aggiuntiva è consentire una sequenza di *istruzioni*s in un'unità di compilazione, appena prima del *namespace_member_declaration*s:</span><span class="sxs-lookup"><span data-stu-id="79c2c-116">The only additional syntax is allowing a sequence of *statement*s in a compilation unit, just before the *namespace_member_declaration*s:</span></span>
+<span data-ttu-id="b7121-116">L'unica sintassi aggiuntiva consente di eseguire una sequenza di *istruzioni*in un'unità di compilazione, immediatamente prima del *namespace_member_declaration*s:</span><span class="sxs-lookup"><span data-stu-id="b7121-116">The only additional syntax is allowing a sequence of *statement*s in a compilation unit, just before the *namespace_member_declaration*s:</span></span>
 
 ``` antlr
 compilation_unit
@@ -50,13 +50,13 @@ compilation_unit
     ;
 ```
 
-<span data-ttu-id="79c2c-117">Solo un *compilation_unit* può avere *l'istruzione*s.</span><span class="sxs-lookup"><span data-stu-id="79c2c-117">Only one *compilation_unit* is allowed to have *statement*s.</span></span> 
+<span data-ttu-id="b7121-117">Solo un *compilation_unit* può avere un' *istruzione*s.</span><span class="sxs-lookup"><span data-stu-id="b7121-117">Only one *compilation_unit* is allowed to have *statement*s.</span></span> 
 
-<span data-ttu-id="79c2c-118">Esempio:</span><span class="sxs-lookup"><span data-stu-id="79c2c-118">Example:</span></span>
+<span data-ttu-id="b7121-118">Esempio:</span><span class="sxs-lookup"><span data-stu-id="b7121-118">Example:</span></span>
 
 ``` c#
-if (System.Environment.CommandLine.Length == 0
-    || !int.TryParse(System.Environment.CommandLine, out int n)
+if (args.Length == 0
+    || !int.TryParse(args[0], out int n)
     || n < 0) return;
 Console.WriteLine(Fib(n).curr);
 
@@ -68,41 +68,43 @@ Console.WriteLine(Fib(n).curr);
 }
 ```
 
-### <a name="semantics"></a><span data-ttu-id="79c2c-119">Semantics</span><span class="sxs-lookup"><span data-stu-id="79c2c-119">Semantics</span></span>
+### <a name="semantics"></a><span data-ttu-id="b7121-119">Semantics</span><span class="sxs-lookup"><span data-stu-id="b7121-119">Semantics</span></span>
 
-<span data-ttu-id="79c2c-120">Se sono presenti istruzioni di primo livello in qualsiasi unità di compilazione del programma, il `Main` significato `Program` è come se fossero combinate nel corpo del blocco di un metodo di una classe nello spazio dei nomi globale, come indicato di seguito:</span><span class="sxs-lookup"><span data-stu-id="79c2c-120">If any top-level statements are present in any compilation unit of the program, the meaning is as if they were combined in the block body of a `Main` method of a `Program` class in the global namespace, as follows:</span></span>
+<span data-ttu-id="b7121-120">Se in qualsiasi unità di compilazione del programma sono presenti istruzioni di primo livello, il significato è come se fossero combinate nel corpo del blocco di un `Main` metodo di una `Program` classe nello spazio dei nomi globale, come indicato di seguito:</span><span class="sxs-lookup"><span data-stu-id="b7121-120">If any top-level statements are present in any compilation unit of the program, the meaning is as if they were combined in the block body of a `Main` method of a `Program` class in the global namespace, as follows:</span></span>
 
 ``` c#
 static class Program
 {
-    static async Task Main()
+    static async Task Main(string[] args)
     {
         // statements
     }
 }
 ```
 
-<span data-ttu-id="79c2c-121">Si noti che i nomi "Programma" e "Main" vengono utilizzati solo a scopo illustrativo, i nomi effettivi utilizzati dal compilatore dipendono dall'implementazione e né è possibile fare riferimento al tipo né al metodo per nome dal codice sorgente.</span><span class="sxs-lookup"><span data-stu-id="79c2c-121">Note that the names "Program" and "Main" are used only for illustrations purposes, actual names used by compiler are implementation dependent and neither the type, nor the method can be referenced by name from source code.</span></span>
+<span data-ttu-id="b7121-121">Si noti che i nomi "Program" e "Main" vengono utilizzati solo a scopo illustrativo, i nomi effettivi utilizzati dal compilatore sono dipendenti dall'implementazione, né il tipo, né il metodo a cui è possibile fare riferimento dal codice sorgente.</span><span class="sxs-lookup"><span data-stu-id="b7121-121">Note that the names "Program" and "Main" are used only for illustrations purposes, actual names used by compiler are implementation dependent and neither the type, nor the method can be referenced by name from source code.</span></span>
 
-<span data-ttu-id="79c2c-122">Il metodo viene designato come punto di ingresso del programma.</span><span class="sxs-lookup"><span data-stu-id="79c2c-122">The method is designated as the entry point of the program.</span></span> <span data-ttu-id="79c2c-123">I metodi dichiarati in modo esplicito che per convenzione potrebbero essere considerati come candidati di un punto di ingresso vengono ignorati.</span><span class="sxs-lookup"><span data-stu-id="79c2c-123">Explicitly declared methods that by convention could be considered as an entry point candidates are ignored.</span></span> <span data-ttu-id="79c2c-124">Un avviso viene segnalato quando ciò si verifica.</span><span class="sxs-lookup"><span data-stu-id="79c2c-124">A warning is reported when that happens.</span></span> <span data-ttu-id="79c2c-125">È un errore `-main:<type>` specificare l'opzione del compilatore quando sono presenti istruzioni di primo livello.</span><span class="sxs-lookup"><span data-stu-id="79c2c-125">It is an error to specify `-main:<type>` compiler switch when there are top-level statements.</span></span>
+<span data-ttu-id="b7121-122">Il metodo viene designato come punto di ingresso del programma.</span><span class="sxs-lookup"><span data-stu-id="b7121-122">The method is designated as the entry point of the program.</span></span> <span data-ttu-id="b7121-123">I metodi dichiarati in modo esplicito che per convenzione potrebbero essere considerati come candidati di un punto di ingresso vengono ignorati.</span><span class="sxs-lookup"><span data-stu-id="b7121-123">Explicitly declared methods that by convention could be considered as an entry point candidates are ignored.</span></span> <span data-ttu-id="b7121-124">Quando si verifica un avviso, viene visualizzato un avviso.</span><span class="sxs-lookup"><span data-stu-id="b7121-124">A warning is reported when that happens.</span></span> <span data-ttu-id="b7121-125">È un errore specificare l' `-main:<type>` opzione del compilatore quando sono presenti istruzioni di primo livello.</span><span class="sxs-lookup"><span data-stu-id="b7121-125">It is an error to specify `-main:<type>` compiler switch when there are top-level statements.</span></span>
 
-<span data-ttu-id="79c2c-126">Le operazioni asincrone sono consentite nelle istruzioni di primo livello al grado in cui sono consentite nelle istruzioni all'interno di un normale metodo del punto di ingresso asincrono.</span><span class="sxs-lookup"><span data-stu-id="79c2c-126">Async operations are allowed in top-level statements to the degree they are allowed in statements within a regular async entry point method.</span></span> <span data-ttu-id="79c2c-127">Tuttavia, non sono `await` necessari, se le espressioni e altre operazioni asincrone vengono omesse, non viene generato alcun avviso.</span><span class="sxs-lookup"><span data-stu-id="79c2c-127">However, they are not required, if `await` expressions and other async operations are omitted, no warning is produced.</span></span>
+<span data-ttu-id="b7121-126">Il metodo del punto di ingresso ha sempre un parametro formale, ```string[] args``` .</span><span class="sxs-lookup"><span data-stu-id="b7121-126">The entry point method always has one formal parameter, ```string[] args```.</span></span> <span data-ttu-id="b7121-127">L'ambiente di esecuzione crea e passa un ```string[]``` argomento contenente gli argomenti della riga di comando specificati al momento dell'avvio dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="b7121-127">The execution environment creates and passes a ```string[]``` argument containing the command-line arguments that were specified when the application was started.</span></span> <span data-ttu-id="b7121-128">L' ```string[]``` argomento non è mai null, ma può avere una lunghezza pari a zero se non è stato specificato alcun argomento della riga di comando.</span><span class="sxs-lookup"><span data-stu-id="b7121-128">The ```string[]``` argument is never null, but it may have a length of zero if no command-line arguments were specified.</span></span> <span data-ttu-id="b7121-129">Il parametro ' args ' si trova nell'ambito all'interno delle istruzioni di primo livello e non è incluso nell'ambito.</span><span class="sxs-lookup"><span data-stu-id="b7121-129">The ‘args’ parameter is in scope  within top-level statements and is not in scope outside of them.</span></span> <span data-ttu-id="b7121-130">Si applicano le regole di conflitto/ombreggiatura dei nomi regolari.</span><span class="sxs-lookup"><span data-stu-id="b7121-130">Regular name conflict/shadowing rules apply.</span></span>
 
-<span data-ttu-id="79c2c-128">La firma del metodo del punto di ingresso generato viene determinata in base alle operazioni utilizzate dalle istruzioni di primo livello come segue:</span><span class="sxs-lookup"><span data-stu-id="79c2c-128">The signature of the generated entry point method is determined based on operations used by the top level statements as follows:</span></span>
-<span data-ttu-id="79c2c-129">**Async-operations - Return-with-expression (Operazioni asincrone- Return-with-expression)**</span><span class="sxs-lookup"><span data-stu-id="79c2c-129">**Async-operations\Return-with-expression**</span></span> | <span data-ttu-id="79c2c-130">**Presente**</span><span class="sxs-lookup"><span data-stu-id="79c2c-130">**Present**</span></span> | <span data-ttu-id="79c2c-131">**Assente**</span><span class="sxs-lookup"><span data-stu-id="79c2c-131">**Absent**</span></span>
+<span data-ttu-id="b7121-131">Le operazioni asincrone sono consentite nelle istruzioni di primo livello fino al grado in cui sono consentite nelle istruzioni all'interno di un normale metodo del punto di ingresso asincrono.</span><span class="sxs-lookup"><span data-stu-id="b7121-131">Async operations are allowed in top-level statements to the degree they are allowed in statements within a regular async entry point method.</span></span> <span data-ttu-id="b7121-132">Tuttavia, non sono necessari, se `await` le espressioni e altre operazioni asincrone vengono omesse, non viene generato alcun avviso.</span><span class="sxs-lookup"><span data-stu-id="b7121-132">However, they are not required, if `await` expressions and other async operations are omitted, no warning is produced.</span></span>
+
+<span data-ttu-id="b7121-133">La firma del metodo del punto di ingresso generato viene determinata in base alle operazioni utilizzate dalle istruzioni di primo livello, come indicato di seguito:</span><span class="sxs-lookup"><span data-stu-id="b7121-133">The signature of the generated entry point method is determined based on operations used by the top level statements as follows:</span></span>
+<span data-ttu-id="b7121-134">**Async-operations\Return-with-expression**</span><span class="sxs-lookup"><span data-stu-id="b7121-134">**Async-operations\Return-with-expression**</span></span> | <span data-ttu-id="b7121-135">**Presente**</span><span class="sxs-lookup"><span data-stu-id="b7121-135">**Present**</span></span> | <span data-ttu-id="b7121-136">**Assente**</span><span class="sxs-lookup"><span data-stu-id="b7121-136">**Absent**</span></span>
 ----------------------------------------| -------------|-------------
-<span data-ttu-id="79c2c-132">**Presente**</span><span class="sxs-lookup"><span data-stu-id="79c2c-132">**Present**</span></span> | ```static Task<int> Main()```| ```static Task Main()```
-<span data-ttu-id="79c2c-133">**Assente**</span><span class="sxs-lookup"><span data-stu-id="79c2c-133">**Absent**</span></span>  | ```static int Main()``` | ```static void Main()```
+<span data-ttu-id="b7121-137">**Presente**</span><span class="sxs-lookup"><span data-stu-id="b7121-137">**Present**</span></span> | ```static Task<int> Main(string[] args)```| ```static Task Main(string[] args)```
+<span data-ttu-id="b7121-138">**Assente**</span><span class="sxs-lookup"><span data-stu-id="b7121-138">**Absent**</span></span>  | ```static int Main(string[] args)``` | ```static void Main(string[] args)```
 
-<span data-ttu-id="79c2c-134">L'esempio precedente produrrebbe la seguente dichiarazione di metodo:The example above would yield the following `$Main` method declaration:</span><span class="sxs-lookup"><span data-stu-id="79c2c-134">The example above would yield the following `$Main` method declaration:</span></span>
+<span data-ttu-id="b7121-139">Nell'esempio precedente viene restituita la `$Main` dichiarazione di metodo seguente:</span><span class="sxs-lookup"><span data-stu-id="b7121-139">The example above would yield the following `$Main` method declaration:</span></span>
 
 ``` c#
 static class $Program
 {
-    static void $Main()
+    static void $Main(string[] args)
     {
-        if (System.Environment.CommandLine.Length == 0
-            || !int.TryParse(System.Environment.CommandLine, out int n)
+        if (args.Length == 0
+            || !int.TryParse(args[0], out int n)
             || n < 0) return;
         Console.WriteLine(Fib(n).curr);
         
@@ -116,17 +118,17 @@ static class $Program
 }
 ```
 
-<span data-ttu-id="79c2c-135">Allo stesso tempo, un esempio come questo:</span><span class="sxs-lookup"><span data-stu-id="79c2c-135">At the same time an example like this:</span></span>
+<span data-ttu-id="b7121-140">Allo stesso tempo, un esempio simile al seguente:</span><span class="sxs-lookup"><span data-stu-id="b7121-140">At the same time an example like this:</span></span>
 ``` c#
 await System.Threading.Tasks.Task.Delay(1000);
 System.Console.WriteLine("Hi!");
 ```
 
-<span data-ttu-id="79c2c-136">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="79c2c-136">would  yield:</span></span>
+<span data-ttu-id="b7121-141">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="b7121-141">would  yield:</span></span>
 ``` c#
 static class $Program
 {
-    static async Task $Main()
+    static async Task $Main(string[] args)
     {
         await System.Threading.Tasks.Task.Delay(1000);
         System.Console.WriteLine("Hi!");
@@ -134,18 +136,18 @@ static class $Program
 }
 ```
 
-<span data-ttu-id="79c2c-137">Un esempio come questo:</span><span class="sxs-lookup"><span data-stu-id="79c2c-137">An example like this:</span></span>
+<span data-ttu-id="b7121-142">Un esempio simile al seguente:</span><span class="sxs-lookup"><span data-stu-id="b7121-142">An example like this:</span></span>
 ``` c#
 await System.Threading.Tasks.Task.Delay(1000);
 System.Console.WriteLine("Hi!");
 return 0;
 ```
 
-<span data-ttu-id="79c2c-138">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="79c2c-138">would  yield:</span></span>
+<span data-ttu-id="b7121-143">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="b7121-143">would  yield:</span></span>
 ``` c#
 static class $Program
 {
-    static async Task<int> $Main()
+    static async Task<int> $Main(string[] args)
     {
         await System.Threading.Tasks.Task.Delay(1000);
         System.Console.WriteLine("Hi!");
@@ -154,17 +156,17 @@ static class $Program
 }
 ```
 
-<span data-ttu-id="79c2c-139">E un esempio come questo:</span><span class="sxs-lookup"><span data-stu-id="79c2c-139">And an example like this:</span></span>
+<span data-ttu-id="b7121-144">E un esempio simile al seguente:</span><span class="sxs-lookup"><span data-stu-id="b7121-144">And an example like this:</span></span>
 ``` c#
 System.Console.WriteLine("Hi!");
 return 2;
 ```
 
-<span data-ttu-id="79c2c-140">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="79c2c-140">would  yield:</span></span>
+<span data-ttu-id="b7121-145">produrrebbe:</span><span class="sxs-lookup"><span data-stu-id="b7121-145">would  yield:</span></span>
 ``` c#
 static class $Program
 {
-    static int $Main()
+    static int $Main(string[] args)
     {
         System.Console.WriteLine("Hi!");
         return 2;
@@ -172,16 +174,16 @@ static class $Program
 }
 ```
 
-### <a name="scope-of-top-level-local-variables-and-local-functions"></a><span data-ttu-id="79c2c-141">Ambito delle variabili locali di primo livello e delle funzioni locali</span><span class="sxs-lookup"><span data-stu-id="79c2c-141">Scope of top-level local variables and local functions</span></span>
+### <a name="scope-of-top-level-local-variables-and-local-functions"></a><span data-ttu-id="b7121-146">Ambito delle variabili locali di primo livello e delle funzioni locali</span><span class="sxs-lookup"><span data-stu-id="b7121-146">Scope of top-level local variables and local functions</span></span>
 
-<span data-ttu-id="79c2c-142">Anche se le funzioni e le variabili locali di primo livello sono "incapsulate" nel metodo del punto di ingresso generato, devono comunque essere nell'ambito in tutto il programma in ogni unità di compilazione.</span><span class="sxs-lookup"><span data-stu-id="79c2c-142">Even though top-level local variables and functions are "wrapped" into the generated entry point method, they should still be in scope throughout the program in every compilation unit.</span></span>
-<span data-ttu-id="79c2c-143">Ai fini della valutazione del nome semplice, una volta raggiunto lo spazio dei nomi globale:</span><span class="sxs-lookup"><span data-stu-id="79c2c-143">For the purpose of simple-name evaluation, once the global namespace is reached:</span></span>
-- <span data-ttu-id="79c2c-144">In primo luogo, viene effettuato un tentativo di valutare il nome all'interno del metodo del punto di ingresso generato e solo se il tentativo non riesce</span><span class="sxs-lookup"><span data-stu-id="79c2c-144">First, an attempt is made to evaluate the name within the generated entry point method and only if this attempt fails</span></span> 
-- <span data-ttu-id="79c2c-145">Viene eseguita la valutazione "regolare" all'interno della dichiarazione dello spazio dei nomi globale.</span><span class="sxs-lookup"><span data-stu-id="79c2c-145">The "regular" evaluation within the global namespace declaration is performed.</span></span> 
+<span data-ttu-id="b7121-147">Anche se le funzioni e le variabili locali di primo livello sono "incapsulate" nel metodo del punto di ingresso generato, devono ancora trovarsi nell'ambito del programma in ogni unità di compilazione.</span><span class="sxs-lookup"><span data-stu-id="b7121-147">Even though top-level local variables and functions are "wrapped" into the generated entry point method, they should still be in scope throughout the program in every compilation unit.</span></span>
+<span data-ttu-id="b7121-148">Ai fini della valutazione con nome semplice, una volta raggiunto lo spazio dei nomi globale:</span><span class="sxs-lookup"><span data-stu-id="b7121-148">For the purpose of simple-name evaluation, once the global namespace is reached:</span></span>
+- <span data-ttu-id="b7121-149">Viene innanzitutto eseguito un tentativo di valutare il nome all'interno del metodo del punto di ingresso generato e solo se il tentativo ha esito negativo</span><span class="sxs-lookup"><span data-stu-id="b7121-149">First, an attempt is made to evaluate the name within the generated entry point method and only if this attempt fails</span></span> 
+- <span data-ttu-id="b7121-150">Viene eseguita la valutazione "regular" all'interno della dichiarazione dello spazio dei nomi globale.</span><span class="sxs-lookup"><span data-stu-id="b7121-150">The "regular" evaluation within the global namespace declaration is performed.</span></span> 
 
-<span data-ttu-id="79c2c-146">Ciò potrebbe portare allo shadowing dei nomi degli spazi dei nomi e dei tipi dichiarati all'interno dello spazio dei nomi globale, nonché allo shadowing dei nomi importati.</span><span class="sxs-lookup"><span data-stu-id="79c2c-146">This could lead to name shadowing of namespaces and types declared within the global namespace as well as to shadowing of imported names.</span></span>
+<span data-ttu-id="b7121-151">Questo potrebbe causare l'ombreggiatura dei nomi degli spazi dei nomi e dei tipi dichiarati all'interno dello spazio dei nomi globale, nonché dello shadowing dei nomi importati.</span><span class="sxs-lookup"><span data-stu-id="b7121-151">This could lead to name shadowing of namespaces and types declared within the global namespace as well as to shadowing of imported names.</span></span>
 
-<span data-ttu-id="79c2c-147">Se la valutazione del nome semplice si verifica al di fuori delle istruzioni di primo livello e la valutazione produce una variabile locale di primo livello o una funzione, ciò dovrebbe causare un errore.</span><span class="sxs-lookup"><span data-stu-id="79c2c-147">If the simple name evaluation occurs outside of the top-level statements and the evaluation yields a top-level local variable or function, that should lead to an error.</span></span>
+<span data-ttu-id="b7121-152">Se la valutazione del nome semplice viene eseguita al di fuori delle istruzioni di primo livello e la valutazione restituisce una variabile o una funzione locale di primo livello, questo dovrebbe causare un errore.</span><span class="sxs-lookup"><span data-stu-id="b7121-152">If the simple name evaluation occurs outside of the top-level statements and the evaluation yields a top-level local variable or function, that should lead to an error.</span></span>
 
-<span data-ttu-id="79c2c-148">In questo modo proteggiamo la nostra futura capacità di affrontare https://github.com/dotnet/csharplang/issues/3117)meglio le "funzioni di primo livello" (scenario 2 in , e siamo in grado di dare diagnostica utile agli utenti che erroneamente credono che siano supportati.</span><span class="sxs-lookup"><span data-stu-id="79c2c-148">In this way we protect our future ability to better address "Top-level functions" (scenario 2 in https://github.com/dotnet/csharplang/issues/3117), and are able to give useful diagnostics to users who mistakenly believe them to be supported.</span></span>
+<span data-ttu-id="b7121-153">In questo modo, proteggiamo la nostra futura capacità di gestire meglio le "funzioni di primo livello" (scenario 2 in https://github.com/dotnet/csharplang/issues/3117) e sono in grado di fornire una diagnostica utile agli utenti che si ritengono erroneamente supportati.</span><span class="sxs-lookup"><span data-stu-id="b7121-153">In this way we protect our future ability to better address "Top-level functions" (scenario 2 in https://github.com/dotnet/csharplang/issues/3117), and are able to give useful diagnostics to users who mistakenly believe them to be supported.</span></span>
 
