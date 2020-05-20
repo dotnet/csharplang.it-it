@@ -1,22 +1,22 @@
 ---
-ms.openlocfilehash: f50299739321818a4877f593ee715f35540132b0
-ms.sourcegitcommit: e006b4808d8c107dad2935348b57d51edbfaf9a7
+ms.openlocfilehash: a3821a1867f1616be84615944748a8b559402771
+ms.sourcegitcommit: c2df2ee72f4b36fca2e07c701a90a0dba8d1fc20
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 05/05/2020
-ms.locfileid: "82820164"
+ms.lasthandoff: 05/17/2020
+ms.locfileid: "83443850"
 ---
 <a name="init-only-setters"></a>Setter solo init
 =====
 
 ## <a name="summary"></a>Summary
-Questa proposta aggiunge il concetto di proprietà e indicizzatori solo init a C#. Queste proprietà e indicizzatori possono essere impostati al momento della creazione dell'oggetto, ma diventano `get` efficaci solo dopo il completamento della creazione dell'oggetto.
+Questa proposta aggiunge il concetto di proprietà e indicizzatori solo init a C#. Queste proprietà e indicizzatori possono essere impostati al momento della creazione dell'oggetto, ma diventano efficaci `get` solo dopo il completamento della creazione dell'oggetto.
 In questo modo è possibile disporre di un modello non modificabile molto più flessibile in C#. 
 
 ## <a name="motivation"></a>Motivazione
 I meccanismi sottostanti per la compilazione di dati non modificabili in C# non sono stati modificati dopo 1,0. Rimangono:
 
-1. Dichiarazione di campi come `readonly`.
+1. Dichiarazione di campi come `readonly` .
 1. Dichiarazione delle proprietà che contengono solo una `get` funzione di accesso.
 
 Questi meccanismi sono efficaci per consentire la costruzione di dati non modificabili, ma lo fanno aggiungendo costi al codice standard dei tipi e scegliendo tali tipi di funzionalità come gli inizializzatori di oggetto e di raccolta. Ciò significa che gli sviluppatori devono scegliere tra semplicità d'uso e immutabilità.
@@ -29,7 +29,7 @@ struct Point
     public int X { get; }
     public int Y { get; }
 
-    public Point(int X, int Y)
+    public Point(int x, int y)
     {
         this.X = x;
         this.Y = y;
@@ -56,7 +56,7 @@ var p = new Point() { X = 42, Y = 13 };
 ## <a name="detailed-design"></a>Progettazione dettagliata
 
 ### <a name="init-accessors"></a>funzioni di accesso init
-Una proprietà (o un indicizzatore) solo init viene dichiarata `init` utilizzando la funzione di accesso `set` al posto della funzione di accesso:
+Una proprietà (o un indicizzatore) solo init viene dichiarata utilizzando la `init` funzione di accesso al posto della `set` funzione di accesso:
 
 ```cs
 class Student
@@ -66,17 +66,17 @@ class Student
 }
 ```
 
-Una proprietà dell'istanza contenente `init` una funzione di accesso viene considerata impostabile nelle circostanze seguenti:
+Una proprietà dell'istanza contenente una `init` funzione di accesso viene considerata impostabile nelle circostanze seguenti:
 
 - Durante un inizializzatore di oggetto
 - Durante un `with` inizializzatore di espressione
-- All'interno di un costruttore di istanza del tipo che lo contiene `this` o derivato, su o`base`
-- All'interno `init` della funzione di accesso di qualsiasi `this` proprietà, in o`base`
+- All'interno di un costruttore di istanza del tipo che lo contiene o derivato, su `this` o`base`
+- All'interno della `init` funzione di accesso di qualsiasi proprietà, in `this` o`base`
 - Utilizzi degli attributi interni con i parametri denominati
 
-Gli orari in cui è possibile `init` impostare le funzioni di accesso sono definiti collettivamente in questo documento come fase di costruzione dell'oggetto.
+Gli orari in cui `init` è possibile impostare le funzioni di accesso sono definiti collettivamente in questo documento come fase di costruzione dell'oggetto.
 
-Ciò significa che `Student` la classe può essere utilizzata nei modi seguenti:
+Ciò significa che la `Student` classe può essere utilizzata nei modi seguenti:
 
 ```cs
 var s = new Student()
@@ -114,9 +114,9 @@ class Consumption
 
 ```
 
-Nel punto in cui `init` viene richiamata una funzione di accesso, l'istanza è nota come fase di costruzione aperta. Di conseguenza `init` , una funzione di accesso può eseguire le azioni seguenti oltre a ciò che `set` può essere eseguita da una funzione di accesso normale:
+Nel punto in `init` cui viene richiamata una funzione di accesso, l'istanza è nota come fase di costruzione aperta. Di conseguenza `init` , una funzione di accesso può eseguire le azioni seguenti oltre a ciò che può essere eseguita da una `set` funzione di accesso normale:
 
-1. Chiama altre `init` funzioni di accesso disponibili `this` tramite o`base`
+1. Chiama altre `init` funzioni di accesso disponibili tramite `this` o`base`
 1. Assegnare `readonly` campi dichiarati sullo stesso tipo tramite`this`
 
 ```cs
@@ -175,7 +175,7 @@ class Derived : Base
 }
 ```
 
-Quando `init` si usa in una proprietà virtuale, anche tutte le sostituzioni devono essere contrassegnate come `init`. Analogamente, non è possibile eseguire l'override `set` di `init`una semplice con.
+Quando `init` si usa in una proprietà virtuale, anche tutte le sostituzioni devono essere contrassegnate come `init` . Analogamente, non è possibile eseguire l'override di una semplice `set` con `init` .
 
 ```cs
 class Base
@@ -219,10 +219,10 @@ class Init
 Limitazioni di questa funzionalità:
 - La `init` funzione di accesso può essere utilizzata solo nelle proprietà dell'istanza
 - Una proprietà non può contenere sia `init` una `set` funzione di accesso che
-- Tutte le sostituzioni di una proprietà `init` devono avere se la `init`base era. Questa regola si applica anche all'implementazione dell'interfaccia.
+- Tutte le sostituzioni di una proprietà devono avere `init` se la base era `init` . Questa regola si applica anche all'implementazione dell'interfaccia.
 
 ### <a name="metadata-encoding"></a>Codifica dei metadati 
-Le `init` funzioni di accesso alle proprietà verranno emesse come funzione `set` di accesso standard con il tipo restituito contrassegnato con un `IsExternalInit`modreq di. Si tratta di un nuovo tipo che avrà la definizione seguente:
+`init`Le funzioni di accesso alle proprietà verranno emesse come `set` funzione di accesso standard con il tipo restituito contrassegnato con un modreq di `IsExternalInit` . Si tratta di un nuovo tipo che avrà la definizione seguente:
 
 ```cs
 namespace System.Runtime.CompilerServices
@@ -247,22 +247,22 @@ Il progetto per `IsExternalInit` è più trattato in [questo problema](https://g
 ### <a name="breaking-changes"></a>Modifiche che causano un'interruzione
 Uno dei principali punti cardine nel modo in cui questa funzionalità viene codificata dipende dalla domanda seguente: 
 
-> Si tratta di una modifica di rilievo binaria da sostituire `init` con `set`?
+> Si tratta di una modifica di rilievo binaria da sostituire `init` con `set` ?
 
-La `init` sostituzione `set` di con e rendendo una proprietà completamente scrivibile non è mai una modifica di rilievo di origine in una proprietà non virtuale. Espande semplicemente il set di scenari in cui è possibile scrivere la proprietà. L'unico comportamento in questione è il fatto che rimanga una modifica di rilievo binaria.
+La sostituzione `init` di con `set` e rendendo una proprietà completamente scrivibile non è mai una modifica di rilievo di origine in una proprietà non virtuale. Espande semplicemente il set di scenari in cui è possibile scrivere la proprietà. L'unico comportamento in questione è il fatto che rimanga una modifica di rilievo binaria.
 
-Se si vuole apportare la modifica di a `init` `set` una modifica di origine e di compatibilità binaria, l'utente forza la decisione sulla modreq rispetto alla decisione degli attributi riportata di seguito perché esclude modreqs come Soulution. Se invece si tratta di un aspetto non interessante, questa operazione renderà la decisione di confronto tra l'modreq e l'attributo meno incisiva.
+Se si vuole apportare la modifica di `init` a `set` una modifica di origine e di compatibilità binaria, l'utente forza la decisione sulla modreq rispetto alla decisione degli attributi riportata di seguito perché esclude modreqs come Soulution. Se invece si tratta di un aspetto non interessante, questa operazione renderà la decisione di confronto tra l'modreq e l'attributo meno incisiva.
 
 **Risoluzione** dei problemi Questo scenario non è considerato interessante da LDM.
 
 ### <a name="modreqs-vs-attributes"></a>Confronto tra Modreqs e attributi
-La strategia Emit per `init` le funzioni di accesso alle proprietà deve scegliere se usare gli attributi o modreqs durante la creazione durante i metadati. Si tratta di compromessi diversi che devono essere presi in considerazione.
+La strategia Emit per le `init` funzioni di accesso alle proprietà deve scegliere se usare gli attributi o modreqs durante la creazione durante i metadati. Si tratta di compromessi diversi che devono essere presi in considerazione.
 
-Annotando una funzione di accesso set di proprietà con una dichiarazione modreq significa che i compilatori conformi CLI ignoreranno la funzione di accesso a meno che non riconosca modreq Ciò significa che solo i compilatori a conoscenza di `init` leggeranno il membro. I compilatori `init` che non conoscono `set` ignoreranno la funzione di accesso e pertanto non considereranno accidentalmente la proprietà come di lettura/scrittura. 
+Annotando una funzione di accesso set di proprietà con una dichiarazione modreq significa che i compilatori conformi CLI ignoreranno la funzione di accesso a meno che non riconosca modreq Ciò significa che solo i compilatori a conoscenza di `init` leggeranno il membro. I compilatori che `init` non conoscono ignoreranno la `set` funzione di accesso e pertanto non considereranno accidentalmente la proprietà come di lettura/scrittura. 
 
-Lo svantaggio di modreq è `init` costituito da una parte della firma binaria `set` della funzione di accesso. L'aggiunta o `init` la rimozione comporterà l'eliminazione di compatbility binari dell'applicazione.
+Lo svantaggio di modreq è `init` costituito da una parte della firma binaria della `set` funzione di accesso. L'aggiunta o `init` la rimozione comporterà l'eliminazione di compatbility binari dell'applicazione.
 
-L'uso di attributi per annotare la `set` funzione di accesso significa che solo i compilatori che comprendono l'attributo sapranno limitare l'accesso. Un compilatore ignaro `init` di lo vedrà come una semplice proprietà di lettura/scrittura e consentirà l'accesso.
+L'uso di attributi per annotare la `set` funzione di accesso significa che solo i compilatori che comprendono l'attributo sapranno limitare l'accesso. Un compilatore ignaro di lo vedrà `init` come una semplice proprietà di lettura/scrittura e consentirà l'accesso.
 
 Questa decisione potrebbe essere la scelta tra una maggiore sicurezza a scapito della compatibilità binaria. L'approfondimento della protezione aggiuntiva non è esattamente quello che sembra. Non verrà protetta dalle seguenti circostanze:
 
@@ -270,18 +270,18 @@ Questa decisione potrebbe essere la scelta tra una maggiore sicurezza a scapito 
 1. Utilizzo di`dynamic` 
 1. Compilatori che non riconoscono modreqs
 
-Si deve anche considerare che, quando si completano le regole di verifica IL per .NET 5 `init` , sarà una di queste regole. Ciò significa che l'imposizione aggiuntiva sarà ottenuta semplicemente verificando i compilatori che emettono IL verificabile.
+Si deve anche considerare che, quando si completano le regole di verifica IL per .NET 5, `init` sarà una di queste regole. Ciò significa che l'imposizione aggiuntiva sarà ottenuta semplicemente verificando i compilatori che emettono IL verificabile.
 
-Le lingue primarie per .NET (C#, F # e VB) verranno tutte aggiornate per riconoscere tali `init` funzioni di accesso. Di conseguenza, l'unico scenario realistico è quando un compilatore C# `init` 9 emette proprietà e vengono visualizzate da un set di strumenti precedente, ad esempio C# 8, VB 15 e così via. C# 8. Questo è il compromesso da considerare e da valutare la compatibilità binaria.
+Le lingue primarie per .NET (C#, F # e VB) verranno tutte aggiornate per riconoscere tali `init` funzioni di accesso. Di conseguenza, l'unico scenario realistico è quando un compilatore C# 9 emette `init` proprietà e vengono visualizzate da un set di strumenti precedente, ad esempio C# 8, VB 15 e così via. C# 8. Questo è il compromesso da considerare e da valutare la compatibilità binaria.
 
-**Nota** Questa discussione si applica principalmente solo ai membri e non ai campi. Mentre `init` i campi sono stati rifiutati da LDM, sono comunque interessanti da considerare per la discussione di modreq rispetto all'attributo. La `init` funzionalità per i campi è un rilassamento della restrizione `readonly`esistente di. Ciò significa che se i campi vengono creati `readonly` come + un attributo, non esiste alcun rischio che i compilatori meno recenti utilizzino il campo in `readonly`quanto riconoscono già. Quindi, l'uso di un modreq qui non aggiunge alcuna protezione aggiuntiva.
+**Nota** Questa discussione si applica principalmente solo ai membri e non ai campi. Mentre `init` i campi sono stati rifiutati da LDM, sono comunque interessanti da considerare per la discussione di modreq rispetto all'attributo. La `init` funzionalità per i campi è un rilassamento della restrizione esistente di `readonly` . Ciò significa che se i campi vengono creati come `readonly` + un attributo, non esiste alcun rischio che i compilatori meno recenti utilizzino il campo in quanto riconoscono già `readonly` . Quindi, l'uso di un modreq qui non aggiunge alcuna protezione aggiuntiva.
 
-**Risoluzione** dei problemi La funzionalità userà un modreq per codificare il Setter `init` della proprietà. I fattori interessanti sono stati (in nessun ordine particolare):
+**Risoluzione** dei problemi La funzionalità userà un modreq per codificare il setter della proprietà `init` . I fattori interessanti sono stati (in nessun ordine particolare):
 
-* Desiderio di scoraggiare i compilatori meno `init` recenti dalla violazione della semantica
+* Desiderio di scoraggiare i compilatori meno recenti dalla violazione della `init` semantica
 * Desiderio di aggiungere o rimuovere `init` in una `virtual` dichiarazione o `interface` una modifica di rilievo di origine e binaria.
 
-Dato che non esisteva un supporto significativo per `init` la rimozione di una modifica compatibile con binario, era possibile scegliere di usare modreq in modo semplice.
+Dato che non esisteva un supporto significativo per la rimozione `init` di una modifica compatibile con binario, era possibile scegliere di usare modreq in modo semplice.
 
 ### <a name="init-vs-initonly"></a>init rispetto a initonly
 Sono stati rilevati tre forme di sintassi che hanno preso in considerazione in modo significativo durante la riunione LDM:
@@ -297,8 +297,8 @@ int Option3 { get; initonly; }
 
 **Risoluzione** dei problemi Non c'era una sintassi estremamente favorita in LDM.
 
-Un punto che ha avuto un notevole interesse è stato il modo in cui la scelta della sintassi `init` avrà un impatto sulla possibilità di eseguire i membri come funzionalità generale in futuro.
-Se si sceglie l'opzione 1, sarebbe difficile definire una proprietà con un `init` metodo di stile `get` in futuro. Infine, è stato deciso che se avessimo deciso di proseguire con i `init` membri generali in futuro, avremmo `init` potuto essere un modificatore nell'elenco delle funzioni di accesso alle proprietà, così come `init set`un breve termine per. Essenzialmente le due dichiarazioni seguenti sarebbero identiche.
+Un punto che ha avuto un notevole interesse è stato il modo in cui la scelta della sintassi avrà un impatto sulla possibilità di eseguire i `init` membri come funzionalità generale in futuro.
+Se si sceglie l'opzione 1, sarebbe difficile definire una proprietà con un `init` `get` metodo di stile in futuro. Infine, è stato deciso che se avessimo deciso di proseguire con `init` i membri generali in futuro, avremmo potuto `init` essere un modificatore nell'elenco delle funzioni di accesso alle proprietà, così come un breve termine per `init set` . Essenzialmente le due dichiarazioni seguenti sarebbero identiche.
 
 ```cs
 int Property1 { get; init; }
@@ -310,20 +310,20 @@ int Property1 { get; init set; }
 ### <a name="warn-on-failed-init"></a>Avvisa in caso di inizializzazione non riuscita
 Si consideri lo scenario seguente. Un tipo dichiara un `init` solo membro che non è impostato nel costruttore. Se il codice che costruisce l'oggetto riceve un avviso se non è stato possibile inizializzare il valore?
 
-A questo punto è chiaro che il campo non verrà mai impostato e pertanto presenta numerose analogie con l'avviso che non riesce a inizializzare `private` i dati. Quindi, un avviso potrebbe avere un valore apparentemente simile a questo?
+A questo punto è chiaro che il campo non verrà mai impostato e pertanto presenta numerose analogie con l'avviso che non riesce a inizializzare i `private` dati. Quindi, un avviso potrebbe avere un valore apparentemente simile a questo?
 
 Questo avviso tuttavia presenta svantaggi significativi:
-1. Complica la storia di compatibilità della modifica `readonly` a. `init` 
+1. Complica la storia di compatibilità della modifica `readonly` a `init` . 
 1. Per indicare i membri che devono essere inizializzati dal chiamante, è necessario portare metadati aggiuntivi.
 
-Inoltre, se si ritiene che sia presente un valore nello scenario generale di forzare l'avviso o l'errore degli autori di oggetti in base a campi specifici, è probabile che questa funzionalità abbia un aspetto significativo. Non esiste alcun motivo per cui deve essere limitato solo `init` ai membri.
+Inoltre, se si ritiene che sia presente un valore nello scenario generale di forzare l'avviso o l'errore degli autori di oggetti in base a campi specifici, è probabile che questa funzionalità abbia un aspetto significativo. Non esiste alcun motivo per cui deve essere limitato solo ai `init` membri.
 
-**Risoluzione** dei problemi Non verrà visualizzato alcun avviso relativo all'utilizzo `init` di campi e proprietà.
+**Risoluzione** dei problemi Non verrà visualizzato alcun avviso relativo all'utilizzo di `init` campi e proprietà.
 
 LDM desidera una discussione più ampia sull'idea dei campi e delle proprietà obbligatori. Questo potrebbe causare la restituzione e la rivalutazione della posizione dei `init` membri e della convalida.
 
 ## <a name="allow-init-as-a-field-modifier"></a>Consenti init come modificatore di campo
-Allo stesso modo `init` può fungere da funzione di accesso alla proprietà, può anche fungere da designazione sui campi per fornire comportamenti simili `init` come proprietà.
+Allo stesso modo può fungere `init` da funzione di accesso alla proprietà, può anche fungere da designazione sui campi per fornire comportamenti simili come `init` Proprietà.
 Ciò consente di assegnare il campo prima che la costruzione sia stata completata da tipo, tipi derivati o inizializzatori di oggetto.
 
 ```cs
@@ -342,12 +342,12 @@ var s = new Student()
 s.FirstName = "Jared"; // Error FirstName is readonly
 ```
 
-Nei metadati questi campi verrebbero contrassegnati nello stesso modo dei campi, `readonly` ma con un attributo o modreq aggiuntivo per indicare che si tratta `init` di campi di stile. 
+Nei metadati questi campi verrebbero contrassegnati nello stesso modo dei campi, `readonly` ma con un attributo o modreq aggiuntivo per indicare che si tratta di `init` campi di stile. 
 
-**Risoluzione** dei problemi LDM accetta questa proposta è un suono, ma in generale lo scenario si è risentito disgiunto dalle proprietà. La decisione consisteva nel procedere solo `init` con le proprietà per il momento. Si tratta di un livello di flessibilità adatto perché `init` una proprietà può mutare `readonly` un campo nel tipo dichiarante della proprietà. Questo verrà ripreso in considerazione se è presente un feedback significativo per i clienti che giustifica lo scenario.
+**Risoluzione** dei problemi LDM accetta questa proposta è un suono, ma in generale lo scenario si è risentito disgiunto dalle proprietà. La decisione consisteva nel procedere solo con le `init` proprietà per il momento. Si tratta di un livello di flessibilità adatto perché una `init` proprietà può mutare un `readonly` campo nel tipo dichiarante della proprietà. Questo verrà ripreso in considerazione se è presente un feedback significativo per i clienti che giustifica lo scenario.
 
 ### <a name="allow-init-as-a-type-modifier"></a>Consenti init come modificatore di tipo
-Allo stesso modo, il `readonly` modificatore può essere applicato a `struct` un per dichiarare automaticamente tutti i `readonly`campi come `init` , l'unico modificatore può essere `struct` dichiarato `class` in un o per contrassegnare `init`automaticamente tutti i campi come.
+Allo stesso modo, il `readonly` modificatore può essere applicato a un `struct` per dichiarare automaticamente tutti i campi come `readonly` , l' `init` unico modificatore può essere dichiarato in un `struct` o `class` per contrassegnare automaticamente tutti i campi come `init` .
 Ciò significa che le due dichiarazioni di tipo seguenti sono equivalenti:
 
 ```cs
@@ -366,14 +366,14 @@ init struct Point
 }
 ```
 
-**Risoluzione** dei problemi Questa funzionalità è troppo *carina* ed è in conflitto con `readonly struct` la funzionalità su cui è basata. La `readonly struct` funzionalità è semplice in quanto si applica `readonly` a tutti i membri: campi, metodi e così via. La `init struct` funzionalità si applica solo alle proprietà. Questa operazione sta effettivamente creando confusione per gli utenti. 
+**Risoluzione** dei problemi Questa funzionalità è troppo *carina* ed è in conflitto con la `readonly struct` funzionalità su cui è basata. La `readonly struct` funzionalità è semplice in quanto si applica `readonly` a tutti i membri: campi, metodi e così via. La `init struct` funzionalità si applica solo alle proprietà. Questa operazione sta effettivamente creando confusione per gli utenti. 
 
 Dato che `init` è valido solo per determinati aspetti di un tipo, si è rifiutato il concetto di come modificatore di tipo.
 
 ## <a name="considerations"></a>Considerazioni
 
 ### <a name="compatibility"></a>Compatibilità
-La `init` funzionalità è progettata per essere compatibile con le `get` proprietà esistenti. In particolare, è concepita come una modifica completamente additiva per una proprietà `get` che è solo oggi ma che desidera una semantica di creazione di oggetti Flexbile.
+La `init` funzionalità è progettata per essere compatibile con le `get` proprietà esistenti. In particolare, è concepita come una modifica completamente additiva per una proprietà che è `get` solo oggi ma che desidera una semantica di creazione di oggetti Flexbile.
 
 Si consideri ad esempio il tipo seguente:
 
@@ -391,7 +391,7 @@ class Name
 }
 ```
 
-L' `init` aggiunta a queste proprietà è una modifica senza interruzioni:
+`init`L'aggiunta a queste proprietà è una modifica senza interruzioni:
 
 ```cs
 class Name
@@ -412,14 +412,14 @@ Quando .NET Core decide di implementare nuovamente la verifica il, le regole dov
 
 Le regole di verifica il devono essere suddivise in due parti: 
 
-1. Consentire `init` ai membri di impostare `readonly` un campo.
-1. Determinazione del momento `init` in cui un membro può essere chiamato legalmente.
+1. Consentire `init` ai membri di impostare un `readonly` campo.
+1. Determinazione del momento in cui un `init` membro può essere chiamato legalmente.
 
-Il primo è una semplice regolazione delle regole esistenti. Il verificatore di IL può essere insegnato `init` a riconoscere i membri e da qui è sufficiente prendere `readonly` `this` in considerazione un campo da impostare in un membro di questo tipo.
+Il primo è una semplice regolazione delle regole esistenti. Il verificatore di IL può essere insegnato a riconoscere `init` i membri e da qui è sufficiente prendere `readonly` in considerazione un campo da impostare `this` in un membro di questo tipo.
 
-La seconda regola è più complessa. Nel caso semplice degli inizializzatori di oggetto la regola è diretta. È consigliabile chiamare `init` i membri quando il risultato di un' `new` espressione è ancora nello stack. Fino a quando il valore non è stato archiviato in un campo o elemento di matrice locale o passato come argomento a un altro metodo, sarà ancora possibile chiamare `init` i membri. In questo modo si garantisce che, una `new` volta che il risultato dell'espressione è stato pubblicato in `this`un identificatore denominato (diverso da), non sarà `init` più consentito chiamare i membri. 
+La seconda regola è più complessa. Nel caso semplice degli inizializzatori di oggetto la regola è diretta. È consigliabile chiamare `init` i membri quando il risultato di un' `new` espressione è ancora nello stack. Fino a quando il valore non è stato archiviato in un campo o elemento di matrice locale o passato come argomento a un altro metodo, sarà ancora possibile chiamare `init` i membri. In questo modo si garantisce che, una volta che il risultato dell' `new` espressione è stato pubblicato in un identificatore denominato (diverso da `this` ), non sarà più consentito chiamare `init` i membri. 
 
-Il caso più complicato consiste tuttavia nel combinare `init` membri, inizializzatori di oggetto e `await`. In questo modo, l'oggetto appena creato verrà temporaneamente sottoposto a sollevamento in una macchina a Stati e quindi inserito in un campo.
+Il caso più complicato consiste tuttavia nel combinare `init` membri, inizializzatori di oggetto e `await` . In questo modo, l'oggetto appena creato verrà temporaneamente sottoposto a sollevamento in una macchina a Stati e quindi inserito in un campo.
 
 ```cs
 var student = new Student() 
@@ -428,21 +428,21 @@ var student = new Student()
 };
 ```
 
-Qui il risultato di `new Student()` sarà hoised in una macchina a stati come un campo prima del set di `Name` si verifica. Il compilatore dovrà contrassegnare tali campi in modo che il verificatore il riconosca che non sono accessibili dall'utente e pertanto non viola la semantica desiderata di `init`.
+Qui il risultato di `new Student()` sarà hoised in una macchina a stati come un campo prima del set di `Name` si verifica. Il compilatore dovrà contrassegnare tali campi in modo che il verificatore il riconosca che non sono accessibili dall'utente e pertanto non viola la semantica desiderata di `init` .
 
 ### <a name="init-members"></a>membri init
-Il `init` modificatore può essere esteso per essere applicato a tutti i membri di istanza. In questo modo si generalizza il concetto `init` di durante la costruzione dell'oggetto e i tipi consentono di dichiarare metodi helper che potrebbero partecipare nel processo di `init` costruzione per inizializzare campi e proprietà.
+Il `init` modificatore può essere esteso per essere applicato a tutti i membri di istanza. In questo modo si generalizza il concetto di `init` durante la costruzione dell'oggetto e i tipi consentono di dichiarare metodi helper che potrebbero partecipare nel processo di costruzione per inizializzare `init` campi e proprietà.
 
 Tali membri avranno tutti i restricions di una `init` funzione di accesso in questa progettazione. La necessità è comunque discutibile e questo può essere aggiunto in modo sicuro in una versione futura del linguaggio in modo compatibile.
 
 ### <a name="generate-three-accessors"></a>Genera tre funzioni di accesso
-Una delle possibili implementazioni delle `init` proprietà è `init` quella di eseguire `set`completamente la separazione da. Ciò significa che una proprietà può avere potenzialmente tre funzioni di accesso diverse `get`: `set` , `init`e.
+Una delle possibili implementazioni delle `init` proprietà è quella di eseguire `init` completamente la separazione da `set` . Ciò significa che una proprietà può avere potenzialmente tre funzioni di accesso diverse: `get` , `set` e `init` .
 
 Questo offre il vantaggio potenziale di consentire l'uso di modreq per applicare la correttezza mantenendo la compatibilità binaria. L'implementazione sarà approssimativamente la seguente:
 
-1. Una `init` funzione di accesso viene sempre emessa se è presente `set`un oggetto. Quando non è definito dallo sviluppatore, è semplicemente un riferimento a `set`. 
-1. Il set di una proprietà in un inizializzatore di oggetto utilizzerà sempre `init` se presente, ma `set` eseguirà il fallback a se manca.
+1. Una `init` funzione di accesso viene sempre emessa se è presente un oggetto `set` . Quando non è definito dallo sviluppatore, è semplicemente un riferimento a `set` . 
+1. Il set di una proprietà in un inizializzatore di oggetto utilizzerà sempre `init` se presente, ma eseguirà il fallback a `set` se manca.
 
-Ciò significa che uno sviluppatore può sempre eliminare `init` in modo sicuro da una proprietà. 
+Ciò significa che uno sviluppatore può sempre eliminare in modo sicuro `init` da una proprietà. 
 
-Lo svantaggio di questa progettazione è che è utile solo se `init` viene **sempre** emesso quando esiste una `set`. Il linguaggio non può essere `init` in grado di stabilire se è stato eliminato in passato, deve presupporre che `init` sia stato e pertanto deve essere sempre emesso. Questo potrebbe causare un'espansione significativa dei metadati e non vale la pena per il costo della compatibilità.
+Lo svantaggio di questa progettazione è che è utile solo se `init` viene **sempre** emesso quando esiste una `set` . Il linguaggio non può `init` essere in grado di stabilire se è stato eliminato in passato, deve presupporre che sia stato e pertanto `init` deve essere sempre emesso. Questo potrebbe causare un'espansione significativa dei metadati e non vale la pena per il costo della compatibilità.
