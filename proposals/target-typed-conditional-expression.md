@@ -1,23 +1,23 @@
 ---
-ms.openlocfilehash: 80ccdb75e2f5a022e367f3c023ea4464195deaaf
-ms.sourcegitcommit: 95f5f86ba2e2a23cd4fb37bd9d1ff690c83d1191
+ms.openlocfilehash: cd73a3d7289205f65f5144a98d32da06dfed3efc
+ms.sourcegitcommit: e355841daad8c4672fae6a49c98653952d89a9cb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81647134"
+ms.lasthandoff: 05/21/2020
+ms.locfileid: "83775420"
 ---
-# <a name="target-typed-conditional-expression"></a>Espressione condizionale tipizzato di destinazioneTarget-Typed Expression
+# <a name="target-typed-conditional-expression"></a>Espressione condizionale tipizzata di destinazione
 
-Per un'espressione `c ? e1 : e2`condizionale, quando
+Per un'espressione condizionale `c ? e1 : e2` , quando
 
-1. non esiste un `e1` tipo `e2`comune per e , o
-2. per cui esiste un tipo comune, ma una delle espressioni `e1` o `e2` non ha alcuna conversione implicita in quel tipo
+1. non esiste alcun tipo comune per `e1` e `e2` , o
+2. per cui esiste un tipo comune, ma una delle espressioni `e1` o `e2` Nessuna conversione implicita a tale tipo
 
-viene definita una nuova conversione di *espressioni condizionali* che `T` consente una conversione implicita `e1` dall'espressione condizionale a qualsiasi tipo per il quale esiste un'espressione di conversione da a `T` e anche da `e2` a `T`.  Si tratta di un errore se un'espressione condizionale non ha un tipo comune tra `e1` e `e2` né è soggetta a una *conversione*di espressione condizionale .
+viene definita una nuova *conversione di espressione condizionale* che consente una conversione implicita dall'espressione condizionale a qualsiasi tipo `T` per il quale esiste una conversione da espressione da `e1` a `T` e anche da `e2` a `T` .  Se un'espressione condizionale non dispone di un tipo comune tra `e1` e `e2` né è soggetto a una conversione di *espressione condizionale*, è un errore.
 
-### <a name="open-issues"></a>Open Issues
+### <a name="open-issues"></a>Problemi non risolti
 
-Desideriamo estendere questa digitazione di destinazione ai casi in `e1` `e2` cui l'espressione condizionale ha un tipo comune per e ma non vi è alcuna conversione da tale tipo comune al tipo di destinazione. Ciò porterebbe la digitazione di destinazione dell'espressione condizionale in allineamento della digitazione di destinazione dell'espressione switch. Tuttavia siamo preoccupati che sarebbe un cambiamento radicale:
+Si vuole estendere la tipizzazione della destinazione ai casi in cui l'espressione condizionale ha un tipo comune per `e1` e `e2` ma non esiste alcuna conversione da tale tipo comune al tipo di destinazione. In questo modo, la tipizzazione della destinazione dell'espressione condizionale verrà allineata alla tipizzazione della destinazione dell'espressione switch. Tuttavia, si tratta di una modifica sostanziale:
 
 ```csharp
 M(b ? 1 : 2); // calls M(long) without this feature; calls M(short) with this feature
@@ -26,14 +26,14 @@ void M(short);
 void M(long);
 ```
 
-È possibile ridurre l'ambito della modifica sostanziale modificando le regole per una *migliore conversione dall'espressione*: la conversione da un'espressione condizionale a T1 è una conversione migliore *dall'espressione*rispetto alla conversione in T2 se la conversione in T1 non è una *conversione* di espressione condizionale e la conversione in T2 è una conversione di espressione condizionale .  Che risolve il cambiamento sostanziale nel `M(long)` programma di cui sopra (chiama con o senza questa funzione). Questo approccio ha due piccoli aspetti negativi.  In primo luogo, non è proprio uguale all'espressione switch:
+È possibile ridurre l'ambito della modifica sostanziale modificando le regole per una *migliore conversione dall'espressione*: la conversione da un'espressione condizionale a T1 è una conversione migliore dall'espressione rispetto alla conversione in T2 se la conversione a T1 non è una *conversione di espressione condizionale* e la conversione a T2 è una *conversione di espressione condizionale*.  Che risolve la modifica di rilievo nel programma precedente (chiama `M(long)` con o senza questa funzionalità). Questo approccio presenta due svantaggi limitati.  In primo luogo, non è esattamente uguale all'espressione switch:
 
 ```csharp
 M(b ? 1 : 2); // calls M(long)
 M(b switch { true => 1, false => 2 }); // calls M(short)
 ```
 
-Questo è ancora un cambiamento sostanziale, ma il suo campo di applicazione è meno probabile che influenzano i programmi reali:
+Si tratta comunque di una modifica sostanziale, ma è meno probabile che il relativo ambito influisca sui programmi reali:
 
 ```csharp
 M(b ? 1 : 2, 1); // calls M(long, long) without this feature; ambiguous with this feature.
@@ -42,22 +42,23 @@ M(short, short);
 M(long, long);
 ```
 
-Questo diventa ambiguo `long` perché la conversione in è migliore per il primo argomento `short` (perché non utilizza la `short` *conversione dell'espressione condizionale*), ma la conversione in è migliore per il secondo argomento (perché è una destinazione di *conversione migliore* di `long`). Questa modifica di interruzione sembra meno grave perché non modifica silenziosamente il comportamento di un programma esistente.
+Questa operazione diventa ambigua perché la conversione a `long` è migliore per il primo argomento, perché non usa la *conversione dell'espressione condizionale*, ma la conversione a `short` è migliore per il secondo argomento (perché `short` è un *obiettivo di conversione migliore* di `long` ). Questa modifica di rilievo sembra meno grave perché non modifica automaticamente il comportamento di un programma esistente.
 
-Se scegliamo di apportare questa modifica alla proposta, cambieremmo
+Se si decide di apportare questa modifica alla proposta, si modificherà
 
 > #### <a name="better-conversion-from-expression"></a>Migliore conversione dall'espressione
 > 
-> Data una `C1` conversione implicita `E` che esegue `T1`la conversione `C2` da un'espressione `E` a `T2`un `C1` tipo e una conversione implicita che esegue la conversione da un'espressione a un tipo , è una ***conversione migliore*** rispetto a `C2` if `E` non corrisponde `T2` esattamente e almeno uno degli elementi seguenti è valido:
+> Una conversione implicita `C1` che converte da un'espressione `E` a un tipo `T1` e una conversione implicita `C2` che converte da un'espressione `E` a un tipo `T2` , `C1` è una ***conversione migliore*** rispetto a `C2` se non `E` corrisponde esattamente a e almeno `T2` una delle seguenti condizioni:
 > 
-> * `E`corrisponde `T1` esattamente a ([Esattamente corrispondenti a Expression](expressions.md#exactly-matching-expression))
-> * `T1`è un obiettivo `T2` di conversione migliore di ([Migliore obiettivo](expressions.md#better-conversion-target)di conversione )
+> * `E`corrisponde esattamente `T1` ([espressione corrispondente esattamente](expressions.md#exactly-matching-expression))
+> * `T1`è una destinazione di conversione migliore rispetto a `T2` ([migliore destinazione di conversione](expressions.md#better-conversion-target))
 
 to
 
 > #### <a name="better-conversion-from-expression"></a>Migliore conversione dall'espressione
 > 
-> Data una `C1` conversione implicita `E` che esegue `T1`la conversione `C2` da un'espressione `E` a `T2`un `C1` tipo e una conversione implicita che esegue la conversione da un'espressione a un tipo , è una ***conversione migliore*** rispetto a `C2` if `E` non corrisponde `T2` esattamente e almeno uno degli elementi seguenti è valido:
+> Una conversione implicita `C1` che converte da un'espressione `E` a un tipo `T1` e una conversione implicita `C2` che converte da un'espressione `E` a un tipo `T2` , `C1` è una ***conversione migliore*** rispetto a `C2` se non `E` corrisponde esattamente a e almeno `T2` una delle seguenti condizioni:
 > 
-> * `E`corrisponde `T1` esattamente a ([Esattamente corrispondenti a Expression](expressions.md#exactly-matching-expression))
-> * `T1`è una destinazione `T2` di conversione migliore rispetto `C1` a ( Migliore destinazione di[conversione](expressions.md#better-conversion-target)) e non è una *conversione* di espressione condizionale o `C2` è una conversione di espressione condizionale.
+> * `E`corrisponde esattamente `T1` ([espressione corrispondente esattamente](expressions.md#exactly-matching-expression))
+> * **`C1`non è una *conversione di espressione condizionale* ed `C2` è una * conversione di espressione condizionale * * *.
+> * `T1`è una destinazione di conversione migliore rispetto a `T2` ([migliore destinazione di conversione](expressions.md#better-conversion-target)) * * e `C1` e `C2` sono entrambe *conversioni di espressioni condizionali* o nessuna delle due è una * conversione di espressione condizionale * * *.
