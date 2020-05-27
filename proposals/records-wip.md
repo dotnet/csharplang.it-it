@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 32682010c79073aabbc71ef9de433a7a76138c3f
-ms.sourcegitcommit: c30039481ee8a75c3b3e4ddd369fdf8f84f8945b
+ms.openlocfilehash: 758bc3fddf577b118fc50866a683fa96324e5dc3
+ms.sourcegitcommit: 300226c009490828d615e86c50df7ac8c836f945
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/30/2020
-ms.locfileid: "82596757"
+ms.lasthandoff: 05/26/2020
+ms.locfileid: "83843599"
 ---
 # <a name="records-work-in-progress"></a>Record di lavoro in corso
 
@@ -34,9 +34,9 @@ struct_body
     ;
 ```
 
-Il `attributes` non terminale consentirà anche un nuovo attributo contestuale `data`,.
+Il `attributes` non terminale consentirà anche un nuovo attributo contestuale, `data` .
 
-Una classe (struct) dichiarata con un elenco `data` di parametri o un modificatore viene chiamata classe di record (struct di record), che è un tipo di record.
+Una classe (struct) dichiarata con un elenco di parametri o un `data` modificatore viene chiamata classe di record (struct di record), che è un tipo di record.
 
 È un errore dichiarare un tipo di record senza un elenco di parametri e il `data` modificatore.
 
@@ -62,7 +62,7 @@ Per uno struct di record o una classe di record:
 
 * Viene creata una proprietà automatica Get-only pubblica. Il valore viene inizializzato durante la costruzione con il valore del parametro del costruttore primario corrispondente. Ogni funzione di accesso get della proprietà astratta "corrispondente" ereditata viene sottoposta a override.
 
-  * Questa proprietà è anche `initonly`, vale a dire che il campo sottostante può essere modificato nell'espressione [with](#With) sotto, se la `get` funzione di accesso corrispondente è accessibile
+  * Questa proprietà è anche `initonly` , vale a dire che il campo sottostante può essere modificato nell'espressione [with](#With) sotto, se la `get` funzione di accesso corrispondente è accessibile
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
@@ -72,7 +72,8 @@ I tipi di record producono implementazioni sintetizzate per i metodi seguenti:
 * `object.Equals(object)`eseguire l'override di, a meno che non sia sealed o fornito dall'utente
 * `T Equals(T)`Metodo, dove `T` è il tipo corrente
 
-`T Equals(T)`viene specificato per eseguire l'uguaglianza dei valori, confrontando la proprietà con lo stesso nome di ogni parametro del costruttore primario per la proprietà corrispondente dell'altro tipo.
+`T Equals(T)`viene specificato per eseguire l'uguaglianza dei valori in modo che `Equals` sia true solo se tutti i campi di istanza dichiarati nel tipo di ricevitore sono uguali ai campi dell'altro tipo.
+
 `object.Equals`esegue l'equivalente di
 
 ```C#
@@ -89,11 +90,11 @@ with_expression
     | switch_expression 'with' anonymous_object_initializer
 ```
 
-Un' `with` espressione consente la "mutazione non distruttiva", progettata per produrre una copia dell'espressione Receiver con le modifiche alle proprietà elencate in `anonymous_object_initializer`.
+Un' `with` espressione consente la "mutazione non distruttiva", progettata per produrre una copia dell'espressione Receiver con le modifiche alle proprietà elencate in `anonymous_object_initializer` .
 
-Un'espressione `with` valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve contenere un metodo di istanza senza parametri `Clone` accessibile denominato il cui tipo restituito deve essere il tipo di ricevitore o un tipo di base.
+Un' `with` espressione valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve contenere un metodo di istanza senza parametri accessibile denominato `Clone` il cui tipo restituito deve essere il tipo di ricevitore o un tipo di base.
 
-`with` Sul lato destro dell'espressione è presente una `anonymous_object_initializer` con una sequenza di assegnazioni, ognuna con una `initonly` proprietà (vedere [Proprietà](#Properties)) del tipo `Clone` restituito sul lato sinistro dell'assegnazione (come chiamata di proprietà) e un'espressione arbitraria sul lato destro, che è implicitamente convertibile nel tipo della proprietà.
+Sul lato destro dell' `with` espressione è presente una `anonymous_object_initializer` con una sequenza di assegnazioni, ognuna con una `initonly` Proprietà (vedere [Proprietà](#Properties)) del `Clone` tipo restituito sul lato sinistro dell'assegnazione (come chiamata di proprietà) e un'espressione arbitraria sul lato destro, che è implicitamente convertibile nel tipo della proprietà.
 
-La valutazione di un' `with` espressione chiama il `Clone` metodo esattamente una volta, quindi imposta il campo sottostante di ogni `initonly` proprietà nell'elenco di argomenti sul valore dell'espressione corrispondente, in ordine lessicale, usando il risultato della chiamata al `Clone` metodo come ricevitore. Il tipo dell' `with` espressione è uguale al tipo restituito del `Clone` metodo.
+La valutazione di un' `with` espressione chiama il `Clone` Metodo esattamente una volta, quindi imposta il campo sottostante di ogni `initonly` proprietà nell'elenco di argomenti sul valore dell'espressione corrispondente, in ordine lessicale, usando il risultato della `Clone` chiamata al metodo come ricevitore. Il tipo dell' `with` espressione è uguale al tipo restituito del `Clone` metodo.
 
