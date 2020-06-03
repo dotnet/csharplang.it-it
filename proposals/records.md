@@ -1,11 +1,12 @@
 ---
-ms.openlocfilehash: 6d8f0512d478d3d82cb262466e49a22a9e3cd0ee
-ms.sourcegitcommit: ae114131069ca76e4a1ec8149b7bab81fce8965c
+ms.openlocfilehash: 1bf904965c2eacfdeb28aace93e1361881f1b0bd
+ms.sourcegitcommit: 6c404867b9f1ab70c4c4960ddf821b52579ed1fa
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 05/30/2020
-ms.locfileid: "84227979"
+ms.lasthandoff: 06/02/2020
+ms.locfileid: "84305478"
 ---
+
 # <a name="records-work-in-progress"></a>Record di lavoro in corso
 
 Diversamente dalle altre proposte di record, non si tratta di una proposta di per sé, ma è stata progettata per registrare le decisioni di progettazione di consenso per la funzionalità dei record. I dettagli della specifica verranno aggiunti in modo necessario per risolvere le domande.
@@ -38,29 +39,11 @@ Il `attributes` non terminale consentirà anche un nuovo attributo contestuale, 
 
 Una classe (struct) dichiarata con un elenco di parametri o un `data` modificatore viene chiamata classe di record (struct di record), che è un tipo di record.
 
-È un errore dichiarare un tipo di record senza un elenco di parametri e il `data` modificatore.
+È un errore dichiarare un tipo di record senza il `data` modificatore.
 
 ## <a name="members-of-a-record-type"></a>Membri di un tipo di record
 
 Oltre ai membri dichiarati nel corpo della classe o dello struct, un tipo di record presenta i membri aggiuntivi seguenti:
-
-### <a name="primary-constructor"></a>Costruttore primario
-
-Un tipo di record ha un costruttore pubblico la cui firma corrisponde ai parametri del valore della dichiarazione del tipo. Questo metodo è denominato costruttore primario per il tipo e determina l'eliminazione del costruttore della classe predefinito dichiarato in modo implicito, se presente. È un errore avere un costruttore primario e un costruttore con la stessa firma già presente nella classe.
-
-In fase di esecuzione il costruttore primario
-
-1. esegue gli inizializzatori di campo di istanza visualizzati nel corpo della classe; quindi richiama il costruttore della classe base senza argomenti.
-
-1. Inizializza i campi di supporto generati dal compilatore per le proprietà corrispondenti ai parametri del valore (se queste proprietà sono fornite dal compilatore
-
-### <a name="properties"></a>Proprietà
-
-Per ogni parametro di record di una dichiarazione del tipo di record è presente un membro della proprietà pubblica corrispondente il cui nome e tipo vengono ricavati dalla dichiarazione del parametro value. Se nessuna proprietà concreta (ovvero non astratta) con una funzione di accesso get e con il nome e il tipo specificati viene dichiarata o ereditata in modo esplicito, viene prodotta dal compilatore come indicato di seguito:
-
-Per uno struct di record o una classe di record:
-
-* `get` `init` Viene creata una proprietà pubblica e automatica (vedere Specifica della `init` funzione di accesso separata). Il valore viene inizializzato durante la costruzione con il valore del parametro del costruttore primario corrispondente. Ogni funzione di accesso get della proprietà astratta "corrispondente" ereditata viene sottoposta a override.
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
@@ -88,6 +71,30 @@ Un tipo di record contiene due membri di copia sintetizzati se i metodi con la s
 Il costruttore protetto viene definito "costruttore di copia" e il corpo sintetizzato copia i valori di tutti i campi di istanza dichiarati nel tipo di input nei campi corrispondenti di `this` .
 
 Il `Clone` metodo restituisce il risultato di una chiamata a un costruttore con la stessa firma del costruttore di copia.
+
+## <a name="positional-record-members"></a>Membri record posizionali
+
+Oltre ai membri precedenti, i record con un elenco di parametri ("record posizionali") dispongono dei membri seguenti:
+
+### <a name="primary-constructor"></a>Costruttore primario
+
+Un tipo di record ha un costruttore pubblico la cui firma corrisponde ai parametri del valore della dichiarazione del tipo. Questo metodo è denominato costruttore primario per il tipo e determina l'eliminazione del costruttore della classe predefinito dichiarato in modo implicito, se presente. È un errore avere un costruttore primario e un costruttore con la stessa firma già presente nella classe.
+
+In fase di esecuzione il costruttore primario
+
+1. esegue gli inizializzatori di campo di istanza visualizzati nel corpo della classe; quindi richiama il costruttore della classe base senza argomenti.
+
+1. Inizializza i campi di supporto generati dal compilatore per le proprietà corrispondenti ai parametri del valore (se queste proprietà sono fornite dal compilatore
+
+### <a name="properties"></a>Proprietà
+
+Per ogni parametro di record di una dichiarazione del tipo di record è presente un membro della proprietà pubblica corrispondente il cui nome e tipo vengono ricavati dalla dichiarazione del parametro value. Se nessuna proprietà concreta (ovvero non astratta) con una funzione di accesso get e con il nome e il tipo specificati viene dichiarata o ereditata in modo esplicito, viene prodotta dal compilatore come indicato di seguito:
+
+Per uno struct di record o una classe di record:
+
+* `get` `init` Viene creata una proprietà pubblica e automatica (vedere Specifica della `init` funzione di accesso separata). Il valore viene inizializzato durante la costruzione con il valore del parametro del costruttore primario corrispondente. Ogni funzione di accesso get della proprietà astratta "corrispondente" ereditata viene sottoposta a override.
+
+
 ## <a name="with-expression"></a>Espressione `with`
 
 Un' `with` espressione è una nuova espressione che usa la sintassi seguente.
