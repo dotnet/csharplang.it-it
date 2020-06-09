@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 82f68e2e2703f1d78c191d1120781ab7306b327a
-ms.sourcegitcommit: 100d3f7f04ba1e4f666c188fbd73762f2c3b8716
+ms.openlocfilehash: ffa34ad55752197bc2d8fb6cac7759602a2672c9
+ms.sourcegitcommit: 5c9b8f27bd8299c70e2f4205a46079a10cffce76
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 06/04/2020
-ms.locfileid: "84421869"
+ms.lasthandoff: 06/08/2020
+ms.locfileid: "84533346"
 ---
 
 # <a name="records"></a>Record
@@ -71,6 +71,8 @@ Un tipo di record contiene due membri di copia sintetizzati:
 Il costruttore protetto viene definito "costruttore di copia" e il corpo sintetizzato copia i valori di tutti i campi di istanza accessibili nel tipo di input nei campi corrispondenti di `this` .
 
 Il metodo "clone" restituisce il risultato di una chiamata a un costruttore con la stessa firma del costruttore di copia. Il tipo restituito del metodo Clone è il tipo che lo contiene, a meno che non sia presente un metodo clone virtuale nella classe di base. In tal caso, il tipo restituito è il tipo contenitore corrente se la funzionalità "revariante Returns" è supportata e il tipo restituito di override in caso contrario. Il metodo Clone sintetizzato è un override del metodo clone del tipo di base se ne esiste uno. Se il metodo clone del tipo di base è sealed, viene generato un errore.
+
+Se il record contenitore è astratto, anche il metodo Clone sintetizzato è astratto.
 
 ## <a name="positional-record-members"></a>Membri record posizionali
 
