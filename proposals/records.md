@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: ffa34ad55752197bc2d8fb6cac7759602a2672c9
-ms.sourcegitcommit: 5c9b8f27bd8299c70e2f4205a46079a10cffce76
+ms.openlocfilehash: 35f6836e20776450ce5f776e7fdb66ca634d04a0
+ms.sourcegitcommit: 0f56445e250ddf82b88848b94c59870f13ab8ffc
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 06/08/2020
-ms.locfileid: "84533346"
+ms.lasthandoff: 06/10/2020
+ms.locfileid: "84663267"
 ---
 
 # <a name="records"></a>Record
@@ -36,39 +36,58 @@ I tipi di record sono tipi di riferimento, simili a una dichiarazione di classe.
 ## <a name="members-of-a-record-type"></a>Membri di un tipo di record
 
 Oltre ai membri dichiarati nel corpo del record, un tipo di record ha membri sintetizzati aggiuntivi.
-I membri vengono sintetizzati, a meno che un membro concreto (non astratto) accessibile con una firma "corrispondente" sia ereditato o dichiarato nel corpo del record. Due membri vengono considerati corrispondenti se hanno la stessa firma o verrebbero considerati "nascosti" in uno scenario di ereditarietà.
+I membri vengono sintetizzati a meno che un membro con una firma "corrispondente" non venga dichiarato nel corpo del record o un membro non virtuale concreto accessibile con una firma "corrispondente" venga ereditato.
+Due membri vengono considerati corrispondenti se hanno la stessa firma o verrebbero considerati "nascosti" in uno scenario di ereditarietà.
 
 I membri sintetizzati sono i seguenti:
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
-I tipi di record producono implementazioni sintetizzate per i metodi seguenti, dove `T` è il tipo che lo contiene:
-
-* `object.GetHashCode()`override
-* `object.Equals(object)`override
-* `T Equals(T)`Metodo, dove `T` è il tipo corrente
-* `Type EqualityContract`Proprietà solo Get
-
-Se `object.GetHashCode()` o `object.Equals(object)` sono sealed, viene generato un errore.
-
-`EqualityContract`è una proprietà dell'istanza virtuale che restituisce `typeof(T)` . Se il tipo di base definisce un oggetto `EqualityContract` , ne viene eseguito l'override nel record derivato. Se la base `EqualityContract` è sealed o non virtuale, viene generato un errore.
-
-`T Equals(T)`viene specificato per eseguire l'uguaglianza dei valori `Equals` in modo che sia true solo se tutti i campi di istanza accessibili nel ricevitore sono uguali ai campi del parametro e è `this.EqualityContract` uguale a `other.EqualityContract` .
-
-`object.Equals`esegue l'equivalente di
-
+I tipi di record producono implementazioni sintetizzate dei metodi seguenti, dove `T` è il tipo che lo contiene:
 ```C#
-override Equals(object o) => Equals(o as T);
+public override int GetHashCode();
+public override bool Equals(object other);
+public virtual bool Equals(T other);
 ```
+`GetHashCode()`e `Equals(object other)` sono override dei metodi virtuali in `System.Object` .
+Quando si esegue l'override di tutti i metodi delle classi di base intermedie che nascondono tali metodi viene ignorato.
+
+Anche i tipi di record derivati eseguono l'override del `Equals(TBase other)` metodo da ogni tipo di record di base.
+
+Il tipo di record sintetizza un'implementazione di `System.IEquatable<T>` che viene implementata in modo implicito da `Equals(T other)` Where `T` è il tipo che lo contiene.
+I tipi di record non sintetizzano le implementazioni di `System.IEquatable<TBase>` per qualsiasi tipo di base `TBase` , anche se tali interfacce sono implementate dai tipi di record di base.
+
+La classe di record di base sintetizza una `EqualityContract` Proprietà. La proprietà viene sottoposta a override nelle classi di record derivate. Le implementazioni sintetizzate restituiscono `typeof(T)` Where che `T` contiene il tipo.
+```C#
+protected virtual Type EqualityContract { get; }
+```
+
+Si tratta di un errore se le implementazioni di base di uno dei membri sottoposti a override sono sealed o non virtuali oppure non corrispondono alla firma e all'accessibilità previste.
+
+`Equals(T other)`Restituisce true solo se si verificano tutti i termini seguenti:
+- `other`non è `null` , e
+- Per ogni campo dichiarato nel tipo di record, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
+- Se è presente un tipo di record di base, il valore di `base.Equals(other)` ; in caso contrario, il valore di `EqualityContract.Equals(other.EqualityContract)` .
+
+Le sostituzioni di `Equals(T other)` per i metodi di base, incluso `object.Equals(object other)` , eseguono l'equivalente di:
+```C#
+public override bool Equals(object other) => Equals(other as T);
+```
+
+`GetHashCode()`Restituisce il `int` risultato di una funzione deterministica che accetta i valori seguenti:
+- Per ogni campo dichiarato nel tipo di record, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.GetHashCode(fieldN)` dove `TN` è il tipo di campo e
+- Se è presente un tipo di record di base, il valore di `base.GetHashCode()` ; in caso contrario, il valore di `System.Collections.Generic.EqualityComparer<System.Type>.Default.GetHashCode(EqualityContract)` .
 
 ### <a name="copy-and-clone-members"></a>Copiare e clonare i membri
 
-Un tipo di record contiene due membri di copia sintetizzati:
+Un tipo di record contiene due membri di copia:
 
-* Costruttore protetto che accetta un solo argomento del tipo di record.
-* Metodo "clone" dell'istanza virtuale senza parametri pubblico con un nome riservato dal compilatore
+* Costruttore che accetta un solo argomento del tipo di record. Viene definito "costruttore di copia".
+* Metodo "clone" dell'istanza virtuale senza parametri pubblico sintetizzato con un nome riservato dal compilatore
 
-Il costruttore protetto viene definito "costruttore di copia" e il corpo sintetizzato copia i valori di tutti i campi di istanza accessibili nel tipo di input nei campi corrispondenti di `this` .
+Lo scopo del costruttore di copia è copiare lo stato dal parametro alla nuova istanza creata. Questo costruttore non esegue gli inizializzatori di proprietà o campi di istanza presenti nella dichiarazione di record. Se il costruttore non è dichiarato in modo esplicito, un costruttore protetto verrà sintetizzato dal compilatore.
+Per prima cosa, il costruttore deve eseguire la chiamata a un costruttore di copia della base o a un costruttore di oggetti senza parametri se il record eredita dall'oggetto. Se un costruttore di copia definito dall'utente utilizza un inizializzatore di costruttore implicito o esplicito che non soddisfa questo requisito, viene restituito un errore.
+Dopo che un costruttore di copia di base viene richiamato, un costruttore di copia sintetizzato copia i valori per tutti i campi di istanza dichiarati in modo implicito o esplicito nel tipo di record.
 
 Il metodo "clone" restituisce il risultato di una chiamata a un costruttore con la stessa firma del costruttore di copia. Il tipo restituito del metodo Clone è il tipo che lo contiene, a meno che non sia presente un metodo clone virtuale nella classe di base. In tal caso, il tipo restituito è il tipo contenitore corrente se la funzionalità "revariante Returns" è supportata e il tipo restituito di override in caso contrario. Il metodo Clone sintetizzato è un override del metodo clone del tipo di base se ne esiste uno. Se il metodo clone del tipo di base è sealed, viene generato un errore.
 
@@ -88,6 +107,11 @@ In fase di esecuzione il costruttore primario
 
 1. richiama il costruttore della classe base con gli argomenti specificati nella `record_base` clausola, se presente
 
+Se un record ha un costruttore primario, qualsiasi costruttore definito dall'utente, ad eccezione del costruttore di copia, deve disporre di un `this` inizializzatore di costruttore esplicito. 
+
+I parametri del costruttore primario e i membri del record si trovano nell'ambito all'interno della `argument_list` clausola della `record_base` clausola e negli inizializzatori dei campi o delle proprietà dell'istanza. I membri di istanza sarebbero un errore in queste posizioni (analogamente a come i membri dell'istanza sono inclusi nell'ambito negli inizializzatori di costruttori normali, ma un errore da usare), ma i parametri del costruttore primario sarebbero inclusi nell'ambito e utilizzabili e verrebbero nascosti ai membri. I membri statici sarebbero anche utilizzabili, in modo analogo al funzionamento delle chiamate e degli inizializzatori di base nei costruttori normali. 
+
+Le variabili di espressione dichiarate nell'oggetto sono incluse nell' `argument_list` ambito di `argument_list` . Si applicano le stesse regole di shadowing in un elenco di argomenti di un inizializzatore di costruttore normale.
 
 ### <a name="properties"></a>Proprietà
 
