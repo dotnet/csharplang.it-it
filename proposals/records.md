@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 35f6836e20776450ce5f776e7fdb66ca634d04a0
-ms.sourcegitcommit: 0f56445e250ddf82b88848b94c59870f13ab8ffc
+ms.openlocfilehash: 7901748edc95322275fb6a5f3fa7d336ee51a3f0
+ms.sourcegitcommit: d48f35e584faa741f610350003d8ea6a5bc1958d
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 06/10/2020
-ms.locfileid: "84663267"
+ms.lasthandoff: 06/19/2020
+ms.locfileid: "85111342"
 ---
 
 # <a name="records"></a>Record
@@ -43,40 +43,114 @@ I membri sintetizzati sono i seguenti:
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
-I tipi di record producono implementazioni sintetizzate dei metodi seguenti, dove `T` è il tipo che lo contiene:
+Il tipo di record include una `EqualityContract` proprietà virtuale ReadOnly sintetizzata. La proprietà viene sottoposta a override in ogni tipo di record derivato.
+La proprietà può essere dichiarata in modo esplicito.
+Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
+La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
+```C#
+protected virtual Type EqualityContract { get; };
+```
+_È possibile omettere `EqualityContract` se il tipo di record è `sealed` e deriva da `System.Object` ?_
+
+Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
+Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
+Il metodo può essere dichiarato in modo esplicito.
+Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
+```C#
+public virtual bool Equals(R? other);
+```
+Il risultato della sintesi `Equals(R?)` restituisce `true` se e solo se ciascuno dei seguenti è `true` :
+- `other`non è `null` , e
+- Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
+- Se è presente un tipo di record di base, il valore di `base.Equals(other)` (una chiamata non virtuale a `public virtual bool Equals(Base? other)` ); in caso contrario, il valore di `EqualityContract == other.EqualityContract` .
+
+Se il tipo di record è derivato da un tipo `Base` di record di base, il tipo di record include un override sintetizzato dell'oggetto fortemente tipizzato `Equals(Base other)` .
+La sostituzione sintetizzata è `sealed` .
+Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore.
+L'override sintetizzato restituisce `Equals((object?)other)` .
+
+Il tipo di record include un override sintetizzato di `object.Equals(object? obj)` .
+Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore.
+L'override sintetizzato restituisce `Equals(other as R)` dove `R` è il tipo di record.
+```C#
+public override bool Equals(object? obj);
+```
+
+Il tipo di record include un override sintetizzato di `object.GetHashCode()` .
+Il metodo può essere dichiarato in modo esplicito.
+Si tratta di un errore se la dichiarazione esplicita è `sealed` , a meno che il tipo di record non sia `sealed` .
 ```C#
 public override int GetHashCode();
-public override bool Equals(object other);
-public virtual bool Equals(T other);
 ```
-`GetHashCode()`e `Equals(object other)` sono override dei metodi virtuali in `System.Object` .
-Quando si esegue l'override di tutti i metodi delle classi di base intermedie che nascondono tali metodi viene ignorato.
+Viene segnalato un avviso se uno di `Equals(R?)` e `GetHashCode()` viene dichiarato in modo esplicito, ma l'altro metodo non è esplicito.
 
-Anche i tipi di record derivati eseguono l'override del `Equals(TBase other)` metodo da ogni tipo di record di base.
-
-Il tipo di record sintetizza un'implementazione di `System.IEquatable<T>` che viene implementata in modo implicito da `Equals(T other)` Where `T` è il tipo che lo contiene.
-I tipi di record non sintetizzano le implementazioni di `System.IEquatable<TBase>` per qualsiasi tipo di base `TBase` , anche se tali interfacce sono implementate dai tipi di record di base.
-
-La classe di record di base sintetizza una `EqualityContract` Proprietà. La proprietà viene sottoposta a override nelle classi di record derivate. Le implementazioni sintetizzate restituiscono `typeof(T)` Where che `T` contiene il tipo.
-```C#
-protected virtual Type EqualityContract { get; }
-```
-
-Si tratta di un errore se le implementazioni di base di uno dei membri sottoposti a override sono sealed o non virtuali oppure non corrispondono alla firma e all'accessibilità previste.
-
-`Equals(T other)`Restituisce true solo se si verificano tutti i termini seguenti:
-- `other`non è `null` , e
-- Per ogni campo dichiarato nel tipo di record, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
-- Se è presente un tipo di record di base, il valore di `base.Equals(other)` ; in caso contrario, il valore di `EqualityContract.Equals(other.EqualityContract)` .
-
-Le sostituzioni di `Equals(T other)` per i metodi di base, incluso `object.Equals(object other)` , eseguono l'equivalente di:
-```C#
-public override bool Equals(object other) => Equals(other as T);
-```
-
-`GetHashCode()`Restituisce il `int` risultato di una funzione deterministica che accetta i valori seguenti:
-- Per ogni campo dichiarato nel tipo di record, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.GetHashCode(fieldN)` dove `TN` è il tipo di campo e
+L'override sintetizzato di `GetHashCode()` restituisce `int` il risultato di una funzione deterministica che combina i valori seguenti:
+- Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.GetHashCode(fieldN)` dove `TN` è il tipo di campo e
 - Se è presente un tipo di record di base, il valore di `base.GetHashCode()` ; in caso contrario, il valore di `System.Collections.Generic.EqualityComparer<System.Type>.Default.GetHashCode(EqualityContract)` .
+
+Si considerino, ad esempio, i seguenti tipi di record:
+```C#
+record R1(T1 P1);
+record R2(T1 P1, T2 P2) : R1(P1);
+record R2(T1 P1, T2 P2, T3 P3) : R2(P1, P2);
+```
+
+Per questi tipi di record, i membri sintetizzati sono simili ai seguenti:
+```C#
+class R1 : IEquatable<R1>
+{
+    public T1 P1 { get; set; }
+    protected virtual Type EqualityContract => typeof(R1);
+    public override bool Equals(object? obj) => Equals(obj as R1);
+    public virtual bool Equals(R1? other)
+    {
+        return !(other is null) &&
+            EqualityContract == other.EqualityContract &&
+            EqualityComparer<T1>.Default.Equals(P1, other.P1);
+    }
+    public override int GetHashCode()
+    {
+        return Combine(EqualityComparer<Type>.Default.GetHashCode(EqualityContract),
+            EqualityComparer<T1>.Default.GetHashCode(P1));
+    }
+}
+
+class R2 : R1, IEquatable<R2>
+{
+    public T2 P2 { get; set; }
+    protected override Type EqualityContract => typeof(R2);
+    public override bool Equals(object? obj) => Equals(obj as R2);
+    public sealed override bool Equals(R1? other) => Equals((object?)other);
+    public virtual bool Equals(R2? other)
+    {
+        return base.Equals((R1?)other) &&
+            EqualityComparer<T2>.Default.Equals(P2, other.P2);
+    }
+    public override int GetHashCode()
+    {
+        return Combine(base.GetHashCode(),
+            EqualityComparer<T2>.Default.GetHashCode(P2));
+    }
+}
+
+class R3 : R2, IEquatable<R3>
+{
+    public T3 P3 { get; set; }
+    protected override Type EqualityContract => typeof(R3);
+    public override bool Equals(object? obj) => Equals(obj as R3);
+    public sealed override bool Equals(R2? other) => Equals((object?)other);
+    public virtual bool Equals(R3? other)
+    {
+        return base.Equals((R2?)other) &&
+            EqualityComparer<T3>.Default.Equals(P3, other.P3);
+    }
+    public override int GetHashCode()
+    {
+        return Combine(base.GetHashCode(),
+            EqualityComparer<T3>.Default.GetHashCode(P3));
+    }
+}
+```
 
 ### <a name="copy-and-clone-members"></a>Copiare e clonare i membri
 
