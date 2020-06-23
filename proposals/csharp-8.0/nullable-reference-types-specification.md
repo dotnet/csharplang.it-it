@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 060d3af7d06033b524e9e967a7f43c7577bc7965
-ms.sourcegitcommit: 538df2e3c334d94cac1fac6a382ddfe15452ad96
+ms.openlocfilehash: 3fc0f7d8db936d81a9419af15c495e9eeb456dd2
+ms.sourcegitcommit: 7c44a62f9a639b8eb8ad8621d8577e90ea6f2afb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 06/17/2020
-ms.locfileid: "84908317"
+ms.lasthandoff: 06/22/2020
+ms.locfileid: "85196191"
 ---
 # <a name="nullable-reference-types-specification"></a>Specifica di tipi di riferimento Nullable
 
@@ -169,6 +169,11 @@ I parametri di tipo prendono inoltre in considerazione i vincoli:
     - *Nullable* in un contesto di annotazione *abilitato*
 
 Per un parametro di tipo `T` , `T?` è consentito solo se è noto come tipo di `T` valore o è noto come tipo di riferimento.
+
+### <a name="nested-functions"></a>Funzioni annidate
+
+Le funzioni annidate (espressioni lambda e funzioni locali) vengono trattate come metodi, tranne che per quanto riguarda le variabili acquisite.
+Lo stato predefinito di una variabile acquisita all'interno di un'espressione lambda o di una funzione locale è l'intersezione dello stato Nullable della variabile in tutti gli "utilizzi" della funzione nidificata. L'uso di una funzione è una chiamata a tale funzione o in cui viene convertito in un delegato.
 
 ### <a name="oblivious-vs-nonnullable"></a>E non nullable
 
