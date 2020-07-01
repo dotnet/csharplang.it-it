@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 7901748edc95322275fb6a5f3fa7d336ee51a3f0
-ms.sourcegitcommit: d48f35e584faa741f610350003d8ea6a5bc1958d
+ms.openlocfilehash: d4fc057e4bd56562d1b861200cf6e9f2b4e8d0ff
+ms.sourcegitcommit: dd3261cfde7cfefc4e50fd79b21ec2d38b84e27e
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 06/19/2020
-ms.locfileid: "85111342"
+ms.lasthandoff: 07/01/2020
+ms.locfileid: "85766257"
 ---
 
 # <a name="records"></a>Record
@@ -194,7 +194,9 @@ Per ogni parametro di record di una dichiarazione del tipo di record è presente
 Per un record:
 
 * `get` `init` Viene creata una proprietà pubblica e automatica (vedere Specifica della `init` funzione di accesso separata).
-  Ogni funzione di accesso astratta ereditata "corrispondente" viene sottoposta a override. La proprietà auto viene inizializzata sul valore del parametro del costruttore primario corrispondente.
+  Viene eseguito l'override di una proprietà ereditata `abstract` con tipo corrispondente.
+  Si tratta di un errore se la proprietà ereditata non dispone `public` `get` di funzioni di accesso e sottoponibili a override `init` .
+  La proprietà auto viene inizializzata sul valore del parametro del costruttore primario corrispondente.
 
 ### <a name="deconstruct"></a>Decostruire
 
