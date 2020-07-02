@@ -1,30 +1,30 @@
 ---
-ms.openlocfilehash: e5ab385f498c0d96c55e60751bb204e7217f6eab
-ms.sourcegitcommit: 95f5f86ba2e2a23cd4fb37bd9d1ff690c83d1191
+ms.openlocfilehash: 6bf0b29d16297ae5201d9a7773fc9cb95a47f9cb
+ms.sourcegitcommit: 1bb454804d017a9ca18c5de47737dd1d68ce3eea
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 04/21/2020
-ms.locfileid: "81646692"
+ms.lasthandoff: 07/02/2020
+ms.locfileid: "85835143"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
 ## <a name="summary"></a>Summary
 
-Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi `ldftn` IL `calli`a cui non è attualmente possibile accedere in modo efficiente o, oggi in C: e . Questi codici operativi IL possono essere importanti nel codice ad alte prestazioni e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
+Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi IL al quale attualmente non è possibile accedere in modo efficiente, o, in C#: `ldftn` e `calli` . Questi codici operativi IL può essere importante nel codice a prestazioni elevate e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
 
 ## <a name="motivation"></a>Motivazione
 
-Le motivazioni e le informazioni di base per questa funzionalità sono descritte nel seguente numero (come è una potenziale implementazione della funzionalità):
+Le motivazioni e lo sfondo per questa funzionalità sono descritti nel seguente problema (come è una potenziale implementazione della funzionalità):
 
 https://github.com/dotnet/csharplang/issues/191
 
-Si tratta di una proposta di progettazione alternativa alle [intrinseche del compilatore](https://github.com/dotnet/csharplang/blob/master/proposals/intrinsics.md)
+Si tratta di una proposta di progettazione alternativa alle [funzioni intrinseche del compilatore](https://github.com/dotnet/csharplang/blob/master/proposals/intrinsics.md)
 
 ## <a name="detailed-design"></a>Progettazione dettagliata
 
 ### <a name="function-pointers"></a>Puntatori funzione
 
-Il linguaggio consentirà la dichiarazione `delegate*` di puntatori a funzione utilizzando la sintassi. La sintassi completa è descritta in dettaglio nella sezione `Func` successiva, ma è destinata ad assomigliare alla sintassi utilizzata dalle dichiarazioni e `Action` type.
+Il linguaggio consentirà la dichiarazione di puntatori a funzione usando la `delegate*` sintassi. La sintassi completa viene descritta in dettaglio nella sezione successiva, ma è concepita come la sintassi utilizzata dalle dichiarazioni di `Func` `Action` tipo e.
 
 ``` csharp
 unsafe class Example {
@@ -35,28 +35,35 @@ unsafe class Example {
 }
 ```
 
-Questi tipi vengono rappresentati utilizzando il tipo di puntatore a funzione come descritto in ECMA-335. Ciò significa che `delegate*` la `calli` chiamata di `delegate` un `callvirt` verrà `Invoke` utilizzato dove la chiamata di un verrà utilizzato sul metodo.
-Sintatticamente, anche se la chiamata è identica per entrambi i costrutti.
+Questi tipi sono rappresentati usando il tipo di puntatore a funzione, come descritto in ECMA-335. Ciò significa che la chiamata di un oggetto utilizzerà la `delegate*` `calli` posizione in cui la chiamata di un oggetto `delegate` verrà utilizzata `callvirt` nel `Invoke` metodo.
+Sintatticamente, sebbene la chiamata sia identica per entrambi i costrutti.
 
-La definizione ECMA-335 dei puntatori al metodo include la convenzione di chiamata come parte della firma del tipo (sezione 7.1).
-La convenzione di `managed`chiamata predefinita sarà . È possibile specificare forme alternative aggiungendo `delegate*` il `managed` `cdecl`modificatore `thiscall`appropriato `unmanaged`dopo la sintassi: , , `stdcall`, o . Esempio:
+La definizione ECMA-335 dei puntatori al metodo include la convenzione di chiamata come parte della firma del tipo (sezione 7,1).
+La convenzione di chiamata predefinita sarà `managed` . È possibile specificare le convenzioni di chiamata non gestite inserendo una `unmanaged` parola chiave dopo la `delegate*` sintassi, che utilizzerà l'impostazione predefinita della piattaforma di Runtime. È quindi possibile specificare convenzioni non gestite specifiche tra parentesi quadre per la `unmanaged` parola chiave specificando qualsiasi tipo che inizia con `CallConv` nello `System.Runtime.CompilerServices` spazio dei nomi. Questi tipi devono provenire dalla libreria principale del programma e il set di combinazioni valide è dipendente dalla piattaforma.
 
 ``` csharp
-// This method will be invoked using the cdecl calling convention
-delegate* cdecl<int, int>;
+//This method has a managed calling convention. This is the same as leaving the managed keyword off.
+delegate* managed<int, int>;
 
-// This method will be invoked using the stdcall calling convention
-delegate* stdcall<int, int>;
+// This method will be invoked using whatever the default unmanaged calling convention on the runtime
+// platform is. This is platform and architecture dependent and is determined by the CLR at runtime.
+delegate* unmanaged<int, int>;
+
+// This method will be invoked using the cdecl calling convention
+delegate* unmanaged[CallConvCdecl] <int, int>;
+
+// This method will be invoked using the stdcall calling convention, and suppresses GC transition
+delegate* unmanaged[CallConvStdCall, CallConvSuppressGCTransition] <int, int>;
 ```
 
-Le conversioni tra `delegate*` tipi vengono eseguite in base alla firma, inclusa la convenzione di chiamata.
+Le conversioni tra `delegate*` i tipi vengono eseguite in base alla relativa firma, inclusa la convenzione di chiamata.
 
 ``` csharp
 unsafe class Example {
     void Conversions() {
         delegate*<int, int, int> p1 = ...;
         delegate* managed<int, int, int> p2 = ...;
-        delegate* cdecl<int, int, int> p3 = ...;
+        delegate* unmanaged<int, int, int> p3 = ...;
 
         p1 = p2; // okay p1 and p2 have compatible signatures
         Console.WriteLine(p2 == p1); // True
@@ -65,24 +72,25 @@ unsafe class Example {
 }
 ```
 
-Un `delegate*` tipo è un tipo di puntatore che significa che ha tutte le funzionalità e le restrizioni di un tipo di puntatore standard:A type is a pointer type which means it has all of the capabilities and restrictions of a standard pointer type:
+Un `delegate*` tipo è un tipo di puntatore che significa che ha tutte le funzionalità e le restrizioni di un tipo di puntatore standard:
 
-- Valido solo `unsafe` in un contesto.
-- I metodi `delegate*` che contengono un parametro `unsafe` o un tipo restituito possono essere chiamati solo da un contesto.
-- Non può `object`essere convertito in .
-- Non può essere utilizzato come argomento generico.
-- Può convertire `delegate*` in `void*`modo implicito in .
-- Può convertire `void*` in `delegate*`modo esplicito da a .
+- Valido solo in un `unsafe` contesto.
+- I metodi che contengono un `delegate*` parametro o un tipo restituito possono essere chiamati solo da un `unsafe` contesto.
+- Non può essere convertito in `object` .
+- Non può essere usato come argomento generico.
+- Può convertire in modo implicito `delegate*` in `void*` .
+- Consente di eseguire la conversione esplicita da `void*` a `delegate*` .
 
 Restrizioni:
 
-- Gli attributi personalizzati non `delegate*` possono essere applicati a uno o a i relativi elementi.
+- Gli attributi personalizzati non possono essere applicati a un oggetto o a uno `delegate*` dei relativi elementi.
 - Un `delegate*` parametro non può essere contrassegnato come`params`
 - Un `delegate*` tipo ha tutte le restrizioni di un tipo di puntatore normale.
+- Non è possibile eseguire l'aritmetica del puntatore direttamente sui tipi di puntatore a funzione.
 
 ### <a name="function-pointer-syntax"></a>Sintassi del puntatore a funzione
 
-La sintassi completa del puntatore a funzione è rappresentata dalla grammatica seguente:
+La sintassi del puntatore a funzione completa è rappresentata dalla grammatica seguente:
 
 ```antlr
 pointer_type
@@ -91,15 +99,31 @@ pointer_type
     ;
 
 funcptr_type
-    : 'delegate' '*' calling_convention? '<' (funcptr_parameter_modifier? type ',')* funcptr_return_modifier? return_type '>'
+    : 'delegate' '*' calling_convention_specifier? '<' funcptr_parameter_list funcptr_return_type '>'
     ;
 
-calling_convention
-    : 'cdecl'
-    | 'managed'
-    | 'stdcall'
-    | 'thiscall'
-    | 'unmanaged'
+calling_convention_specifier
+    : 'managed'
+    | 'unmanaged' ('[' unmanaged_calling_convention ']')?
+    ;
+
+unmanaged_calling_convention
+    : 'Cdecl'
+    | 'Stdcall'
+    | 'Thiscall'
+    | 'Fastcall'
+    | identifier (',' identifier)*
+
+funptr_parameter_list
+    : (funcptr_parameter ',')*
+    ;
+
+funcptr_parameter
+    : funcptr_parameter_modifier? type
+    ;
+
+funcptr_return_type
+    : funcptr_return_modifier? return_type
     ;
 
 funcptr_parameter_modifier
@@ -114,8 +138,7 @@ funcptr_return_modifier
     ;
 ```
 
-La `unmanaged` convenzione di chiamata rappresenta la convenzione di chiamata predefinita per il codice nativo nella piattaforma corrente e viene codificata come winapi.
-Tutte `calling_convention`le s sono parole chiave `delegate*`contestuali se precedute da un oggetto .
+Se non `calling_convention_specifier` viene specificato alcun valore, il valore predefinito è `managed` . La codifica dei metadati precisa di `calling_convention_specifier` e di quali `identifier` sono i validi in `unmanaged_calling_convention` viene analizzata nella [rappresentazione dei metadati delle convenzioni di chiamata](#Metadata-Representation-of-Calling-Conventions).
 
 ``` csharp
 delegate int Func1(string s);
@@ -132,19 +155,19 @@ delegate*<delegate* managed<string, int>, delegate*<string, int>>;
 
 ### <a name="function-pointer-conversions"></a>Conversioni di puntatori a funzione
 
-In un contesto unsafe, il set di conversioni implicite disponibili (conversioni implicite) viene esteso per includere le seguenti conversioni implicite del puntatore:
+In un contesto non sicuro, il set di conversioni implicite disponibili (conversioni implicite) viene esteso in modo da includere le seguenti conversioni implicite del puntatore:
 - [_Conversioni esistenti_](https://github.com/dotnet/csharplang/blob/master/spec/unsafe-code.md#pointer-conversions)
-- Dal `F0` tipo _funcptr\__ a un altro tipo `F1` _funcptr\__ , purché tutte le seguenti condizioni siano vere:
-    - `F0`e `F1` hanno lo stesso numero di `D0n` `F0` parametri e `ref` `out`ogni `in` parametro in ha `D1n` `F1`gli stessi modificatori , , o del parametro corrispondente in .
-    - Per ogni parametro di `ref`valore `out`(parametro senza modificatore , o o `in` ), esiste una `F0` conversione di identità, una conversione implicita dei riferimenti o una conversione implicita del puntatore dal tipo di parametro in al tipo di parametro corrispondente in `F1`.
-    - Per `ref`ogni `out`parametro , o `in` `F0` , il tipo di parametro in è lo stesso del tipo di parametro corrispondente in `F1`.
-    - Se il tipo restituito è `ref` `ref readonly`in base al valore (no o ), esiste `F1` un'identità, `F0`un riferimento implicito o una conversione implicita del puntatore dal tipo restituito di al tipo restituito di .
-    - Se il tipo restituito`ref` è `ref readonly`per riferimento `ref` ( o `F1` ), il tipo restituito `ref` e `F0`i modificatori di sono uguali al tipo restituito e ai modificatori di .
-    - La convenzione `F0` di chiamata di è `F1`uguale alla convenzione di chiamata di .
+- Dal _ \_ tipo funcptr_ `F0` a un _altro \_ tipo funcptr_ `F1` , purché siano soddisfatte tutte le condizioni seguenti:
+    - `F0`e `F1` hanno lo stesso numero di parametri e ogni parametro `D0n` in `F0` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente `D1n` in `F1` .
+    - Per ogni parametro di valore (un parametro senza `ref` `out` `in` modificatore, o), esiste una conversione di identità, una conversione implicita di un riferimento o una conversione del puntatore implicita dal tipo di parametro in `F0` al tipo di parametro corrispondente in `F1` .
+    - Per ogni `ref` `out` parametro, o `in` , il tipo di parametro in `F0` corrisponde al tipo di parametro corrispondente in `F1` .
+    - Se il tipo restituito è per valore (No `ref` o `ref readonly` ), esiste un'identità, un riferimento implicito o una conversione del puntatore implicita dal tipo restituito di `F1` al tipo restituito di `F0` .
+    - Se il tipo restituito è per riferimento ( `ref` o `ref readonly` ), il tipo restituito e i `ref` modificatori di `F1` sono gli stessi del tipo restituito e `ref` dei modificatori di `F0` .
+    - La convenzione di chiamata di `F0` è uguale alla convenzione di chiamata di `F1` .
 
-### <a name="allow-address-of-to-target-methods"></a>Consentire i metodi address-of a target
+### <a name="allow-address-of-to-target-methods"></a>Consenti indirizzo-di ai metodi di destinazione
 
-I gruppi di metodi saranno ora consentiti come argomenti a un'espressione address-of. Il tipo di tale espressione `delegate*` sarà un che ha la firma equivalente del metodo di destinazione e una convenzione di chiamata gestita:The type of such an expression will be a which has the equivalent signature of the target method and a managed calling convention:
+I gruppi di metodi saranno ora consentiti come argomenti per un'espressione address-of. Il tipo di tale espressione sarà un `delegate*` che ha la firma equivalente del metodo di destinazione e una convenzione di chiamata gestita:
 
 ``` csharp
 unsafe class Util {
@@ -162,29 +185,25 @@ unsafe class Util {
 }
 ```
 
-In un contesto unsafe, un metodo `M` è `F` compatibile con un tipo di puntatore a funzione se tutte le seguenti sono vere:
-- `M`e `F` hanno lo stesso numero di `D` parametri e `ref` `out`ogni `in` parametro in ha `F`gli stessi modificatori , , o del parametro corrispondente in .
-- Per ogni parametro di `ref`valore `out`(parametro senza modificatore , o o `in` ), esiste una `M` conversione di identità, una conversione implicita dei riferimenti o una conversione implicita del puntatore dal tipo di parametro in al tipo di parametro corrispondente in `F`.
-- Per `ref`ogni `out`parametro , o `in` `M` , il tipo di parametro in è lo stesso del tipo di parametro corrispondente in `F`.
-- Se il tipo restituito è `ref` `ref readonly`in base al valore (no o ), esiste `F` un'identità, `M`un riferimento implicito o una conversione implicita del puntatore dal tipo restituito di al tipo restituito di .
-- Se il tipo restituito`ref` è `ref readonly`per riferimento `ref` ( o `F` ), il tipo restituito `ref` e `M`i modificatori di sono uguali al tipo restituito e ai modificatori di .
-- La convenzione `M` di chiamata di è `F`uguale alla convenzione di chiamata di .
+In un contesto non sicuro, un metodo `M` è compatibile con un tipo di puntatore a funzione `F` se si verificano tutte le condizioni seguenti:
+- `M`e `F` hanno lo stesso numero di parametri e ogni parametro in `M` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente in `F` .
+- Per ogni parametro di valore (un parametro senza `ref` `out` `in` modificatore, o), esiste una conversione di identità, una conversione implicita di un riferimento o una conversione del puntatore implicita dal tipo di parametro in `M` al tipo di parametro corrispondente in `F` .
+- Per ogni `ref` `out` parametro, o `in` , il tipo di parametro in `M` corrisponde al tipo di parametro corrispondente in `F` .
+- Se il tipo restituito è per valore (No `ref` o `ref readonly` ), esiste un'identità, un riferimento implicito o una conversione del puntatore implicita dal tipo restituito di `F` al tipo restituito di `M` .
+- Se il tipo restituito è per riferimento ( `ref` o `ref readonly` ), il tipo restituito e i `ref` modificatori di `F` sono gli stessi del tipo restituito e `ref` dei modificatori di `M` .
+- La convenzione di chiamata di `M` è uguale alla convenzione di chiamata di `F` . Sono inclusi sia il bit della convenzione di chiamata sia i flag della convenzione di chiamata specificati nell'identificatore non gestito.
 - `M` è un metodo statico.
 
-In un contesto unsafe esiste una conversione implicita da `E` un'espressione address-of `F` `E` la cui destinazione è un gruppo di metodi a un tipo di puntatore `F`a funzione compatibile se contiene almeno un metodo applicabile nella sua forma normale a un elenco di argomenti costruito utilizzando i tipi di parametro e i modificatori di , come descritto di seguito.
-- Viene selezionato `M` un singolo metodo corrispondente a `E(A)` una chiamata al metodo del form con le seguenti modifiche:
-   - L'elenco `A` di argomenti è un elenco di espressioni, ognuna`ref` `out`classificata `in`come variabile e con il tipo e il modificatore ( , , o ) dell'elenco di _\_\_parametri formali_ corrispondente di `D`.
-   - I metodi candidati sono solo i metodi applicabili nella loro forma normale, non quelli applicabili nella loro forma espansa.
-   - I metodi candidati sono solo quei metodi che sono statici.
-- Se l'algoritmo delle chiamate al metodo genera un errore, si verifica un errore in fase di compilazione. In caso contrario, l'algoritmo produce un singolo metodo `M` migliore con lo stesso numero di parametri `F` e la conversione viene considerata esistente.
-- Il metodo `M` selezionato deve essere compatibile (come definito `F`in precedenza) con il tipo di puntatore a funzione . In caso contrario, si verifica un errore in fase di compilazione.
-- Il risultato della conversione è `F`un puntatore a funzione di tipo .
+In un contesto non sicuro, esiste una conversione implicita da un'espressione address-of la cui destinazione è un gruppo `E` di metodi a un tipo di puntatore a funzione compatibile `F` se `E` contiene almeno un metodo applicabile nel formato normale a un elenco di argomenti costruito usando i tipi di parametro e i modificatori di `F` , come descritto di seguito.
+- Viene selezionato un singolo metodo `M` corrispondente alla chiamata di un metodo del form `E(A)` con le modifiche seguenti:
+   - L'elenco `A` degli argomenti è un elenco di espressioni, ciascuna classificata come variabile e con il tipo e il modificatore ( `ref` , `out` o `in` ) dell' _ \_ \_ elenco di parametri funcptr_ corrispondente di `F` .
+   - I metodi candidati sono solo i metodi applicabili nel formato normale, non quelli applicabili nella forma espansa.
+   - I metodi candidati sono solo i metodi statici.
+- Se l'algoritmo di risoluzione dell'overload genera un errore, si verifica un errore in fase di compilazione. In caso contrario, l'algoritmo produce un unico metodo migliore `M` con lo stesso numero di parametri di `F` e la conversione viene considerata esistente.
+- Il metodo selezionato `M` deve essere compatibile (come definito in precedenza) con il tipo di puntatore a funzione `F` . In caso contrario, si verifica un errore in fase di compilazione.
+- Il risultato della conversione è un puntatore a funzione di tipo `F` .
 
-Esiste una conversione implicita da un'espressione `E` address-of la cui destinazione è un gruppo di `void*` metodi se è presente un solo metodo `M` statico in `E`.
-Se è presente un metodo statico, `E` il `M`singolo metodo migliore da è .
-In caso contrario, si verifica un errore in fase di compilazione.
-
-Ciò significa che gli sviluppatori possono dipendere dalle regole di risoluzione dell'overload per lavorare insieme all'operatore address-of:This means developers can depend on overload resolution rules to work in conjunction with the address-of operator:
+Ciò significa che gli sviluppatori possono dipendere dalle regole di risoluzione dell'overload per lavorare insieme all'operatore address-of:
 
 ``` csharp
 unsafe class Util {
@@ -201,114 +220,134 @@ unsafe class Util {
     }
 ```
 
-L'operatore address-of verrà `ldftn` implementato mediante l'istruzione .
+L'operatore address-of verrà implementato utilizzando l' `ldftn` istruzione.
 
-Restrizioni di questa funzione:
+Limitazioni di questa funzionalità:
 
-- Si applica solo `static`ai metodi contrassegnati come .
-- Le`static` funzioni non locali `&`non possono essere utilizzate in . I dettagli di implementazione di questi metodi non sono deliberatamente specificati dal linguaggio. Ciò include se sono statici rispetto all'istanza o esattamente la firma con cui vengono generate.
+- Si applica solo ai metodi contrassegnati come `static` .
+- Le `static` funzioni non locali non possono essere utilizzate in `&` . I dettagli di implementazione di questi metodi non sono deliberatamente specificati dal linguaggio. Ciò include la presenza di un'istanza statica rispetto a quella con cui vengono emesse le firme.
 
 
-### <a name="operators-on-function-pointer-types"></a>Operatori sui tipi di puntatore a funzioneOperators on Function Pointer Types
+### <a name="operators-on-function-pointer-types"></a>Operatori sui tipi di puntatore a funzione
 
-La sezione nel codice unsafe sugli operatori viene modificata come tale:The section in unsafe code on operators is modified as such:
+La sezione in codice unsafe sugli operatori viene modificata come segue:
 
-> In un contesto unsafe, sono disponibili diversi\_costrutti per\_l'utilizzo di tutti i type_s _pointer che non _funcptr type_s:
+> In un contesto non sicuro sono disponibili numerosi costrutti per operare su tutti i _pointer \_ type_s che non sono _funcptr \_ type_s:
 >
-> *  L'operatore `*` può essere utilizzato per eseguire il riferimento indiretto del puntatore ([riferimento indiretto del puntatore](unsafe-code.md#pointer-indirection)).
-> *  L'operatore `->` può essere utilizzato per accedere a un membro di una struttura tramite un puntatore ([Accesso ai membri del puntatore](unsafe-code.md#pointer-member-access)).
-> *  L'operatore `[]` può essere utilizzato per indicizzare un puntatore ([Accesso all'elemento Puntatore](unsafe-code.md#pointer-element-access)).
-> *  L'operatore `&` può essere utilizzato per ottenere l'indirizzo di una variabile ([L'operatore address-of](unsafe-code.md#the-address-of-operator)).
-> *  Gli `++` `--` operatori e possono essere utilizzati per incrementare e diminuire i puntatori ([Incremento e decremento del puntatore](unsafe-code.md#pointer-increment-and-decrement)).
-> *  Gli `+` `-` operatori e possono essere utilizzati per eseguire l'aritmetica dei puntatori ([Pointer arithmetic](unsafe-code.md#pointer-arithmetic)).
-> *  Gli `==` `!=`operatori `<` `>`, `<=`, `=>` , , e possono essere utilizzati per confrontare i puntatori ([Confronto di puntatori](unsafe-code.md#pointer-comparison)).
-> *  L'operatore `stackalloc` può essere utilizzato per allocare memoria dallo stack di chiamate ( buffer a[dimensione fissa](unsafe-code.md#fixed-size-buffers)).
-> *  L'istruzione `fixed` può essere utilizzata per correggere temporaneamente una variabile in modo che sia possibile ottenere il relativo indirizzo ([L'istruzione fixed](unsafe-code.md#the-fixed-statement)).
+> *  L' `*` operatore può essere utilizzato per eseguire un riferimento indiretto del puntatore ([riferimento indiretto](unsafe-code.md#pointer-indirection)).
+> *  L' `->` operatore può essere usato per accedere a un membro di uno struct tramite un puntatore ([accesso al membro del puntatore](unsafe-code.md#pointer-member-access)).
+> *  L' `[]` operatore può essere utilizzato per indicizzare un puntatore ([accesso all'elemento del puntatore](unsafe-code.md#pointer-element-access)).
+> *  L' `&` operatore può essere utilizzato per ottenere l'indirizzo di una variabile ([l'operatore address-of](unsafe-code.md#the-address-of-operator)).
+> *  Gli `++` `--` operatori e possono essere utilizzati per incrementare e decrementare i puntatori ([incremento e decremento del puntatore](unsafe-code.md#pointer-increment-and-decrement)).
+> *  Gli `+` `-` operatori e possono essere utilizzati per eseguire l'aritmetica dei puntatori ([aritmetica del puntatore](unsafe-code.md#pointer-arithmetic)).
+> *  Gli `==` `!=` operatori,, `<` ,, `>` `<=` e `=>` possono essere usati per confrontare i puntatori ([confronto tra](unsafe-code.md#pointer-comparison)puntatori).
+> *  L' `stackalloc` operatore può essere utilizzato per allocare memoria dallo stack di chiamate ([buffer a dimensione fissa](unsafe-code.md#fixed-size-buffers)).
+> *  L' `fixed` istruzione può essere utilizzata per correggere temporaneamente una variabile in modo che sia possibile ottenere l'indirizzo ([istruzione fixed](unsafe-code.md#the-fixed-statement)).
 > 
-> In un contesto unsafe, sono disponibili diversi\_costrutti per l'utilizzo su tutti i _funcptr type_s:
-> *  L'operatore `&` può essere utilizzato per ottenere l'indirizzo dei metodi statici ([Consenti address-of a target](function-pointers.md#allow-address-of-to-target-methods)methods )
-> *  Gli `==` `!=`operatori `<` `>`, `<=`, `=>` , , e possono essere utilizzati per confrontare i puntatori ([Confronto di puntatori](unsafe-code.md#pointer-comparison)).
+> In un contesto non sicuro sono disponibili numerosi costrutti per operare su tutti i _funcptr \_ type_s:
+> *  L' `&` operatore può essere utilizzato per ottenere l'indirizzo dei metodi statici ([Consenti indirizzo-di ai metodi di destinazione](function-pointers.md#allow-address-of-to-target-methods))
+> *  Gli `==` `!=` operatori,, `<` ,, `>` `<=` e `=>` possono essere usati per confrontare i puntatori ([confronto tra](unsafe-code.md#pointer-comparison)puntatori).
 
-Inoltre, vengono modificate tutte `Pointers in expressions` le sezioni in per `Pointer comparison` proibire i tipi di puntatori a funzione, ad eccezione di e `The sizeof operator`.
+Inoltre, si modificano tutte le sezioni in `Pointers in expressions` per impedire tipi di puntatore a funzione, eccetto `Pointer comparison` e `The sizeof operator` .
 
-### <a name="better-function-member"></a>Membro funzione migliore
+### <a name="better-function-member"></a>Membro di funzione migliore
 
-La specifica del membro funzione migliore verrà modificata per includere la riga seguente:The better function member specification will be changed to include the following line:
+La specifica del membro di funzione migliore verrà modificata in modo da includere la riga seguente:
 
-> A `delegate*` è più specifico di`void*`
+> Un `delegate*` è più specifico di`void*`
 
-Ciò significa che è `void*` possibile `delegate*` sovraccaricare e un e ancora in modo ragionevole utilizzare l'operatore address-of.
+Ciò significa che è possibile eseguire l'overload su `void*` e un oggetto `delegate*` e continuare a usare l'operatore address-of.
 
-## <a name="metadata-representation-of-in-out-and-ref-readonly-parameters-and-return-types"></a>Rappresentazione `in`dei `out`metadati dei parametri , e `ref readonly` e dei tipi restituiti
+## <a name="metadata-representation-of-in-out-and-ref-readonly-parameters-and-return-types"></a>Rappresentazione dei metadati `in` di `out` parametri, e `ref readonly` e tipi restituiti
 
-Le firme dei puntatori a funzione non hanno una posizione `in` `out`dei `ref readonly` flag di parametro, pertanto è necessario codificare se i parametri e il tipo restituito sono , o utilizzando modreqs.
+Le firme del puntatore a funzione non hanno un percorso di flag di parametro, pertanto è necessario codificare se i parametri e il tipo restituito sono `in` , `out` o `ref readonly` usando modreqs.
 
 ### `in`
 
-Viene riutilizzato `System.Runtime.InteropServices.InAttribute`, `modreq` applicato come a all'identificatore ref su un parametro o un tipo restituito, in modo da quanto segue:
-* Se applicato a un identificatore di parametro ref, questo parametro viene considerato come `in`.
-* Se applicato all'identificatore ref del tipo restituito, il tipo restituito viene considerato come `ref readonly`.
+Riutilizziamo `System.Runtime.InteropServices.InAttribute` , applicato come oggetto `modreq` all'identificatore Ref su un parametro o un tipo restituito, per indicare quanto segue:
+* Se applicato a un identificatore di riferimento del parametro, questo parametro viene trattato come `in` .
+* Se applicato all'identificatore Ref del tipo restituito, il tipo restituito viene considerato come `ref readonly` .
 
 ### `out`
 
-Utilizziamo `System.Runtime.InteropServices.OutAttribute`, applicato `modreq` come a all'identificatore ref su un tipo `out` di parametro, per indicare che il parametro è un parametro.
+Si usa `System.Runtime.InteropServices.OutAttribute` , applicato come oggetto `modreq` all'identificatore Ref su un tipo di parametro, per indicare che il parametro è un `out` parametro.
 
-### <a name="errors"></a>Errors
+### <a name="errors"></a>Errori
 
-* È un errore `OutAttribute` da applicare come modreq a un tipo restituito.
-* È un errore applicare `InAttribute` `OutAttribute` entrambi e come modreq a un tipo di parametro.
-* Se uno dei due sono specificati tramite modopt, vengono ignorati.
+* Si tratta di un errore da applicare `OutAttribute` come modreq a un tipo restituito.
+* È un errore applicare sia che `InAttribute` `OutAttribute` come modreq a un tipo di parametro.
+* Se vengono specificati tramite modopt, verranno ignorati.
 
-## <a name="open-issues"></a>Open Issues
+### <a name="metadata-representation-of-calling-conventions"></a>Rappresentazione dei metadati delle convenzioni di chiamata
 
-### <a name="nativecallableattribute"></a>NativeCallableAttribute
+Le convenzioni di chiamata vengono codificate nella firma di un metodo nei metadati mediante una combinazione del `CallKind` flag nella firma e zero o più `modopt` all'inizio della firma. ECMA-335 dichiara attualmente gli elementi seguenti nel `CallKind` flag:
 
-Si tratta di un attributo utilizzato da CLR per evitare il prologo gestito a nativo durante la chiamata. I metodi contrassegnati da questo attributo sono chiamabili solo dal codice nativo, non gestiti (non è possibile chiamare metodi, creare un delegato e così via). L'attributo non è speciale per mscorlib; il runtime tratterà qualsiasi attributo con questo nome con la stessa semantica.
-
-È possibile che il runtime e il linguaggio collaborino per supportare completamente questa operazione. La lingua può scegliere di `static` trattare `NativeCallable` i `delegate*` membri address-of con un attributo come un con la convenzione di chiamata specificata.
-
-``` csharp
-unsafe class NativeCallableExample {
-    [NativeCallable(CallingConvention.CDecl)]
-    static void CloseHandle(IntPtr p) => Marshal.FreeHGlobal(p);
-
-    void Use() {
-        delegate*<IntPtr, void> p1 = &CloseHandle; // Error: Invalid calling convention
-
-        delegate* cdecl<IntPtr, void> p2 = &CloseHandle; // Okay
-    }
-}
-
+```antlr
+CallKind
+   : default
+   | unmanaged cdecl
+   | unmanaged fastcall
+   | unmanaged thiscall
+   | unmanaged stdcall
+   | varargs
+   ;
 ```
 
-Inoltre la lingua sarebbe probabilmente anche voglia di:
+Di questi, i puntatori a funzione in C# supporteranno tutti i, tranne `varargs` .
 
-- Contrassegnare tutte le chiamate gestite a un metodo contrassegnato con `NativeCallable` come errore. Dato che la funzione non può essere richiamata dal codice gestito, il compilatore deve impedire agli sviluppatori di tentare una chiamata di questo tipo.
-- Impedire le conversioni `delegate` del gruppo di `NativeCallable`metodi quando il metodo è contrassegnato con .
+Inoltre, il runtime (e infine 335) verrà aggiornato in modo da includere un nuovo `CallKind` nelle nuove piattaforme. Attualmente non è presente un nome formale, ma questo documento utilizzerà `unmanaged ext` come segnaposto per il nuovo formato della convenzione di chiamata estendibile. Con No `modopt` s, `unmanaged ext` è la convenzione di chiamata predefinita della piattaforma, `unmanaged` senza le parentesi quadre.
 
-Questo non è `NativeCallable` necessario sostenere però. Il compilatore `NativeCallable` può supportare l'attributo come sta utilizzando la sintassi esistente. Il programma avrebbe semplicemente `void*` bisogno di eseguire `delegate*` il cast a prima del cast alla firma corretta. Non sarebbe peggio del sostegno odierno.
+#### <a name="mapping-the-calling_convention_specifier-to-a-callkind"></a>Mapping `calling_convention_specifier` di a un`CallKind`
 
-``` csharp
-void* v = &CloseHandle;
-delegate* cdecl<IntPtr, bool> f1 = (delegate* cdecl<IntPtr, bool>)v;
-```
+Un oggetto `calling_convention_specifier` che viene omesso o specificato come `managed` , viene mappato a `default` `CallKind` . Si tratta del valore predefinito `CallKind` di qualsiasi metodo senza attributi `UnmanagedCallersOnly` .
 
-### <a name="extensible-set-of-unmanaged-calling-conventions"></a>Set estendibile di convenzioni di chiamata non gestiteExtensible set of unmanaged calling conventions
+C# riconosce 4 identificatori speciali che vengono mappati a specifiche non gestite esistenti `CallKind` da ECMA 335. Affinché questo mapping venga eseguito, è necessario specificare i relativi identificatori in modo autonomo, senza altri identificatori, e questo requisito viene codificato nelle specifiche per `unmanaged_calling_convention` s. Questi identificatori sono `Cdecl` , `Thiscall` , `Stdcall` e `Fastcall` , che corrispondono rispettivamente a `unmanaged cdecl` , `unmanaged thiscall` , `unmanaged stdcall` e `unmanaged fastcall` . Se viene specificato più di un `identifer` oggetto o se il singolo `identifier` non è costituito dagli identificatori specifici, viene eseguita la ricerca di nomi speciali sull'identificatore con le regole seguenti:
 
-Il set di convenzioni di chiamata non gestite supportate dalle codifiche ECMA-335 correnti è obsoleto. Sono state riscontrate richieste di aggiunta del supporto per più convenzioni di chiamata non gestite, ad esempio:We have seen requests to add support for more unmanaged calling conventions, for example:
+* Viene anteposto l'oggetto `identifier` con la stringa`CallConv`
+* Si osserveranno solo i tipi definiti nello `System.Runtime.CompilerServices` spazio dei nomi.
+* Si osserveranno solo i tipi definiti nella libreria principale dell'applicazione, ovvero la libreria che definisce `System.Object` e non ha dipendenze.
 
-- [vectorcall (chiamata vettoriale)](https://docs.microsoft.com/cpp/cpp/vectorcall)https://github.com/dotnet/coreclr/issues/12120
-- StdCall con esplicito questohttps://github.com/dotnet/coreclr/pull/23974#issuecomment-482991750
+Se la ricerca ha esito positivo su tutti gli oggetti `identifier` specificati in un oggetto `unmanaged_calling_convention` , viene codificato `CallKind` come `unmanaged ext` e vengono codificati tutti i tipi risolti nel set di oggetti `modopt` all'inizio della firma del puntatore a funzione. Si noti che queste regole indicano che gli utenti non possono precedere questi `identifier` con `CallConv` , perché ciò comporta la ricerca `CallConvCallConvVectorCall` .
 
-La progettazione di questa funzionalità deve consentire l'estensione del set di convenzioni di chiamata non gestite in base alle esigenze future. I problemi includono spazio limitato per la codifica delle convenzioni `IMAGE_CEE_CS_CALLCONV_MASK`di chiamata (12 su 16 valori vengono presi in ) e il numero di posizioni che devono essere toccate per aggiungere una nuova convenzione di chiamata. Una potenziale soluzione consiste nell'introdurre una [`System.Runtime.InteropServices.CallingConvention`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.callingconvention) nuova codifica che rappresenta la convenzione di chiamata utilizzando enum.
+Quando si interpretano i metadati, si esamina prima di tutto `CallKind` . Se si tratta di un valore diverso da `unmanaged ext` , si ignoreranno tutti i `modopt` nel tipo restituito ai fini della determinazione della convenzione di chiamata e si utilizzerà solo `CallKind` . Se `CallKind` è `unmanaged ext` , si esamina il modopts all'inizio del tipo di puntatore a funzione, prendendo l'Unione di tutti i tipi che soddisfano i requisiti seguenti:
 
-Per riferimento, https://github.com/llvm/llvm-project/blob/master/llvm/include/llvm/IR/CallingConv.h include l'elenco delle convenzioni di chiamata supportate da LLVM. Sebbene sia improbabile che .NET debba mai supportarli tutti, dimostra che lo spazio delle convenzioni di chiamata è molto ricco.
+* L'oggetto è definito nella libreria principale, ovvero la libreria che fa riferimento ad altre librerie e non definisce `System.Object` .
+* Il tipo è definito nello `System.Runtime.CompilerServices` spazio dei nomi.
+* Il tipo inizia con il prefisso `CallConv` .
+
+ Rappresentano i tipi che devono essere trovati quando si esegue la ricerca in `identifier` un oggetto `unmanaged_calling_convention` quando si definisce un tipo di puntatore a funzione nell'origine.
+
+Non è possibile tentare di usare un puntatore a funzione con un valore `CallKind` di `unmanaged ext` se il runtime di destinazione non supporta la funzionalità. Questa operazione verrà determinata cercando la presenza della `System.Runtime.CompilerServices.RuntimeFeature.UnmanagedCallKind` costante. Se questa costante è presente, il runtime viene considerato come supporto della funzionalità.
+
+### `System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute`
+
+`System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute`attributo utilizzato da CLR per indicare che un metodo deve essere chiamato con una convenzione di chiamata specifica. Per questo motivo, viene introdotto il supporto seguente per l'utilizzo dell'attributo:
+
+* È un errore chiamare direttamente un metodo annotato con questo attributo da C#. Gli utenti devono ottenere un puntatore a funzione per il metodo e quindi richiamare il puntatore.
+* È un errore applicare l'attributo a qualsiasi elemento diverso da un metodo statico. Il compilatore C# contrassegna tutti i metodi non statici importati dai metadati con questo attributo come non supportati dal linguaggio.
+* Non è possibile usare tipi non gestiti come parametri o il tipo restituito di un metodo contrassegnato con l'attributo.
+* È un errore convertire un metodo contrassegnato con l'attributo in un tipo delegato.
+* Non è un errore specificare i tipi per `UnmanagedCallersOnly.CallConvs` che non soddisfano i requisiti per la chiamata di Convention `modopt` s nei metadati.
+
+Quando si determina la convenzione di chiamata di un metodo contrassegnato con un `UnmanagedCallersOnly` attributo valido, il compilatore esegue i controlli seguenti sui tipi specificati nella `CallConvs` proprietà per determinare gli effettivi `CallKind` e `modopt` che devono essere utilizzati per determinare la convenzione di chiamata:
+
+* Se non viene specificato alcun tipo, `CallKind` viene considerato come `unmanaged ext` , senza alcuna convenzione `modopt` di chiamata all'inizio del tipo di puntatore a funzione.
+* Se è stato specificato un tipo e tale tipo è denominato `CallConvCdecl` ,, `CallConvThiscall` `CallConvStdcall` o `CallConvFastcall` , l'oggetto `CallKind` viene trattato come,, `unmanaged cdecl` `unmanaged thiscall` `unmanaged stdcall` o `unmanaged fastcall` , rispettivamente, senza convenzione di chiamata `modopt` all'inizio del tipo di puntatore a funzione.
+* Se vengono specificati più tipi o se il tipo singolo non è denominato uno dei tipi indicati in precedenza, `CallKind` viene considerato come `unmanaged ext` , con l'Unione dei tipi specificati come `modopt` s all'inizio del tipo di puntatore a funzione.
+
+Il compilatore esamina quindi questo effetto `CallKind` e la `modopt` raccolta e usa le normali regole di metadati per determinare la convenzione di chiamata finale del tipo di puntatore a funzione.
+
+## <a name="open-questions"></a>Domande aperte
+
+### <a name="detecting-runtime-support-for-unmanaged-ext"></a>Rilevamento del supporto runtime per`unmanaged ext`
+
+https://github.com/dotnet/runtime/issues/38135tiene traccia dell'aggiunta di questo flag. A seconda dei commenti e suggerimenti della revisione, si utilizzerà la proprietà specificata nel problema oppure si utilizzerà la presenza di `UnmanagedCallersOnlyAttribute` come flag che determina se i runtime supportano `unmanaged ext` .
 
 ## <a name="considerations"></a>Considerazioni
 
-### <a name="allow-instance-methods"></a>Consentire metodi di istanza
+### <a name="allow-instance-methods"></a>Consenti metodi di istanza
 
-La proposta potrebbe essere estesa per supportare `EXPLICITTHIS` i metodi `instance` di istanza sfruttando la convenzione di chiamata CLI (denominato nel codice C . Questa forma di puntatori `this` a funzione CLI inserisce il parametro come primo parametro esplicito della sintassi del puntatore a funzione.
+È possibile estendere la proposta per supportare i metodi di istanza sfruttando la convenzione di chiamata dell'interfaccia della riga di comando `EXPLICITTHIS` (denominata `instance` nel codice C#). Questa forma di puntatori a funzione dell'interfaccia della riga di comando inserisce il `this` parametro come primo parametro esplicito della sintassi del puntatore a funzione.
 
 ``` csharp
 unsafe class Instance {
@@ -319,7 +358,7 @@ unsafe class Instance {
 }
 ```
 
-Questo è valido, ma aggiunge qualche complicazione alla proposta. In particolare perché i puntatori a `instance` `managed` funzione che differivano dalla convenzione di chiamata e sarebbero incompatibili anche se entrambi i casi vengono utilizzati per richiamare i metodi gestiti con la stessa firma di C. Anche in ogni caso considerato dove questo sarebbe utile avere c'era un semplice lavoro intorno: utilizzare una `static` funzione locale.
+Si tratta di un suono che aggiunge alcune complicazioni alla proposta. In particolare perché i puntatori a funzione che differiscono dalla convenzione di chiamata `instance` e `managed` sarebbero incompatibili anche se entrambi i casi vengono usati per richiamare i metodi gestiti con la stessa firma C#. Inoltre, in ogni caso, si considera utile la presenza di una semplice soluzione: usare una `static` funzione locale.
 
 ``` csharp
 unsafe class Instance {
@@ -333,11 +372,11 @@ unsafe class Instance {
 
 ### <a name="dont-require-unsafe-at-declaration"></a>Non richiedere unsafe alla dichiarazione
 
-Anziché `unsafe` richiedere a ogni `delegate*`utilizzo di un oggetto , è necessario `delegate*`solo nel punto in cui un gruppo di metodi viene convertito in un oggetto . È qui che entrano in gioco i problemi di sicurezza di base (sapendo che l'assieme che lo contiene non può essere scaricato mentre il valore è attivo). Richiedere `unsafe` in altre posizioni può essere visto come eccessivo.
+Anziché richiedere `unsafe` a ogni utilizzo di un `delegate*` , richiederlo solo nel punto in cui un gruppo di metodi viene convertito in un oggetto `delegate*` . Questo è il punto in cui vengono rilevati i problemi di sicurezza di base (sapendo che l'assembly contenitore non può essere scaricato mentre il valore è attivo). La richiesta `unsafe` di altre posizioni può essere considerata eccessiva.
 
-Questo è il modo in cui il design è stato originariamente progettato. Ma le regole linguistiche risultanti sembravano molto scomode. È impossibile nascondere il fatto che si tratta di un valore `unsafe` del puntatore e ha continuato a sbirciare anche senza la parola chiave. Ad esempio la `object` conversione in non può essere consentita, `class`non può essere un membro di un, ecc ... La progettazione di `unsafe` C , è necessario per tutti gli utilizzi del puntatore e quindi questa progettazione segue che.
+Questo è il modo in cui la progettazione è stata originariamente progettata. Ma le regole del linguaggio risultavano molto scomode. Non è possibile nascondere il fatto che si tratta di un valore di puntatore che continua a leggere anche senza la `unsafe` parola chiave. Ad esempio, la conversione a `object` non può essere consentita, non può essere un membro di `class` , e così via. Il progetto C# è necessario `unsafe` per tutti gli utilizzi del puntatore e pertanto questa progettazione lo segue.
 
-Gli sviluppatori saranno comunque _safe_ in grado `delegate*` di presentare un wrapper sicuro sopra i valori nello stesso modo in cui avvengono per i tipi di puntatore normali oggi. Prendere in considerazione:
+Gli sviluppatori saranno comunque in grado di presentare un wrapper _sicuro_ sopra i `delegate*` valori nello stesso modo in cui fanno oggi i normali tipi di puntatore. Tenere in considerazione:
 
 ``` csharp
 unsafe struct Action {
@@ -348,29 +387,29 @@ unsafe struct Action {
 }
 ```
 
-### <a name="using-delegates"></a>Utilizzo dei delegati
+### <a name="using-delegates"></a>Uso di delegati
 
-Anziché utilizzare un nuovo `delegate*`elemento di `delegate` sintassi, è sufficiente utilizzare i tipi esistenti con il `*` seguente tipo:
+Invece di usare un nuovo elemento della sintassi, `delegate*` , è sufficiente usare `delegate` i tipi esistenti con `*` il tipo seguente:
 
 ``` csharp
 Func<object, object, bool>* ptr = &object.ReferenceEquals;
 ```
 
-La gestione della convenzione di chiamata `delegate` può essere eseguita `CallingConvention` annotando i tipi con un attributo che specifica un valore. La mancanza di un attributo significherebbe la convenzione di chiamata gestita.
+La gestione della convenzione di chiamata può essere eseguita annotando i `delegate` tipi con un attributo che specifica un `CallingConvention` valore. La mancanza di un attributo significa la convenzione di chiamata gestita.
 
-Codificare questo in IL è problematico. Il valore sottostante deve essere rappresentato come un puntatore ma deve anche:
+La codifica in IL è problematica. Il valore sottostante deve essere rappresentato come puntatore, ma deve anche:
 
-1. Avere un tipo univoco per consentire gli overload con diversi tipi di puntatore a funzione.
-1. Essere equivalente per scopi OHI oltre i limiti dell'assieme.
+1. Hanno un tipo univoco per consentire gli overload con tipi di puntatore a funzione diversi.
+1. Essere equivalente a scopi OHI tra i limiti di assembly.
 
-L'ultimo punto è particolarmente problematico. Ciò significa che `Func<int>*` ogni assembly che utilizza deve `Func<int>*` codificare un tipo equivalente nei metadati anche se è definito in un assembly anche se non controllarlo.
-Inoltre qualsiasi altro tipo definito con `System.Func<T>` il nome in un assembly che non è mscorlib deve essere diverso da quello definito in mscorlib.
+L'ultimo punto è particolarmente problematico. Ciò significa che ogni assembly utilizzato da `Func<int>*` deve codificare un tipo equivalente nei metadati anche se `Func<int>*` è definito in un assembly, sebbene non controlli.
+Inoltre, tutti gli altri tipi definiti con il nome `System.Func<T>` in un assembly che non è mscorlib devono essere diversi dalla versione definita in mscorlib.
 
-Un'opzione che è stata esplorata `mod_req(Func<int>) void*`è stata l'emissione di un puntatore come . Questo non funziona anche `mod_req` se come `TypeSpec` un non può associarsi a un e quindi non può indirizzare le istanze generiche.
+Una delle opzioni Esplorate è stata la creazione di un puntatore di questo tipo come `mod_req(Func<int>) void*` . Questa operazione non funziona anche se `mod_req` non è possibile eseguire l'associazione a un oggetto `TypeSpec` e pertanto non è possibile fare riferimento a istanze generiche.
 
-### <a name="named-function-pointers"></a>Puntatori a funzione denominata
+### <a name="named-function-pointers"></a>Puntatori a funzioni denominate
 
-La sintassi del puntatore a funzione può essere complessa, in particolare nei casi complessi come i puntatori a funzione annidati. Anziché fare in modo che gli sviluppatori eseguano la firma ogni `delegate`volta che il linguaggio potrebbe consentire dichiarazioni denominate di puntatori a funzione come avviene con .
+La sintassi del puntatore a funzione può essere complessa, soprattutto in casi complessi come i puntatori a funzioni annidate. Anziché fare in modo che gli sviluppatori digitino la firma ogni volta che la lingua potrebbe consentire le dichiarazioni denominate dei puntatori a funzione, come avviene con `delegate` .
 
 ``` csharp
 func* void Action();
@@ -382,9 +421,9 @@ unsafe class NamedExample {
 }
 ```
 
-Parte del problema qui è la primitiva CLI sottostante non ha nomi, quindi questo sarebbe puramente un'invenzione di C , e richiedono un po ' di lavoro di metadati per abilitare. Questo è fattibile, ma è un'importante questione di lavoro. In sostanza, è necessario che il linguaggio C'è un complemento alla tabella def del tipo esclusivamente per questi nomi.
+Una parte del problema è che la primitiva dell'interfaccia della riga di comando sottostante non ha nomi, pertanto si tratterebbe puramente di un'invenzione in C# e richiederebbe un po' di lavoro di metadati da abilitare. Questa operazione è fattibile, ma è una questione significativa di lavoro. In sostanza, è necessario che C# disponga di un complementare alla tabella def del tipo esclusivamente per questi nomi.
 
-Anche quando sono stati esaminati gli argomenti per i puntatori a funzione denominati abbiamo scoperto che potevano applicarsi altrettanto bene a una serie di altri scenari. Ad esempio, sarebbe altrettanto conveniente dichiarare le tuple denominate per ridurre la necessità di digitare la firma completa in tutti i casi.
+Inoltre, quando sono stati esaminati gli argomenti per i puntatori a funzione denominati, è possibile che si applichino ugualmente a diversi altri scenari. Ad esempio, sarebbe altrettanto semplice dichiarare le tuple denominate per ridurre la necessità di digitare la firma completa in tutti i casi.
 
 ``` csharp
 (int x, int y) Point;
@@ -396,23 +435,19 @@ class NamedTupleExample {
 }
 ```
 
-Dopo la discussione abbiamo deciso `delegate*` di non consentire la dichiarazione denominata dei tipi. Se troviamo che c'è una notevole necessità per questo in base al feedback sull'utilizzo dei clienti, allora esamineremo una soluzione di denominazione che funziona per i puntatori a funzione, tuple, generics, ecc ... Questo è probabile che sia simile in `typedef` forma ad altri suggerimenti come il pieno supporto nella lingua.
+Dopo la discussione si è deciso di non consentire la dichiarazione denominata dei `delegate*` tipi. Se viene rilevata una necessità significativa in base ai commenti e suggerimenti sull'utilizzo dei clienti, viene esaminata una soluzione di denominazione che funziona per i puntatori a funzione, le tuple, i generics e così via. È probabile che questo aspetto sia simile a quello di altri suggerimenti `typedef` , come il supporto completo nel linguaggio.
 
 ## <a name="future-considerations"></a>Considerazioni
 
-### <a name="static-local-functions"></a>funzioni locali statiche
-
-Questo si riferisce alla `static` [proposta](https://github.com/dotnet/csharplang/issues/1565) di consentire il modificatore sulle funzioni locali. Tale funzione sarebbe garantita per essere `static` emessa come e con la firma esatta specificata nel codice sorgente. Tale funzione dovrebbe essere un `&` argomento valido in quanto non contiene nessuno dei problemi che le funzioni locali hanno oggi
-
 ### <a name="static-delegates"></a>delegati statici
 
-Ciò [the proposal](https://github.com/dotnet/csharplang/issues/302) si riferisce alla proposta `delegate` di consentire la `static` dichiarazione di tipi che possono riferirsi solo ai membri. Il vantaggio è `delegate` che tali istanze possono essere senza allocazione e migliori negli scenari sensibili alle prestazioni.
+Si fa riferimento alla [proposta](https://github.com/dotnet/csharplang/issues/302) per consentire la dichiarazione di `delegate` tipi che possono fare riferimento solo ai `static` membri. Il vantaggio è che tali `delegate` istanze possono essere allocazione gratuite e migliori negli scenari sensibili alle prestazioni.
 
-Se viene implementata la `static delegate` funzionalità del puntatore a funzione, la proposta verrà probabilmente chiusa. Il vantaggio proposto di tale funzionalità è la natura priva di allocazione. Tuttavia recenti indagini hanno trovato che non è possibile ottenere a causa di scarico dell'assemblaggio. Deve essere presente una `static delegate` maniglia forte dal al metodo a cui fa riferimento per evitare che l'assembly venga scaricato da sotto di esso.
+Se la funzionalità del puntatore a funzione è implementata `static delegate` , la proposta verrà probabilmente chiusa. Il vantaggio proposto da questa funzionalità è la natura di allocazione. Sono state rilevate tuttavia ricerche recenti che non è possibile ottenere a causa dello scaricamento di assembly. È necessario che sia presente un handle sicuro da `static delegate` al metodo a cui si riferisce per evitare che l'assembly venga scaricato dal sottoinsieme.
 
-Per mantenere `static delegate` ogni istanza sarebbe necessario allocare un nuovo handle che sia in contrasto con gli obiettivi della proposta. C'erano alcuni disegni in cui l'allocazione potrebbe essere ammortizzata a una singola allocazione per sito di chiamata, ma che era un po 'complesso e non sembrava vale la pena il trade off.
+Per mantenere ogni `static delegate` istanza è necessario allocare un nuovo handle che esegue il contatore agli obiettivi della proposta. Sono stati creati alcuni progetti in cui l'allocazione può essere ammortizzata in una singola allocazione per ogni chiamata, ma si tratta di un po' complesso che non sembra essere il compromesso.
 
-Ciò significa che gli sviluppatori devono essenzialmente decidere tra i seguenti compromessi:
+Ciò significa che gli sviluppatori devono essenzialmente decidere tra i compromessi seguenti:
 
-1. Sicurezza di fronte allo scarico dell'assemblaggio: ciò richiede allocazioni e quindi `delegate` è già un'opzione sufficiente.
-1. Nessuna sicurezza di fronte allo `delegate*`scarico dell'assemblaggio: utilizzare un . Questo può essere `struct` eseguito il `unsafe` wrapping in un per consentire l'utilizzo all'esterno di un contesto nel resto del codice.
+1. Sicurezza in caso di scaricamento di assembly: è necessario allocazioni e pertanto `delegate` è già un'opzione sufficiente.
+1. Nessun aspetto di sicurezza in caso di scaricamento dell'assembly: usare un `delegate*` . Questo può essere incluso in un oggetto `struct` per consentire l'utilizzo all'esterno `unsafe` di un contesto nel resto del codice.
