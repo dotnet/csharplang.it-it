@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: d4fc057e4bd56562d1b861200cf6e9f2b4e8d0ff
-ms.sourcegitcommit: dd3261cfde7cfefc4e50fd79b21ec2d38b84e27e
+ms.openlocfilehash: 42d2b5f1c9bb58ed3d849f5a2e4d0d1e281c5bf4
+ms.sourcegitcommit: ce26928a60a4b57e4174ec630c2dd6df99904feb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/01/2020
-ms.locfileid: "85766257"
+ms.lasthandoff: 07/02/2020
+ms.locfileid: "85914127"
 ---
 
 # <a name="records"></a>Record
@@ -33,6 +33,10 @@ record_body
 
 I tipi di record sono tipi di riferimento, simili a una dichiarazione di classe. È un errore che un record fornisca un oggetto `record_base` `argument_list` se `record_declaration` non contiene un oggetto `parameter_list` .
 
+## <a name="inheritance"></a>Ereditarietà
+
+I record non possono ereditare dalle classi, a meno che la classe non sia `object` e le classi non possano ereditare dai record.
+
 ## <a name="members-of-a-record-type"></a>Membri di un tipo di record
 
 Oltre ai membri dichiarati nel corpo del record, un tipo di record ha membri sintetizzati aggiuntivi.
@@ -43,13 +47,20 @@ I membri sintetizzati sono i seguenti:
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
-Il tipo di record include una `EqualityContract` proprietà virtuale ReadOnly sintetizzata. La proprietà viene sottoposta a override in ogni tipo di record derivato.
-La proprietà può essere dichiarata in modo esplicito.
-Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
-La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
+Se il record è derivato da `object` , il tipo di record include una proprietà di sola lettura sintetizzata
 ```C#
 protected virtual Type EqualityContract { get; };
 ```
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
+
+Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include una proprietà di sola lettura sintetizzata
+```C#
+protected override Type EqualityContract { get; };
+```
+
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita è `sealed` e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non può eseguire l'override di una proprietà con questa firma nel tipo di record `Base` , ad esempio se la proprietà non è presente in `Base` , oppure sealed o not Virtual e così via.
+La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
+
 _È possibile omettere `EqualityContract` se il tipo di record è `sealed` e deriva da `System.Object` ?_
 
 Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
@@ -64,24 +75,27 @@ Il risultato della sintesi `Equals(R?)` restituisce `true` se e solo se ciascuno
 - Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
 - Se è presente un tipo di record di base, il valore di `base.Equals(other)` (una chiamata non virtuale a `public virtual bool Equals(Base? other)` ); in caso contrario, il valore di `EqualityContract == other.EqualityContract` .
 
-Se il tipo di record è derivato da un tipo `Base` di record di base, il tipo di record include un override sintetizzato dell'oggetto fortemente tipizzato `Equals(Base other)` .
-La sostituzione sintetizzata è `sealed` .
-Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore.
+Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include un override sintetizzato 
+```C#
+public sealed override bool Equals(Base? other);
+```
+Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore. Si tratta di un errore se il metodo non può eseguire l'override di un metodo con la stessa firma nel tipo di record `Base` , ad esempio se il metodo non è presente in `Base` , o sealed, o not Virtual e così via.
 L'override sintetizzato restituisce `Equals((object?)other)` .
 
-Il tipo di record include un override sintetizzato di `object.Equals(object? obj)` .
-Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore.
-L'override sintetizzato restituisce `Equals(other as R)` dove `R` è il tipo di record.
+Il tipo di record include un override sintetizzato
 ```C#
 public override bool Equals(object? obj);
 ```
+Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore. Si tratta di un errore se il metodo non esegue l'override `object.Equals(object? obj)` , ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
+L'override sintetizzato restituisce `Equals(other as R)` dove `R` è il tipo di record.
 
-Il tipo di record include un override sintetizzato di `object.GetHashCode()` .
-Il metodo può essere dichiarato in modo esplicito.
-Si tratta di un errore se la dichiarazione esplicita è `sealed` , a meno che il tipo di record non sia `sealed` .
+Il tipo di record include un override sintetizzato
 ```C#
 public override int GetHashCode();
 ```
+Il metodo può essere dichiarato in modo esplicito.
+Si tratta di un errore se la dichiarazione esplicita è `sealed` , a meno che il tipo di record non sia `sealed` . Il metodo non viene sottoposta a override, `object.GetHashCode()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
+ 
 Viene segnalato un avviso se uno di `Equals(R?)` e `GetHashCode()` viene dichiarato in modo esplicito, ma l'altro metodo non è esplicito.
 
 L'override sintetizzato di `GetHashCode()` restituisce `int` il risultato di una funzione deterministica che combina i valori seguenti:
