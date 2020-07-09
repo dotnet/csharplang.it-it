@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 42d2b5f1c9bb58ed3d849f5a2e4d0d1e281c5bf4
-ms.sourcegitcommit: ce26928a60a4b57e4174ec630c2dd6df99904feb
+ms.openlocfilehash: bd2a4dfc0887782c8a9748c821fbe40a3b47d767
+ms.sourcegitcommit: d96d22139347de994f1ea594023496caf8180d2b
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/02/2020
-ms.locfileid: "85914127"
+ms.lasthandoff: 07/08/2020
+ms.locfileid: "86137094"
 ---
 
 # <a name="records"></a>Record
@@ -47,26 +47,26 @@ I membri sintetizzati sono i seguenti:
 
 ### <a name="equality-members"></a>Membri di uguaglianza
 
-Se il record è derivato da `object` , il tipo di record include una proprietà di sola lettura sintetizzata
+Se il record è derivato da `object` , il tipo di record include una proprietà di sola lettura sintetizzata equivalente a una proprietà dichiarata come indicato di seguito:
 ```C#
-protected virtual Type EqualityContract { get; };
+protected Type EqualityContract { get; };
 ```
-La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
+La proprietà è `virtual` a meno che il tipo di record non sia `sealed` .
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
 
-Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include una proprietà di sola lettura sintetizzata
+Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include una proprietà di sola lettura sintetizzata equivalente a una proprietà dichiarata come indicato di seguito:
 ```C#
 protected override Type EqualityContract { get; };
 ```
 
-La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita è `sealed` e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non può eseguire l'override di una proprietà con questa firma nel tipo di record `Base` , ad esempio se la proprietà non è presente in `Base` , oppure sealed o not Virtual e così via.
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non esegue l'override di una proprietà con questa firma nel tipo di record, `Base` ad esempio se la proprietà non è presente in `Base` , o sealed o not Virtual e così via.
 La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
 
 _È possibile omettere `EqualityContract` se il tipo di record è `sealed` e deriva da `System.Object` ?_
 
 Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
 Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
-Il metodo può essere dichiarato in modo esplicito.
-Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non è `virtual` e il tipo di record non lo è `sealed` .
+Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
 ```C#
 public virtual bool Equals(R? other);
 ```
@@ -75,26 +75,26 @@ Il risultato della sintesi `Equals(R?)` restituisce `true` se e solo se ciascuno
 - Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
 - Se è presente un tipo di record di base, il valore di `base.Equals(other)` (una chiamata non virtuale a `public virtual bool Equals(Base? other)` ); in caso contrario, il valore di `EqualityContract == other.EqualityContract` .
 
-Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include un override sintetizzato 
+Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
 public sealed override bool Equals(Base? other);
 ```
-Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore. Si tratta di un errore se il metodo non può eseguire l'override di un metodo con la stessa firma nel tipo di record `Base` , ad esempio se il metodo non è presente in `Base` , o sealed, o not Virtual e così via.
+Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore. Si tratta di un errore se il metodo non esegue l'override di un metodo con la stessa firma nel tipo di record `Base` , ad esempio se il metodo non è presente in `Base` , oppure sealed o non virtuale e così via.
 L'override sintetizzato restituisce `Equals((object?)other)` .
 
-Il tipo di record include un override sintetizzato
+Il tipo di record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
 public override bool Equals(object? obj);
 ```
 Se la sostituzione viene dichiarata in modo esplicito, si tratta di un errore. Si tratta di un errore se il metodo non esegue l'override `object.Equals(object? obj)` , ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
 L'override sintetizzato restituisce `Equals(other as R)` dove `R` è il tipo di record.
 
-Il tipo di record include un override sintetizzato
+Il tipo di record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
 public override int GetHashCode();
 ```
 Il metodo può essere dichiarato in modo esplicito.
-Si tratta di un errore se la dichiarazione esplicita è `sealed` , a meno che il tipo di record non sia `sealed` . Il metodo non viene sottoposta a override, `object.GetHashCode()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
+Si tratta di un errore se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` . Il metodo non viene sottoposta a override, `object.GetHashCode()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
  
 Viene segnalato un avviso se uno di `Equals(R?)` e `GetHashCode()` viene dichiarato in modo esplicito, ma l'altro metodo non è esplicito.
 
