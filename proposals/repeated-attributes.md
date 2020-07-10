@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: a26af810ced3fe5a7d7108f38a22d40aa64543f5
-ms.sourcegitcommit: cc68af0b2a6e2ef5780eeb43935600b5927ee720
+ms.openlocfilehash: c40d143a933969b80f8902938a6243c33ca09432
+ms.sourcegitcommit: 9cf2f666477775bacc56ed5915bc00081d4fcb8e
 ms.translationtype: MT
 ms.contentlocale: it-IT
 ms.lasthandoff: 07/09/2020
-ms.locfileid: "86157202"
+ms.locfileid: "86208395"
 ---
 # <a name="repeated-attributes-in-partial-members"></a>Attributi ripetuti in membri parziali
 
@@ -45,7 +45,7 @@ Un membro parziale facilita in genere la relazione tra un generatore di codice e
 
 ## <a name="solution"></a>Soluzione
 
-Consente di utilizzare un attributo non AllowMultiple una volta in ogni dichiarazione parziale, purché gli argomenti dell'attributo siano identici. Poiché gli argomenti di attributo sono tutte costanti, questo non dovrebbe essere molto difficile da verificare in fase di compilazione. Quando gli attributi vengono unificati tra le dichiarazioni, ogni attributo non AllowMultiple verrà deduplicato e verrà emessa solo un'istanza dell'attributo.
+Consente di utilizzare un attributo non AllowMultiple una volta per ogni simbolo (membro, valore restituito, parametro e così via) in ogni dichiarazione parziale, purché gli argomenti dell'attributo siano identici. Poiché gli argomenti di attributo sono tutte costanti, il compilatore può verificare questa operazione. Quando gli attributi vengono unificati tra le dichiarazioni, ogni attributo non AllowMultiple verrà deduplicato e verrà emessa solo un'istanza dell'attributo.
 
 ```cs
 public partial bool TryGetValue([NotNullWhen(true)] out object? value);

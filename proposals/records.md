@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: bd2a4dfc0887782c8a9748c821fbe40a3b47d767
-ms.sourcegitcommit: d96d22139347de994f1ea594023496caf8180d2b
+ms.openlocfilehash: 1aef1550c571fde91b1ed52a4c57376bfe23f944
+ms.sourcegitcommit: 78a7c37efe579d77a1dc76d8e8c189588bd846f8
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/08/2020
-ms.locfileid: "86137094"
+ms.lasthandoff: 07/09/2020
+ms.locfileid: "86188288"
 ---
 
 # <a name="records"></a>Record
@@ -42,6 +42,7 @@ I record non possono ereditare dalle classi, a meno che la classe non sia `objec
 Oltre ai membri dichiarati nel corpo del record, un tipo di record ha membri sintetizzati aggiuntivi.
 I membri vengono sintetizzati a meno che un membro con una firma "corrispondente" non venga dichiarato nel corpo del record o un membro non virtuale concreto accessibile con una firma "corrispondente" venga ereditato.
 Due membri vengono considerati corrispondenti se hanno la stessa firma o verrebbero considerati "nascosti" in uno scenario di ereditarietà.
+Un membro di un record denominato "clone" non è un errore.
 
 I membri sintetizzati sono i seguenti:
 
