@@ -1,15 +1,15 @@
 ---
-ms.openlocfilehash: a3821a1867f1616be84615944748a8b559402771
-ms.sourcegitcommit: c2df2ee72f4b36fca2e07c701a90a0dba8d1fc20
+ms.openlocfilehash: 0642f28e921ea224a157394226d43df2f3f81a10
+ms.sourcegitcommit: 09c67fbf78565622781e74cda971b16121eb3f04
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 05/17/2020
-ms.locfileid: "83443850"
+ms.lasthandoff: 07/14/2020
+ms.locfileid: "86307711"
 ---
 <a name="init-only-setters"></a>Setter solo init
 =====
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 Questa proposta aggiunge il concetto di proprietà e indicizzatori solo init a C#. Queste proprietà e indicizzatori possono essere impostati al momento della creazione dell'oggetto, ma diventano efficaci `get` solo dopo il completamento della creazione dell'oggetto.
 In questo modo è possibile disporre di un modello non modificabile molto più flessibile in C#. 
 
@@ -66,7 +66,7 @@ class Student
 }
 ```
 
-Una proprietà dell'istanza contenente una `init` funzione di accesso viene considerata impostabile nelle circostanze seguenti:
+Una proprietà dell'istanza contenente una `init` funzione di accesso viene considerata impostabile nelle circostanze seguenti, tranne quando in una funzione o in una lambda locale:
 
 - Durante un inizializzatore di oggetto
 - Durante un `with` inizializzatore di espressione
