@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 1aef1550c571fde91b1ed52a4c57376bfe23f944
-ms.sourcegitcommit: 78a7c37efe579d77a1dc76d8e8c189588bd846f8
+ms.openlocfilehash: 91d615b5fe44d9f079eabd463861f6c96aaca850
+ms.sourcegitcommit: c46030b7fd8f752eeff909e769d80a33d0ce29cf
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/09/2020
-ms.locfileid: "86188288"
+ms.lasthandoff: 07/14/2020
+ms.locfileid: "86384211"
 ---
 
 # <a name="records"></a>Record
@@ -32,6 +32,8 @@ record_body
 ```
 
 I tipi di record sono tipi di riferimento, simili a una dichiarazione di classe. È un errore che un record fornisca un oggetto `record_base` `argument_list` se `record_declaration` non contiene un oggetto `parameter_list` .
+
+I parametri di record non possono usare i `ref` `out` `this` modificatori o (ma `in` `params` sono consentiti e).
 
 ## <a name="inheritance"></a>Ereditarietà
 
@@ -212,10 +214,12 @@ Per un record:
   Viene eseguito l'override di una proprietà ereditata `abstract` con tipo corrispondente.
   Si tratta di un errore se la proprietà ereditata non dispone `public` `get` di funzioni di accesso e sottoponibili a override `init` .
   La proprietà auto viene inizializzata sul valore del parametro del costruttore primario corrispondente.
+  Gli attributi possono essere applicati alla proprietà automatica sintetizzata e al campo sottostante usando `property:` `field:` le destinazioni o per gli attributi applicati in modo sintattico al parametro record corrispondente.  
 
 ### <a name="deconstruct"></a>Decostruire
 
-Un record posizionale sintetizza un metodo pubblico che restituisce un valore void denominato Deconstruct con una dichiarazione di parametro out per ogni parametro della dichiarazione del costruttore primario. Ogni parametro del metodo Deconstruct è dello stesso tipo del parametro corrispondente della dichiarazione del costruttore primario. Il corpo del metodo assegna a un membro con lo stesso nome ogni parametro del metodo di decostruzione al valore di un membro di istanza.
+Un record posizionale sintetizza un metodo di istanza pubblico che restituisce un valore void denominato Deconstruct con una dichiarazione di parametro out per ogni parametro della dichiarazione del costruttore primario. Ogni parametro del metodo Deconstruct è dello stesso tipo del parametro corrispondente della dichiarazione del costruttore primario. Il corpo del metodo assegna a un membro con lo stesso nome ogni parametro del metodo di decostruzione al valore di un membro di istanza.
+Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure è statica.
 
 ## <a name="with-expression"></a>Espressione `with`
 
