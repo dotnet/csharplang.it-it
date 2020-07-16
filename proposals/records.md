@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 91d615b5fe44d9f079eabd463861f6c96aaca850
-ms.sourcegitcommit: c46030b7fd8f752eeff909e769d80a33d0ce29cf
+ms.openlocfilehash: 53b45320bfacd0c683a3845430d939ca6648f995
+ms.sourcegitcommit: 3402ccd0e032179502eec7a67970d212a8d3e7e0
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/14/2020
-ms.locfileid: "86384211"
+ms.lasthandoff: 07/16/2020
+ms.locfileid: "86408493"
 ---
 
 # <a name="records"></a>Record
@@ -174,15 +174,18 @@ class R3 : R2, IEquatable<R3>
 Un tipo di record contiene due membri di copia:
 
 * Costruttore che accetta un solo argomento del tipo di record. Viene definito "costruttore di copia".
-* Metodo "clone" dell'istanza virtuale senza parametri pubblico sintetizzato con un nome riservato dal compilatore
+* Metodo "clone" dell'istanza senza parametri pubblico sintetizzato con un nome riservato dal compilatore
 
-Lo scopo del costruttore di copia è copiare lo stato dal parametro alla nuova istanza creata. Questo costruttore non esegue gli inizializzatori di proprietà o campi di istanza presenti nella dichiarazione di record. Se il costruttore non è dichiarato in modo esplicito, un costruttore protetto verrà sintetizzato dal compilatore.
+Lo scopo del costruttore di copia è copiare lo stato dal parametro alla nuova istanza creata. Questo costruttore non esegue gli inizializzatori di proprietà o campi di istanza presenti nella dichiarazione di record. Se il costruttore non è dichiarato in modo esplicito, un costruttore verrà sintetizzato dal compilatore. Se il record è sealed, il costruttore sarà privato, in caso contrario verrà protetto.
+Un costruttore di copia dichiarato in modo esplicito deve essere pubblico o protetto, a meno che il record non sia sealed.
 Per prima cosa, il costruttore deve eseguire la chiamata a un costruttore di copia della base o a un costruttore di oggetti senza parametri se il record eredita dall'oggetto. Se un costruttore di copia definito dall'utente utilizza un inizializzatore di costruttore implicito o esplicito che non soddisfa questo requisito, viene restituito un errore.
 Dopo che un costruttore di copia di base viene richiamato, un costruttore di copia sintetizzato copia i valori per tutti i campi di istanza dichiarati in modo implicito o esplicito nel tipo di record.
 
-Il metodo "clone" restituisce il risultato di una chiamata a un costruttore con la stessa firma del costruttore di copia. Il tipo restituito del metodo Clone è il tipo che lo contiene, a meno che non sia presente un metodo clone virtuale nella classe di base. In tal caso, il tipo restituito è il tipo contenitore corrente se la funzionalità "revariante Returns" è supportata e il tipo restituito di override in caso contrario. Il metodo Clone sintetizzato è un override del metodo clone del tipo di base se ne esiste uno. Se il metodo clone del tipo di base è sealed, viene generato un errore.
-
+Se nel record di base è presente un metodo "clone" virtuale, il metodo "clone" sintetizzato ne esegue l'override e il tipo restituito del metodo è il tipo che lo contiene corrente se la funzionalità "ritorni covariante" è supportata e il tipo restituito di override in caso contrario. Se il metodo clone del record di base è sealed, viene generato un errore.
+Se un metodo "clone" virtuale non è presente nel record di base, il tipo restituito del metodo Clone è il tipo che lo contiene e il metodo è virtuale, a meno che il record non sia sealed o abstract.
 Se il record contenitore è astratto, anche il metodo Clone sintetizzato è astratto.
+Se il metodo "clone" non è astratto, restituisce il risultato di una chiamata a un costruttore di copia. 
+
 
 ## <a name="positional-record-members"></a>Membri record posizionali
 
@@ -242,8 +245,8 @@ member_initializer
 
 Un' `with` espressione consente la "mutazione non distruttiva", progettata per produrre una copia dell'espressione Receiver con modifiche nelle assegnazioni in `member_initializer_list` .
 
-Un' `with` espressione valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve contenere un metodo "clone" del record sintetizzato accessibile.
+Un' `with` espressione valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve essere un record.
 
-Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore*, che deve essere un campo di istanza accessibile o una proprietà del tipo restituito del `Clone()` metodo.
+Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore*, che deve essere un campo di istanza accessibile o una proprietà del tipo del destinatario.
 
-Ogni `member_initializer` viene elaborato allo stesso modo di un'assegnazione a un campo o a una proprietà per l'accesso al valore restituito del metodo clone del record. Il metodo Clone viene eseguito una sola volta e le assegnazioni vengono elaborate in ordine lessicale.
+Innanzitutto, viene richiamato il metodo "clone" del destinatario (specificato sopra) e il risultato viene convertito nel tipo del destinatario. Ognuna viene quindi `member_initializer` elaborata allo stesso modo di un'assegnazione a un campo o a una proprietà per l'accesso al risultato della conversione. Le assegnazioni vengono elaborate in ordine lessicale.
