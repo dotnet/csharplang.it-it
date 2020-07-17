@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 53b45320bfacd0c683a3845430d939ca6648f995
-ms.sourcegitcommit: 3402ccd0e032179502eec7a67970d212a8d3e7e0
+ms.openlocfilehash: 8a888c789909c3e818328e5521e47f4dcbbd5a88
+ms.sourcegitcommit: a5899d45d11476de3b6010cb64f302b81ad6fe5d
 ms.translationtype: MT
 ms.contentlocale: it-IT
 ms.lasthandoff: 07/16/2020
-ms.locfileid: "86408493"
+ms.locfileid: "86433780"
 ---
 
 # <a name="records"></a>Record
@@ -52,9 +52,9 @@ I membri sintetizzati sono i seguenti:
 
 Se il record è derivato da `object` , il tipo di record include una proprietà di sola lettura sintetizzata equivalente a una proprietà dichiarata come indicato di seguito:
 ```C#
-protected Type EqualityContract { get; };
+Type EqualityContract { get; };
 ```
-La proprietà è `virtual` a meno che il tipo di record non sia `sealed` .
+La proprietà è `private` se il tipo di record è `sealed` . In caso contrario, la proprietà è `virtual` e `protected` .
 La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
 
 Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include una proprietà di sola lettura sintetizzata equivalente a una proprietà dichiarata come indicato di seguito:
