@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: 6bf0b29d16297ae5201d9a7773fc9cb95a47f9cb
-ms.sourcegitcommit: 1bb454804d017a9ca18c5de47737dd1d68ce3eea
+ms.openlocfilehash: 22d949c50fa041f2599c8a90e5322a7db2156a29
+ms.sourcegitcommit: c25bf006cd9c2f2ccaecd150db1d93bc1b1314fc
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/02/2020
-ms.locfileid: "85835143"
+ms.lasthandoff: 07/22/2020
+ms.locfileid: "86943276"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 
 Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi IL al quale attualmente non è possibile accedere in modo efficiente, o, in C#: `ldftn` e `calli` . Questi codici operativi IL può essere importante nel codice a prestazioni elevate e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
 
@@ -306,6 +306,7 @@ C# riconosce 4 identificatori speciali che vengono mappati a specifiche non gest
 * Viene anteposto l'oggetto `identifier` con la stringa`CallConv`
 * Si osserveranno solo i tipi definiti nello `System.Runtime.CompilerServices` spazio dei nomi.
 * Si osserveranno solo i tipi definiti nella libreria principale dell'applicazione, ovvero la libreria che definisce `System.Object` e non ha dipendenze.
+* Vengono esaminati solo i tipi pubblici.
 
 Se la ricerca ha esito positivo su tutti gli oggetti `identifier` specificati in un oggetto `unmanaged_calling_convention` , viene codificato `CallKind` come `unmanaged ext` e vengono codificati tutti i tipi risolti nel set di oggetti `modopt` all'inizio della firma del puntatore a funzione. Si noti che queste regole indicano che gli utenti non possono precedere questi `identifier` con `CallConv` , perché ciò comporta la ricerca `CallConvCallConvVectorCall` .
 
@@ -314,6 +315,7 @@ Quando si interpretano i metadati, si esamina prima di tutto `CallKind` . Se si 
 * L'oggetto è definito nella libreria principale, ovvero la libreria che fa riferimento ad altre librerie e non definisce `System.Object` .
 * Il tipo è definito nello `System.Runtime.CompilerServices` spazio dei nomi.
 * Il tipo inizia con il prefisso `CallConv` .
+* Il tipo è public.
 
  Rappresentano i tipi che devono essere trovati quando si esegue la ricerca in `identifier` un oggetto `unmanaged_calling_convention` quando si definisce un tipo di puntatore a funzione nell'origine.
 
