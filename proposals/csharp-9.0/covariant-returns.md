@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 9cfc0758f16b2153d52faec1d19f0ecd817cde3b
-ms.sourcegitcommit: 0c25406d8a99064bb85d934bb32ffcf547753acc
+ms.openlocfilehash: 06ad8ee3795615c200c0eab48facd7d2f5e90e78
+ms.sourcegitcommit: a88d56e3131d7a94c65e637c276379541a3cd491
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/28/2020
-ms.locfileid: "87297476"
+ms.lasthandoff: 07/30/2020
+ms.locfileid: "87434511"
 ---
 # <a name="covariant-return-types"></a>tipi restituiti covarianti
 
@@ -13,7 +13,7 @@ ms.locfileid: "87297476"
 * [] Implementazione: non avviata
 * [X] Specifica: non avviata
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 [summary]: #summary
 
 Supportare _tipi restituiti covariante_. In particolare, consentire all'override di un metodo di restituire un tipo restituito più derivato rispetto al metodo sottoposto a override e in modo analogo per consentire l'override di una proprietà di sola lettura per restituire un tipo restituito più derivato. I chiamanti del metodo o della proprietà riceveranno in modo statico il tipo restituito più raffinato da una chiamata e le sostituzioni visualizzate in più tipi derivati sarebbero necessarie per fornire un tipo restituito almeno in base a quanto visualizzato nelle sostituzioni nei relativi tipi di base.
@@ -50,7 +50,7 @@ Si tratta di una prima bozza, quindi è stata necessariamente inventata da zero.
 
 ### <a name="class-method-override"></a>Override del metodo della classe
 
-[Vincolo esistente sui metodi di override della classe](https://github.com/dotnet/csharplang/blob/master/spec/classes.md#override-methods)
+[Vincolo esistente sui metodi di override della classe](../../spec/classes.md#override-methods)
 
 > - Il metodo di override e il metodo di base sottoposto a override hanno lo stesso tipo restituito.
 
@@ -61,19 +61,19 @@ viene modificato in
 E i seguenti requisiti aggiuntivi vengono aggiunti all'elenco:
 
 > - Il metodo di override deve avere un tipo restituito convertibile da un'identità o conversione di un riferimento implicito nel tipo restituito di ogni override del metodo di base sottoposto a override dichiarato in un tipo di base (diretto o indiretto) del metodo di override.
-> - Il tipo restituito del metodo di override deve essere accessibile almeno quanto il metodo di override ([domini di accessibilità](https://github.com/dotnet/csharplang/blob/master/spec/basic-concepts.md#accessibility-domains)).
+> - Il tipo restituito del metodo di override deve essere accessibile almeno quanto il metodo di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).
 
 Questo vincolo consente a un metodo di override in una `private` classe di avere un `private` tipo restituito.  Tuttavia, richiede un `public` metodo di override in un `public` tipo per avere un `public` tipo restituito.
 
 ### <a name="class-property-and-indexer-override"></a>Override della proprietà della classe e dell'indicizzatore
 
-[Vincolo esistente sulle proprietà di override della classe](https://github.com/dotnet/csharplang/blob/master/spec/classes.md#virtual-sealed-override-and-abstract-property-accessors)
+[Vincolo esistente sulle proprietà di override della classe](../../spec/classes.md#virtual-sealed-override-and-abstract-property-accessors)
 
 > Una dichiarazione di proprietà che esegue l'override deve specificare esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata e deve essere presente una conversione di identità ~~tra il tipo di override e la proprietà ereditata~~. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso.
 
 viene modificato in
 
-> Una dichiarazione di proprietà che esegue l'override deve specificare esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata, ed è presente una conversione di identità **o (se la proprietà ereditata è di sola lettura) conversione di riferimento implicita dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](https://github.com/dotnet/csharplang/blob/master/spec/basic-concepts.md#accessibility-domains)).**
+> Una dichiarazione di proprietà che esegue l'override deve specificare esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata, ed è presente una conversione di identità **o (se la proprietà ereditata è di sola lettura) conversione di riferimento implicita dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).**
 
 ***Il resto della specifica bozza riportata di seguito propone un'ulteriore estensione per i ritorni covariante dei metodi di interfaccia da prendere in considerazione in un secondo momento.***
 
