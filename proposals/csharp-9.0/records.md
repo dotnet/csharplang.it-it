@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 8a888c789909c3e818328e5521e47f4dcbbd5a88
-ms.sourcegitcommit: 0c25406d8a99064bb85d934bb32ffcf547753acc
+ms.openlocfilehash: 412f91c7097aa1068f82513842dc35b55abd02e7
+ms.sourcegitcommit: cd3c18237ba6f0bee94788c480bca099285d2096
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/28/2020
-ms.locfileid: "87297481"
+ms.lasthandoff: 07/31/2020
+ms.locfileid: "87471376"
 ---
 
 # <a name="records"></a>Record
@@ -32,12 +32,14 @@ record_body
 ```
 
 I tipi di record sono tipi di riferimento, simili a una dichiarazione di classe. È un errore che un record fornisca un oggetto `record_base` `argument_list` se `record_declaration` non contiene un oggetto `parameter_list` .
+Al massimo una dichiarazione di tipo parziale di un record parziale può fornire un `parameter_list` .
+Il valore di un oggetto non può `parameter_list` essere vuoto.
 
 I parametri di record non possono usare i `ref` `out` `this` modificatori o (ma `in` `params` sono consentiti e).
 
 ## <a name="inheritance"></a>Ereditarietà
 
-I record non possono ereditare dalle classi, a meno che la classe non sia `object` e le classi non possano ereditare dai record.
+I record non possono ereditare dalle classi, a meno che la classe non sia `object` e le classi non possano ereditare dai record. I record possono ereditare da altri record.
 
 ## <a name="members-of-a-record-type"></a>Membri di un tipo di record
 
@@ -65,8 +67,6 @@ protected override Type EqualityContract { get; };
 La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non esegue l'override di una proprietà con questa firma nel tipo di record, `Base` ad esempio se la proprietà non è presente in `Base` , o sealed o not Virtual e così via.
 La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
 
-_È possibile omettere `EqualityContract` se il tipo di record è `sealed` e deriva da `System.Object` ?_
-
 Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
 Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
 Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
@@ -78,6 +78,15 @@ Il risultato della sintesi `Equals(R?)` restituisce `true` se e solo se ciascuno
 - Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
 - Se è presente un tipo di record di base, il valore di `base.Equals(other)` (una chiamata non virtuale a `public virtual bool Equals(Base? other)` ); in caso contrario, il valore di `EqualityContract == other.EqualityContract` .
 
+Il tipo di record include gli `==` operatori e sintetizzati `!=` equivalenti agli operatori dichiarati come segue:
+```C#
+pubic static bool operator==(R? r1, R? r2)
+    => (object)r1 == r2 || (r1?.Equals(r2) ?? false);
+public static bool operator!=(R? r1, R? r2)
+    => !(r1 == r2);
+```
+Il `Equals` metodo chiamato dall' `==` operatore è il `Equals(R? other)` metodo specificato in precedenza. L' `!=` operatore delega all' `==` operatore. Se gli operatori sono dichiarati in modo esplicito, si tratta di un errore.
+    
 Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
 public sealed override bool Equals(Base? other);
@@ -109,7 +118,7 @@ Si considerino, ad esempio, i seguenti tipi di record:
 ```C#
 record R1(T1 P1);
 record R2(T1 P1, T2 P2) : R1(P1);
-record R2(T1 P1, T2 P2, T3 P3) : R2(P1, P2);
+record R3(T1 P1, T2 P2, T3 P3) : R2(P1, P2);
 ```
 
 Per questi tipi di record, i membri sintetizzati sono simili ai seguenti:
@@ -125,6 +134,10 @@ class R1 : IEquatable<R1>
             EqualityContract == other.EqualityContract &&
             EqualityComparer<T1>.Default.Equals(P1, other.P1);
     }
+    pubic static bool operator==(R1? r1, R1? r2)
+        => (object)r1 == r2 || (r1?.Equals(r2) ?? false);
+    public static bool operator!=(R1? r1, R1? r2)
+        => !(r1 == r2);    
     public override int GetHashCode()
     {
         return Combine(EqualityComparer<Type>.Default.GetHashCode(EqualityContract),
@@ -143,6 +156,10 @@ class R2 : R1, IEquatable<R2>
         return base.Equals((R1?)other) &&
             EqualityComparer<T2>.Default.Equals(P2, other.P2);
     }
+    pubic static bool operator==(R2? r1, R2? r2)
+        => (object)r1 == r2 || (r1?.Equals(r2) ?? false);
+    public static bool operator!=(R2? r1, R2? r2)
+        => !(r1 == r2)`;    
     public override int GetHashCode()
     {
         return Combine(base.GetHashCode(),
@@ -161,6 +178,10 @@ class R3 : R2, IEquatable<R3>
         return base.Equals((R2?)other) &&
             EqualityComparer<T3>.Default.Equals(P3, other.P3);
     }
+    pubic static bool operator==(R3? r1, R3? r2)
+        => (object)r1 == r2 || (r1?.Equals(r2) ?? false);
+    public static bool operator!=(R3? r1, R3? r2)
+        => !(r1 == r2);    
     public override int GetHashCode()
     {
         return Combine(base.GetHashCode(),
@@ -242,6 +263,7 @@ member_initializer
     : identifier '=' expression
     ;
 ```
+Un' `with` espressione non è consentita come istruzione.
 
 Un' `with` espressione consente la "mutazione non distruttiva", progettata per produrre una copia dell'espressione Receiver con modifiche nelle assegnazioni in `member_initializer_list` .
 
