@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: d862df4b5cf6026eb93397f78ccad220012cd2ed
-ms.sourcegitcommit: 4f02d029d1354e333dd80fcafb6fd04b4b0649fb
+ms.openlocfilehash: ec25583ef947a49c7586ec403bffe96c7aa0b344
+ms.sourcegitcommit: 7d3c77ee79ef38c4153df5d0fa494a7a55e4f242
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/03/2020
-ms.locfileid: "87521343"
+ms.lasthandoff: 08/07/2020
+ms.locfileid: "87928338"
 ---
 
 # <a name="records"></a>Record
@@ -57,19 +57,19 @@ Se il record è derivato da `object` , il tipo di record include una proprietà 
 Type EqualityContract { get; };
 ```
 La proprietà è `private` se il tipo di record è `sealed` . In caso contrario, la proprietà è `virtual` e `protected` .
-La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` .
 
 Se il tipo di record è derivato da un tipo di record di base `Base` , il tipo di record include una proprietà di sola lettura sintetizzata equivalente a una proprietà dichiarata come indicato di seguito:
 ```C#
 protected override Type EqualityContract { get; };
 ```
 
-La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non esegue l'override di una proprietà con questa firma nel tipo di record, `Base` ad esempio se la proprietà non è presente in `Base` , o sealed o not Virtual e così via.
+La proprietà può essere dichiarata in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` . Si verifica un errore se la proprietà sintetizzata o dichiarata in modo esplicito non esegue l'override di una proprietà con questa firma nel tipo di record, `Base` ad esempio se la proprietà non è presente in `Base` , o sealed o not Virtual e così via.
 La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record.
 
 Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
 Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
-Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` .
+Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` .
 ```C#
 public virtual bool Equals(R? other);
 ```
@@ -106,7 +106,7 @@ Il tipo di record include un override sintetizzato equivalente a un metodo dichi
 public override int GetHashCode();
 ```
 Il metodo può essere dichiarato in modo esplicito.
-Si tratta di un errore se la dichiarazione esplicita non consente overiding in un tipo derivato e il tipo di record non lo è `sealed` . Il metodo non viene sottoposta a override, `object.GetHashCode()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
+Si tratta di un errore se la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` . Il metodo non viene sottoposta a override, `object.GetHashCode()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
  
 Viene segnalato un avviso se uno di `Equals(R?)` e `GetHashCode()` viene dichiarato in modo esplicito, ma l'altro metodo non è esplicito.
 
@@ -121,11 +121,11 @@ record R2(T1 P1, T2 P2) : R1(P1);
 record R3(T1 P1, T2 P2, T3 P3) : R2(P1, P2);
 ```
 
-Per questi tipi di record, i membri sintetizzati sono simili ai seguenti:
+Per questi tipi di record, i membri di uguaglianza sintetizzati sono simili ai seguenti:
 ```C#
 class R1 : IEquatable<R1>
 {
-    public T1 P1 { get; set; }
+    public T1 P1 { get; init; }
     protected virtual Type EqualityContract => typeof(R1);
     public override bool Equals(object? obj) => Equals(obj as R1);
     public virtual bool Equals(R1? other)
@@ -147,7 +147,7 @@ class R1 : IEquatable<R1>
 
 class R2 : R1, IEquatable<R2>
 {
-    public T2 P2 { get; set; }
+    public T2 P2 { get; init; }
     protected override Type EqualityContract => typeof(R2);
     public override bool Equals(object? obj) => Equals(obj as R2);
     public sealed override bool Equals(R1? other) => Equals((object?)other);
@@ -169,7 +169,7 @@ class R2 : R1, IEquatable<R2>
 
 class R3 : R2, IEquatable<R3>
 {
-    public T3 P3 { get; set; }
+    public T3 P3 { get; init; }
     protected override Type EqualityContract => typeof(R3);
     public override bool Equals(object? obj) => Equals(obj as R3);
     public sealed override bool Equals(R2? other) => Equals((object?)other);
@@ -207,6 +207,121 @@ Se un metodo "clone" virtuale non è presente nel record di base, il tipo restit
 Se il record contenitore è astratto, anche il metodo Clone sintetizzato è astratto.
 Se il metodo "clone" non è astratto, restituisce il risultato di una chiamata a un costruttore di copia. 
 
+
+### <a name="printing-members-printmembers-and-tostring-methods"></a>Membri di stampa: Metodi PrintMembers e ToString
+
+Se il record è derivato da `object` , il record include un metodo sintetizzato equivalente a un metodo dichiarato nel modo seguente:
+```C#
+bool PrintMembers(System.StringBuilder builder);
+```
+Il metodo è `private` se il tipo di record è `sealed` . In caso contrario, il metodo è `virtual` e `protected` .
+
+Il metodo si comporta come di seguito:
+1. per ogni membro stampabile del record (campo pubblico e membri di proprietà), aggiunge il nome del membro seguito da "=" seguito dal valore del membro: `this.member` , separato con ",",
+2. Restituisce true se il record dispone di membri stampabili.
+
+Se il tipo di record è derivato da un record di base `Base` , il record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
+```C#
+protected override bool PrintMembers(StringBuilder builder);
+```
+
+Se il record non dispone di membri stampabili, il metodo chiama il `PrintMembers` metodo di base con un argomento (il relativo `builder` parametro) e restituisce il risultato.
+
+In caso contrario, il metodo:
+1. chiama il `PrintMembers` metodo di base con un argomento (il relativo `builder` parametro),
+2. Se il `PrintMembers` metodo ha restituito true, accodare "," al generatore,
+3. per ogni membro stampabile del record, aggiunge il nome del membro seguito da "=" seguito dal valore del membro: `this.member` , separato con ",",
+4. Restituisce true.
+
+Il `PrintMembers` metodo può essere dichiarato in modo esplicito.
+Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` .
+
+Il record include un metodo sintetizzato equivalente a un metodo dichiarato nel modo seguente:
+```C#
+public override string ToString();
+```
+
+Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure se la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` . Il metodo non viene sottoposta a override, `object.ToString()` ad esempio a causa dello shadowing nei tipi di base intermedi e così via.
+
+Il metodo sintetizzato:
+1. Crea un' `StringBuilder` istanza di,
+2. Accoda il nome del record al generatore, seguito da "{",
+3. richiama il metodo del record `PrintMembers` che lo assegna al generatore,
+4. Accoda "}",
+3. Restituisce il contenuto del generatore con `builder.ToString()` .
+
+Si considerino, ad esempio, i seguenti tipi di record:
+
+``` csharp
+record R1(T1 P1);
+record R2(T1 P1, T2 P2, T3 P3) : R1(P1);
+```
+
+Per questi tipi di record, i membri di stampa sintetizzati sarebbero simili ai seguenti:
+
+```C#
+class R1 : IEquatable<R1>
+{
+    public T1 P1 { get; init; }
+    
+    protected virtual bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append(nameof(P1));
+        builder.Append(" = ");
+        builder.Append(this.P1);
+        
+        return true;
+    }
+    
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append(nameof(R1));
+        builder.Append(" { ");
+
+        PrintMembers(builder);
+
+        builder.Append(" }");
+        return builder.ToString();
+    }
+}
+
+class R2 : R1, IEquatable<R2>
+{
+    public T2 P2 { get; init; }
+    public T3 P3 { get; init; }
+    
+    protected override void PrintMembers(StringBuilder builder)
+    {
+        if (base.PrintMembers(builder))
+            builder.Append(", ");
+            
+        builder.Append(nameof(P2));
+        builder.Append(" = ");
+        builder.Append(this.P2);
+        
+        builder.Append(", ");
+        
+        builder.Append(nameof(P3));
+        builder.Append(" = ");
+        builder.Append(this.P3);
+        
+        return true;
+    }
+    
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append(nameof(R2));
+        builder.Append(" { ");
+
+        PrintMembers(builder);
+
+        builder.Append(" }");
+        return builder.ToString();
+    }
+}
+```
 
 ## <a name="positional-record-members"></a>Membri record posizionali
 
