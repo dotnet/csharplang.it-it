@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: c2e8a4d1d2be0955aa55ec46fb78132f3c55b785
-ms.sourcegitcommit: 71813f1643651699d67b2208757c650bc6ecaf78
+ms.openlocfilehash: 5580323e47df890962d8d2228c93592f1f57a2b1
+ms.sourcegitcommit: eade6b9b5501bd0313aa88934f0f1ee1c1c4cc9a
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/29/2020
-ms.locfileid: "87388544"
+ms.lasthandoff: 08/11/2020
+ms.locfileid: "88059462"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 
 Questa proposta fornisce costrutti di linguaggio che espongono i codici operativi IL al quale attualmente non è possibile accedere in modo efficiente, o, in C#: `ldftn` e `calli` . Questi codici operativi IL può essere importante nel codice a prestazioni elevate e gli sviluppatori hanno bisogno di un modo efficiente per accedervi.
 
@@ -113,6 +113,7 @@ unmanaged_calling_convention
     | 'Thiscall'
     | 'Fastcall'
     | identifier (',' identifier)*
+    ;
 
 funptr_parameter_list
     : (funcptr_parameter ',')*
@@ -177,10 +178,7 @@ unsafe class Util {
         delegate*<void> ptr1 = &Util.Log;
 
         // Error: type "delegate*<void>" not compatible with "delegate*<int>";
-        delegate*<int> ptr2 = &Util.Log;
 
-        // Okay. Conversion to void* is always allowed.
-        void* v = &Util.Log;
    }
 }
 ```
@@ -272,7 +270,7 @@ Riutilizziamo `System.Runtime.InteropServices.InAttribute` , applicato come ogge
 
 Si usa `System.Runtime.InteropServices.OutAttribute` , applicato come oggetto `modreq` all'identificatore Ref su un tipo di parametro, per indicare che il parametro è un `out` parametro.
 
-### <a name="errors"></a>Errori
+### <a name="errors"></a>Errors
 
 * Si tratta di un errore da applicare `OutAttribute` come modreq a un tipo restituito.
 * È un errore applicare sia che `InAttribute` `OutAttribute` come modreq a un tipo di parametro.
