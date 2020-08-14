@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 9712631e9f0a70d9a08624d0aa2053d8bcca525c
-ms.sourcegitcommit: a88d56e3131d7a94c65e637c276379541a3cd491
+ms.openlocfilehash: 745db71694e948808ba8665dae32c146baa40c80
+ms.sourcegitcommit: a69376ba67c6344b1f939f3d87cdb764c8179687
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/30/2020
-ms.locfileid: "87440758"
+ms.lasthandoff: 08/14/2020
+ms.locfileid: "88216850"
 ---
 # <a name="nullable-constructor-analysis"></a>Analisi del Costruttore Nullable
 
@@ -58,7 +58,9 @@ public class C
 **Un costruttore su un tipo di riferimento senza inizializzatore** *o*  
 **Un costruttore in un tipo di riferimento con un `: base(...)` inizializzatore** ha uno stato di flusso Nullable iniziale determinato da:
 - Inizializzazione dei membri del tipo di base sullo stato dichiarato, poiché si prevede che il costruttore di base Inizializza i membri di base.
-- Inizializzando quindi tutti i membri applicabili del tipo sullo stato assegnato assegnando un `default` valore letterale al membro. Un membro è applicabile se è un'istanza di e il costruttore analizzato è un'istanza o se il membro è statico e il costruttore analizzato è statico. 
+- Inizializzando quindi tutti i membri applicabili del tipo sullo stato assegnato assegnando un `default` valore letterale al membro. Un membro è applicabile se:
+  - Il supporto di valori null non è consapevole *e*
+  - Si tratta di un'istanza e il costruttore analizzato è un'istanza o il membro è statico e il costruttore analizzato è statico.
   - Si prevede che il valore `default` letterale produca uno `NotNull` stato per i tipi di valore non nullable, uno `MaybeNull` stato per i tipi di riferimento o tipi di valore nullable e uno `MaybeDefault` stato per i generics non vincolati.
 - Quindi, visitando gli inizializzatori per i membri applicabili, aggiornando di conseguenza lo stato del flusso.
   - Questo consente l'inizializzazione di alcuni membri di riferimento non nullable usando un inizializzatore di campo/proprietà e altri da inizializzare all'interno del costruttore.
