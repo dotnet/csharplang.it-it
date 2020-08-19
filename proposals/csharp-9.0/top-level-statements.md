@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: e0e18660cb3dbb6bfea77dd860ef7aa1388a3ca3
-ms.sourcegitcommit: f22293533088b7527fa88d8916711b1d6a9ce5fd
+ms.openlocfilehash: f4304760253d26cff7adec14ed27a8ec7ca91757
+ms.sourcegitcommit: cc02cda55fca4ebd201e242c9f04498abcb7fb10
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/05/2020
-ms.locfileid: "87802419"
+ms.lasthandoff: 08/19/2020
+ms.locfileid: "88602653"
 ---
 # <a name="top-level-statements"></a>Istruzioni di primo livello
 
@@ -91,6 +91,7 @@ Il metodo del punto di ingresso ha sempre un parametro formale, ```string[] args
 Le operazioni asincrone sono consentite nelle istruzioni di primo livello fino al grado in cui sono consentite nelle istruzioni all'interno di un normale metodo del punto di ingresso asincrono. Tuttavia, non sono necessari, se `await` le espressioni e altre operazioni asincrone vengono omesse, non viene generato alcun avviso.
 
 La firma del metodo del punto di ingresso generato viene determinata in base alle operazioni utilizzate dalle istruzioni di primo livello, come indicato di seguito:
+
 | **Async-operations\Return-with-expression** | **Presente** | **Assente** |
 |----------------------------------------|-------------|-------------|
 | **Presente** | ```static Task<int> Main(string[] args)```| ```static Task Main(string[] args)``` |
