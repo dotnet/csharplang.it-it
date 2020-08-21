@@ -1,20 +1,20 @@
 ---
-ms.openlocfilehash: f000dda7eeb1c4f17c26f94c326a12a9d0014288
-ms.sourcegitcommit: 0c25406d8a99064bb85d934bb32ffcf547753acc
+ms.openlocfilehash: 01fd4f1bc9e0a5b8ea1473e3c7c00fca80c5c8fb
+ms.sourcegitcommit: 06ee75e6e3f1e0d9b4859ffed66024364d3d8f26
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/28/2020
-ms.locfileid: "87297484"
+ms.lasthandoff: 08/21/2020
+ms.locfileid: "88720432"
 ---
 
 # <a name="target-typed-new-expressions"></a>Espressioni tipizzate di destinazione `new`
 
 * [x] proposto
-* [prototipo](https://github.com/alrz/roslyn/tree/features/target-typed-new) [x]
+* Prototipo [x]
 * [] Implementazione
 * [] Specifica
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
 Non richiede la specifica del tipo per i costruttori quando il tipo è noto. 
@@ -76,7 +76,7 @@ Action a = new(); // no constructor found
 
 Di seguito sono riportate le conseguenze della specifica:
 
-- `throw new()`consentito (il tipo di destinazione è `System.Exception` )
+- `throw new()` consentito (il tipo di destinazione è `System.Exception` )
 - `new`Non sono consentiti tipi di destinazione con gli operatori binari.
 - Non è consentito quando non è presente alcun tipo di destinazione: operatori unari, raccolta di un oggetto, in un oggetto, in una `foreach` `using` decostruzione, in un' `await` espressione, come proprietà di tipo anonimo (), in un'istruzione in un `new { Prop = new() }` oggetto, in un'istruzione, in un `lock` `sizeof` `fixed` accesso ai membri ( `new().field` ), in un'operazione inviata dinamicamente ( `someDynamic.Method(new())` ), in una query LINQ, come operando dell' `is` operatore, come operando sinistro dell' `??` operatore...
 - Non è inoltre consentito come `ref` .

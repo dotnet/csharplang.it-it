@@ -1,19 +1,19 @@
 ---
-ms.openlocfilehash: e345bb5d9a4f998f80c13a255cec808bd2c9299f
-ms.sourcegitcommit: 0c25406d8a99064bb85d934bb32ffcf547753acc
+ms.openlocfilehash: ea7032eef4b18197ea9bd3a321013058eeec213e
+ms.sourcegitcommit: 06ee75e6e3f1e0d9b4859ffed66024364d3d8f26
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/28/2020
-ms.locfileid: "87297485"
+ms.lasthandoff: 08/21/2020
+ms.locfileid: "88720443"
 ---
 # <a name="module-initializers"></a>Inizializzatori di modulo
 
 * [x] proposto
 * [] Prototipo: [in corso](https://github.com/jnm2/roslyn/tree/module_initializer)
-* [] Implementazione: [in corso](https://github.com/dotnet/roslyn/tree/features/module-initializers)
+* [] Implementazione: in corso
 * [] Specifica: [non avviata]()
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
 Sebbene la piattaforma .NET disponga di una [funzionalità](https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer) che supporta direttamente la scrittura del codice di inizializzazione per l'assembly (tecnicamente, il modulo), non viene esposta in C#.  Si tratta di uno scenario di nicchia piuttosto semplice, ma dopo l'esecuzione le soluzioni sembrano essere piuttosto dolorose.  Ci sono rapporti di [un numero di clienti](https://www.google.com/search?q=.net+module+constructor+c%23&oq=.net+module+constructor) (all'interno e all'esterno di Microsoft) che faticano a riscontrare il problema e non ci sono dubbi più casi non documentati.
@@ -73,4 +73,4 @@ Perché *non* eseguire questa operazione?
 
 ## <a name="design-meetings"></a>Riunioni di progettazione
 
-### <a name="april-8th-2020"></a>[8 aprile 2020](/meetings/2020/LDM-2020-04-08.md#module-initializers)
+### <a name="april-8th-2020"></a>[8 aprile 2020](https://github.com/dotnet/csharplang/meetings/2020/LDM-2020-04-08.md#module-initializers)
