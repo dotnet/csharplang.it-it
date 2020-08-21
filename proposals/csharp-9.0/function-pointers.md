@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 5580323e47df890962d8d2228c93592f1f57a2b1
-ms.sourcegitcommit: eade6b9b5501bd0313aa88934f0f1ee1c1c4cc9a
+ms.openlocfilehash: 8457e2b66036368ce8618edb1e1d2a106f6ee18b
+ms.sourcegitcommit: 5d40e91f041571a3c265b5ba2f8dba2d83897f9a
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/11/2020
-ms.locfileid: "88059462"
+ms.lasthandoff: 08/21/2020
+ms.locfileid: "88746892"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
@@ -84,7 +84,7 @@ Un `delegate*` tipo è un tipo di puntatore che significa che ha tutte le funzio
 Restrizioni:
 
 - Gli attributi personalizzati non possono essere applicati a un oggetto o a uno `delegate*` dei relativi elementi.
-- Un `delegate*` parametro non può essere contrassegnato come`params`
+- Un `delegate*` parametro non può essere contrassegnato come `params`
 - Un `delegate*` tipo ha tutte le restrizioni di un tipo di puntatore normale.
 - Non è possibile eseguire l'aritmetica del puntatore direttamente sui tipi di puntatore a funzione.
 
@@ -159,7 +159,7 @@ delegate*<delegate* managed<string, int>, delegate*<string, int>>;
 In un contesto non sicuro, il set di conversioni implicite disponibili (conversioni implicite) viene esteso in modo da includere le seguenti conversioni implicite del puntatore:
 - [_Conversioni esistenti_](https://github.com/dotnet/csharplang/blob/master/spec/unsafe-code.md#pointer-conversions)
 - Dal _ \_ tipo funcptr_ `F0` a un _altro \_ tipo funcptr_ `F1` , purché siano soddisfatte tutte le condizioni seguenti:
-    - `F0`e `F1` hanno lo stesso numero di parametri e ogni parametro `D0n` in `F0` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente `D1n` in `F1` .
+    - `F0` e `F1` hanno lo stesso numero di parametri e ogni parametro `D0n` in `F0` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente `D1n` in `F1` .
     - Per ogni parametro di valore (un parametro senza `ref` `out` `in` modificatore, o), esiste una conversione di identità, una conversione implicita di un riferimento o una conversione del puntatore implicita dal tipo di parametro in `F0` al tipo di parametro corrispondente in `F1` .
     - Per ogni `ref` `out` parametro, o `in` , il tipo di parametro in `F0` corrisponde al tipo di parametro corrispondente in `F1` .
     - Se il tipo restituito è per valore (No `ref` o `ref readonly` ), esiste un'identità, un riferimento implicito o una conversione del puntatore implicita dal tipo restituito di `F1` al tipo restituito di `F0` .
@@ -184,7 +184,7 @@ unsafe class Util {
 ```
 
 In un contesto non sicuro, un metodo `M` è compatibile con un tipo di puntatore a funzione `F` se si verificano tutte le condizioni seguenti:
-- `M`e `F` hanno lo stesso numero di parametri e ogni parametro in `M` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente in `F` .
+- `M` e `F` hanno lo stesso numero di parametri e ogni parametro in `M` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente in `F` .
 - Per ogni parametro di valore (un parametro senza `ref` `out` `in` modificatore, o), esiste una conversione di identità, una conversione implicita di un riferimento o una conversione del puntatore implicita dal tipo di parametro in `M` al tipo di parametro corrispondente in `F` .
 - Per ogni `ref` `out` parametro, o `in` , il tipo di parametro in `M` corrisponde al tipo di parametro corrispondente in `F` .
 - Se il tipo restituito è per valore (No `ref` o `ref readonly` ), esiste un'identità, un riferimento implicito o una conversione del puntatore implicita dal tipo restituito di `F` al tipo restituito di `M` .
@@ -252,7 +252,7 @@ Inoltre, si modificano tutte le sezioni in `Pointers in expressions` per impedir
 
 La specifica del membro di funzione migliore verrà modificata in modo da includere la riga seguente:
 
-> Un `delegate*` è più specifico di`void*`
+> Un `delegate*` è più specifico di `void*`
 
 Ciò significa che è possibile eseguire l'overload su `void*` e un oggetto `delegate*` e continuare a usare l'operatore address-of.
 
@@ -295,13 +295,13 @@ Di questi, i puntatori a funzione in C# supporteranno tutti i, tranne `varargs` 
 
 Inoltre, il runtime (e infine 335) verrà aggiornato in modo da includere un nuovo `CallKind` nelle nuove piattaforme. Attualmente non è presente un nome formale, ma questo documento utilizzerà `unmanaged ext` come segnaposto per il nuovo formato della convenzione di chiamata estendibile. Con No `modopt` s, `unmanaged ext` è la convenzione di chiamata predefinita della piattaforma, `unmanaged` senza le parentesi quadre.
 
-#### <a name="mapping-the-calling_convention_specifier-to-a-callkind"></a>Mapping `calling_convention_specifier` di a un`CallKind`
+#### <a name="mapping-the-calling_convention_specifier-to-a-callkind"></a>Mapping `calling_convention_specifier` di a un `CallKind`
 
 Un oggetto `calling_convention_specifier` che viene omesso o specificato come `managed` , viene mappato a `default` `CallKind` . Si tratta del valore predefinito `CallKind` di qualsiasi metodo senza attributi `UnmanagedCallersOnly` .
 
 C# riconosce 4 identificatori speciali che vengono mappati a specifiche non gestite esistenti `CallKind` da ECMA 335. Affinché questo mapping venga eseguito, è necessario specificare i relativi identificatori in modo autonomo, senza altri identificatori, e questo requisito viene codificato nelle specifiche per `unmanaged_calling_convention` s. Questi identificatori sono `Cdecl` , `Thiscall` , `Stdcall` e `Fastcall` , che corrispondono rispettivamente a `unmanaged cdecl` , `unmanaged thiscall` , `unmanaged stdcall` e `unmanaged fastcall` . Se viene specificato più di un `identifer` oggetto o se il singolo `identifier` non è costituito dagli identificatori specifici, viene eseguita la ricerca di nomi speciali sull'identificatore con le regole seguenti:
 
-* Viene anteposto l'oggetto `identifier` con la stringa`CallConv`
+* Viene anteposto l'oggetto `identifier` con la stringa `CallConv`
 * Si osserveranno solo i tipi definiti nello `System.Runtime.CompilerServices` spazio dei nomi.
 * Si osserveranno solo i tipi definiti nella libreria principale dell'applicazione, ovvero la libreria che definisce `System.Object` e non ha dipendenze.
 * Vengono esaminati solo i tipi pubblici.
@@ -321,11 +321,11 @@ Non è possibile tentare di usare un puntatore a funzione con un valore `CallKin
 
 ### `System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute`
 
-`System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute`attributo utilizzato da CLR per indicare che un metodo deve essere chiamato con una convenzione di chiamata specifica. Per questo motivo, viene introdotto il supporto seguente per l'utilizzo dell'attributo:
+`System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute` attributo utilizzato da CLR per indicare che un metodo deve essere chiamato con una convenzione di chiamata specifica. Per questo motivo, viene introdotto il supporto seguente per l'utilizzo dell'attributo:
 
 * È un errore chiamare direttamente un metodo annotato con questo attributo da C#. Gli utenti devono ottenere un puntatore a funzione per il metodo e quindi richiamare il puntatore.
 * È un errore applicare l'attributo a qualsiasi elemento diverso da un metodo statico. Il compilatore C# contrassegna tutti i metodi non statici importati dai metadati con questo attributo come non supportati dal linguaggio.
-* Non è possibile usare tipi non gestiti come parametri o il tipo restituito di un metodo contrassegnato con l'attributo.
+* È un errore avere tipi gestiti come parametri o il tipo restituito di un metodo contrassegnato con l'attributo.
 * È un errore convertire un metodo contrassegnato con l'attributo in un tipo delegato.
 * Non è un errore specificare i tipi per `UnmanagedCallersOnly.CallConvs` che non soddisfano i requisiti per la chiamata di Convention `modopt` s nei metadati.
 
@@ -339,9 +339,9 @@ Il compilatore esamina quindi questo effetto `CallKind` e la `modopt` raccolta e
 
 ## <a name="open-questions"></a>Domande aperte
 
-### <a name="detecting-runtime-support-for-unmanaged-ext"></a>Rilevamento del supporto runtime per`unmanaged ext`
+### <a name="detecting-runtime-support-for-unmanaged-ext"></a>Rilevamento del supporto runtime per `unmanaged ext`
 
-https://github.com/dotnet/runtime/issues/38135tiene traccia dell'aggiunta di questo flag. A seconda dei commenti e suggerimenti della revisione, si utilizzerà la proprietà specificata nel problema oppure si utilizzerà la presenza di `UnmanagedCallersOnlyAttribute` come flag che determina se i runtime supportano `unmanaged ext` .
+https://github.com/dotnet/runtime/issues/38135 tiene traccia dell'aggiunta di questo flag. A seconda dei commenti e suggerimenti della revisione, si utilizzerà la proprietà specificata nel problema oppure si utilizzerà la presenza di `UnmanagedCallersOnlyAttribute` come flag che determina se i runtime supportano `unmanaged ext` .
 
 ## <a name="considerations"></a>Considerazioni
 
