@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: ec25583ef947a49c7586ec403bffe96c7aa0b344
-ms.sourcegitcommit: 7d3c77ee79ef38c4153df5d0fa494a7a55e4f242
+ms.openlocfilehash: 49bacaa2d98ee98c90a2911c442f1db65584acfb
+ms.sourcegitcommit: f38867ee6e9b49b0449ae3565048f7970d7edf36
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/07/2020
-ms.locfileid: "87928338"
+ms.lasthandoff: 08/24/2020
+ms.locfileid: "88789036"
 ---
 
 # <a name="records"></a>Record
@@ -74,7 +74,7 @@ Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la
 public virtual bool Equals(R? other);
 ```
 Il risultato della sintesi `Equals(R?)` restituisce `true` se e solo se ciascuno dei seguenti è `true` :
-- `other`non è `null` , e
+- `other` non è `null` , e
 - Per ogni campo di istanza `fieldN` nel tipo di record non ereditato, il valore di `System.Collections.Generic.EqualityComparer<TN>.Default.Equals(fieldN, other.fieldN)` dove `TN` è il tipo di campo e
 - Se è presente un tipo di record di base, il valore di `base.Equals(other)` (una chiamata non virtuale a `public virtual bool Equals(Base? other)` ); in caso contrario, il valore di `EqualityContract == other.EqualityContract` .
 
@@ -230,7 +230,7 @@ Se il record non dispone di membri stampabili, il metodo chiama il `PrintMembers
 In caso contrario, il metodo:
 1. chiama il `PrintMembers` metodo di base con un argomento (il relativo `builder` parametro),
 2. Se il `PrintMembers` metodo ha restituito true, accodare "," al generatore,
-3. per ogni membro stampabile del record, aggiunge il nome del membro seguito da "=" seguito dal valore del membro: `this.member` , separato con ",",
+3. per ogni membro stampabile del record, aggiunge il nome del membro seguito da "=" seguito dal valore del membro: `this.member` (o `this.member.ToString()` per i tipi di valore), separati da ",",
 4. Restituisce true.
 
 Il `PrintMembers` metodo può essere dichiarato in modo esplicito.
@@ -246,7 +246,7 @@ Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la
 Il metodo sintetizzato:
 1. Crea un' `StringBuilder` istanza di,
 2. Accoda il nome del record al generatore, seguito da "{",
-3. richiama il metodo del record `PrintMembers` che lo assegna al generatore,
+3. richiama il metodo del record `PrintMembers` che lo assegna al generatore, seguito da "" se restituisce true.
 4. Accoda "}",
 3. Restituisce il contenuto del generatore con `builder.ToString()` .
 
@@ -268,7 +268,7 @@ class R1 : IEquatable<R1>
     {
         builder.Append(nameof(P1));
         builder.Append(" = ");
-        builder.Append(this.P1);
+        builder.Append(this.P1); // or builder.Append(this.P1); if P1 has a value type
         
         return true;
     }
@@ -279,9 +279,10 @@ class R1 : IEquatable<R1>
         builder.Append(nameof(R1));
         builder.Append(" { ");
 
-        PrintMembers(builder);
+        if (PrintMembers(builder))
+            builder.Append(" ");
 
-        builder.Append(" }");
+        builder.Append("}");
         return builder.ToString();
     }
 }
@@ -298,13 +299,13 @@ class R2 : R1, IEquatable<R2>
             
         builder.Append(nameof(P2));
         builder.Append(" = ");
-        builder.Append(this.P2);
+        builder.Append(this.P2); // or builder.Append(this.P2); if P2 has a value type
         
         builder.Append(", ");
         
         builder.Append(nameof(P3));
         builder.Append(" = ");
-        builder.Append(this.P3);
+        builder.Append(this.P3); // or builder.Append(this.P3); if P3 has a value type
         
         return true;
     }
@@ -315,9 +316,10 @@ class R2 : R1, IEquatable<R2>
         builder.Append(nameof(R2));
         builder.Append(" { ");
 
-        PrintMembers(builder);
+        if (PrintMembers(builder))
+            builder.Append(" ");
 
-        builder.Append(" }");
+        builder.Append("}");
         return builder.ToString();
     }
 }
