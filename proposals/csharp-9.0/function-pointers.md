@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 8457e2b66036368ce8618edb1e1d2a106f6ee18b
-ms.sourcegitcommit: 5d40e91f041571a3c265b5ba2f8dba2d83897f9a
+ms.openlocfilehash: 9a30d64b8df1913b77e5fb1d3ccb27f8a64c1460
+ms.sourcegitcommit: 31289a8255732df5c0379a6d197142109b7afced
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88746892"
+ms.lasthandoff: 08/26/2020
+ms.locfileid: "88897607"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
@@ -39,7 +39,7 @@ Questi tipi sono rappresentati usando il tipo di puntatore a funzione, come desc
 Sintatticamente, sebbene la chiamata sia identica per entrambi i costrutti.
 
 La definizione ECMA-335 dei puntatori al metodo include la convenzione di chiamata come parte della firma del tipo (sezione 7,1).
-La convenzione di chiamata predefinita sarà `managed` . È possibile specificare le convenzioni di chiamata non gestite inserendo una `unmanaged` parola chiave dopo la `delegate*` sintassi, che utilizzerà l'impostazione predefinita della piattaforma di Runtime. È quindi possibile specificare convenzioni non gestite specifiche tra parentesi quadre per la `unmanaged` parola chiave specificando qualsiasi tipo che inizia con `CallConv` nello `System.Runtime.CompilerServices` spazio dei nomi. Questi tipi devono provenire dalla libreria principale del programma e il set di combinazioni valide è dipendente dalla piattaforma.
+La convenzione di chiamata predefinita sarà `managed` . È possibile specificare le convenzioni di chiamata non gestite inserendo una `unmanaged` parola chiave dopo la `delegate*` sintassi, che utilizzerà l'impostazione predefinita della piattaforma di Runtime. È quindi possibile specificare convenzioni non gestite specifiche tra parentesi quadre per la `unmanaged` parola chiave specificando qualsiasi tipo che inizia con `CallConv` nello `System.Runtime.CompilerServices` spazio dei nomi, lasciando il `CallConv` prefisso. Questi tipi devono provenire dalla libreria principale del programma e il set di combinazioni valide è dipendente dalla piattaforma.
 
 ``` csharp
 //This method has a managed calling convention. This is the same as leaving the managed keyword off.
@@ -50,10 +50,13 @@ delegate* managed<int, int>;
 delegate* unmanaged<int, int>;
 
 // This method will be invoked using the cdecl calling convention
-delegate* unmanaged[CallConvCdecl] <int, int>;
+// Cdecl maps to System.Runtime.CompilerServices.CallConvCdecl
+delegate* unmanaged[Cdecl] <int, int>;
 
 // This method will be invoked using the stdcall calling convention, and suppresses GC transition
-delegate* unmanaged[CallConvStdCall, CallConvSuppressGCTransition] <int, int>;
+// Stdcall maps to System.Runtime.CompilerServices.CallConvStdcall
+// SuppressGCTransition maps to System.Runtime.CompilerServices.CallConvSuppressGCTransition
+delegate* unmanaged[Stdcall, SuppressGCTransition] <int, int>;
 ```
 
 Le conversioni tra `delegate*` i tipi vengono eseguite in base alla relativa firma, inclusa la convenzione di chiamata.
@@ -324,8 +327,11 @@ Non è possibile tentare di usare un puntatore a funzione con un valore `CallKin
 `System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute` attributo utilizzato da CLR per indicare che un metodo deve essere chiamato con una convenzione di chiamata specifica. Per questo motivo, viene introdotto il supporto seguente per l'utilizzo dell'attributo:
 
 * È un errore chiamare direttamente un metodo annotato con questo attributo da C#. Gli utenti devono ottenere un puntatore a funzione per il metodo e quindi richiamare il puntatore.
-* È un errore applicare l'attributo a qualsiasi elemento diverso da un metodo statico. Il compilatore C# contrassegna tutti i metodi non statici importati dai metadati con questo attributo come non supportati dal linguaggio.
-* È un errore avere tipi gestiti come parametri o il tipo restituito di un metodo contrassegnato con l'attributo.
+* Non è possibile applicare l'attributo a qualsiasi elemento diverso da un metodo statico comune o da una normale funzione locale statica.
+Il compilatore C# contrassegnerà tutti i metodi non statici o statici non ordinari importati dai metadati con questo attributo come non supportati dal linguaggio.
+* È un errore per un metodo contrassegnato con l'attributo per avere un parametro o un tipo restituito diverso da `unmanaged_type` .
+* Si tratta di un errore per un metodo contrassegnato con l'attributo con parametri di tipo, anche se tali parametri di tipo sono limitati a `unmanaged` .
+* Non è possibile contrassegnare un metodo in un tipo generico con l'attributo.
 * È un errore convertire un metodo contrassegnato con l'attributo in un tipo delegato.
 * Non è un errore specificare i tipi per `UnmanagedCallersOnly.CallConvs` che non soddisfano i requisiti per la chiamata di Convention `modopt` s nei metadati.
 
