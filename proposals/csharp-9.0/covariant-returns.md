@@ -1,11 +1,13 @@
 ---
-ms.openlocfilehash: 7ff986e42e34c1de8d21a2b99e1c9ecfd9f2f9a9
-ms.sourcegitcommit: ac14d87c16f28535299060d510fb4f647029a765
+ms.openlocfilehash: dc46c0c8492440aad2d3c1a36b4d7794fd1d1b5c
+ms.sourcegitcommit: 95adf054b95824f93d19025c549b9a1ddcee40c5
 ms.translationtype: MT
 ms.contentlocale: it-IT
 ms.lasthandoff: 09/04/2020
-ms.locfileid: "89446837"
+ms.locfileid: "89477321"
 ---
+# <a name="covariant-returns"></a>Restituzione covariante
+
 ## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
@@ -231,4 +233,3 @@ class Digit : Cloneable
 - una discussione all'indirizzo <https://github.com/dotnet/roslyn/issues/357> .
 - https://github.com/dotnet/csharplang/blob/master/meetings/2020/LDM-2020-01-08.md
 - Discussione offline verso la decisione di supportare l'override dei metodi della classe solo in C# 9,0.
-
