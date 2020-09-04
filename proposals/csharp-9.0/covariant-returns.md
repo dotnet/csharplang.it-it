@@ -1,22 +1,15 @@
 ---
-ms.openlocfilehash: 06ad8ee3795615c200c0eab48facd7d2f5e90e78
-ms.sourcegitcommit: a88d56e3131d7a94c65e637c276379541a3cd491
+ms.openlocfilehash: 7ff986e42e34c1de8d21a2b99e1c9ecfd9f2f9a9
+ms.sourcegitcommit: ac14d87c16f28535299060d510fb4f647029a765
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/30/2020
-ms.locfileid: "87434511"
+ms.lasthandoff: 09/04/2020
+ms.locfileid: "89446837"
 ---
-# <a name="covariant-return-types"></a>tipi restituiti covarianti
-
-* [x] proposto
-* [] Prototipo: non avviato
-* [] Implementazione: non avviata
-* [X] Specifica: non avviata
-
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
-Supportare _tipi restituiti covariante_. In particolare, consentire all'override di un metodo di restituire un tipo restituito più derivato rispetto al metodo sottoposto a override e in modo analogo per consentire l'override di una proprietà di sola lettura per restituire un tipo restituito più derivato. I chiamanti del metodo o della proprietà riceveranno in modo statico il tipo restituito più raffinato da una chiamata e le sostituzioni visualizzate in più tipi derivati sarebbero necessarie per fornire un tipo restituito almeno in base a quanto visualizzato nelle sostituzioni nei relativi tipi di base.
+Supportare _tipi restituiti covariante_. In particolare, consentire l'override di un metodo per dichiarare un tipo restituito più derivato rispetto al metodo sottoposto a override e in modo analogo per consentire l'override di una proprietà di sola lettura per dichiarare un tipo più derivato. Le dichiarazioni di override visualizzate in più tipi derivati sarebbero necessarie per fornire un tipo restituito almeno in base a quanto visualizzato nelle sostituzioni nei relativi tipi di base. I chiamanti del metodo o della proprietà riceveranno in modo statico il tipo restituito più raffinato da una chiamata.
 
 ## <a name="motivation"></a>Motivazione
 [motivation]: #motivation
@@ -28,23 +21,21 @@ Questa operazione è utile nel modello Factory. Ad esempio, nella base di codice
 ``` cs
 class Compilation ...
 {
-    virtual Compilation WithOptions(Options options)...
+    public virtual Compilation WithOptions(Options options)...
 }
 ```
 
 ``` cs
 class CSharpCompilation : Compilation
 {
-    override CSharpCompilation WithOptions(Options options)...
+    public override CSharpCompilation WithOptions(Options options)...
 }
 ```
 
 ## <a name="detailed-design"></a>Progettazione dettagliata
 [design]: #detailed-design
 
-Si tratta di una bozza proposta per i [tipi restituiti covarianti](https://github.com/dotnet/csharplang/issues/49) in C#.  Il nostro obiettivo è consentire l'override di un metodo per restituire un tipo restituito più derivato rispetto al metodo sottoposto a override e in modo analogo per consentire all'override di una proprietà di sola lettura di restituire un tipo restituito più derivato.  I chiamanti del metodo o della proprietà riceveranno in modo statico il tipo restituito più raffinato da una chiamata e le sostituzioni visualizzate in più tipi derivati sarebbero necessarie per fornire un tipo restituito almeno in base a quanto visualizzato nelle sostituzioni nei relativi tipi di base.
-
-Si tratta di una prima bozza, quindi è stata necessariamente inventata da zero.  Molte delle idee introdotte sono provvisorie e possono essere modificate o eliminate nelle future revisioni.
+Si tratta di una specifica per i [tipi restituiti covarianti](https://github.com/dotnet/csharplang/issues/49) in C#.  Il nostro obiettivo è consentire l'override di un metodo per restituire un tipo restituito più derivato rispetto al metodo sottoposto a override e in modo analogo per consentire all'override di una proprietà di sola lettura di restituire un tipo restituito più derivato.  I chiamanti del metodo o della proprietà riceveranno in modo statico il tipo restituito più raffinato da una chiamata e le sostituzioni visualizzate in più tipi derivati sarebbero necessarie per fornire un tipo restituito almeno in base a quanto visualizzato nelle sostituzioni nei relativi tipi di base.
 
 --------------
 
@@ -56,11 +47,11 @@ Si tratta di una prima bozza, quindi è stata necessariamente inventata da zero.
 
 viene modificato in
 
-> - Il metodo di override deve avere un tipo restituito convertibile da un'identità o conversione di un riferimento implicito al tipo restituito del metodo di base sottoposto a override.
+> - Il metodo di override deve avere un tipo restituito convertibile da una conversione di identità o (se il metodo ha un valore restituito, non un [ref return](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)) conversione di riferimento implicito al tipo restituito del metodo di base sottoposto a override.
 
 E i seguenti requisiti aggiuntivi vengono aggiunti all'elenco:
 
-> - Il metodo di override deve avere un tipo restituito convertibile da un'identità o conversione di un riferimento implicito nel tipo restituito di ogni override del metodo di base sottoposto a override dichiarato in un tipo di base (diretto o indiretto) del metodo di override.
+> - Il metodo di override deve avere un tipo restituito convertibile da una conversione di identità o (se il metodo ha un valore restituito, non un [ref return](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)) conversione di riferimento implicito al tipo restituito di ogni override del metodo di base sottoposto a override dichiarato in un tipo di base (diretto o indiretto) del metodo di override.
 > - Il tipo restituito del metodo di override deve essere accessibile almeno quanto il metodo di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).
 
 Questo vincolo consente a un metodo di override in una `private` classe di avere un `private` tipo restituito.  Tuttavia, richiede un `public` metodo di override in un `public` tipo per avere un `public` tipo restituito.
@@ -73,7 +64,9 @@ Questo vincolo consente a un metodo di override in una `private` classe di avere
 
 viene modificato in
 
-> Una dichiarazione di proprietà che esegue l'override deve specificare esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata, ed è presente una conversione di identità **o (se la proprietà ereditata è di sola lettura) conversione di riferimento implicita dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).**
+> Una dichiarazione di proprietà che esegue l'override specifica esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata e deve essere presente una conversione di identità **o (se la proprietà ereditata è di sola lettura e ha un tipo di valore, non un tipo [restituito da Ref](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)), la conversione implicita del riferimento dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).**
+
+-----------------
 
 ***Il resto della specifica bozza riportata di seguito propone un'ulteriore estensione per i ritorni covariante dei metodi di interfaccia da prendere in considerazione in un secondo momento.***
 
@@ -125,19 +118,19 @@ Questa sezione della specifica
 
 > Ai fini del mapping dell'interfaccia, un membro di classe `A` corrisponde a un membro di interfaccia `B` quando:
 > 
-> - `A`e `B` sono metodi e gli elenchi nome, tipo e parametro formale di `A` e `B` sono identici.
-> - `A`e `B` sono proprietà, il nome e il tipo di `A` e `B` sono identici e hanno `A` le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia).
-> - `A`e `B` sono eventi e il nome e il tipo di `A` e `B` sono identici.
-> - `A`e `B` sono indicizzatori, gli elenchi di parametri di tipo e formale di `A` e `B` sono identici e `A` hanno le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia).
+> - `A` e `B` sono metodi e gli elenchi nome, tipo e parametro formale di `A` e `B` sono identici.
+> - `A` e `B` sono proprietà, il nome e il tipo di `A` e `B` sono identici e hanno `A` le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia).
+> - `A` e `B` sono eventi e il nome e il tipo di `A` e `B` sono identici.
+> - `A` e `B` sono indicizzatori, gli elenchi di parametri di tipo e formale di `A` e `B` sono identici e `A` hanno le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia).
 
 viene modificato come segue:
 
 > Ai fini del mapping dell'interfaccia, un membro di classe `A` corrisponde a un membro di interfaccia `B` quando:
 > 
-> - `A`e `B` sono metodi e gli elenchi di parametri di nome e formale di `A` e `B` sono identici e il tipo restituito di `A` è convertibile nel tipo restituito `B` tramite un'identità di conversione implicita dei riferimenti al tipo restituito di `B` .
-> - `A`e `B` sono proprietà, il nome di `A` e `B` sono identici, `A` ha le stesse funzioni di accesso di `B` ( `A` è consentito disporre di funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia) e il tipo di `A` è convertibile nel tipo restituito `B` tramite una conversione di identità o, se `A` è una proprietà ReadOnly, una conversione di un riferimento implicito.
-> - `A`e `B` sono eventi e il nome e il tipo di `A` e `B` sono identici.
-> - `A`e `B` sono indicizzatori, gli elenchi di parametri formali di `A` e `B` sono identici, `A` hanno le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia) e il tipo di `A` è convertibile nel tipo restituito `B` tramite una conversione di identità o, se `A` è un indicizzatore di sola lettura, una conversione implicita di riferimenti.
+> - `A` e `B` sono metodi e gli elenchi di parametri di nome e formale di `A` e `B` sono identici e il tipo restituito di `A` è convertibile nel tipo restituito `B` tramite un'identità di conversione implicita dei riferimenti al tipo restituito di `B` .
+> - `A` e `B` sono proprietà, il nome di `A` e `B` sono identici, `A` ha le stesse funzioni di accesso di `B` ( `A` è consentito disporre di funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia) e il tipo di `A` è convertibile nel tipo restituito `B` tramite una conversione di identità o, se `A` è una proprietà ReadOnly, una conversione di un riferimento implicito.
+> - `A` e `B` sono eventi e il nome e il tipo di `A` e `B` sono identici.
+> - `A` e `B` sono indicizzatori, gli elenchi di parametri formali di `A` e `B` sono identici, `A` hanno le stesse funzioni di accesso di `B` ( `A` possono avere funzioni di accesso aggiuntive se non si tratta di un'implementazione esplicita di un membro di interfaccia) e il tipo di `A` è convertibile nel tipo restituito `B` tramite una conversione di identità o, se `A` è un indicizzatore di sola lettura, una conversione implicita di riferimenti.
 
 Si tratta tecnicamente di una modifica di rilievo, perché il programma seguente stampa "C1. M "oggi, ma stampa" C2 ". M "nella revisione proposta.
 
