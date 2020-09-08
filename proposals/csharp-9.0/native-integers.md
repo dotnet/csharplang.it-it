@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: 615bacf466daf34a2785c616b4ff5e622decd2f1
-ms.sourcegitcommit: a88d56e3131d7a94c65e637c276379541a3cd491
+ms.openlocfilehash: f16a182cb205c889c15eae2d33bfa342e9579b10
+ms.sourcegitcommit: c3df20406f43fcd460cfedd1cd61b6cc47d27250
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/30/2020
-ms.locfileid: "87434496"
+ms.lasthandoff: 09/08/2020
+ms.locfileid: "89554630"
 ---
 # <a name="native-sized-integers"></a>Integer con dimensione nativa
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
 Supporto delle lingue per tipi firmati e Unsigned Integer di dimensioni native.
@@ -33,9 +33,9 @@ I tipi `nint` e `nuint` sono rappresentati dai tipi sottostanti `System.IntPtr` 
 Le espressioni costanti possono essere di tipo `nint` o `nuint` .
 Non esiste alcuna sintassi diretta per i valori letterali int nativi. È invece possibile usare cast impliciti o espliciti di altri valori di costanti integrali: `const nint i = (nint)42;` .
 
-`nint`le costanti sono comprese nell'intervallo [ `int.MinValue` , `int.MaxValue` ].
+`nint` le costanti sono comprese nell'intervallo [ `int.MinValue` , `int.MaxValue` ].
 
-`nuint`le costanti sono comprese nell'intervallo [ `uint.MinValue` , `uint.MaxValue` ].
+`nuint` le costanti sono comprese nell'intervallo [ `uint.MinValue` , `uint.MaxValue` ].
 
 Non sono presenti `MinValue` `MaxValue` campi o in `nint` o `nuint` perché, oltre a `nuint.MinValue` , tali valori non possono essere emessi come costanti.
 
@@ -198,6 +198,28 @@ In particolare, l'espressione viene associata come `x = (T)(x op y)` dove `T` è
 Gli operatori shift devono mascherare il numero di bit per passare a 5 bit se `sizeof(nint)` è 4 e a 6 bit se `sizeof(nint)` è 8.
 (vedere [operatori shift](../../spec/expressions.md#shift-operators) in C# spec).
 
+Il compilatore C# 9 segnalerà gli errori di associazione agli operatori Integer nativi predefiniti durante la compilazione con una versione del linguaggio precedente, ma consentirà l'utilizzo di conversioni predefinite da e verso numeri interi nativi.
+
+`csc -langversion:9 -t:library A.cs`
+```C#
+public class A
+{
+    public static nint F;
+}
+```
+
+`csc -langversion:8 -r:A.dll B.cs`
+```C#
+class B : A
+{
+    static void Main()
+    {
+        F = F + 1; // error: nint operator+ not available with -langversion:8
+        F = (System.IntPtr)F + 1; // ok
+    }
+}
+```
+
 ### <a name="dynamic"></a>Dinamico
 
 Le conversioni e gli operatori vengono sintetizzati dal compilatore e non fanno parte dei `IntPtr` tipi e sottostanti `UIntPtr` .
@@ -241,7 +263,7 @@ Ad esempio `IntPtr` , se implementa `ISerializable, IEquatable<IntPtr>, ICompara
 
 ### <a name="overriding-hiding-and-implementing"></a>Override, nascondere e implementare
 
-`nint`e `System.IntPtr` , e `nuint` e `System.UIntPtr` sono considerati equivalenti per l'override, l'occultamento e l'implementazione di.
+`nint` e `System.IntPtr` , e `nuint` e `System.UIntPtr` sono considerati equivalenti per l'override, l'occultamento e l'implementazione di.
 
 Gli overload non possono differire da `nint` and `System.IntPtr` , and `nuint` e `System.UIntPtr` , alone.
 Le sostituzioni e le implementazioni possono variare `nint` solo per and `System.IntPtr` , or `nuint` e `System.UIntPtr` .
@@ -249,7 +271,7 @@ I metodi nascondono altri metodi che differiscono `nint` solo per and `System.In
 
 ### <a name="miscellaneous"></a>Varie
 
-`nint`le `nuint` espressioni e utilizzate come indici di matrice vengono emesse senza conversione.
+`nint` le `nuint` espressioni e utilizzate come indici di matrice vengono emesse senza conversione.
 ```C#
 static object GetItem(object[] array, nint index)
 {
@@ -257,7 +279,7 @@ static object GetItem(object[] array, nint index)
 }
 ```
 
-`nint`e `nuint` possono essere usati come `enum` tipo di base.
+`nint` e `nuint` possono essere usati come `enum` tipo di base.
 ```C#
 enum E : nint // ok
 {
@@ -269,19 +291,19 @@ Le letture e le Scritture sono atomiche per i tipi `nint` , `nuint` e `enum` con
 I campi possono essere contrassegnati `volatile` per i tipi `nint` e `nuint` .
 [ECMA-334](https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-334.pdf) 15.5.4 non include `enum` tuttavia il tipo di `System.IntPtr` base `System.UIntPtr` .
 
-`default(nint)`e `new nint()` sono equivalenti a `(nint)0` .
+`default(nint)` e `new nint()` sono equivalenti a `(nint)0` .
 
 `typeof(nint)` è `typeof(IntPtr)`.
 
-`sizeof(nint)`è supportato ma richiede la compilazione in un contesto non sicuro (così com'è `sizeof(IntPtr)` ).
+`sizeof(nint)` è supportato ma richiede la compilazione in un contesto non sicuro (così com'è `sizeof(IntPtr)` ).
 Il valore non è una costante in fase di compilazione.
-`sizeof(nint)`viene implementato come `sizeof(IntPtr)` anziché `IntPtr.Size` .
+`sizeof(nint)` viene implementato come `sizeof(IntPtr)` anziché `IntPtr.Size` .
 
 Diagnostica del compilatore per i riferimenti ai tipi che coinvolgono o `nint` `nuint` segnalano o `nint` `nuint` invece di `IntPtr` o `UIntPtr` .
 
 ### <a name="metadata"></a>Metadati
 
-`nint`e `nuint` sono rappresentati nei metadati come `System.IntPtr` e `System.UIntPtr` .
+`nint` e `nuint` sono rappresentati nei metadati come `System.IntPtr` e `System.UIntPtr` .
 
 I riferimenti ai tipi che includono `nint` o `nuint` vengono emessi con un oggetto `System.Runtime.CompilerServices.NativeIntegerAttribute` per indicare quali parti del riferimento al tipo sono native int.
 
@@ -308,19 +330,12 @@ namespace System.Runtime.CompilerServices
         {
             TransformFlags = flags;
         }
-        public IList<bool> TransformFlags { get; }
+        public readonly bool[] TransformFlags;
     }
 }
 ```
 
-La codifica USA l'approccio usato per la codifica `DynamicAttribute` , sebbene sia ovviamente la `DynamicAttribute` codifica dei tipi all'interno del riferimento al tipo, `dynamic` anziché i tipi nativi int.
-Se la codifica restituisce una matrice di `false` valori, non `NativeIntegerAttribute` è necessario.
-Il `NativeIntegerAttribute` costruttore senza parametri genera una codifica con un singolo `true` valore.
-
-```C#
-nuint A;                    // [NativeInteger] UIntPtr A
-(Stream, nint) B;           // [NativeInteger(new[] { false, false, true })] ValueType<Stream, IntPtr> B
-```
+La codifica dei riferimenti ai tipi con `NativeIntegerAttribute` è analizzata in [NativeIntegerAttribute.MD](https://github.com/dotnet/roslyn/blob/master/docs/features/NativeIntegerAttribute.md).
 
 ## <a name="alternatives"></a>Alternativi
 [alternatives]: #alternatives
