@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: a774e370a14373ccf308c2cba9944305c0053c05
-ms.sourcegitcommit: c3df20406f43fcd460cfedd1cd61b6cc47d27250
+ms.openlocfilehash: 45ab9a04928916323f2d78d74bda8b691ac85858
+ms.sourcegitcommit: 8df4f29c1c9b691b30a2672c440b82248a99c2cb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/08/2020
-ms.locfileid: "89557578"
+ms.lasthandoff: 09/09/2020
+ms.locfileid: "89609308"
 ---
 # <a name="extension-getenumerator-support-for-foreach-loops"></a>`GetEnumerator`Supporto dell'estensione per i `foreach` cicli.
 
@@ -26,7 +26,7 @@ La modifica delle specifiche è relativamente semplice. `The foreach statement`L
 >L'elaborazione in fase di compilazione di un'istruzione foreach determina innanzitutto il tipo di ***raccolta***, il tipo di ***enumeratore*** e il ***tipo di elemento*** dell'espressione. Questa determinazione procede come segue:
 >
 >*  Se il tipo `X` di *espressione* è un tipo di matrice, esiste una conversione implicita del riferimento da `X` all' `IEnumerable` interfaccia (poiché `System.Array` implementa questa interfaccia). Il ***tipo di raccolta*** è l' `IEnumerable` interfaccia, il ***tipo di enumeratore*** è l' `IEnumerator` interfaccia e il tipo di ***elemento*** è il tipo di elemento del tipo di matrice `X` .
->*  Se il tipo `X` di *espressione* è, `dynamic` esiste una conversione implicita dall' *espressione* all' `IEnumerable` interfaccia ([conversioni dinamiche implicite](conversions.md#implicit-dynamic-conversions)). Il ***tipo di raccolta*** è l' `IEnumerable` interfaccia e il ***tipo di enumeratore*** è l' `IEnumerator` interfaccia. Se l' `var` identificatore viene fornito come *local_variable_type* , il ***tipo di elemento*** è; `dynamic` in caso contrario, è `object` .
+>*  Se il tipo `X` di *espressione* è, `dynamic` esiste una conversione implicita dall' *espressione* all' `IEnumerable` interfaccia ([conversioni dinamiche implicite](../../spec/conversions.md#implicit-dynamic-conversions)). Il ***tipo di raccolta*** è l' `IEnumerable` interfaccia e il ***tipo di enumeratore*** è l' `IEnumerator` interfaccia. Se l' `var` identificatore viene fornito come *local_variable_type* , il ***tipo di elemento*** è; `dynamic` in caso contrario, è `object` .
 >*  In caso contrario, determinare se il tipo `X` dispone di un `GetEnumerator` metodo appropriato:
 >    * Eseguire la ricerca di membri sul tipo `X` con identificatore `GetEnumerator` e nessun argomento di tipo. Se la ricerca dei membri non produce una corrispondenza o produce un'ambiguità o produce una corrispondenza che non è un gruppo di metodi, verificare la presenza di un'interfaccia enumerabile come descritto di seguito. Si consiglia di emettere un avviso se la ricerca di membri produce qualsiasi elemento tranne un gruppo di metodi o nessuna corrispondenza.
 >    * Eseguire la risoluzione dell'overload usando il gruppo di metodi risultante e un elenco di argomenti vuoto. Se la risoluzione dell'overload non produce metodi applicabili, comporta un'ambiguità o produce un unico metodo migliore, ma tale metodo è statico o non pubblico, verificare la presenza di un'interfaccia enumerabile come descritto di seguito. Si consiglia di emettere un avviso se la risoluzione dell'overload produce qualsiasi elemento tranne un metodo di istanza pubblica non ambiguo o senza metodi applicabili.

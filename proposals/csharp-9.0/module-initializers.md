@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: ea7032eef4b18197ea9bd3a321013058eeec213e
-ms.sourcegitcommit: 06ee75e6e3f1e0d9b4859ffed66024364d3d8f26
+ms.openlocfilehash: dc7e75537c8552ca703b040542e41abb55f56193
+ms.sourcegitcommit: 8df4f29c1c9b691b30a2672c440b82248a99c2cb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/21/2020
-ms.locfileid: "88720443"
+ms.lasthandoff: 09/09/2020
+ms.locfileid: "89609289"
 ---
 # <a name="module-initializers"></a>Inizializzatori di modulo
 
@@ -73,4 +73,4 @@ Perché *non* eseguire questa operazione?
 
 ## <a name="design-meetings"></a>Riunioni di progettazione
 
-### <a name="april-8th-2020"></a>[8 aprile 2020](https://github.com/dotnet/csharplang/meetings/2020/LDM-2020-04-08.md#module-initializers)
+### <a name="april-8th-2020"></a>[8 aprile 2020](https://github.com/dotnet/csharplang/blob/master/meetings/2020/LDM-2020-04-08.md#module-initializers)
