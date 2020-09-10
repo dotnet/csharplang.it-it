@@ -1,15 +1,15 @@
 ---
-ms.openlocfilehash: 0642f28e921ea224a157394226d43df2f3f81a10
-ms.sourcegitcommit: 0c25406d8a99064bb85d934bb32ffcf547753acc
+ms.openlocfilehash: c4da24ad9de4293d7612b03c662f6c3590baa839
+ms.sourcegitcommit: 9fb76a990c1ae8392a2d5ce4018a7213c48ed74b
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/28/2020
-ms.locfileid: "87297514"
+ms.lasthandoff: 09/10/2020
+ms.locfileid: "89741619"
 ---
 <a name="init-only-setters"></a>Setter solo init
 =====
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 Questa proposta aggiunge il concetto di proprietà e indicizzatori solo init a C#. Queste proprietà e indicizzatori possono essere impostati al momento della creazione dell'oggetto, ma diventano efficaci `get` solo dopo il completamento della creazione dell'oggetto.
 In questo modo è possibile disporre di un modello non modificabile molto più flessibile in C#. 
 
@@ -70,8 +70,8 @@ Una proprietà dell'istanza contenente una `init` funzione di accesso viene cons
 
 - Durante un inizializzatore di oggetto
 - Durante un `with` inizializzatore di espressione
-- All'interno di un costruttore di istanza del tipo che lo contiene o derivato, su `this` o`base`
-- All'interno della `init` funzione di accesso di qualsiasi proprietà, in `this` o`base`
+- All'interno di un costruttore di istanza del tipo che lo contiene o derivato, su `this` o `base`
+- All'interno della `init` funzione di accesso di qualsiasi proprietà, in `this` o `base`
 - Utilizzi degli attributi interni con i parametri denominati
 
 Gli orari in cui `init` è possibile impostare le funzioni di accesso sono definiti collettivamente in questo documento come fase di costruzione dell'oggetto.
@@ -114,10 +114,10 @@ class Consumption
 
 ```
 
-Nel punto in `init` cui viene richiamata una funzione di accesso, l'istanza è nota come fase di costruzione aperta. Di conseguenza `init` , una funzione di accesso può eseguire le azioni seguenti oltre a ciò che può essere eseguita da una `set` funzione di accesso normale:
+Nel punto in `init` cui viene richiamata una funzione di accesso, l'istanza di è nota come fase di costruzione aperta. Di conseguenza `init` , una funzione di accesso può eseguire le azioni seguenti oltre a ciò che può essere eseguita da una `set` funzione di accesso normale:
 
-1. Chiama altre `init` funzioni di accesso disponibili tramite `this` o`base`
-1. Assegnare `readonly` campi dichiarati sullo stesso tipo tramite`this`
+1. Chiama altre `init` funzioni di accesso disponibili tramite `this` o `base`
+1. Assegnare `readonly` campi dichiarati sullo stesso tipo tramite `this`
 
 ```cs
 class Complex
@@ -267,7 +267,7 @@ L'uso di attributi per annotare la `set` funzione di accesso significa che solo 
 Questa decisione potrebbe essere la scelta tra una maggiore sicurezza a scapito della compatibilità binaria. L'approfondimento della protezione aggiuntiva non è esattamente quello che sembra. Non verrà protetta dalle seguenti circostanze:
 
 1. Reflection sui `public` membri
-1. Utilizzo di`dynamic` 
+1. Utilizzo di `dynamic` 
 1. Compilatori che non riconoscono modreqs
 
 Si deve anche considerare che, quando si completano le regole di verifica IL per .NET 5, `init` sarà una di queste regole. Ciò significa che l'imposizione aggiuntiva sarà ottenuta semplicemente verificando i compilatori che emettono IL verificabile.
@@ -298,7 +298,7 @@ int Option3 { get; initonly; }
 **Risoluzione** dei problemi Non c'era una sintassi estremamente favorita in LDM.
 
 Un punto che ha avuto un notevole interesse è stato il modo in cui la scelta della sintassi avrà un impatto sulla possibilità di eseguire i `init` membri come funzionalità generale in futuro.
-Se si sceglie l'opzione 1, sarebbe difficile definire una proprietà con un `init` `get` metodo di stile in futuro. Infine, è stato deciso che se avessimo deciso di proseguire con `init` i membri generali in futuro, avremmo potuto `init` essere un modificatore nell'elenco delle funzioni di accesso alle proprietà, così come un breve termine per `init set` . Essenzialmente le due dichiarazioni seguenti sarebbero identiche.
+Se si sceglie l'opzione 1, sarebbe difficile definire una proprietà con un `init` `get` metodo di stile in futuro. Infine, è stato deciso che se avessimo deciso di proseguire con `init` i membri generali in futuro, avremmo potuto `init` essere un modificatore nell'elenco delle funzioni di accesso alle proprietà, nonché una mano breve per `init set` . Essenzialmente le due dichiarazioni seguenti sarebbero identiche.
 
 ```cs
 int Property1 { get; init; }
@@ -368,7 +368,7 @@ init struct Point
 
 **Risoluzione** dei problemi Questa funzionalità è troppo *carina* ed è in conflitto con la `readonly struct` funzionalità su cui è basata. La `readonly struct` funzionalità è semplice in quanto si applica `readonly` a tutti i membri: campi, metodi e così via. La `init struct` funzionalità si applica solo alle proprietà. Questa operazione sta effettivamente creando confusione per gli utenti. 
 
-Dato che `init` è valido solo per determinati aspetti di un tipo, si è rifiutato il concetto di come modificatore di tipo.
+Dato che `init` è valido solo per determinati aspetti di un tipo, si è rifiutato l'idea di come modificatore di tipo.
 
 ## <a name="considerations"></a>Considerazioni
 
@@ -408,7 +408,7 @@ class Name
 ```
 
 ### <a name="il-verification"></a>Verifica IL
-Quando .NET Core decide di implementare nuovamente la verifica il, le regole dovranno essere modificate per tenere conto dei `init` membri. Questa operazione deve essere inclusa nelle modifiche regolate per le voci ACE non in mutazione ai `readonly` dati.
+Quando .NET Core decide di implementare nuovamente la verifica IL, le regole dovranno essere modificate per tenere conto dei `init` membri. Questa operazione deve essere inclusa nelle modifiche regolate per le voci ACE non in mutazione ai `readonly` dati.
 
 Le regole di verifica il devono essere suddivise in due parti: 
 
