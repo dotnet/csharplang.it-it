@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 49bacaa2d98ee98c90a2911c442f1db65584acfb
-ms.sourcegitcommit: f38867ee6e9b49b0449ae3565048f7970d7edf36
+ms.openlocfilehash: ac590d2d00ea776f21a50b008885dc7de5e2a852
+ms.sourcegitcommit: ca09fc178fb0e8285e80d2244786e99e04eed882
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/24/2020
-ms.locfileid: "88789036"
+ms.lasthandoff: 09/12/2020
+ms.locfileid: "90044806"
 ---
 
 # <a name="records"></a>Record
@@ -70,6 +70,9 @@ La proprietà sintetizzata restituisce `typeof(R)` dove `R` è il tipo di record
 Il tipo di record implementa `System.IEquatable<R>` e include un overload fortemente tipizzato sintetizzato di `Equals(R? other)` dove `R` è il tipo di record.
 Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
 Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` .
+
+Se `Equals(R? other)` o `GetHashCode` sono definiti dall'utente (non sintetizzati), ma non entrambi, viene generato un avviso.
+
 ```C#
 public virtual bool Equals(R? other);
 ```
