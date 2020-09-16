@@ -1,20 +1,20 @@
 ---
-ms.openlocfilehash: 57cdb682efd4cb169308e347d63e27c97b9f1b7a
-ms.sourcegitcommit: 89bbdd101f539cefd41b2b8b9087fc9cdbcf3c62
+ms.openlocfilehash: b943165e9de0381a916c1aa71f3cfad183c36423
+ms.sourcegitcommit: fcf884f7f8a2c2c7d925a67c2a7fad22e09b9506
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/29/2020
-ms.locfileid: "87412485"
+ms.lasthandoff: 09/16/2020
+ms.locfileid: "90682271"
 ---
 # <a name="pattern-matching-changes-for-c-90"></a>Modifiche ai criteri di ricerca per C# 9,0
 
 Si sta considerando un piccolo numero di miglioramenti apportati alla corrispondenza dei modelli per C# 9,0 che hanno una sinergia naturale e funzionano bene per risolvere una serie di problemi comuni di programmazione:
-- https://github.com/dotnet/csharplang/issues/2925Modelli di tipo
-- https://github.com/dotnet/csharplang/issues/1350Modelli tra parentesi per applicare o evidenziare la precedenza dei nuovi combinatori
+- https://github.com/dotnet/csharplang/issues/2925 Modelli di tipo
+- https://github.com/dotnet/csharplang/issues/1350 Modelli tra parentesi per applicare o evidenziare la precedenza dei nuovi combinatori
 - https://github.com/dotnet/csharplang/issues/1350`and`Modelli congiuntiva che richiedono la corrispondenza di due modelli diversi;
 - https://github.com/dotnet/csharplang/issues/1350`or`Modelli disgiuntiva che richiedono uno dei due modelli diversi per la corrispondenza.
-- https://github.com/dotnet/csharplang/issues/1350Modelli negati `not` che richiedono un modello specificato di *non* corrispondenza; e
-- https://github.com/dotnet/csharplang/issues/812Modelli relazionali che richiedono che il valore di input sia minore di, minore o uguale a e così via, una costante specificata.
+- https://github.com/dotnet/csharplang/issues/1350 Modelli negati `not` che richiedono un modello specificato di *non* corrispondenza; e
+- https://github.com/dotnet/csharplang/issues/812 Modelli relazionali che richiedono che il valore di input sia minore di, minore o uguale a e così via, una costante specificata.
 
 ## <a name="parenthesized-patterns"></a>Modelli tra parentesi
 
@@ -174,9 +174,9 @@ bool IsValidPercentage(object x) => x is
     >= 0D and <= 100D;    // double tests
 ```
 
-### <a name="flowing-type-information-from-the-left-to-the-right-of-and"></a>Flusso delle informazioni sul tipo da sinistra a destra di`and`
+### <a name="flowing-type-information-from-the-left-to-the-right-of-and"></a>Flusso delle informazioni sul tipo da sinistra a destra di `and`
 
-È stato suggerito che, quando si scrive un `and` combinatore, le informazioni sul tipo acquisite a sinistra sul tipo di primo livello possono propagarsi a destra.  Ad esempio:
+È stato suggerito che, quando si scrive un `and` combinatore, le informazioni sul tipo acquisite a sinistra sul tipo di primo livello possono propagarsi a destra.  Ad esempio
 
 ```csharp
 bool isSmallByte(object o) => o is byte and < 100;
@@ -186,11 +186,12 @@ In questo caso, il *tipo di input* per il secondo modello viene ridotto in base 
 1. Se `P` è un modello di tipo, il tipo *limitato* è il tipo del tipo del modello di tipo.
 2. Se `P` è un modello di dichiarazione, il tipo *limitato* è il tipo del tipo del modello di dichiarazione.
 3. Se `P` è un modello ricorsivo che fornisce un tipo esplicito, il tipo *limitato* è quel tipo.
-4. Se `P` è un criterio costante in cui la costante non è la costante null e in cui l'espressione non dispone di una *conversione di espressione costante* nel *tipo di input*, il *tipo limitato* è il tipo della costante.
-5. Se `P` è un modello relazionale in cui l'espressione costante non ha una *conversione dell'espressione costante* nel *tipo di input*, il *tipo limitato* è il tipo della costante.
-6. Se `P` è un `or` modello, il tipo *limitato* è il tipo comune del *tipo ristretto* dei criteri di ricerca se tale tipo comune esiste. A questo scopo, l'algoritmo di tipo comune considera solo le conversioni di identità, Boxing e riferimento implicito e considera tutti i sottomodelli di una sequenza di `or` modelli (ignorando i modelli racchiusi tra parentesi).
-7. Se `P` è un `and` modello, il *tipo ristretto* è il *tipo limitato* del criterio destro. Inoltre, il *tipo limitato* del criterio di sinistra è il *tipo di input* del criterio destro.
-8. In caso *narrowed type* contrario, il tipo di `P` input di è limitato `P` .
+4. Se `P` per viene eseguita la [corrispondenza con le regole per](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-8.0/patterns.md#positional-pattern) `ITuple` , il tipo *limitato* è il tipo `System.Runtime.CompilerServices.ITuple` .
+5. Se `P` è un criterio costante in cui la costante non è la costante null e in cui l'espressione non dispone di una *conversione di espressione costante* nel *tipo di input*, il *tipo limitato* è il tipo della costante.
+6. Se `P` è un modello relazionale in cui l'espressione costante non ha una *conversione dell'espressione costante* nel *tipo di input*, il *tipo limitato* è il tipo della costante.
+7. Se `P` è un `or` modello, il tipo *limitato* è il tipo comune del *tipo ristretto* dei criteri di ricerca se tale tipo comune esiste. A questo scopo, l'algoritmo di tipo comune considera solo le conversioni di identità, Boxing e riferimento implicito e considera tutti i sottomodelli di una sequenza di `or` modelli (ignorando i modelli racchiusi tra parentesi).
+8. Se `P` è un `and` modello, il *tipo ristretto* è il *tipo limitato* del criterio destro. Inoltre, il *tipo limitato* del criterio di sinistra è il *tipo di input* del criterio destro.
+9. In caso *narrowed type* contrario, il tipo di `P` input di è limitato `P` .
 
 ### <a name="variable-definitions-and-definite-assignment"></a>Definizioni di variabili e assegnazione definitiva
 
@@ -244,7 +245,7 @@ Quindi, avremmo tempo per sviluppare una certa esperienza che forniva informazio
 
 ### <a name="diagnostics-subsumption-and-exhaustiveness"></a>Diagnostica, sussunzione e esaustività
 
-Questi nuovi moduli presentano molte nuove opportunità per l'errore del programmatore diagnosticabile.  È necessario decidere quali tipi di errori si eseguiranno per la diagnosi e come farlo.  Di seguito sono riportati alcuni esempi:
+Questi nuovi moduli presentano molte nuove opportunità per l'errore del programmatore diagnosticabile.  È necessario decidere quali tipi di errori si eseguiranno per la diagnosi e come farlo.  Ecco alcuni esempi:
 
 ``` csharp
 case >= 0 and <= 100D:
