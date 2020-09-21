@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: f3219f373f21d1e37b0b0750c99783ee70aaffd9
-ms.sourcegitcommit: d6109bf586a416cf8fb2ee4c2bbdfaa2109508c8
+ms.openlocfilehash: f9c398585ab1e1a657bb130aa15abc031175eaaf
+ms.sourcegitcommit: 3f901fa3036b852131fc2baa528b781580cb005a
 ms.translationtype: MT
 ms.contentlocale: it-IT
 ms.lasthandoff: 09/21/2020
-ms.locfileid: "90829275"
+ms.locfileid: "90832385"
 ---
 
 # <a name="records"></a>Record
@@ -70,7 +70,7 @@ Il tipo di record implementa `System.IEquatable<R>` e include un overload fortem
 Il metodo è `public` e il metodo è `virtual` a meno che il tipo di record non sia `sealed` .
 Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure la dichiarazione esplicita non consente l'override in un tipo derivato e il tipo di record non lo è `sealed` .
 
-Se `Equals(R? other)` o `GetHashCode` sono definiti dall'utente (non sintetizzati), ma non entrambi, viene generato un avviso.
+Se `Equals(R? other)` è definito dall'utente (non sintetizzato) ma `GetHashCode` non è, viene generato un avviso.
 
 ```C#
 public virtual bool Equals(R? other);
@@ -219,7 +219,7 @@ bool PrintMembers(System.StringBuilder builder);
 Il metodo è `private` se il tipo di record è `sealed` . In caso contrario, il metodo è `virtual` e `protected` .
 
 Il metodo si comporta come di seguito:
-1. per ogni membro stampabile del record (campo pubblico e membri di proprietà), aggiunge il nome del membro seguito da "=" seguito dal valore del membro: `this.member` , separato con ",",
+1. per ogni membro stampabile del record (campo pubblico non statico e membri di proprietà leggibili), aggiunge il nome di tale membro seguito da "=" seguito dal valore del membro: `this.member` , separato da ",",
 2. Restituisce true se il record dispone di membri stampabili.
 
 Se il tipo di record è derivato da un record di base `Base` , il record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
