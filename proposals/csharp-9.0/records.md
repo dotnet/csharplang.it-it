@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: ac590d2d00ea776f21a50b008885dc7de5e2a852
-ms.sourcegitcommit: ca09fc178fb0e8285e80d2244786e99e04eed882
+ms.openlocfilehash: f3219f373f21d1e37b0b0750c99783ee70aaffd9
+ms.sourcegitcommit: d6109bf586a416cf8fb2ee4c2bbdfaa2109508c8
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/12/2020
-ms.locfileid: "90044806"
+ms.lasthandoff: 09/21/2020
+ms.locfileid: "90829275"
 ---
 
 # <a name="records"></a>Record
@@ -33,7 +33,6 @@ record_body
 
 I tipi di record sono tipi di riferimento, simili a una dichiarazione di classe. È un errore che un record fornisca un oggetto `record_base` `argument_list` se `record_declaration` non contiene un oggetto `parameter_list` .
 Al massimo una dichiarazione di tipo parziale di un record parziale può fornire un `parameter_list` .
-Il valore di un oggetto non può `parameter_list` essere vuoto.
 
 I parametri di record non possono usare i `ref` `out` `this` modificatori o (ma `in` `params` sono consentiti e).
 
@@ -203,7 +202,7 @@ Un tipo di record contiene due membri di copia:
 Lo scopo del costruttore di copia è copiare lo stato dal parametro alla nuova istanza creata. Questo costruttore non esegue gli inizializzatori di proprietà o campi di istanza presenti nella dichiarazione di record. Se il costruttore non è dichiarato in modo esplicito, un costruttore verrà sintetizzato dal compilatore. Se il record è sealed, il costruttore sarà privato, in caso contrario verrà protetto.
 Un costruttore di copia dichiarato in modo esplicito deve essere pubblico o protetto, a meno che il record non sia sealed.
 Per prima cosa, il costruttore deve eseguire la chiamata a un costruttore di copia della base o a un costruttore di oggetti senza parametri se il record eredita dall'oggetto. Se un costruttore di copia definito dall'utente utilizza un inizializzatore di costruttore implicito o esplicito che non soddisfa questo requisito, viene restituito un errore.
-Dopo che un costruttore di copia di base viene richiamato, un costruttore di copia sintetizzato copia i valori per tutti i campi di istanza dichiarati in modo implicito o esplicito nel tipo di record.
+Dopo che un costruttore di copia di base viene richiamato, un costruttore di copia sintetizzato copia i valori per tutti i campi di istanza dichiarati in modo implicito o esplicito nel tipo di record. L'unica presenza di un costruttore di copia, esplicito o implicito, non impedisce l'aggiunta automatica di un costruttore di istanza predefinito.
 
 Se nel record di base è presente un metodo "clone" virtuale, il metodo "clone" sintetizzato ne esegue l'override e il tipo restituito del metodo è il tipo che lo contiene corrente se la funzionalità "ritorni covariante" è supportata e il tipo restituito di override in caso contrario. Se il metodo clone del record di base è sealed, viene generato un errore.
 Se un metodo "clone" virtuale non è presente nel record di base, il tipo restituito del metodo Clone è il tipo che lo contiene e il metodo è virtuale, a meno che il record non sia sealed o abstract.
@@ -362,7 +361,7 @@ Per un record:
 
 ### <a name="deconstruct"></a>Decostruire
 
-Un record posizionale sintetizza un metodo di istanza pubblico che restituisce un valore void denominato Deconstruct con una dichiarazione di parametro out per ogni parametro della dichiarazione del costruttore primario. Ogni parametro del metodo Deconstruct è dello stesso tipo del parametro corrispondente della dichiarazione del costruttore primario. Il corpo del metodo assegna a un membro con lo stesso nome ogni parametro del metodo di decostruzione al valore di un membro di istanza.
+Un record posizionale con almeno un parametro sintetizza un metodo di istanza pubblico che restituisce void denominato Deconstruct con una dichiarazione di parametro out per ogni parametro della dichiarazione del costruttore primario. Ogni parametro del metodo Deconstruct è dello stesso tipo del parametro corrispondente della dichiarazione del costruttore primario. Il corpo del metodo assegna a un membro con lo stesso nome ogni parametro del metodo di decostruzione al valore di un membro di istanza.
 Il metodo può essere dichiarato in modo esplicito. Si tratta di un errore se la dichiarazione esplicita non corrisponde alla firma o all'accessibilità prevista oppure è statica.
 
 ## <a name="with-expression"></a>Espressione `with`
