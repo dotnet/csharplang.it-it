@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: f16a182cb205c889c15eae2d33bfa342e9579b10
-ms.sourcegitcommit: c3df20406f43fcd460cfedd1cd61b6cc47d27250
+ms.openlocfilehash: b69d71e76a9cb07d5f0141c903abb162a3eedfdd
+ms.sourcegitcommit: b2699bff42ae273d71d26310e3595f7598e63afb
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/08/2020
-ms.locfileid: "89554630"
+ms.lasthandoff: 09/25/2020
+ms.locfileid: "91249147"
 ---
 # <a name="native-sized-integers"></a>Integer con dimensione nativa
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 [summary]: #summary
 
 Supporto delle lingue per tipi firmati e Unsigned Integer di dimensioni native.
@@ -68,7 +68,7 @@ Il linguaggio il per ogni conversione include le varianti per `unchecked` e i `c
 | `double` | `nint` | ExplicitNumeric | `conv.i` / `conv.ovf.i` |
 | `decimal` | `nint` | ExplicitNumeric | `long decimal.op_Explicit(decimal) conv.i` / `... conv.ovf.i` |
 | `IntPtr` | `nint` | Identità | |
-| `UIntPtr` | `nint` | Nessuno | |
+| `UIntPtr` | `nint` | nessuno | |
 | `object` | `nuint` | Unboxing | `unbox` |
 | `void*` | `nuint` | PointerToVoid | `conv.u` |
 | `sbyte` | `nuint` | ExplicitNumeric | `conv.u` / `conv.ovf.u` |
@@ -83,8 +83,10 @@ Il linguaggio il per ogni conversione include le varianti per `unchecked` e i `c
 | `float` | `nuint` | ExplicitNumeric | `conv.u` / `conv.ovf.u` |
 | `double` | `nuint` | ExplicitNumeric | `conv.u` / `conv.ovf.u` |
 | `decimal` | `nuint` | ExplicitNumeric | `ulong decimal.op_Explicit(decimal) conv.u` / `... conv.ovf.u.un`  |
-| `IntPtr` | `nuint` | Nessuno | |
+| `IntPtr` | `nuint` | nessuno | |
 | `UIntPtr` | `nuint` | Identità | |
+|Enumerazione|`nint`|ExplicitEnumeration||
+|Enumerazione|`nuint`|ExplicitEnumeration||
 
 | Operando | Destinazione | Conversione | IL |
 |:---:|:---:|:---:|:---:|
@@ -104,7 +106,8 @@ Il linguaggio il per ogni conversione include le varianti per `unchecked` e i `c
 | `nint` | `double` | ImplicitNumeric | `conv.r8` |
 | `nint` | `decimal` | ImplicitNumeric | `conv.i8 decimal decimal.op_Implicit(long)` |
 | `nint` | `IntPtr` | Identità | |
-| `nint` | `UIntPtr` | Nessuno | |
+| `nint` | `UIntPtr` | nessuno | |
+| `nint` |Enumerazione|ExplicitEnumeration||
 | `nuint` | `object` | Boxing | `box` |
 | `nuint` | `void*` | PointerToVoid | `conv.u` |
 | `nuint` | `nint` | ExplicitNumeric | `conv.i` / `conv.ovf.i` |
@@ -120,8 +123,9 @@ Il linguaggio il per ogni conversione include le varianti per `unchecked` e i `c
 | `nuint` | `float` | ImplicitNumeric | `conv.r.un conv.r4` |
 | `nuint` | `double` | ImplicitNumeric | `conv.r.un conv.r8` |
 | `nuint` | `decimal` | ImplicitNumeric | `conv.u8 decimal decimal.op_Implicit(ulong)` |
-| `nuint` | `IntPtr` | Nessuno | |
+| `nuint` | `IntPtr` | nessuno | |
 | `nuint` | `UIntPtr` | Identità | |
+| `nuint` |Enumerazione|ExplicitEnumeration||
 
 La conversione da `A` a `Nullable<B>` è:
 - conversione implicita nullable in presenza di una conversione di identità o di conversione implicita da `A` a `B` ;
@@ -144,7 +148,7 @@ Questi operatori vengono considerati durante la risoluzione dell'overload in bas
 
 Il linguaggio il per ogni operatore include le varianti per `unchecked` i `checked` contesti e se diverso.
 
-| Unaria | Firma operatore | IL |
+| Unario | Firma operatore | IL |
 |:---:|:---:|:---:|
 | `+` | `nint operator +(nint value)` | `nop` |
 | `+` | `nuint operator +(nuint value)` | `nop` |
@@ -357,4 +361,8 @@ Tuttavia, il linguaggio non fornirebbe parole chiave, costanti o `checked` opera
 
 ## <a name="design-meetings"></a>Riunioni di progettazione
 
-https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-05-26.md https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-06-13.md https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-07-05.md#native-int-and-intptr-operators https://github.com/dotnet/csharplang/blob/master/meetings/2019/LDM-2019-10-23.md https://github.com/dotnet/csharplang/blob/master/meetings/2020/LDM-2020-03-25.md
+- https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-05-26.md
+- https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-06-13.md
+- https://github.com/dotnet/csharplang/blob/master/meetings/2017/LDM-2017-07-05.md#native-int-and-intptr-operators
+- https://github.com/dotnet/csharplang/blob/master/meetings/2019/LDM-2019-10-23.md
+- https://github.com/dotnet/csharplang/blob/master/meetings/2020/LDM-2020-03-25.md
