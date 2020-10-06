@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 4d2303c6eb67b17283e1090fd7d71fbfbfc96579
-ms.sourcegitcommit: 23c9e134935c014d0617e5691e1bddc05f29008d
+ms.openlocfilehash: b3a78b910029d779e2fa814e3bde1151b44a28fe
+ms.sourcegitcommit: 7014365bd820533f7fe48c18d03d210ea798a405
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/05/2020
-ms.locfileid: "91717726"
+ms.lasthandoff: 10/06/2020
+ms.locfileid: "91763426"
 ---
 
 # <a name="records"></a>Record
@@ -214,7 +214,7 @@ Se il metodo "clone" non è astratto, restituisce il risultato di una chiamata a
 
 Se il record è derivato da `object` , il record include un metodo sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
-bool PrintMembers(System.StringBuilder builder);
+bool PrintMembers(System.Text.StringBuilder builder);
 ```
 Il metodo è `private` se il tipo di record è `sealed` . In caso contrario, il metodo è `virtual` e `protected` .
 
