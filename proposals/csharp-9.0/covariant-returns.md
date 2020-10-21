@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: dc46c0c8492440aad2d3c1a36b4d7794fd1d1b5c
-ms.sourcegitcommit: 95adf054b95824f93d19025c549b9a1ddcee40c5
+ms.openlocfilehash: 28d1fee07bc192fd705091d320647c568e7b1d76
+ms.sourcegitcommit: 94b8189f4aa36ba0d0495ec8c2bb2eb8735c3eb3
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/04/2020
-ms.locfileid: "89477321"
+ms.lasthandoff: 10/21/2020
+ms.locfileid: "92333504"
 ---
 # <a name="covariant-returns"></a>Restituzione covariante
 
@@ -49,7 +49,7 @@ Si tratta di una specifica per i [tipi restituiti covarianti](https://github.com
 
 viene modificato in
 
-> - Il metodo di override deve avere un tipo restituito convertibile da una conversione di identità o (se il metodo ha un valore restituito, non un [ref return](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)) conversione di riferimento implicito al tipo restituito del metodo di base sottoposto a override.
+> - Il metodo di override deve avere un tipo restituito convertibile da una conversione di identità o (se il metodo ha un valore restituito, non una restituzione [ref](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)) la conversione implicita del riferimento al tipo restituito del metodo di base sottoposto a override.
 
 E i seguenti requisiti aggiuntivi vengono aggiunti all'elenco:
 
@@ -66,11 +66,11 @@ Questo vincolo consente a un metodo di override in una `private` classe di avere
 
 viene modificato in
 
-> Una dichiarazione di proprietà che esegue l'override specifica esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata e deve essere presente una conversione di identità **o (se la proprietà ereditata è di sola lettura e ha un tipo di valore, non un tipo [restituito da Ref](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)), la conversione implicita del riferimento dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).**
+> Una dichiarazione di proprietà che esegue l'override deve specificare esattamente gli stessi modificatori di accessibilità e il nome della proprietà ereditata e deve essere presente una conversione di identità **o (se la proprietà ereditata è di sola lettura e ha un valore restituito, non un riferimento [ref](https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.0/ref-locals-returns.md)) la conversione implicita del riferimento dal tipo della proprietà che esegue l'override al tipo della proprietà ereditata**. Se la proprietà ereditata ha solo una singola funzione di accesso (ad esempio, se la proprietà ereditata è di sola lettura o di sola scrittura), la proprietà che esegue l'override deve includere solo tale funzione di accesso. Se la proprietà ereditata include entrambe le funzioni di accesso (ad esempio, se la proprietà ereditata è di lettura/scrittura), la proprietà che esegue l'override può includere una singola funzione di accesso o entrambe le funzioni di accesso. **Il tipo della proprietà che esegue l'override deve essere accessibile almeno quanto la proprietà di override ([domini di accessibilità](../../spec/basic-concepts.md#accessibility-domains)).**
 
 -----------------
 
-***Il resto della specifica bozza riportata di seguito propone un'ulteriore estensione per i ritorni covariante dei metodi di interfaccia da prendere in considerazione in un secondo momento.***
+**_Il resto della specifica bozza riportata di seguito propone un'ulteriore estensione per i ritorni covariante dei metodi di interfaccia da prendere in considerazione in un secondo momento._* _
 
 ### <a name="interface-method-property-and-indexer-override"></a>Override del metodo di interfaccia, della proprietà e dell'indicizzatore
 
@@ -78,11 +78,11 @@ Aggiungendo ai tipi di membri consentiti in un'interfaccia con l'aggiunta della 
 
 Il testo seguente nelle classi:
 
-> Il metodo sottoposto a override da una dichiarazione di override è noto come ***metodo di base sottoposto***a override. Per un metodo di override `M` dichiarato in una classe `C` , il metodo di base sottoposto a override viene determinato esaminando ogni classe base di `C` , iniziando con la classe di base diretta di `C` e continuando con ogni classe di base diretta successiva, finché in un determinato tipo di classe di base viene individuato almeno un metodo accessibile con la stessa firma di `M` dopo la sostituzione di argomenti di tipo.
+> Il metodo sottoposto a override da una dichiarazione di override è noto come _*_metodo di base sottoposto_*_ a override. Per un metodo di override `M` dichiarato in una classe `C` , il metodo di base sottoposto a override viene determinato esaminando ogni classe base di `C` , iniziando con la classe di base diretta di `C` e continuando con ogni classe di base diretta successiva, finché in un determinato tipo di classe di base viene individuato almeno un metodo accessibile con la stessa firma di `M` dopo la sostituzione di argomenti di tipo.
 
 viene fornita la specifica corrispondente per le interfacce:
 
-> Il metodo sottoposto a override da una dichiarazione di override è noto come ***metodo di base sottoposto***a override. Per un metodo di override `M` dichiarato in un'interfaccia `I` , il metodo di base sottoposto a override viene determinato esaminando ogni interfaccia di base diretta o indiretta di `I` , raccogliendo il set di interfacce che dichiarano un metodo accessibile con la stessa firma di `M` dopo la sostituzione degli argomenti di tipo.  Se questo set di interfacce dispone di un *tipo più derivato*, a cui è associata una conversione di identità o di riferimento implicita da ogni tipo in questo set e tale tipo contiene una dichiarazione di metodo univoca, questo è il *metodo di base sottoposto a override*.
+> Il metodo sottoposto a override da una dichiarazione di override è noto come _*_metodo di base sottoposto_*_ a override. Per un metodo di override `M` dichiarato in un'interfaccia `I` , il metodo di base sottoposto a override viene determinato esaminando ogni interfaccia di base diretta o indiretta di `I` , raccogliendo il set di interfacce che dichiarano un metodo accessibile con la stessa firma di `M` dopo la sostituzione degli argomenti di tipo.  Se questo set di interfacce dispone di un _most tipo derivato *, a cui è associata una conversione di identità o riferimento implicito da ogni tipo in questo set e tale tipo contiene una dichiarazione di metodo univoca, ovvero il *metodo di base sottoposto a override*.
 
 In modo analogo, le proprietà e gli indicizzatori sono consentiti `override` nelle interfacce come specificato per le classi nelle *funzioni di accesso 15.7.6 Virtual, sealed, override e abstract*.
 
