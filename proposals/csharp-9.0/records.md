@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 4e6c45b68b68a38a00295d990f2bf35f65a9c424
-ms.sourcegitcommit: 0d9762aa9ff13f8018860c8fcb474dd69c3b69e8
+ms.openlocfilehash: 2ee7d19715aec05f4e29f66016380987bae5c707
+ms.sourcegitcommit: b2b83eed296a53b5d49de7be08db6c9bc49262a7
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/23/2020
-ms.locfileid: "92492632"
+ms.lasthandoff: 10/30/2020
+ms.locfileid: "93049379"
 ---
 
 # <a name="records"></a>Record
@@ -46,6 +46,7 @@ Oltre ai membri dichiarati nel corpo del record, un tipo di record ha membri sin
 I membri vengono sintetizzati a meno che un membro con una firma "corrispondente" non venga dichiarato nel corpo del record o un membro non virtuale concreto accessibile con una firma "corrispondente" venga ereditato.
 Due membri vengono considerati corrispondenti se hanno la stessa firma o verrebbero considerati "nascosti" in uno scenario di ereditarietà.
 Un membro di un record denominato "clone" non è un errore.
+Non è possibile specificare un tipo unsafe per un campo di istanza di un record.
 
 I membri sintetizzati sono i seguenti:
 
@@ -343,7 +344,9 @@ In fase di esecuzione il costruttore primario
 
 Se un record ha un costruttore primario, qualsiasi costruttore definito dall'utente, ad eccezione del costruttore di copia, deve disporre di un `this` inizializzatore di costruttore esplicito. 
 
-I parametri del costruttore primario e i membri del record si trovano nell'ambito all'interno della `argument_list` clausola della `record_base` clausola e negli inizializzatori dei campi o delle proprietà dell'istanza. I membri di istanza sarebbero un errore in queste posizioni (analogamente a come i membri dell'istanza sono inclusi nell'ambito negli inizializzatori di costruttori normali, ma un errore da usare), ma i parametri del costruttore primario sarebbero inclusi nell'ambito e utilizzabili e verrebbero nascosti ai membri. I membri statici sarebbero anche utilizzabili, in modo analogo al funzionamento delle chiamate e degli inizializzatori di base nei costruttori normali. 
+I parametri del costruttore primario e i membri del record si trovano nell'ambito all'interno della `argument_list` clausola della `record_base` clausola e negli inizializzatori dei campi o delle proprietà dell'istanza. I membri di istanza sarebbero un errore in queste posizioni (analogamente a come i membri dell'istanza sono inclusi nell'ambito negli inizializzatori di costruttori normali, ma un errore da usare), ma i parametri del costruttore primario sarebbero inclusi nell'ambito e utilizzabili e verrebbero nascosti ai membri. I membri statici sarebbero anche utilizzabili, in modo analogo al funzionamento delle chiamate e degli inizializzatori di base nei costruttori normali.
+
+Un avviso viene generato è un parametro del costruttore primario non letto.
 
 Le variabili di espressione dichiarate nell'oggetto sono incluse nell' `argument_list` ambito di `argument_list` . Si applicano le stesse regole di shadowing in un elenco di argomenti di un inizializzatore di costruttore normale.
 
@@ -388,6 +391,6 @@ Un' `with` espressione consente la "mutazione non distruttiva", progettata per p
 
 Un' `with` espressione valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve essere un record.
 
-Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore*, che deve essere un campo di istanza accessibile o una proprietà del tipo del destinatario.
+Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore* , che deve essere un campo di istanza accessibile o una proprietà del tipo del destinatario.
 
 Innanzitutto, viene richiamato il metodo "clone" del destinatario (specificato sopra) e il risultato viene convertito nel tipo del destinatario. Ognuna viene quindi `member_initializer` elaborata allo stesso modo di un'assegnazione a un campo o a una proprietà per l'accesso al risultato della conversione. Le assegnazioni vengono elaborate in ordine lessicale.
