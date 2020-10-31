@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 2ee7d19715aec05f4e29f66016380987bae5c707
-ms.sourcegitcommit: b2b83eed296a53b5d49de7be08db6c9bc49262a7
+ms.openlocfilehash: 3605661e9c17143c8df5b9b994a1f67800db006f
+ms.sourcegitcommit: 7125a8428a23fadaf4c93b2fc1ec88019876eaa7
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/30/2020
-ms.locfileid: "93049379"
+ms.lasthandoff: 10/31/2020
+ms.locfileid: "93142158"
 ---
 
 # <a name="records"></a>Record
@@ -346,7 +346,7 @@ Se un record ha un costruttore primario, qualsiasi costruttore definito dall'ute
 
 I parametri del costruttore primario e i membri del record si trovano nell'ambito all'interno della `argument_list` clausola della `record_base` clausola e negli inizializzatori dei campi o delle proprietà dell'istanza. I membri di istanza sarebbero un errore in queste posizioni (analogamente a come i membri dell'istanza sono inclusi nell'ambito negli inizializzatori di costruttori normali, ma un errore da usare), ma i parametri del costruttore primario sarebbero inclusi nell'ambito e utilizzabili e verrebbero nascosti ai membri. I membri statici sarebbero anche utilizzabili, in modo analogo al funzionamento delle chiamate e degli inizializzatori di base nei costruttori normali.
 
-Un avviso viene generato è un parametro del costruttore primario non letto.
+Se non viene letto un parametro del costruttore primario, viene generato un avviso.
 
 Le variabili di espressione dichiarate nell'oggetto sono incluse nell' `argument_list` ambito di `argument_list` . Si applicano le stesse regole di shadowing in un elenco di argomenti di un inizializzatore di costruttore normale.
 
