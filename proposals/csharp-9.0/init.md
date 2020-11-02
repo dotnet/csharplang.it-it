@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: c4da24ad9de4293d7612b03c662f6c3590baa839
-ms.sourcegitcommit: 9fb76a990c1ae8392a2d5ce4018a7213c48ed74b
+ms.openlocfilehash: 79716f258ef080445c0f44af63fba4310fafdb4b
+ms.sourcegitcommit: 22ab7021c3aa72a4c49bc8326deca389803422b5
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/10/2020
-ms.locfileid: "89741619"
+ms.lasthandoff: 11/02/2020
+ms.locfileid: "93189832"
 ---
 <a name="init-only-setters"></a>Setter solo init
 =====
@@ -220,6 +220,24 @@ Limitazioni di questa funzionalità:
 - La `init` funzione di accesso può essere utilizzata solo nelle proprietà dell'istanza
 - Una proprietà non può contenere sia `init` una `set` funzione di accesso che
 - Tutte le sostituzioni di una proprietà devono avere `init` se la base era `init` . Questa regola si applica anche all'implementazione dell'interfaccia.
+
+### <a name="readonly-structs"></a>Struct di sola lettura
+
+`init` le funzioni di accesso, sia le funzioni di accesso implementate automaticamente che le funzioni di accesso implementate manualmente, sono consentite nelle proprietà di `readonly struct` , oltre che nelle `readonly` Proprietà. `init` le funzioni di accesso non possono essere contrassegnate `readonly` in modo autonomo, sia in `readonly` che non `readonly` `struct` tipi.
+
+```cs
+readonly struct ReadonlyStruct1
+{
+    public int Prop1 { get; init; } // Allowed
+}
+
+struct ReadonlyStruct2
+{
+    public readonly int Prop2 { get; init; } // Allowed
+
+    public int Prop3 { get; readonly init; } // Error
+}
+```
 
 ### <a name="metadata-encoding"></a>Codifica dei metadati 
 `init`Le funzioni di accesso alle proprietà verranno emesse come `set` funzione di accesso standard con il tipo restituito contrassegnato con un modreq di `IsExternalInit` . Si tratta di un nuovo tipo che avrà la definizione seguente:
