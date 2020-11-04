@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: 39291abb97f11662520467fbe0e3430ea2da621d
+ms.openlocfilehash: 3fc0f7d8db936d81a9419af15c495e9eeb456dd2
 ms.sourcegitcommit: 29df547564c4ffc51b1dedf8369dc91e8f0ba854
 ms.translationtype: MT
 ms.contentlocale: it-IT
 ms.lasthandoff: 11/04/2020
-ms.locfileid: "93344346"
+ms.locfileid: "93351955"
 ---
 # <a name="nullable-reference-types-specification"></a>Specifica di tipi di riferimento Nullable
 
-Questo è un lavoro in corso. diverse parti sono mancanti o incomplete. Una versione aggiornata di questo documento è disponibile nella cartella C# 9. **_
+***Questo è un lavoro in corso. diverse parti sono mancanti o incomplete.** _
 
 ## <a name="syntax"></a>Sintassi
 
