@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: fd8159145e235fc7a26b304ef6adcbddb4c05e96
-ms.sourcegitcommit: 4c8b0a1c815f6ed5f69e2bdff94da354b2908fed
+ms.openlocfilehash: 4d079ddea08351aec785ce8c11c790af9b26031a
+ms.sourcegitcommit: 796742db0d28da6893384b3d2ccf801415efb188
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 11/05/2020
-ms.locfileid: "93406341"
+ms.lasthandoff: 11/08/2020
+ms.locfileid: "94371436"
 ---
 # <a name="per-method-asyncmethodbuilders"></a>Per-Method AsyncMethodBuilders
 
@@ -149,17 +149,7 @@ Questa operazione non solo renderebbe più semplice l'inserimento dell'attributo
 ## <a name="drawbacks"></a>Svantaggi
 [drawbacks]: #drawbacks
 
-* La sintassi per l'applicazione di tale attributo a un metodo è Verbose.  Si tratta di una funzionalità avanzata, ma uno sviluppatore che lo usa spesso potrebbe creare un proprio attributo derivato da quello che interessa e quindi usare tale attributo derivato per semplificare, ad esempio
-```C#
-class Pool<T> : AsyncMethodBuilderAttribute<T>
-{
-    public Pool() : base(typeof(AsyncValueTaskMethodBuilder<T>)) { }
-}
-...
-[Pool]
-internal async ValueTask<int> ExampleAsync() { ... }
-```
-Tuttavia, non so esattamente come questa operazione può essere eseguita con il supporto createArguments.  L'attributo derivato può anche accettare una matrice params e passarla alla base, ma il compilatore deve essere in grado di riconoscerlo.  Forse un approccio euristico di un oggetto params speciale [] alla fine di un attributo derivato da AsyncMethodBuilder.
+* La sintassi per l'applicazione di tale attributo a un metodo è Verbose.  L'effetto di questa operazione viene ridotto se uno sviluppatore può applicarlo a più metodi, ad esempio a livello di tipo o di modulo.
 
 ## <a name="alternatives"></a>Alternativi
 [alternatives]: #alternatives
