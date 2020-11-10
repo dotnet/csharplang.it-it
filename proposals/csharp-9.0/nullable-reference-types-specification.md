@@ -1,41 +1,61 @@
 ---
-ms.openlocfilehash: 3fc0f7d8db936d81a9419af15c495e9eeb456dd2
-ms.sourcegitcommit: 29df547564c4ffc51b1dedf8369dc91e8f0ba854
+ms.openlocfilehash: e6a784ef90308a5395c6b1db454a67d40c10e3e4
+ms.sourcegitcommit: 00d9d791b6f1d9538a979a111e93cf935d9b6cfe
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 11/04/2020
-ms.locfileid: "93351955"
+ms.lasthandoff: 11/10/2020
+ms.locfileid: "94423369"
 ---
 # <a name="nullable-reference-types-specification"></a>Specifica di tipi di riferimento Nullable
 
 ***Questo è un lavoro in corso. diverse parti sono mancanti o incomplete.** _
 
+Questa funzionalità aggiunge due nuovi tipi di tipi Nullable (tipi di riferimento nullable e tipi generici Nullable) ai tipi di valore Nullable esistenti e introduce un'analisi del flusso statica per finalità di sicurezza dei valori null.
+
 ## <a name="syntax"></a>Sintassi
 
-### <a name="nullable-reference-types"></a>Tipi riferimento nullable
+### <a name="nullable-reference-types-and-nullable-type-parameters"></a>Tipi di riferimento nullable e parametri di tipo Nullable
 
-I tipi di riferimento Nullable hanno la stessa sintassi della `T?` forma abbreviata di tipi di valore Nullable, ma non hanno una forma estesa corrispondente.
+I tipi di riferimento nullable e i parametri di tipo Nullable hanno la stessa sintassi della `T?` forma abbreviata di tipi di valore Nullable, ma non hanno una forma estesa corrispondente.
 
-Ai fini della specifica, la `nullable_type` produzione corrente viene rinominata in `nullable_value_type` e `nullable_reference_type` viene aggiunta una produzione:
+Ai fini della specifica, la `nullable_type` produzione corrente viene rinominata in e le `nullable_value_type` `nullable_reference_type` `nullable_type_parameter` produzioni e vengono aggiunte:
 
 ```antlr
+type
+    : value_type
+    | reference_type
+    | nullable_type_parameter
+    | type_parameter
+    | type_unsafe
+    ;
+
 reference_type
     : ...
     | nullable_reference_type
     ;
-    
+
 nullable_reference_type
     : non_nullable_reference_type '?'
     ;
-    
+
 non_nullable_reference_type
-    : type
+    : reference_type
+    ;
+
+nullable_type_parameter
+    : non_nullable_non_value_type_parameter '?'
+    ;
+
+non_nullable_non_value_type_parameter
+    : type_parameter
     ;
 ```
 
-`non_nullable_reference_type`In un `nullable_reference_type` deve essere un tipo di riferimento non Nullable (classe, interfaccia, delegato o matrice) oppure un parametro di tipo vincolato a un tipo di riferimento non Nullable (tramite il `class` vincolo o una classe diversa da `object` ).
+Il `non_nullable_reference_type` valore di in `nullable_reference_type` deve essere un tipo di riferimento non Nullable (classe, interfaccia, delegato o matrice).
 
-I tipi di riferimento nullable non possono essere presenti nelle posizioni seguenti:
+`non_nullable_non_value_type_parameter`In `nullable_type_parameter` deve essere un parametro di tipo che non è vincolato a un tipo valore.
+
+I tipi di riferimento nullable e i parametri di tipo nullable non possono essere presenti nelle posizioni seguenti:
 
 - come classe o interfaccia di base
 - come ricevitore di un `member_access`
@@ -44,9 +64,9 @@ I tipi di riferimento nullable non possono essere presenti nelle posizioni segue
 - come `type` in un oggetto `is_expression` , un oggetto `catch_clause` o un oggetto `type_pattern`
 - come `interface` in un nome di membro di interfaccia completo
 
-Viene fornito un avviso in un oggetto in `nullable_reference_type` cui il contesto di annotazione Nullable è disabilitato.
+Viene fornito un avviso in un oggetto `nullable_reference_type` e `nullable_type_parameter` in un contesto di annotazione _disabled * Nullable.
 
-### <a name="nullable-class-constraint"></a>Vincolo di classe Nullable
+### <a name="class-and-class-constraint"></a>`class` e `class?` vincolo
 
 Il `class` vincolo presenta una controparte Nullable `class?` :
 
@@ -57,29 +77,75 @@ primary_constraint
     ;
 ```
 
+È necessario creare un'istanza di un parametro di tipo vincolato a `class` (in un contesto di annotazione *abilitato* ) con un tipo di riferimento non null.
+
+È possibile creare un'istanza di un parametro di tipo vincolato da `class?` (o `class` in un contesto di annotazione *disabilitato* ) con un tipo di riferimento nullable o non null.
+
+Un avviso viene specificato in un `class?` vincolo in un contesto di annotazione *disabilitato* .
+
+### <a name="notnull-constraint"></a>`notnull` vincolo
+
+Un parametro di tipo vincolato a `notnull` non può essere un tipo Nullable (tipo di valore Nullable, tipo di riferimento nullable o parametro di tipo Nullable).
+
+```antlr
+primary_constraint
+    : ...
+    | 'notnull'
+    ;
+```
+
+### <a name="default-constraint"></a>`default` vincolo
+
+Il `default` vincolo può essere usato nell'override di un metodo o in un'implementazione esplicita per evitare ambiguità che `T?` significa "parametro di tipo Nullable" da "tipo di valore Nullable" ( `Nullable<T>` ). Mancanza del `default` vincolo `T?` , una sintassi in un'implementazione di override o esplicita verrà interpretata come `Nullable<T>`
+
+Vedere https://github.com/dotnet/csharplang/blob/master/proposals/csharp-9.0/unconstrained-type-parameter-annotations.md#default-constraint
+
 ### <a name="the-null-forgiving-operator"></a>Operatore che perdona i valori null
 
-L'operatore post-correzione `!` è denominato operatore che perdona i valori null.
+L'operatore post-correzione `!` è denominato operatore che perdona i valori null. Può essere applicato a un *primary_expression* o all'interno di un *null_conditional_expression* :
 
 ```antlr
 primary_expression
     : ...
     | null_forgiving_expression
     ;
-    
+
 null_forgiving_expression
     : primary_expression '!'
     ;
+
+null_conditional_expression
+    : primary_expression null_conditional_operations_no_suppression suppression?
+    ;
+
+null_conditional_operations_no_suppression
+    : null_conditional_operations? '?' '.' identifier type_argument_list?
+    | null_conditional_operations? '?' '[' argument_list ']'
+    | null_conditional_operations '.' identifier type_argument_list?
+    | null_conditional_operations '[' argument_list ']'
+    | null_conditional_operations '(' argument_list? ')'
+    ;
+
+null_conditional_operations
+    : null_conditional_operations_no_suppression suppression?
+    ;
+
+suppression
+    : '!'
+    ;
 ```
 
-`primary_expression`Deve essere di un tipo di riferimento.  
+Ad esempio:
 
-L' `!` operatore di suffisso non ha alcun effetto in fase di esecuzione. restituisce il risultato dell'espressione sottostante. Il suo unico ruolo è modificare lo stato null dell'espressione e limitare gli avvisi in base al relativo utilizzo.
+```csharp
+var v = expr!;
+expr!.M();
+_ = a?.b!.c;
+```
 
-### <a name="nullable-implicitly-typed-local-variables"></a>variabili locali tipizzate in modo implicito Nullable
+`primary_expression`E `null_conditional_operations_no_suppression` devono essere di un tipo Nullable.
 
-`var` deduce un tipo con annotazioni per i tipi di riferimento.
-Ad esempio, in `var s = "";` `var` viene dedotto come `string?` .
+L' `!` operatore di suffisso non ha alcun effetto in fase di esecuzione. restituisce il risultato dell'espressione sottostante. Il suo unico ruolo consiste nel modificare lo stato null dell'espressione in "not null" e per limitare gli avvisi in base al relativo utilizzo.
 
 ### <a name="nullable-compiler-directives"></a>Direttive del compilatore Nullable
 
@@ -90,37 +156,41 @@ pp_directive
     : ...
     | pp_nullable
     ;
-    
+
 pp_nullable
-    : whitespace? '#' whitespace? 'nullable' whitespace nullable_action pp_new_line
+    : whitespace? '#' whitespace? 'nullable' whitespace nullable_action (whitespace nullable_target)? pp_new_line
     ;
-    
+
 nullable_action
     : 'disable'
     | 'enable'
     | 'restore'
     ;
+
+nullable_target
+    : 'warnings'
+    | 'annotations'
+    ;
 ```
 
-`#pragma warning` le direttive vengono espanse per consentire la modifica del contesto di avviso nullable e per consentire l'abilitazione di singoli avvisi anche quando sono disabilitati per impostazione predefinita:
+`#pragma warning` le direttive vengono espanse per consentire la modifica del contesto di avviso Nullable:
 
 ```antlr
 pragma_warning_body
     : ...
-    | 'warning' whitespace nullable_action whitespace 'nullable'
-    ;
-
-warning_action
-    : ...
-    | 'enable'
+    | 'warning' whitespace warning_action whitespace 'nullable'
     ;
 ```
 
-Si noti che il nuovo formato di `pragma_warning_body` Usa `nullable_action` , non `warning_action` .
+Ad esempio:
+
+```csharp
+#pragma warning disable nullable
+```
 
 ## <a name="nullable-contexts"></a>Contesti nullable
 
-Ogni riga del codice sorgente ha un _nullable contesto di annotazione * e un *contesto di avviso Nullable*. Questi controllano se le annotazioni Nullable hanno effetto e se vengono specificati avvisi di supporto dei valori null. Il contesto di annotazione di una determinata riga è *disabilitato* o *abilitato*. Il contesto di avviso di una determinata riga è *disabilitato* o *abilitato*.
+Ogni riga del codice sorgente ha un *contesto di annotazione Nullable* e un *contesto di avviso Nullable*. Questi controllano se le annotazioni Nullable hanno effetto e se vengono specificati avvisi di supporto dei valori null. Il contesto di annotazione di una determinata riga è *disabilitato* o *abilitato*. Il contesto di avviso di una determinata riga è *disabilitato* o *abilitato*.
 
 Entrambi i contesti possono essere specificati a livello di progetto (all'esterno del codice sorgente C#) o in qualsiasi punto all'interno di un file di origine tramite `#nullable` direttive pre-processore. Se non vengono specificate impostazioni a livello di progetto, il valore predefinito è per entrambi i contesti da *disabilitare*.
 
@@ -142,13 +212,13 @@ L'effetto delle direttive è il seguente:
 
 ## <a name="nullability-of-types"></a>Supporto dei valori Null dei tipi
 
-Un tipo specificato può avere uno dei quattro nullabilities: *ignaro* , non *null* , *Nullable* e *Unknown*. 
+Un tipo specificato può avere uno dei tre nullabilities: *ignaro* , non *nullo* e *Nullable*.
 
-I tipi *sconosciuti* e non *null* possono causare avvisi se `null` viene assegnato un valore potenziale. I tipi *ignari* e *Nullable* , tuttavia, sono " *assegnabili a null* " e possono avere `null` valori assegnati senza avvisi. 
+I tipi che non *ammettono valori null* possono causare avvisi se `null` viene assegnato un valore potenziale. I tipi *ignari* e *Nullable* , tuttavia, sono " *assegnabili a null* " e possono avere `null` valori assegnati senza avvisi.
 
-I tipi *ignari* e non *null* possono essere dereferenziati o assegnati senza avvisi. I valori di tipi *Nullable* e *Unknown* , tuttavia, sono " *null-Yielding* " e possono causare avvisi quando vengono dereferenziati o assegnati senza il controllo null appropriato. 
+I valori dei tipi *ignari* e non *null* possono essere dereferenziati o assegnati senza avvisi. I valori dei tipi *Nullable* , tuttavia, sono " *null-Yielding* " e possono causare avvisi quando vengono dereferenziati o assegnati senza il controllo null appropriato.
 
-Lo *stato null predefinito* di un tipo che cede un valore null è "Maybe null". Lo stato null predefinito di un tipo non null restituisce "not null".
+Lo *stato null predefinito* di un tipo che cede un valore null è "Maybe null" o "Maybe default". Lo stato null predefinito di un tipo non null restituisce "not null".
 
 Il tipo di tipo e il contesto di annotazione nullable in cui si verificano determinano il supporto di valori null:
 
@@ -160,20 +230,11 @@ Il tipo di tipo e il contesto di annotazione nullable in cui si verificano deter
 
 I parametri di tipo prendono inoltre in considerazione i vincoli:
 
-- Parametro di tipo in `T` cui tutti i vincoli (se presenti) sono tipi che restituiscono valori null ( *Nullable* e *Unknown* ) oppure il `class?` vincolo è *sconosciuto*
-- Parametro di tipo `T` in cui almeno un vincolo è *ignaro* o non può essere *null* o uno dei `struct` `class` vincoli o è
+- Parametro di tipo in `T` cui tutti i vincoli (se presenti) sono tipi nullable o il `class?` vincolo *ammette i valori null*
+- Parametro di tipo `T` in cui almeno un vincolo è *ignaro* o non può essere *null* o uno dei `struct` `class` vincoli o o `notnull` è
     - *ignaro* in un contesto di annotazione *disabilitato*
     - non *ammette valori null* in un contesto di annotazione *abilitato*
-- Parametro di tipo Nullable `T?` in cui almeno uno dei `T` vincoli è *ignaro* o non può essere *null* o uno dei `struct` `class` vincoli o, is
-    - *Nullable* in un contesto di annotazione *disabilitato* (ma viene restituito un avviso)
-    - *Nullable* in un contesto di annotazione *abilitato*
-
-Per un parametro di tipo `T` , `T?` è consentito solo se è noto come tipo di `T` valore o è noto come tipo di riferimento.
-
-### <a name="nested-functions"></a>Funzioni annidate
-
-Le funzioni annidate (espressioni lambda e funzioni locali) vengono trattate come metodi, tranne che per quanto riguarda le variabili acquisite.
-Lo stato predefinito di una variabile acquisita all'interno di un'espressione lambda o di una funzione locale è l'intersezione dello stato Nullable della variabile in tutti gli "utilizzi" della funzione nidificata. L'uso di una funzione è una chiamata a tale funzione o in cui viene convertito in un delegato.
+- Un parametro di tipo Nullable ammette i `T?` *valori null* , ma un avviso viene restituito in un contesto di annotazione *disabilitato* se `T` non è un tipo di valore
 
 ### <a name="oblivious-vs-nonnullable"></a>E non nullable
 
@@ -183,15 +244,19 @@ Se un tipo di riferimento specificato `C` nel codice sorgente viene interpretato
 
 ## <a name="constraints"></a>Vincoli
 
-I tipi di riferimento nullable possono essere utilizzati come vincoli generici. Inoltre `object` , è ora valido come vincolo esplicito. L'assenza di un vincolo è ora equivalente a un `object?` vincolo (anziché `object` ), ma (a differenza di `object` before) `object?` non è vietato come vincolo esplicito.
+I tipi di riferimento nullable possono essere utilizzati come vincoli generici.
 
-`class?` è un nuovo vincolo che indica "probabile tipo di riferimento Nullable", mentre denota `class` "tipo di riferimento non null".
+`class?` è un nuovo vincolo che indica "probabile tipo di riferimento Nullable", mentre `class` in un contesto di annotazione *abilitato* denota "tipo di riferimento non null".
+
+`default` è un nuovo vincolo che indica un parametro di tipo che non è noto come tipo di riferimento o di valore. Può essere utilizzato solo su metodi sottoposti a override e implementati in modo esplicito. Con questo vincolo, `T?` significa un parametro di tipo nullable, anziché essere una sintassi abbreviata per `Nullable<T>` .
+
+`notnull` è un nuovo vincolo che indica un parametro di tipo che non ammette valori null.
 
 Il supporto di valori null di un argomento di tipo o di un vincolo non ha alcun effetto sul fatto che il tipo soddisfi il vincolo, ad eccezione del caso in cui è già presente. i tipi di valore nullable non soddisfano il `struct` vincolo. Tuttavia, se l'argomento di tipo non soddisfa i requisiti di supporto dei valori null del vincolo, è possibile che venga fornito un avviso.
 
 ## <a name="null-state-and-null-tracking"></a>Stato null e rilevamento null
 
-Ogni espressione in una determinata posizione di origine ha uno *stato null* , che indica se si ritiene che possa restituire potenzialmente null. Lo stato null può essere "not null" o "Maybe null". Lo stato null viene utilizzato per determinare se è necessario che venga fornito un avviso sulle conversioni e le dereferenziazioni non sicure null.
+Ogni espressione in una determinata posizione di origine ha uno *stato null* , che indica se si ritiene che possa restituire potenzialmente null. Lo stato null può essere "not null", "Maybe null" o "Maybe default". Lo stato null viene utilizzato per determinare se è necessario che venga fornito un avviso sulle conversioni e le dereferenziazioni non sicure null.
 
 ### <a name="null-tracking-for-variables"></a>Rilevamento di valori null per le variabili
 
@@ -208,6 +273,8 @@ tracked_expression
 
 Dove gli identificatori denotano i campi o le proprietà.
 
+Lo stato null per le variabili rilevate è "not null" in codice non eseguibile. Questo segue le altre decisioni riguardanti il codice non eseguibile, ad esempio considerando tutte le variabili locali da assegnare definitivamente.
+
 ***Descrivere le transizioni di stato null simili all'assegnazione definita** _
 
 ### <a name="null-state-for-expressions"></a>Stato null per le espressioni
@@ -216,7 +283,7 @@ Lo stato null di un'espressione deriva dal formato e dal tipo e dallo stato null
 
 ### <a name="literals"></a>Valori letterali
 
-Lo stato null di un `null` valore letterale è "Maybe null". Lo stato null di un `default` valore letterale che viene convertito in un tipo che non è un tipo di valore non null è "Maybe null". Lo stato null di qualsiasi altro valore letterale è "not null".
+Lo stato null di un `null` `default` valore letterale e è "Maybe default". Lo stato null di qualsiasi altro valore letterale è "not null".
 
 ### <a name="simple-names"></a>Nomi semplici
 
@@ -240,7 +307,7 @@ Se `B` denota il tipo di base del tipo di inclusione, `base.I` ha lo stesso stat
 
 ### <a name="default-expressions"></a>Espressioni predefinite
 
-`default(T)` ha lo stato null "non null" Se `T` è noto come tipo di valore non null. In caso contrario, lo stato null è "Maybe null".
+`default(T)` ha lo stato null "not null" Se `T` è noto come tipo di valore non null. In caso contrario, lo stato del valore null è "Maybe default".
 
 ### <a name="null-conditional-expressions"></a>Espressioni condizionali null
 
@@ -248,7 +315,9 @@ Uno `null_conditional_expression` ha lo stato null "Maybe null".
 
 ### <a name="cast-expressions"></a>Espressioni cast
 
-Se un'espressione cast `(T)E` richiama una conversione definita dall'utente, lo stato null dell'espressione sarà lo stato null predefinito per il relativo tipo. In caso contrario, se `T` restituisce null (_nullable * o *Unknown* ), lo stato null è "Maybe null". In caso contrario, lo stato null corrisponde allo stato null di `E` .
+Se un'espressione cast `(T)E` richiama una conversione definita dall'utente, lo stato null dell'espressione sarà lo stato null predefinito per il relativo tipo. In caso contrario, se `T` è _nullable *, lo stato null è "Maybe null". In caso contrario, lo stato null corrisponde allo stato null di `E` .
+
+***Questa operazione richiede upddating** _
 
 ### <a name="await-expressions"></a>Espressioni await
 
@@ -278,7 +347,7 @@ Lo stato null di un'espressione di query è lo stato null predefinito del relati
 
 Se un operatore unario o binario richiama un operatore definito dall'utente dichiarato con uno o più attributi per un comportamento null speciale, lo stato null è determinato da tali attributi. In caso contrario, lo stato null dell'espressione è lo stato null predefinito del relativo tipo.
 
-*Si tratta **di un'operazione speciale per binari `+` su stringhe e delegati?** _
+_*_Si tratta di un'operazione speciale per binari `+` su stringhe e delegati?_*_
 
 ### <a name="expressions-that-propagate-null-state"></a>Espressioni che propagano lo stato null
 
@@ -297,43 +366,27 @@ Lo stato null dei seguenti form di espressione è sempre "not null":
 - espressioni con indulgenza null
 - Espressioni `is`
 
+### <a name="nested-functions"></a>Funzioni annidate
+
+Le funzioni annidate (espressioni lambda e funzioni locali) vengono trattate come metodi, tranne che per quanto riguarda le variabili acquisite.
+Lo stato iniziale di una variabile acquisita all'interno di un'espressione lambda o di una funzione locale è l'intersezione dello stato Nullable della variabile in tutti gli "utilizzi" di tale funzione o lambda nidificata. L'uso di una funzione locale è una chiamata a tale funzione o quando viene convertito in un delegato. L'uso di un'espressione lambda è il punto in cui è definito nell'origine.
+
 ## <a name="type-inference"></a>Inferenza del tipo
 
-### <a name="type-inference-for-var"></a>Inferenza del tipo per `var`
+### <a name="nullable-implicitly-typed-local-variables"></a>variabili locali tipizzate in modo implicito Nullable
 
-Il tipo dedotto per le variabili locali dichiarate con `var` viene informato dallo stato null dell'espressione di inizializzazione.
-
-```csharp
-var x = E;
-```
-
-Se il tipo di `E` è un tipo di riferimento Nullable `C?` e lo stato null di `E` è "not null", il tipo dedotto per `x` è `C` . In caso contrario, il tipo dedotto è il tipo di `E` .
-
-Il supporto di valori null del tipo dedotto per `x` è determinato come descritto sopra, in base al contesto di annotazione di `var` , come se il tipo fosse stato specificato in modo esplicito in tale posizione.
-
-### <a name="type-inference-for-var"></a>Inferenza del tipo per `var?`
-
-Il tipo dedotto per le variabili locali dichiarate con `var?` è indipendente dallo stato null dell'espressione di inizializzazione.
-
-```csharp
-var? x = E;
-```
-
-Se il tipo `T` di `E` è un tipo di valore nullable o un tipo di riferimento Nullable, il tipo dedotto per `x` è `T` . In caso contrario, se `T` è un tipo di valore che non ammette valori null, `S` il tipo dedotto è `S?` . In caso contrario, se `T` è un tipo di riferimento che non ammette i valori null, `C` il tipo dedotto è `C?` . In caso contrario, la dichiarazione non è valida.
-
-Il supporto di valori null del tipo dedotto per `x` è sempre _nullable *.
+`var` deduce un tipo con annotazioni per i tipi di riferimento e i parametri di tipo che non sono limitati a essere un tipo valore.
+Ad esempio:
+- in `var s = "";` `var` viene dedotto come `string?` .
+- in `var t = new T();` con un oggetto non vincolato `T` `var` viene dedotto come `T?` .
 
 ### <a name="generic-type-inference"></a>Inferenza del tipo generico
 
-L'inferenza del tipo generico è stata migliorata per determinare se i tipi di riferimento derivati devono essere nullable o meno. Si tratta di un tentativo ottimale, che non è in grado di generare avvisi, ma può causare avvisi Nullable quando i tipi dedotti dell'overload selezionato vengono applicati agli argomenti.
-
-L'inferenza del tipo non si basa sul contesto di annotazione dei tipi in ingresso. Viene invece `type` dedotto un oggetto che acquisisce il proprio contesto di annotazione da dove "sarebbe stato" se fosse stato espresso in modo esplicito. In questo modo viene sottolineato il ruolo di inferenza del tipo come praticità per gli elementi che potrebbero essere stati scritti.
-
-Più precisamente, il contesto dell'annotazione per un argomento di tipo derivato è il contesto del token che sarebbe stato seguito dall' `<...>` elenco dei parametri di tipo, ne era presente uno, ovvero il nome del metodo generico chiamato. Per le espressioni di query che vengono convertite in chiamate di questo tipo, il contesto viene tratto dalla parola chiave contestuale iniziale della clausola di query da cui viene generata la chiamata.
+L'inferenza del tipo generico è stata migliorata per determinare se i tipi di riferimento derivati devono essere nullable o meno. Si tratta di un impegno ottimale. Può produrre avvisi relativi ai vincoli di supporto dei valori null e può causare avvisi Nullable quando i tipi dedotti dell'overload selezionato vengono applicati agli argomenti.
 
 ### <a name="the-first-phase"></a>Prima fase
 
-I tipi di riferimento Nullable scorrono nei limiti delle espressioni iniziali, come descritto di seguito. Inoltre, `null` vengono introdotti due nuovi tipi di limiti, ovvero e `default` . Il loro scopo è quello di eseguire le occorrenze di `null` o `default` nelle espressioni di input, che possono causare il Nullable di un tipo derivato, anche in caso contrario. Funziona anche per i tipi di *valore* Nullable, che sono stati migliorati per prelevare il "valore null" nel processo di inferenza.
+I tipi di riferimento Nullable scorrono nei limiti delle espressioni iniziali, come descritto di seguito. Inoltre, `null` vengono introdotti due nuovi tipi di limiti, ovvero e `default` . Il loro scopo è quello di eseguire le occorrenze di `null` o `default` nelle espressioni di input, che possono causare il Nullable di un tipo derivato, anche in caso contrario. Funziona anche per i tipi nullable _value *, che sono stati migliorati per prelevare il "valore null" nel processo di inferenza.
 
 La determinazione dei limiti da aggiungere nella prima fase viene migliorata nel modo seguente:
 
@@ -359,7 +412,7 @@ L'essenza è che i valori null che riguardano direttamente una delle variabili d
 
 La specifica attualmente non esegue un processo valido per descrivere cosa accade quando più limiti sono convertibili tra loro identità, ma sono diversi. Questo problema può verificarsi tra `object` e `dynamic` , tra i tipi di tupla che differiscono solo per i nomi di elementi, tra i tipi costruiti e ora anche tra `C` e `C?` per i tipi di riferimento.
 
-È inoltre necessario propagare "null" dalle espressioni di input al tipo di risultato. 
+È inoltre necessario propagare "null" dalle espressioni di input al tipo di risultato.
 
 Per gestire queste operazioni, è necessario aggiungere altre fasi per la correzione, che ora è:
 
@@ -398,6 +451,7 @@ La funzione *merge* accetta due tipi candidati e una direzione ( *+* o *-* ):
 
 ### <a name="nullable-types-in-disabled-annotation-context"></a>Tipi nullable nel contesto di annotazione disabilitato
 
-## <a name="attributes-for-special-null-behavior"></a>Attributi per un comportamento null speciale
+### <a name="override-and-implementation-nullability-mismatch"></a>Override e implementazione del supporto dei valori null non corrispondenti
 
+## <a name="attributes-for-special-null-behavior"></a>Attributi per un comportamento null speciale
 
