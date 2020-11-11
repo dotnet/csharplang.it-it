@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 4d079ddea08351aec785ce8c11c790af9b26031a
-ms.sourcegitcommit: 796742db0d28da6893384b3d2ccf801415efb188
+ms.openlocfilehash: 26e9407830d125c4c68efc162943fcc4f960301e
+ms.sourcegitcommit: 1fccd6246b9806faee3c8265036fb936ee4a0337
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 11/08/2020
-ms.locfileid: "94371436"
+ms.lasthandoff: 11/11/2020
+ms.locfileid: "94507677"
 ---
 # <a name="per-method-asyncmethodbuilders"></a>Per-Method AsyncMethodBuilders
 
@@ -165,6 +165,7 @@ Questa operazione non solo renderebbe più semplice l'inserimento dell'attributo
 3. **Virtuals/Interfaces.** Qual è il comportamento se l'attributo viene specificato in un metodo di interfaccia?  Credo che debba essere un NOP o un avviso o un errore del compilatore, ma non dovrebbe influisca sulle implementazioni dell'interfaccia.  Esiste una domanda simile per i metodi di base sottoposti a override e di nuovo non credo che l'attributo nel metodo di base debba influisca sul comportamento di un'implementazione di override. Si noti che l'attributo corrente ha ereditato = false sul relativo AttributeUsage.
 4. **Precedenza.** Se si vuole eseguire l'annotazione a livello di modulo o di tipo, è necessario decidere quale sia l'attribuzione vincente nel caso in cui siano state applicate più, ad esempio una sul metodo, una sul modulo contenitore.  È anche necessario determinare se questa operazione richiederebbe l'uso di un attributo diverso (vedere (1) sopra), ad esempio quale sarebbe il comportamento se un tipo simile a un'attività era nello stesso ambito?  In alternativa, se un'attività compilabile, ad esempio, aveva metodi asincroni su di essa, verrebbe influenzato dall'attributo applicato al tipo simile a un'attività per specificare il generatore predefinito?
 5. **Generatori privati**. Il compilatore deve supportare i generatori di metodi asincroni non pubblici? Questa non è una specifica di oggi, ma sperimentale sono supportate solo quelle pubbliche.  Questo ha senso quando l'attributo viene applicato a un tipo per controllare quale generatore viene usato con quel tipo, perché chiunque scriva un metodo asincrono con quel tipo come tipo restituito dovrebbe avere accesso al generatore.  Tuttavia, con questa nuova funzionalità, quando l'attributo viene applicato a un metodo, influisca solo sull'implementazione di tale metodo e pertanto può fare ragionevolmente riferimento a un generatore non pubblico.  È probabile che si desideri supportare gli autori di librerie con quelli non pubblici che vogliono usare.
+6. **Stato passthrough per consentire un pool più efficiente**.  Si consideri un tipo come SslStream o WebSocket.  Che espongono operazioni asincrone di lettura/scrittura e consentono la lettura e la scrittura simultanee, ma al massimo un'operazione di lettura alla volta e al massimo 1 operazione di scrittura alla volta.  Questa soluzione è ideale per il pool, perché ogni istanza di SslStream o WebSocket richiede al massimo un oggetto in pool per le letture e un oggetto in pool per le Scritture.  Inoltre, un pool centralizzato è eccessivo: piuttosto che pagare i costi di un pool centrale che deve essere gestito e di accesso sincronizzato, ogni SslStream/WebSocket può semplicemente gestire un campo per archiviare il singleton per il lettore e un singleton per il writer, eliminando tutti i conflitti per il pool ed eliminando tutte le operazioni di gestione associate ai limiti del pool.  Il problema è la modalità di connessione di un campo arbitrario nell'istanza di con il meccanismo di pooling utilizzato dal generatore.  Potremmo almeno renderlo possibile se avessimo passato tutti gli argomenti al metodo asincrono in una firma corrispondente nel metodo create del generatore (o forse un metodo Bind separato, o qualche cosa), ma il generatore doveva essere specializzato per quel tipo specifico, conoscendo i campi.  Il metodo Create potrebbe potenzialmente accettare un delegato Rent e un delegato return e il metodo asincrono potrebbe essere appositamente creato per accettare tali argomenti (insieme a uno stato dell'oggetto da passare).  La soluzione ideale è quella di creare un'ottima soluzione, in quanto renderebbe il meccanismo significativamente più potente e prezioso.
 
 ## <a name="design-meetings"></a>Riunioni di progettazione
 
