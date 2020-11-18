@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: e6a784ef90308a5395c6b1db454a67d40c10e3e4
-ms.sourcegitcommit: 00d9d791b6f1d9538a979a111e93cf935d9b6cfe
+ms.openlocfilehash: a11b695d8345e521d3d781ed59cd730d83f87fd0
+ms.sourcegitcommit: 3d2315ca498ffe0e87848306ca08d0f5b265890d
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 11/10/2020
-ms.locfileid: "94423369"
+ms.lasthandoff: 11/18/2020
+ms.locfileid: "94717793"
 ---
 # <a name="nullable-reference-types-specification"></a>Specifica di tipi di riferimento Nullable
 
@@ -102,7 +102,7 @@ Vedere https://github.com/dotnet/csharplang/blob/master/proposals/csharp-9.0/unc
 
 ### <a name="the-null-forgiving-operator"></a>Operatore che perdona i valori null
 
-L'operatore post-correzione `!` è denominato operatore che perdona i valori null. Può essere applicato a un *primary_expression* o all'interno di un *null_conditional_expression* :
+L'operatore post-correzione `!` è denominato operatore che perdona i valori null. Può essere applicato a un *primary_expression* o all'interno di un *null_conditional_expression*:
 
 ```antlr
 primary_expression
@@ -212,11 +212,11 @@ L'effetto delle direttive è il seguente:
 
 ## <a name="nullability-of-types"></a>Supporto dei valori Null dei tipi
 
-Un tipo specificato può avere uno dei tre nullabilities: *ignaro* , non *nullo* e *Nullable*.
+Un tipo specificato può avere uno dei tre nullabilities: *ignaro*, non *nullo* e *Nullable*.
 
-I tipi che non *ammettono valori null* possono causare avvisi se `null` viene assegnato un valore potenziale. I tipi *ignari* e *Nullable* , tuttavia, sono " *assegnabili a null* " e possono avere `null` valori assegnati senza avvisi.
+I tipi che non *ammettono valori null* possono causare avvisi se `null` viene assegnato un valore potenziale. I tipi *ignari* e *Nullable* , tuttavia, sono "*assegnabili a null*" e possono avere `null` valori assegnati senza avvisi.
 
-I valori dei tipi *ignari* e non *null* possono essere dereferenziati o assegnati senza avvisi. I valori dei tipi *Nullable* , tuttavia, sono " *null-Yielding* " e possono causare avvisi quando vengono dereferenziati o assegnati senza il controllo null appropriato.
+I valori dei tipi *ignari* e non *null* possono essere dereferenziati o assegnati senza avvisi. I valori dei tipi *Nullable* , tuttavia, sono "*null-Yielding*" e possono causare avvisi quando vengono dereferenziati o assegnati senza il controllo null appropriato.
 
 Lo *stato null predefinito* di un tipo che cede un valore null è "Maybe null" o "Maybe default". Lo stato null predefinito di un tipo non null restituisce "not null".
 
@@ -234,7 +234,7 @@ I parametri di tipo prendono inoltre in considerazione i vincoli:
 - Parametro di tipo `T` in cui almeno un vincolo è *ignaro* o non può essere *null* o uno dei `struct` `class` vincoli o o `notnull` è
     - *ignaro* in un contesto di annotazione *disabilitato*
     - non *ammette valori null* in un contesto di annotazione *abilitato*
-- Un parametro di tipo Nullable ammette i `T?` *valori null* , ma un avviso viene restituito in un contesto di annotazione *disabilitato* se `T` non è un tipo di valore
+- Un parametro di tipo Nullable ammette i `T?` *valori null*, ma un avviso viene restituito in un contesto di annotazione *disabilitato* se `T` non è un tipo di valore
 
 ### <a name="oblivious-vs-nonnullable"></a>E non nullable
 
@@ -256,11 +256,29 @@ Il supporto di valori null di un argomento di tipo o di un vincolo non ha alcun 
 
 ## <a name="null-state-and-null-tracking"></a>Stato null e rilevamento null
 
-Ogni espressione in una determinata posizione di origine ha uno *stato null* , che indica se si ritiene che possa restituire potenzialmente null. Lo stato null può essere "not null", "Maybe null" o "Maybe default". Lo stato null viene utilizzato per determinare se è necessario che venga fornito un avviso sulle conversioni e le dereferenziazioni non sicure null.
+Ogni espressione in una determinata posizione di origine ha uno *stato null*, che indica se si ritiene che possa restituire potenzialmente null. Lo stato null può essere "not null", "Maybe null" o "Maybe default". Lo stato null viene utilizzato per determinare se è necessario che venga fornito un avviso sulle conversioni e le dereferenziazioni non sicure null.
+
+La distinzione tra "Maybe null" e "Maybe default" è sottile e si applica ai parametri di tipo. La distinzione è che un parametro `T` di tipo con lo stato "Maybe null" significa che il valore si trova nel dominio dei valori validi per `T` tuttavia il valore valido può includere `null` . Dove come "impostazione predefinita" indica che il valore può essere esterno al dominio valido dei valori per `T` . 
+
+Esempio: 
+
+```c#
+// The value `t` here has the state "maybe null". It's possible for `T` to be instantiated
+// with `string?` in which case `null` would be within the domain of legal values here. The 
+// assumption though is the value provided here is within the legal values of `T`. Hence 
+// if `T` is `string` then `null` will not be a value, just as we assume that `null` is not
+// provided for a normal `string` parameter
+void M<T>(T t)
+{
+    // There is no guarantee that default(T) is within the legal values for T hence the 
+    // state *must* be "maybe-default" and hence `local` must be `T?`
+    T? local = default(T);
+}
+```
 
 ### <a name="null-tracking-for-variables"></a>Rilevamento di valori null per le variabili
 
-Per alcune espressioni che indicano variabili o proprietà, lo stato null viene rilevato tra le occorrenze, in base alle assegnazioni, i test eseguiti su di essi e il flusso di controllo tra di essi. Questa operazione è simile alla modalità di rilevamento dell'assegnazione definita per le variabili. Le espressioni registrate sono quelle con il formato seguente:
+Per alcune espressioni che indicano variabili, campi o proprietà, lo stato null viene rilevato tra le occorrenze, in base alle assegnazioni, i test eseguiti su di essi e il flusso di controllo tra di essi. Questa operazione è simile alla modalità di rilevamento dell'assegnazione definita per le variabili. Le espressioni registrate sono quelle con il formato seguente:
 
 ```antlr
 tracked_expression
@@ -283,7 +301,11 @@ Lo stato null di un'espressione deriva dal formato e dal tipo e dallo stato null
 
 ### <a name="literals"></a>Valori letterali
 
-Lo stato null di un `null` `default` valore letterale e è "Maybe default". Lo stato null di qualsiasi altro valore letterale è "not null".
+Lo stato null di un `null` valore letterale dipende dal tipo di destinazione dell'espressione. Se il tipo di destinazione è un parametro di tipo vincolato a un tipo di riferimento, è "probabilmente default". In caso contrario, è "Maybe null".
+
+Lo stato null di un `default` valore letterale dipende dal tipo di destinazione del `default` valore letterale. Un `default` valore letterale con tipo di destinazione `T` ha lo stesso stato null dell' `default(T)` espressione.
+
+Lo stato null di qualsiasi altro valore letterale è "not null".
 
 ### <a name="simple-names"></a>Nomi semplici
 
@@ -293,13 +315,86 @@ Se un oggetto `simple_name` non è classificato come valore, il relativo stato n
 
 Se un oggetto `member_access` non è classificato come valore, il relativo stato null è "not null". In caso contrario, se si tratta di un'espressione rilevata, il relativo stato null è il relativo stato null rilevato in questa posizione di origine. In caso contrario, lo stato null è lo stato null predefinito del relativo tipo.
 
+```c#
+var person = new Person();
+
+// The receiver is a tracked expression hence the member_access of the property 
+// is tracked as well 
+if (person.FirstName is not null)
+{
+    Use(person.FirstName);
+}
+
+// The return of an invocation is not a tracked expression hence the member_access
+// of the return is also not tracked
+if (GetAnonymous().FirstName is not null)
+{
+    // Warning: Cannot convert null literal to non-nullable reference type.
+    Use(GetAnonymous().FirstName);
+}
+
+void Use(string s) 
+{ 
+    // ...
+}
+
+public class Person
+{
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+
+    private static Person s_anonymous = new Person();
+    public static Person GetAnonymous() => s_anonymous;
+}
+```
+
 ### <a name="invocation-expressions"></a>Espressioni di chiamata
 
 Se un oggetto `invocation_expression` richiama un membro dichiarato con uno o più attributi per un comportamento null speciale, lo stato null è determinato da tali attributi. In caso contrario, lo stato null dell'espressione è lo stato null predefinito del relativo tipo.
 
+Lo stato null di un oggetto `invocation_expression` non viene rilevato dal compilatore.
+
+```c#
+
+// The result of an invocation_expression is not tracked
+if (GetText() is not null)
+{
+    // Warning: Converting null literal or possible null value to non-nullable type.
+    string s = GetText();
+    // Warning: Dereference of a possibly null reference.
+    Use(s);
+}
+
+// Nullable friendly pattern
+if (GetText() is string s)
+{
+    Use(s);
+}
+
+string? GetText() => ... 
+Use(string s) {  }
+```
+
 ### <a name="element-access"></a>Accesso a elementi
 
 Se un oggetto `element_access` richiama un indicizzatore dichiarato con uno o più attributi per un comportamento null speciale, lo stato null è determinato da tali attributi. In caso contrario, lo stato null dell'espressione è lo stato null predefinito del relativo tipo.
+
+```c#
+object?[] array = ...;
+if (array[0] != null)
+{
+    // Warning: Converting null literal or possible null value to non-nullable type.
+    object o = array[0];
+    // Warning: Dereference of a possibly null reference.
+    Console.WriteLine(o.ToString());
+}
+
+// Nullable friendly pattern
+if (array[0] is {} o)
+{
+    Console.WriteLine(o.ToString());
+}
+```
 
 ### <a name="base-access"></a>Accesso di base
 
@@ -307,17 +402,36 @@ Se `B` denota il tipo di base del tipo di inclusione, `base.I` ha lo stesso stat
 
 ### <a name="default-expressions"></a>Espressioni predefinite
 
-`default(T)` ha lo stato null "not null" Se `T` è noto come tipo di valore non null. In caso contrario, lo stato del valore null è "Maybe default".
+`default(T)` ha lo stato null in base alle proprietà del tipo `T` :
 
-### <a name="null-conditional-expressions"></a>Espressioni condizionali null
+- Se il tipo è un tipo _nonnullable *, avrà lo stato null "not null"
+- Altrimenti, se il tipo è un parametro di tipo, avrà lo stato null "Maybe default"
+- In caso contrario, ha lo stato null "Maybe null"
 
-Uno `null_conditional_expression` ha lo stato null "Maybe null".
+### <a name="null-conditional-expressions-"></a>Espressioni condizionali null?.
+
+Un oggetto `null_conditional_expression` ha lo stato null in base al tipo di espressione. Si noti che si riferisce al tipo di `null_conditional_expression` , non al tipo originale del membro richiamato:
+
+- Se il tipo è un tipo di valore *Nullable* , sarà presente lo stato null "Maybe null"
+- Altrimenti, se il tipo è un parametro di tipo *Nullable* , avrà lo stato null "Maybe default"
+- In caso contrario, ha lo stato null "Maybe null"
 
 ### <a name="cast-expressions"></a>Espressioni cast
 
-Se un'espressione cast `(T)E` richiama una conversione definita dall'utente, lo stato null dell'espressione sarà lo stato null predefinito per il relativo tipo. In caso contrario, se `T` è _nullable *, lo stato null è "Maybe null". In caso contrario, lo stato null corrisponde allo stato null di `E` .
+Se un'espressione cast `(T)E` richiama una conversione definita dall'utente, lo stato null dell'espressione sarà lo stato null predefinito per il tipo della conversione definita dall'utente. In caso contrario:
 
-***Questa operazione richiede upddating** _
+- Se `T` è un tipo di valore che non *ammette valori null* , `T` ha lo stato null "not null"
+- Altrimenti, se `T` è un tipo di valore *Nullable* , `T` avrà lo stato null "Maybe null"
+- Altrimenti se `T` è un tipo *Nullable* nel formato in `U?` cui `U` è un parametro di tipo `T` ha lo stato null "Maybe default"
+- Altrimenti se `T` è un tipo *Nullable* e `E` ha uno stato null "Maybe null" o "Maybe default", `T` ha lo stato null "Maybe null"
+- Altrimenti se `T` è un parametro di tipo e `E` ha uno stato null "Maybe null" o "Maybe default", `T` ha lo stato null "Maybe default".
+- Else `T` ha lo stesso stato null di `E`
+
+### <a name="unary-and-binary-operators"></a>Operatori unari e binari
+
+Se un operatore unario o binario richiama un operatore definito dall'utente, lo stato null dell'espressione è lo stato null predefinito per il tipo dell'operatore definito dall'utente. In caso contrario, è lo stato null dell'espressione.
+
+*Si tratta **di un'operazione speciale per binari `+` su stringhe e delegati?** _
 
 ### <a name="await-expressions"></a>Espressioni await
 
@@ -325,29 +439,33 @@ Lo stato null di `await E` è lo stato null predefinito del relativo tipo.
 
 ### <a name="the-as-operator"></a>Operatore `as`
 
-Un' `as` espressione ha lo stato null "Maybe null".
+Lo stato null di un' `E as T` espressione dipende prima dalle proprietà del tipo `T` . Se il tipo di `T` è _nonnullable *, lo stato null è "not null". In caso contrario, lo stato null dipende dalla conversione dal tipo di `E` al tipo `T` :
+
+- Se la conversione è un'identità, una conversione boxing, un riferimento implicito o una conversione implicita Nullable, lo stato null è lo stato null di `E`
+- Altrimenti `T` , se è un parametro di tipo, lo stato del valore null è "Maybe default"
+- In caso contrario, ha lo stato null "Maybe null"
 
 ### <a name="the-null-coalescing-operator"></a>Operatore di Unione null
 
-`E1 ?? E2` ha lo stesso stato null di `E2`
+Lo stato null di `E1 ?? E2` è lo stato null di `E2`
 
 ### <a name="the-conditional-operator"></a>Operatore condizionale
 
-Lo stato null di `E1 ? E2 : E3` è "not null" se lo stato null di `E2` e è `E3` "not null". In caso contrario, è "Maybe null".
+Lo stato null di `E1 ? E2 : E3` è basato sullo stato null di `E2` e `E3` :
+
+- Se entrambi sono "not null", lo stato null è "not null"
+- Altrimenti, se è "probabilmente default", lo stato null è "Maybe default".
+- Altrimenti lo stato null è "not null"
 
 ### <a name="query-expressions"></a>Espressioni di query
 
 Lo stato null di un'espressione di query è lo stato null predefinito del relativo tipo.
 
+*Lavoro aggiuntivo necessario*
+
 ### <a name="assignment-operators"></a>Operatori di assegnazione
 
 `E1 = E2` e `E1 op= E2` hanno lo stesso stato null di `E2` dopo l'applicazione di tutte le conversioni implicite.
-
-### <a name="unary-and-binary-operators"></a>Operatori unari e binari
-
-Se un operatore unario o binario richiama un operatore definito dall'utente dichiarato con uno o più attributi per un comportamento null speciale, lo stato null è determinato da tali attributi. In caso contrario, lo stato null dell'espressione è lo stato null predefinito del relativo tipo.
-
-_*_Si tratta di un'operazione speciale per binari `+` su stringhe e delegati?_*_
 
 ### <a name="expressions-that-propagate-null-state"></a>Espressioni che propagano lo stato null
 
@@ -386,7 +504,7 @@ L'inferenza del tipo generico è stata migliorata per determinare se i tipi di r
 
 ### <a name="the-first-phase"></a>Prima fase
 
-I tipi di riferimento Nullable scorrono nei limiti delle espressioni iniziali, come descritto di seguito. Inoltre, `null` vengono introdotti due nuovi tipi di limiti, ovvero e `default` . Il loro scopo è quello di eseguire le occorrenze di `null` o `default` nelle espressioni di input, che possono causare il Nullable di un tipo derivato, anche in caso contrario. Funziona anche per i tipi nullable _value *, che sono stati migliorati per prelevare il "valore null" nel processo di inferenza.
+I tipi di riferimento Nullable scorrono nei limiti delle espressioni iniziali, come descritto di seguito. Inoltre, `null` vengono introdotti due nuovi tipi di limiti, ovvero e `default` . Il loro scopo è quello di eseguire le occorrenze di `null` o `default` nelle espressioni di input, che possono causare il Nullable di un tipo derivato, anche in caso contrario. Funziona anche per i tipi di *valore* Nullable, che sono stati migliorati per prelevare il "valore null" nel processo di inferenza.
 
 La determinazione dei limiti da aggiungere nella prima fase viene migliorata nel modo seguente:
 
@@ -427,19 +545,19 @@ L' *Unione* viene descritta tra due tipi candidati. Si tratta di transitive e co
 
 La funzione *merge* accetta due tipi candidati e una direzione ( *+* o *-* ):
 
-- *Unisci* ( `T` , `T` , *d* ) = T
-- *Merge* ( `S` , `T?` , *+* ) = *merge* ( `S?` , `T` , *+* ) = *merge* ( `S` , `T` , *+* )`?`
-- *Merge* ( `S` , `T?` , *-* ) = *merge* ( `S?` , `T` , *-* ) = *merge* ( `S` , `T` , *-* )
-- *Merge* ( `C<S1,...,Sn>` , `C<T1,...,Tn>` , *+* ) = `C<` *merge* ( `S1` , `T1` , *D1* ) `,...,` *merge* ( `Sn` , `Tn` , *DN* ) `>` , *dove*
+- *Unisci*( `T` , `T` , *d*) = T
+- *Merge*( `S` , `T?` , *+* ) = *merge*( `S?` , `T` , *+* ) = *merge*( `S` , `T` , *+* )`?`
+- *Merge*( `S` , `T?` , *-* ) = *merge*( `S?` , `T` , *-* ) = *merge*( `S` , `T` , *-* )
+- *Merge*( `C<S1,...,Sn>` , `C<T1,...,Tn>` , *+* ) = `C<` *merge*( `S1` , `T1` , *D1*) `,...,` *merge*( `Sn` , `Tn` , *DN*) `>` , *dove*
     - `di` = *+* Se il `i` parametro di tipo ' th di `C<...>` è covariante
     - `di` = *-* Se il `i` parametro di tipo ' th di `C<...>` è contra o invariante
-- *Merge* ( `C<S1,...,Sn>` , `C<T1,...,Tn>` , *-* ) = `C<` *merge* ( `S1` , `T1` , *D1* ) `,...,` *merge* ( `Sn` , `Tn` , *DN* ) `>` , *dove*
+- *Merge*( `C<S1,...,Sn>` , `C<T1,...,Tn>` , *-* ) = `C<` *merge*( `S1` , `T1` , *D1*) `,...,` *merge*( `Sn` , `Tn` , *DN*) `>` , *dove*
     - `di` = *-* Se il `i` parametro di tipo ' th di `C<...>` è covariante
     - `di` = *+* Se il `i` parametro di tipo ' th di `C<...>` è contra o invariante
-- *Merge* ( `(S1 s1,..., Sn sn)` , `(T1 t1,..., Tn tn)` , *d* ) = `(` *merge* ( `S1` , `T1` , *d* ) `n1,...,` *merge* ( `Sn` , `Tn` , *d* ) `nn)` , *dove*
+- *Merge*( `(S1 s1,..., Sn sn)` , `(T1 t1,..., Tn tn)` , *d*) = `(` *merge*( `S1` , `T1` , *d*) `n1,...,` *merge*( `Sn` , `Tn` , *d*) `nn)` , *dove*
     - `ni` è assente se `si` e `ti` differiscono o se entrambi sono assenti
     - `ni``si`se `si` e `ti` sono uguali
-- *Merge* ( `object` , `dynamic` ) = *merge* ( `dynamic` , `object` ) = `dynamic`
+- *Merge*( `object` , `dynamic` ) = *merge*( `dynamic` , `object` ) = `dynamic`
 
 ## <a name="warnings"></a>Avvisi
 
