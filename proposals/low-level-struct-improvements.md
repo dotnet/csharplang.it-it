@@ -1,15 +1,15 @@
 ---
-ms.openlocfilehash: 4096cd28e30fdffeac1ee3d8578343e51282f6f1
-ms.sourcegitcommit: 77b2ab88a0091333c11e647d47d5c3c7e94d4e7c
+ms.openlocfilehash: a082598353ede157e6d5b3d219a04a85cbb292bf
+ms.sourcegitcommit: 8cf85e8021b081f3bb2c71dede5e2aee9923bfa4
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/29/2020
-ms.locfileid: "91452317"
+ms.lasthandoff: 12/04/2020
+ms.locfileid: "96596369"
 ---
 <a name="low-level-struct-improvements"></a>Miglioramenti allo struct di basso livello
 =====
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 Questa proposta è un'aggregazione di diverse proposte per `struct` migliorare le prestazioni. L'obiettivo è una progettazione che prende in considerazione le diverse proposte per creare un singolo set di funzionalità di base per i `struct` miglioramenti.
 
 ## <a name="motivation"></a>Motivazione
@@ -664,14 +664,19 @@ L'archiviazione di backup per il buffer verrà generata usando l' `[InlineArray]
 
 Questo particolare problema è ancora in discussione attiva e l'aspettativa è che l'implementazione di questa funzionalità seguirà tuttavia la discussione.
 
-### <a name="provide-parameter-escape-annotations"></a>Specificare le annotazioni di escape del parametro
-**questa sezione è ancora in fase di sviluppo** Una delle regole che causano un attrito ripetuto nel codice di basso livello è la regola "argomenti del metodo che devono corrispondere". Tale regola indica che, nel caso in cui una chiamata al metodo abbia almeno una `ref struct` passata da, `ref / out` nessuno degli altri parametri può avere un valore *safe-to-escape* più piccolo rispetto al parametro.
-Per estensione se sono presenti due parametri di questo tipo, la modalità di *escape sicura* di tutti i parametri deve essere uguale.
+### <a name="provide-parameter-does-not-escape-annotations"></a>Il parametro provide non esegue l'escape delle annotazioni
+Un'origine di attrito ripetuto nel codice di basso livello è l'ambito di escape predefinito per i parametri di tipo *safe-to-escape* all'esterno del corpo del metodo contenitore. Si tratta di un valore predefinito sensibile perché si allinea con i modelli di codifica di .NET nel suo complesso. Nel codice di basso livello è disponibile un utilizzo maggiore di `ref struct` e questo ambito predefinito può causare attrito con altre parti delle regole di protezione dell'intervallo.
+
+Il punto di attrito principale si verifica a causa del vincolo seguente per le chiamate al metodo:
+
+> Per una chiamata al metodo se è presente un argomento ref o out di un tipo struct di riferimento (incluso il ricevitore), con la sicurezza di escape E1, nessun argomento (incluso il ricevitore) può avere una sicurezza di escape più stretta di E1
+
+Questa regola viene in genere eseguita con i metodi di istanza in `ref struct` cui almeno un parametro è anche un `ref struct` . Si tratta di un modello comune nel codice di basso livello in cui `ref struct` i tipi usano `Span<T>` in genere i parametri nei rispettivi metodi. Prendere in considerazione tutti gli oggetti di tipo Builder o writer usati `Span<T>` da per passare i buffer.
 
 Questa regola esiste per impedire scenari come i seguenti:
 
 ```cs
-struct RS
+ref struct RS
 {
     Span<int> _field;
     void Set(Span<int> p)
@@ -683,52 +688,135 @@ struct RS
     {
         Span<int> span = stackalloc int[] { 42 };
 
-        // Error: if allowed this would let the method return a pointer to 
+        // Error: if allowed this would let the method return a reference to 
         // the stack
         p.Set(span);
     }
 }
 ```
 
-Questa regola esiste perché la lingua deve presupporre che questi valori possano eseguire l'escape fino alla durata massima consentita. In molti casi, tuttavia, le implementazioni del metodo non eseguono l'escape di questi valori. Di conseguenza, l'attrito causato qui non è necessario.
+Essenzialmente questa regola esiste perché il linguaggio deve presupporre che tutti gli input di un metodo sfuggono al rispettivo ambito massimo consentito. Nel caso precedente, il linguaggio deve presupporre che i parametri vengano ignorati nei campi del destinatario.
 
-Per rimuovere questo attrito, il linguaggio fornirà l'attributo `[DoesNotEscape]` . Quando applicato ai parametri, l'ambito di *sicurezza di escape* del parametro verrà considerato l'ambito principale del metodo dichiarante. Non può restituire al di fuori di esso. Analogamente, l'attributo può essere applicato ai membri di istanza, alle proprietà dell'istanza o alle funzioni di accesso dell'istanza e avrà lo stesso effetto sul `this` parametro.
-
-Per tenere conto di questa modifica, la sezione "Parameters" del documento span Safety verrà aggiornata in modo da includere quanto segue:
-
-- Se il parametro è contrassegnato con è sicuro da usare come `[DoesNotEscape]` *escape* per l'ambito superiore del metodo contenitore. Poiché questo valore non è in grado di eseguire l'escape dal metodo, non è considerato parte del set di input di tipo *safe-to-escape* generale quando si calcolano le restituzione di questo metodo.
-
-**LA REGOLA PRECEDENTE RICHIEDE UN LAVORO**
+In pratica, sebbene esistano molti di questi metodi che non eseguono mai il escape del parametro.
+Si tratta semplicemente di un valore utilizzato all'interno dell'implementazione di. 
 
 ```cs
-struct RS
+ref struct JsonReader
 {
-    Span<int> _field;
-    void Set([DoesNotEscape] Span<int> p)
+    Span<char> _buffer;
+    int _position;
+
+    internal bool TextEquals(ReadOnySpan<char> text)
     {
-        // Error: the *safe-to-escape* of p is the top scope of the method while
-        // the *safe-to-escape* of 'this' is outside the method. Hence this is
-        // illegal by the standard assignment rules
-        _field = p; 
+        var current = _buffer.Slice(_position, text.Length);
+        return current == text;
     }
+}
 
-    static RS M(ref RS rs1, [DoesNotEscape]RS rs2)
+class C
+{
+    static void M(ref JsonReader reader)
     {
-        Span<int> span = stackalloc int[] { 42 };
+        Span<char> span = stackalloc char[4];
+        span[0] = 'd';
+        span[1] = 'o';
+        span[2] = 'g';
 
-        // Okay: The parameter here is not a part of the calculated "must match"
-        // set because it can't be returned hence this is legal.
-        rs2.Set(span);
-
-        // Error: the *safe-to-escape* scope of 'rs2' is the top scope of this
-        // method
-        return rs2;
+        // Error: The *safe-to-escape* of `span` is the current method scope 
+        // while `reader` is outside the current method scope hence this fails
+        // by the above rule.
+        if (reader.TextEquals(span)
+        {
+            ...
+        })
     }
 }
 ```
 
+Per ovviare a questo codice di basso livello, si ricorrerà a `unsafe` trucchi per far pensare al compilatore il ciclo di vita dei rispettivi `ref struct` . Questo consente di ridurre significativamente la proposta di valore di `ref struct` in quanto sono destinati a evitare di `unsafe` scrivere codice a prestazioni elevate.
+
+L'altra posizione in cui l'ambito di escape predefinito del parametro causa un attrito è quando vengono riassegnati all'interno del corpo di un metodo. Ad esempio, se il corpo di un metodo decide di applicare in modo condizionale l'escape all'input usando valori allocati dello stack. Ancora una volta questa operazione si blocca.
+
+```cs
+void WriteData(ReadOnlySpan<char> data)
+{
+    if (data.Contains(':'))
+    {
+        Span<char> buffer = stackalloc char[256];
+        Escape(data, buffer, out var length);
+
+        // Error: Cannot assign `buffer` to `data` here as the *safe-to-escape*
+        // scope of `buffer` is to the current method scope while `buffer` is
+        // outside the current method scope
+        data = buffer.Slice(0, length);
+    }
+
+    WriteDataCore(data);
+}
+```
+
+Questo modello è piuttosto comune nel codice .NET e funziona correttamente quando `ref struct` non è necessario un oggetto. Una volta che gli utenti adottano `ref struct` anche se impone loro di modificare i modelli qui e spesso ricorrono a `unsafe` aggirare le limitazioni qui.
+
+Per rimuovere questo attrito, il linguaggio fornirà l'attributo `[DoesNotEscape]` . Questo può essere applicato a parametri di qualsiasi tipo o membro di istanza definito in `ref struct` . Quando viene applicato ai parametri, l'ambito *di sicurezza di escape* e *ref-safe-to-escape* sarà l'ambito del metodo corrente. Quando applicato ai membri di istanza con `ref struct` la stessa limitazione, si applica al `this` parametro.
+
+```cs
+class C
+{
+    static Span<int> M1(Span<int> p1, [DoesNotEscape] Span<int> p2)
+    {
+        // Okay: the *safe-to-escape* here is still outside the enclosing scope
+        // of the current method.
+        return p1; 
+
+        // ERROR: the [DoesNotEscape] attribute changes the *safe-to-escape* 
+        // to be limited to the current method scope. Hence it cannot be 
+        // returned
+        return p2; 
+
+        // ERROR: `local` has the same *safe-to-escape* as `p2` hence it cannot
+        // be returned.
+        Span<int> local = p2;
+        return p2; 
+    }
+}
+```
+
+Per tenere conto di questa modifica, la sezione "Parameters" del documento span Safety verrà aggiornata in modo da includere il punto elenco seguente:
+
+- Se il parametro è contrassegnato con è `[DoesNotEscape]` *safe-to-escape* e *ref-safe-to-escape* nell'ambito del metodo contenitore. 
+
+È importante sottolineare che questa operazione bloccherà in modo naturale la possibilità che tali parametri vengano ignorati archiviando come campi. I ricevitori passati da `ref` , o `this` su `ref struct` , hanno un ambito *sicuro per l'escape* al di fuori del metodo corrente. Di conseguenza, l'assegnazione da un `[DoesNotEscape]` parametro a un campo su un valore di questo tipo ha esito negativo in base alle regole di assegnazione dei campi esistenti: l'ambito del ricevitore è maggiore del valore assegnato.
+
+```cs
+ref struct S
+{
+    Span<int> _field;
+
+    void M1(Span<int> p1, [DoesNotEscape] Span<int> p2)
+    {
+        // Okay: the *safe-to-escape* here is still outside the enclosing scope
+        // of the current method and hence the same as the receiver.
+        _field = p1;
+
+        // ERROR: the [DoesNotEscape] attribute changes the *safe-to-escape* 
+        // to be limited to the current method scope. Hence it cannot be 
+        // assigned to a receiver than has a *safe-to-escape* scope outside the 
+        // current method.
+        _field = p2;
+    }
+}
+```
+
+Dato che i parametri sono limitati in questo modo, verrà aggiornata anche la sezione "chiamata al metodo" per attenuare le regole. In tutti i casi in cui si sta considerando la durata di *riferimento-safe-to-* Escape o di tipo *safe-to-escape* degli argomenti, la specifica cambierà in modo da ignorare gli argomenti che si allineano ai parametri contrassegnati come `[DoesNotEscape]` . Poiché questi argomenti non possono uscire dalla durata, non è necessario prendere in considerazione la durata dei valori restituiti.
+
+Ad esempio, l'ultima riga di calcolo *safe-to-escape* dei ritorni cambierà in 
+
+> il carattere di escape sicuro per tutte le espressioni di argomento, incluso il ricevitore. **Questa operazione escluderà tutti gli argomenti che si allineano con i parametri contrassegnati come [DoesNotEscape]**
+
 Note varie:
 - L'oggetto  `DoesNotEscapeAttribute` verrà definito nello `System.Runtime.CompilerServices` spazio dei nomi.
+- `DoesNotEscapeAttribute`Non può essere combinato con l' `[ThisRefEscapes]` attributo. in questo modo si ottiene un errore.
+- `DoesNotEscapeAttribute`Verrà generato come`modreq`
 
 ## <a name="considerations"></a>Considerazioni
 
@@ -772,6 +860,42 @@ struct Dimensions
 
 ## <a name="future-considerations"></a>Considerazioni
 
+### <a name="allowing-attributes-on-locals"></a>Consentire attributi nelle variabili locali
+Un altro punto di attrito per gli sviluppatori `ref struct` che usano è che le variabili locali possono risentirsi degli stessi problemi dei parametri rispetto alla durata della dichiarazione. Che può rendere difficile l'utilizzo di `ref struct` che vengono assegnati a più percorsi in cui almeno uno dei percorsi è un ambito di *sicurezza di escape* limitato. 
+
+```cs
+int length = ...;
+Span<byte> span;
+if (length > StackAllocLimit)
+{
+    span = new Span(new byte[length]);
+}
+else
+{
+    // Error: The *safe-to-escape* of `span` was decided to be outside the 
+    // current method scope hence it can't be the target of a stackalloc
+    span = stackalloc byte[length];
+}
+```
+
+Per `Span<T>` gli sviluppatori che possono ovviare a questo problema, inizializzare il locale con un `stackalloc` di dimensioni pari a zero. In questo modo, l'ambito *safe-to-escape* diventa il metodo corrente e viene ottimizzato dal compilatore. Si tratta in effetti di una sintassi per la creazione di un oggetto `[DoesNotEscape]` locale.
+
+```cs
+int length = ...;
+Span<byte> span = stackalloc byte[0];
+if (length > StackAllocLimit)
+{
+    span = new Span(new byte[length]);
+}
+else
+{
+    // Okay
+    span = stackalloc byte[length];
+}
+```
+
+Questa operazione funziona solo per `Span<T>` , ma non esiste alcun meccanismo di utilizzo generico per `ref struct` i valori. Tuttavia `[DoesNotEscape]` , l'attributo fornisce esattamente la semantica desiderata qui. Se si decide in futuro di consentire agli attributi di applicare le variabili locali, si fornirebbe un sollievo immediato a questo scenario.
+
 ## <a name="related-information"></a>Informazioni correlate
 
 ### <a name="issues"></a>Problemi
@@ -788,6 +912,16 @@ Di seguito sono riportati i problemi correlati a questa proposta:
 Le seguenti proposte sono correlate a questa proposta:
 
 - https://github.com/dotnet/csharplang/blob/725763343ad44a9251b03814e6897d87fe553769/proposals/fixed-sized-buffers.md
+
+### <a name="existing-samples"></a>Esempi esistenti
+
+[Utf8JsonReader](https://github.com/dotnet/runtime/blob/f1a7cb3fdd7ffc4ce7d996b7ac6867ffe2c953b9/src/libraries/System.Text.Json/src/System/Text/Json/Reader/Utf8JsonReader.cs#L523-L528)
+
+Questo frammento di codice specifico richiede unsafe perché si verificano problemi con il passaggio di un oggetto `Span<T>` che può essere allocato nello stack a un metodo di istanza su un oggetto `ref struct` . Anche se questo parametro non viene acquisito, il linguaggio deve presupporre che sia e pertanto causa un attrito inutilmente.
+
+[Utf8JsonWriter](https://github.com/dotnet/runtime/blob/f1a7cb3fdd7ffc4ce7d996b7ac6867ffe2c953b9/src/libraries/System.Text.Json/src/System/Text/Json/Writer/Utf8JsonWriter.WriteProperties.String.cs#L122-L127)
+
+Questo frammento di codice desidera modificare un parametro eseguendo l'escape degli elementi dei dati. I dati di escape possono essere allocati nello stack per migliorare l'efficienza. Anche se il parametro non è preceduto da un carattere di escape, il compilatore lo assegna a un ambito di *escape sicuro* all'esterno del metodo contenitore perché è un parametro. Questo significa che, per poter usare l'allocazione dello stack, l'implementazione deve usare per `unsafe` assegnare di nuovo il parametro dopo l'escape dei dati.
 
 ### <a name="fun-samples"></a>Esempi divertenti
 
