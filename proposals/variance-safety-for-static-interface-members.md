@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: 368a2e5c076b1c2c3483b5f09ffafd28da229416
-ms.sourcegitcommit: 84c16c14e06ef8451662d4ffc4bdb8dd3ef1cbd8
+ms.openlocfilehash: f1ab0e063cc8b7a44c70ea1e52027cda30e064b0
+ms.sourcegitcommit: efac0d1e909d222dce5b18b10ae0d0b1d309b757
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 07/19/2020
-ms.locfileid: "86469159"
+ms.lasthandoff: 12/15/2020
+ms.locfileid: "97502849"
 ---
 # <a name="variance-safety-for-static-interface-members"></a>Sicurezza della varianza per i membri dell'interfaccia statica
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 
 Consente ai membri statici non virtuali nelle interfacce di trattare i parametri di tipo nelle rispettive dichiarazioni come invarianti, indipendentemente dalla varianza dichiarata.
 
@@ -42,27 +42,27 @@ La modifica è l'aggiunta di "*queste restrizioni non si applicano a ocurrances 
 L'occorrenza delle annotazioni di varianza nell'elenco dei parametri di tipo di un tipo limita le posizioni in cui i tipi possono essere presenti all'interno della dichiarazione del tipo.
 *Queste restrizioni non si applicano a ocurrances di tipi nelle dichiarazioni di membri statici.*
 
-Un tipo `T` è ***unsafe di output*** se uno degli elementi seguenti include:
+Un tipo `T` è ***output-unsafe** _ se uno degli elementi seguenti include:
 
-*  `T`è un parametro di tipo controvariante
-*  `T`è un tipo di matrice con un tipo di elemento non sicuro di output
-*  `T`è un tipo di interfaccia o delegato `S<A1,...,Ak>` costruito da un tipo generico `S<X1,...,Xk>` in cui per almeno uno `Ai` dei seguenti:
-   * `Xi`è covariante o invariante e non `Ai` è sicuro per l'output.
-   * `Xi`è controvariante o invariante ed `Ai` è indipendente dall'input.
+_  `T` è un parametro di tipo controvariante
+*  `T` è un tipo di matrice con un tipo di elemento non sicuro di output
+*  `T` è un tipo di interfaccia o delegato `S<A1,...,Ak>` costruito da un tipo generico `S<X1,...,Xk>` in cui per almeno uno `Ai` dei seguenti:
+   * `Xi` è covariante o invariante e non `Ai` è sicuro per l'output.
+   * `Xi` è controvariante o invariante ed `Ai` è indipendente dall'input.
    
-Un tipo `T` è ***unsafe di input*** se uno degli elementi seguenti include:
+Un tipo `T` è ***input-unsafe** _ se uno degli elementi seguenti include:
 
-*  `T`è un parametro di tipo covariante
-*  `T`è un tipo di matrice con un tipo di elemento non sicuro di input
-*  `T`è un tipo di interfaccia o delegato `S<A1,...,Ak>` costruito da un tipo generico `S<X1,...,Xk>` in cui per almeno uno `Ai` dei seguenti:
-   * `Xi`è covariante o invariante e non `Ai` è sicuro da input.
-   * `Xi`è controvariante o invariante e non `Ai` è sicuro per l'output.
+_  `T` è un parametro di tipo covariante
+*  `T` è un tipo di matrice con un tipo di elemento non sicuro di input
+*  `T` è un tipo di interfaccia o delegato `S<A1,...,Ak>` costruito da un tipo generico `S<X1,...,Xk>` in cui per almeno uno `Ai` dei seguenti:
+   * `Xi` è covariante o invariante e non `Ai` è sicuro da input.
+   * `Xi` è controvariante o invariante e non `Ai` è sicuro per l'output.
 
 In modo intuitivo, un tipo non sicuro di output è vietato in una posizione di output e un tipo di input non sicuro è vietato in una posizione di input.
 
-Un tipo è ***indipendente dall'output*** se non è indipendente dall'output e indipendente dall' ***input*** se non è non sicuro da input.
+Un tipo è ***output-Safe** _ se non è unsafe di output, e _ *_input-safe_** se non è non sicuro da input.
 
 
 ## <a name="other-considerations"></a>Altre considerazioni
 
-Si è inoltre preso in considerazione se questa situazione potrebbe interferire con alcuni altri miglioramenti che ci auguriamo di prendere in considerazione per i ruoli, le classi di tipi e le estensioni. Questi dovrebbero essere tutti i seguenti: non sarà possibile retconn i membri statici esistenti per la virtualizzazione per impostazione predefinita per le interfacce, perché questo potrebbe essere una modifica di rilievo a più livelli, anche senza modificare il comportamento di varianza.
+Si è inoltre preso in considerazione se questa situazione potrebbe interferire con alcuni altri miglioramenti che ci auguriamo di prendere in considerazione per i ruoli, le classi di tipi e le estensioni. Queste dovrebbero essere tutte: non sarà possibile reimpostare i membri statici esistenti in modo che siano virtuali per impostazione predefinita per le interfacce, perché questo potrebbe essere una modifica di rilievo a più livelli, anche senza modificare il comportamento di varianza.
