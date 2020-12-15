@@ -8,7 +8,7 @@ ms.locfileid: "97502849"
 ---
 # <a name="variance-safety-for-static-interface-members"></a>Sicurezza della varianza per i membri dell'interfaccia statica
 
-## <a name="summary"></a>Riepilogo
+## <a name="summary"></a>Summary
 
 Consente ai membri statici non virtuali nelle interfacce di trattare i parametri di tipo nelle rispettive dichiarazioni come invarianti, indipendentemente dalla varianza dichiarata.
 
