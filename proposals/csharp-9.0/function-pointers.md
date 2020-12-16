@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 6a641cf1b733156ce6ae0ee247c0e5aa7d990d2d
-ms.sourcegitcommit: c3df20406f43fcd460cfedd1cd61b6cc47d27250
+ms.openlocfilehash: 12407795f6df01e9f1a0a4b8200ab78477876fab
+ms.sourcegitcommit: 6c631c0f39bdcacab7743f17d19e82d70b1c04c2
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 09/08/2020
-ms.locfileid: "89554643"
+ms.lasthandoff: 12/16/2020
+ms.locfileid: "97592934"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
@@ -161,7 +161,7 @@ delegate*<delegate* managed<string, int>, delegate*<string, int>>;
 
 In un contesto non sicuro, il set di conversioni implicite disponibili (conversioni implicite) viene esteso in modo da includere le seguenti conversioni implicite del puntatore:
 - [_Conversioni esistenti_](https://github.com/dotnet/csharplang/blob/master/spec/unsafe-code.md#pointer-conversions)
-- Dal _ \_ tipo funcptr_ `F0` a un _altro \_ tipo funcptr_ `F1` , purché siano soddisfatte tutte le condizioni seguenti:
+- Dal _\_ tipo funcptr_ `F0` a un _altro \_ tipo funcptr_ `F1` , purché siano soddisfatte tutte le condizioni seguenti:
     - `F0` e `F1` hanno lo stesso numero di parametri e ogni parametro `D0n` in `F0` ha gli stessi `ref` `out` modificatori, o del `in` parametro corrispondente `D1n` in `F1` .
     - Per ogni parametro di valore (un parametro senza `ref` `out` `in` modificatore, o), esiste una conversione di identità, una conversione implicita di un riferimento o una conversione del puntatore implicita dal tipo di parametro in `F0` al tipo di parametro corrispondente in `F1` .
     - Per ogni `ref` `out` parametro, o `in` , il tipo di parametro in `F0` corrisponde al tipo di parametro corrispondente in `F1` .
@@ -197,7 +197,7 @@ In un contesto non sicuro, un metodo `M` è compatibile con un tipo di puntatore
 
 In un contesto non sicuro, esiste una conversione implicita da un'espressione address-of la cui destinazione è un gruppo `E` di metodi a un tipo di puntatore a funzione compatibile `F` se `E` contiene almeno un metodo applicabile nel formato normale a un elenco di argomenti costruito usando i tipi di parametro e i modificatori di `F` , come descritto di seguito.
 - Viene selezionato un singolo metodo `M` corrispondente alla chiamata di un metodo del form `E(A)` con le modifiche seguenti:
-   - L'elenco `A` degli argomenti è un elenco di espressioni, ciascuna classificata come variabile e con il tipo e il modificatore ( `ref` , `out` o `in` ) dell' _ \_ \_ elenco di parametri funcptr_ corrispondente di `F` .
+   - L'elenco `A` degli argomenti è un elenco di espressioni, ciascuna classificata come variabile e con il tipo e il modificatore ( `ref` , `out` o `in` ) dell' _\_ \_ elenco di parametri funcptr_ corrispondente di `F` .
    - I metodi candidati sono solo i metodi applicabili nel formato normale, non quelli applicabili nella forma espansa.
    - I metodi candidati sono solo i metodi statici.
 - Se l'algoritmo di risoluzione dell'overload genera un errore, si verifica un errore in fase di compilazione. In caso contrario, l'algoritmo produce un unico metodo migliore `M` con lo stesso numero di parametri di `F` e la conversione viene considerata esistente.
@@ -369,8 +369,8 @@ Si tratta di un suono che aggiunge alcune complicazioni alla proposta. In partic
 ``` csharp
 unsafe class Instance {
     void Use() {
-        static string toString(Instance i) = i.ToString();
-        delgate*<Instance, string> f = &toString;
+        static string toString(Instance i) => i.ToString();
+        delegate*<Instance, string> f = &toString;
         f(this);
     }
 }
