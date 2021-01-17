@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 3605661e9c17143c8df5b9b994a1f67800db006f
-ms.sourcegitcommit: 7125a8428a23fadaf4c93b2fc1ec88019876eaa7
+ms.openlocfilehash: c5f9750d07c6324b6db04ab83c95622f7b9a1c13
+ms.sourcegitcommit: a9b70c6ee1117df36eb66cf5b8e45c47e6c4f12e
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/31/2020
-ms.locfileid: "93142158"
+ms.lasthandoff: 01/17/2021
+ms.locfileid: "98536230"
 ---
 
 # <a name="records"></a>Record
@@ -220,8 +220,10 @@ bool PrintMembers(System.Text.StringBuilder builder);
 Il metodo è `private` se il tipo di record è `sealed` . In caso contrario, il metodo è `virtual` e `protected` .
 
 Il metodo si comporta come di seguito:
-1. per ogni membro stampabile del record (campo pubblico non statico e membri di proprietà leggibili), aggiunge il nome di tale membro seguito da "=" seguito dal valore del membro: `this.member` , separato da ",",
+1. per ogni membro stampabile del record (campo pubblico non statico e membri di proprietà leggibili), aggiunge il nome del membro seguito da "=" seguito dal valore del membro separato con ",",
 2. Restituisce true se il record dispone di membri stampabili.
+
+Per un membro con un tipo di valore, il relativo valore viene convertito in una rappresentazione di stringa utilizzando il metodo più efficiente disponibile per la piattaforma di destinazione. Al momento, significa chiamare `ToString` prima di passare a `StringBuilder.Append` .
 
 Se il tipo di record è derivato da un record di base `Base` , il record include un override sintetizzato equivalente a un metodo dichiarato nel modo seguente:
 ```C#
@@ -271,7 +273,7 @@ class R1 : IEquatable<R1>
     {
         builder.Append(nameof(P1));
         builder.Append(" = ");
-        builder.Append(this.P1); // or builder.Append(this.P1); if P1 has a value type
+        builder.Append(this.P1); // or builder.Append(this.P1.ToString()); if P1 has a value type
         
         return true;
     }
@@ -350,7 +352,7 @@ Se non viene letto un parametro del costruttore primario, viene generato un avvi
 
 Le variabili di espressione dichiarate nell'oggetto sono incluse nell' `argument_list` ambito di `argument_list` . Si applicano le stesse regole di shadowing in un elenco di argomenti di un inizializzatore di costruttore normale.
 
-### <a name="properties"></a>Proprietà
+### <a name="properties"></a>Properties
 
 Per ogni parametro di record di una dichiarazione del tipo di record è presente un membro della proprietà pubblica corrispondente il cui nome e tipo vengono ricavati dalla dichiarazione del parametro value.
 
@@ -391,6 +393,6 @@ Un' `with` espressione consente la "mutazione non distruttiva", progettata per p
 
 Un' `with` espressione valida ha un ricevitore con un tipo non void. Il tipo di ricevitore deve essere un record.
 
-Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore* , che deve essere un campo di istanza accessibile o una proprietà del tipo del destinatario.
+Sul lato destro dell' `with` espressione è `member_initializer_list` presente una con una sequenza di assegnazioni all' *identificatore*, che deve essere un campo di istanza accessibile o una proprietà del tipo del destinatario.
 
 Innanzitutto, viene richiamato il metodo "clone" del destinatario (specificato sopra) e il risultato viene convertito nel tipo del destinatario. Ognuna viene quindi `member_initializer` elaborata allo stesso modo di un'assegnazione a un campo o a una proprietà per l'accesso al risultato della conversione. Le assegnazioni vengono elaborate in ordine lessicale.
