@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 12407795f6df01e9f1a0a4b8200ab78477876fab
-ms.sourcegitcommit: 6c631c0f39bdcacab7743f17d19e82d70b1c04c2
+ms.openlocfilehash: 05de92313261e2d0c74de13df5a3c0eb96b49e1e
+ms.sourcegitcommit: 6ab8409a32f1249f9aef618054426acb7bc7b4c1
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 12/16/2020
-ms.locfileid: "97592934"
+ms.lasthandoff: 01/25/2021
+ms.locfileid: "98763664"
 ---
 # <a name="function-pointers"></a>Puntatori a funzione
 
@@ -258,6 +258,86 @@ La specifica del membro di funzione migliore verrà modificata in modo da includ
 > Un `delegate*` è più specifico di `void*`
 
 Ciò significa che è possibile eseguire l'overload su `void*` e un oggetto `delegate*` e continuare a usare l'operatore address-of.
+
+### <a name="type-inference"></a>Inferenza di tipi
+
+Nel codice unsafe vengono apportate le modifiche seguenti agli algoritmi di inferenza del tipo:
+
+#### <a name="input-types"></a>Tipi di input
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#input-types
+
+Viene aggiunto quanto segue:
+
+> Se `E` è un gruppo di metodi address-of e `T` è un tipo di puntatore a funzione, tutti i tipi di parametro di `T` sono tipi di input di `E` con tipo `T` .
+
+#### <a name="output-types"></a>Tipi di output
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#output-types
+
+Viene aggiunto quanto segue:
+
+> Se `E` è un gruppo di metodi address-of e `T` è un tipo di puntatore a funzione, il tipo restituito di `T` è un tipo di output di tipo `E` `T` .
+
+#### <a name="output-type-inferences"></a>Inferenza del tipo di output
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#output-type-inferences
+
+Viene aggiunto il seguente Bullet tra i punti elenco 2 e 3:
+
+> * Se `E` è un gruppo di metodi address-of e `T` è un tipo di puntatore a funzione con tipi di parametro `T1...Tk` e tipo restituito e `Tb` la risoluzione dell'overload di `E` con i tipi `T1..Tk` produce un solo metodo con tipo restituito `U` , viene eseguita un' _inferenza con binding inferiore_ da `U` a `Tb` .
+
+#### <a name="exact-inferences"></a>Inferenza esatta
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#exact-inferences
+
+Il punto elenco secondario seguente viene aggiunto come caso a Bullet 2:
+
+> * `V` è un tipo di puntatore a funzione `delegate*<V2..Vk, V1>` e `U` è un tipo di puntatore a funzione e `delegate*<U2..Uk, U1>` la convenzione di chiamata di `V` è identica a `U` e il refness di `Vi` è identico a `Ui` .
+
+#### <a name="lower-bound-inferences"></a>Inferenza con associazione inferiore
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#lower-bound-inferences
+
+Il caso seguente viene aggiunto al Bullet 3:
+
+> * `V` è un tipo di puntatore a funzione `delegate*<V2..Vk, V1>` ed è presente un tipo di puntatore a funzione `delegate*<U2..Uk, U1>` che `U` è identico a e `delegate*<U2..Uk, U1>` la convenzione di chiamata di `V` è identica a `U` e il refness di `Vi` è identico a `Ui` .
+
+Il primo punto elenco di inferenza da `Ui` a `Vi` viene modificato in:
+
+> * Se `U` non è un tipo di puntatore a funzione e `Ui` non è noto come tipo di riferimento o se `U` è un tipo di puntatore a funzione e `Ui` non è noto come tipo di puntatore a funzione o come tipo di riferimento, viene eseguita un' _inferenza esatta_
+
+Quindi, aggiunto dopo il terzo punto elenco di inferenza da `Ui` a `Vi` :
+
+> * In caso contrario, se `V` è, `delegate*<V2..Vk, V1>` l'inferenza dipende dal parametro i-th di `delegate*<V2..Vk, V1>` :
+>    * Se V1:
+>        * Se il valore restituito è per valore, viene eseguita un' _inferenza con associazione inferiore_ .
+>        * Se il valore restituito è per riferimento, viene eseguita un' _inferenza esatta_ .
+>    * Se V2.. VK
+>        * Se il parametro è per valore, viene eseguita un' _inferenza con limite superiore_ .
+>        * Se il parametro è per riferimento, viene eseguita un' _inferenza esatta_ .
+
+#### <a name="upper-bound-inferences"></a>Inferenze con associazione superiore
+
+https://github.com/dotnet/csharplang/blob/master/spec/expressions.md#upper-bound-inferences
+
+Il caso seguente viene aggiunto al Bullet 2:
+
+> * `U` è un tipo di puntatore a funzione `delegate*<U2..Uk, U1>` e `V` è un tipo di puntatore a funzione identico a `delegate*<V2..Vk, V1>` e la convenzione di chiamata di `U` è identica a `V` e il refness di `Ui` è identico a `Vi` .
+
+Il primo punto elenco di inferenza da `Ui` a `Vi` viene modificato in:
+
+> * Se `U` non è un tipo di puntatore a funzione e `Ui` non è noto come tipo di riferimento o se `U` è un tipo di puntatore a funzione e `Ui` non è noto come tipo di puntatore a funzione o come tipo di riferimento, viene eseguita un' _inferenza esatta_
+
+Aggiunto quindi dopo il terzo punto elenco di inferenza da `Ui` a `Vi` :
+
+> * In caso contrario, se `U` è, `delegate*<U2..Uk, U1>` l'inferenza dipende dal parametro i-th di `delegate*<U2..Uk, U1>` :
+>    * Se U1:
+>        * Se il valore restituito è per valore, viene eseguita un' _inferenza con limite superiore_ .
+>        * Se il valore restituito è per riferimento, viene eseguita un' _inferenza esatta_ .
+>    * Se U2.. Regno Unito
+>        * Se il parametro è per valore, viene eseguita un' _inferenza con associazione inferiore_ .
+>        * Se il parametro è per riferimento, viene eseguita un' _inferenza esatta_ .
 
 ## <a name="metadata-representation-of-in-out-and-ref-readonly-parameters-and-return-types"></a>Rappresentazione dei metadati `in` di `out` parametri, e `ref readonly` e tipi restituiti
 
