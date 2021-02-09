@@ -1,12 +1,12 @@
 ---
-ms.openlocfilehash: 26e9407830d125c4c68efc162943fcc4f960301e
-ms.sourcegitcommit: 1fccd6246b9806faee3c8265036fb936ee4a0337
+ms.openlocfilehash: c1ff78f64b1529e6b648d5cbe5b80e507642fac8
+ms.sourcegitcommit: ec31c2771e390305a430c407e29f72d8299a4c72
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 11/11/2020
-ms.locfileid: "94507677"
+ms.lasthandoff: 02/09/2021
+ms.locfileid: "99985908"
 ---
-# <a name="per-method-asyncmethodbuilders"></a>Per-Method AsyncMethodBuilders
+# <a name="asyncmethodbuilder-override"></a>Override di AsyncMethodBuilder
 
 * [x] proposto
 * [] Prototipo: non avviato
@@ -16,7 +16,13 @@ ms.locfileid: "94507677"
 ## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
-Estendere il generatore di metodi asincroni esistente per supportare l'attribuzione per metodo oltre al supporto per il tipo per restituito esistente.
+Consente l'override per metodo del generatore di metodi asincroni da usare.
+Per alcuni metodi asincroni si vuole personalizzare la chiamata di `Builder.Create()` per usare un _tipo di generatore_ diverso e possibilmente passare informazioni aggiuntive sullo stato.
+
+```C#
+[AsyncMethodBuilderOverride(typeof(PoolingAsyncValueTaskMethodBuilder<int>))] // new, referring to some custom builder type
+static async ValueTask<int> ExampleAsync() { ... }
+```
 
 ## <a name="motivation"></a>Motivazione
 [motivation]: #motivation
@@ -25,7 +31,7 @@ Attualmente, i generatori di metodi asincroni sono collegati a un tipo specifica
 
 In .NET 5 è stata fornita una funzionalità sperimentale che fornisce due modalità in cui `AsyncValueTaskMethodBuilder` e `AsyncValueTaskMethodBuilder<T>` operano.  La modalità attiva per impostazione predefinita è identica a quella in cui è stata introdotta la funzionalità: quando la macchina a stati deve essere sollevata nell'heap, viene allocato un oggetto per archiviare lo stato e il metodo asincrono restituisce un oggetto `ValueTask{<T>}` supportato da `Task{<T>}` .  Tuttavia, se viene impostata una variabile di ambiente, tutti i generatori del processo passano a una modalità in cui, invece, le `ValueTask{<T>}` istanze sono supportate dalle implementazioni riutilizzabili in `IValueTaskSource{<T>}` pool.  Ogni metodo asincrono dispone di un proprio pool con un numero massimo fisso di istanze consentite per il pool e, a condizione che non venga mai restituito un numero maggiore di tale numero al pool, in modo che venga ripreso in pool contemporaneamente, i `async ValueTask<{T}>` metodi diventano senza alcun sovraccarico di allocazione GC.
 
-Esistono diversi problemi con questa modalità sperimentale, tuttavia, che è il motivo per cui è disattivata per impostazione predefinita e b) è probabile che venga rimossa in una versione futura, a meno che non siano presenti nuove informazioni molto interessanti ( https://github.com/dotnet/runtime/issues/13633) .  
+Esistono diversi problemi con questa modalità sperimentale, tuttavia, che è il motivo per cui è disattivata per impostazione predefinita e b) è probabile che venga rimossa in una versione futura, a meno che non siano presenti nuove informazioni molto interessanti ( https://github.com/dotnet/runtime/issues/13633) .
 - Introduce una differenza comportamentale per i consumer dell'oggetto restituito `ValueTask{<T>}` se `ValueTask` non viene utilizzato in base alla specifica.  Quando è supportato da `Task` , è possibile eseguire le `ValueTask` operazioni con un `Task` , ad esempio await it più volte, await it simultaneamente, blocca in attesa del completamento e così via.  Tuttavia, quando è supportato da un arbitrario `IValueTaskSource` , queste operazioni non sono consentite e il cambio automatico dal primo al secondo può causare bug.  Con l'opzione a livello di processo e che interessano tutti i `async ValueTask` metodi del processo, indipendentemente dal fatto che vengano controllate o meno, il martello è troppo grande.
 - Non è necessariamente una vittoria sulle prestazioni e può rappresentare una regressione in alcune situazioni.  L'implementazione sta commerciando il costo del pool (l'accesso a un pool non è gratuito) con il costo di GC e in varie situazioni il GC può vincere.  Anche in questo caso, l'applicazione del pool a tutti i `async ValueTask` metodi del processo, anziché essere selettiva rispetto a quelli che trarrebbero maggiore vantaggio, è troppo grande.
 - Aggiunge alla dimensione IL di un'applicazione tagliata, anche se il flag non è impostato, quindi alla dimensione ASM risultante.  È possibile che sia possibile aggirare i miglioramenti apportati all'implementazione per indicare che per una distribuzione specifica la variabile di ambiente sarà sempre falsa, ma, come attualmente, ogni `async ValueTask` metodo ha visto, ad esempio, un aumento del footprint binario di ~ 2K nelle immagini AOT a causa di questa opzione, e, ancora una volta, che si applica a tutti i `async ValueTask` metodi nell'intera chiusura dell'applicazione.
@@ -38,17 +44,31 @@ Oltre a tutti questi problemi con il pool esistente, è anche possibile impedire
 ## <a name="detailed-design"></a>Progettazione dettagliata
 [design]: #detailed-design
 
-#### <a name="p0-asyncmethodbuilderattribute-applicable-to-methods"></a>P0: AsyncMethodBuilderAttribute applicabile ai metodi
+#### <a name="p0-asyncmethodbuilderoverrideattribute-applied-on-async-methods"></a>P0: AsyncMethodBuilderOverrideAttribute applicato ai metodi asincroni
 
-In DotNet/Runtime modificare `AsyncMethodBuilderAttribute` AttributeUsage da:
-```C#
-AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Delegate | AttributeTargets.Enum
+In `dotnet/runtime` aggiungere `AsyncMethodBuilderOverrideAttribute` :
+```csharp
+namespace System.Runtime.CompilerServices
+{
+    /// <summary>
+    /// Indicates the type of the async method builder that should be used by a language compiler to
+    /// build the attributed method.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, Inherited = false, AllowMultiple = false)]
+    public sealed class AsyncMethodBuilderOverrideAttribute : Attribute
+    {
+        /// <summary>Initializes the <see cref="AsyncMethodBuilderOverrideAttribute"/>.</summary>
+        /// <param name="builderType">The <see cref="Type"/> of the associated builder.</param>
+        public AsyncMethodBuilderOverrideAttribute(Type builderType) => BuilderType = builderType;
+
+        // for scoped application (use property for targetReturnType? have compiler check that it's provided)
+        public AsyncMethodBuilderOverrideAttribute(Type builderType, Type targetReturnType) => ...
+
+        /// <summary>Gets the <see cref="Type"/> of the associated builder.</summary>
+        public Type BuilderType { get; }
+    }
+}
 ```
-per includere anche il metodo:
-```C#
-AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Delegate | AttributeTargets.Enum | AttributeTargets.Method
-```
-in modo che possa essere applicato anche ai metodi.  In alternativa, introdurre un nuovo attributo specifico dei metodi, se questo è ritenuto migliore per qualche motivo.
 
 Nel compilatore C# preferiscono l'attributo nel metodo quando si determina il generatore da usare rispetto a quello definito nel tipo.  Ad esempio, oggi se un metodo viene definito come:
 ```C#
@@ -69,7 +89,7 @@ static ValueTask<int> ExampleAsync()
 ```
 Con questa modifica, se lo sviluppatore ha scritto:
 ```C#
-[AsyncMethodBuilder(typeof(PoolingAsyncValueTaskMethodBuilder<int>))] // new, referring to some custom builder type
+[AsyncMethodBuilderOverride(typeof(PoolingAsyncValueTaskMethodBuilder<int>))] // new, referring to some custom builder type
 static async ValueTask<int> ExampleAsync() { ... }
 ```
 verrebbe invece compilato in:
@@ -88,58 +108,154 @@ static ValueTask<int> ExampleAsync()
 ```
 
 Solo le piccole aggiunte consentono:
-- Chiunque scriva il proprio generatore che può essere applicato a metodi asincroni che restituiscono `Task{T}` e `ValueTask{<T>}`
+- Chiunque scriva il proprio generatore che può essere applicato a metodi asincroni che restituiscono `Task<T>` e `ValueTask<T>`
 - Come "chiunque", il runtime per fornire il supporto del generatore sperimentale come nuovi tipi di generatore pubblici che possono essere scelti in base al metodo; il supporto esistente verrebbe rimosso dai generatori esistenti.  I metodi, inclusi quelli che si occupano delle librerie principali, possono quindi essere attribuiti a caso per caso per usare il supporto del pool, senza alcun effetto su altri metodi non attribuiti.
 
 e con modifiche minime alla superficie di attacco o funzioni nel compilatore.
 
-#### <a name="p1-asyncmethodbuilderattribute-arguments-forward-to-create"></a>P1: AsyncMethodBuilderAttribute argomenti in futuro da creare
 
-All'attributo viene assegnato un costruttore aggiuntivo:
+Si noti che è necessario il codice generato per consentire la restituzione di un tipo diverso dal `Create` Metodo:
+```
+AsyncPooledBuilder _builder = AsyncPooledBuilderWithSize4.Create();
+```
+
+#### <a name="p1-passing-state-to-the-builder-instantiation"></a>P1: passaggio dello stato alla creazione dell'istanza del generatore
+
+In alcuni scenari può essere utile passare alcune informazioni al generatore.  Questo può essere statico (ad esempio, le costanti che configurano la dimensione del pool da usare) o dinamico (ad esempio, riferimento alla cache o singleton da usare).
+
+Sono state rilevate alcune opzioni (documentate di seguito per il record), ma si consiglia di non eseguire alcuna operazione (opzione #0) finché non si determina che il supporto dello stato dinamico potrebbe essere utile.
+
+##### <a name="option-0-no-extra-state"></a>Opzione 0: nessun stato aggiuntivo
+
+È possibile approssimare il passaggio di informazioni statiche eseguendo il wrapping dei tipi di generatore.
+Ad esempio, è possibile creare un tipo di generatore personalizzato che hardcoded una determinata configurazione:
+
 ```C#
-public AsyncMethodBuilderAttribute(Type builderType, params object[] createArguments);
-```
-Se vengono specificati argomenti di questo tipo, il compilatore si aspetta che il generatore disponga di un `Create` metodo che può essere associato a tali argomenti, ad esempio se uno sviluppatore USA:
-```C#
-[AsyncMethodBuilder(typeof(PoolingAsyncValueTaskMethodBuilder<>), 16)]
-```
-il compilatore consentirebbe la compilazione a causa `PoolingAsyncValueTaskMethodBuilder<>` dell'esposizione dell' `Create` Overload seguente:
-```
-public static PoolingAsyncValueTaskMethodBuilder<T> Create(int poolCapacity);
-```
-e utilizzerebbe tale `Create` Overload invece di un senza parametri `Create` che altrimenti sarebbe previsto e utilizzerebbe, ad esempio:
-```C#
-[AsyncMethodBuilder(typeof(PoolingAsyncValueTaskMethodBuilder<>), 16)]
-static async ValueTask<int> ExampleAsync() { ... }
-```
-verrà compilato in:
-```C#
-[AsyncStateMachine(typeof(<ExampleAsync>d__29))]
-[CompilerGenerated]
-[AsyncMethodBuilder(typeof(PoolingAsyncValueTaskMethodBuilder<>), 16)]
-static ValueTask<int> ExampleAsync()
+public struct AsyncPooledBuilderWithSize4
 {
-    <ExampleAsync>d__29 stateMachine;
-    stateMachine.<>t__builder = PoolingAsyncValueTaskMethodBuilder<int>.Create(16); // attr arguments passed to Create
-    stateMachine.<>1__state = -1;
-    stateMachine.<>t__builder.Start(ref stateMachine);
-    return stateMachine.<>t__builder.Task;
+    AsyncPooledBuilder Create() => AsyncPooledBuilder.Create(4);
 }
 ```
-Tale supporto potrebbe consentire ai generatori personalizzati di essere parametrizzati per ogni sito di chiamata, senza richiedere al generatore di eseguire una reflection complessa e costosa.
+
+##### <a name="option-1-use-constants-in-attribute-as-arguments-for-create"></a>Opzione 1: usare le costanti nell'attributo come argomenti per `Create`
+
+`AsyncMethodBuilderOverrideAttribute`Avrebbe accettato alcune informazioni aggiuntive:
+```C#
+    public AsyncMethodBuilderOverrideAttribute(Type builderType, params object[] args)
+```
+
+Argomenti raccolti nell'attributo:
+```C#
+[AsyncMethodBuilderOverride(typeof(AsyncPooledBuilder), 4)]
+```
+viene usato nella chiamata del `Create` Metodo:
+```C#
+AsyncPooledBuilder.Create(4);
+```
+
+##### <a name="option-2-use-arguments-of-the-async-method"></a>Opzione 2: usare gli argomenti del metodo asincrono
+
+Oltre a `AsyncMethodBuilderOverrideAttribute` un attributo per contrassegnare uno dei parametri del metodo asincrono:
+```C#
+[AsyncMethodBuilderOverride(typeof(AsyncPooledBuilder))]
+async ValueTask MyMethodAsync(/* regular arguments */, [FOR_BUILDER] int i)
+```
+
+Questo comporterebbe il passaggio del valore per il parametro alla `Create` chiamata:
+```C#
+BuilderType.Create(i);
+```
+
+Nella maggior parte dei casi, l'utente potrebbe scrivere un wrapper per ottenere la firma desiderata:
+```C#
+public ValueTask MyMethodWrapperAsync(/* regular parameters */)
+{
+    return MyMethodAsync(/* pass values from regular parameters through */, 4); // static or dynamic value for the builder
+}
+```
+
+Uno può anche passare i delegati memorizzati nella cache in questo modo:
+```C#
+.ctor()
+{
+    s_func_take = () => get_item();
+    s_action_put = t => free_item(t);
+}
+
+public ValueTask MyMethodWrapperAsync(/* regular parameters */)
+{
+   return MyMethodAsync(/* pass values from regular parameters through */, (s_func_take, s_action_put));
+}
+```
+
+Questo approccio è simile al `EnumeratorCancellationAttribute` funzionamento di. Il parametro aggiuntivo, tuttavia, non è utile per il codice utente, quindi la firma e la macchina a Stati sono inquinate.
+Questo approccio si sovrappone con l'opzione #1, quindi è probabile che non si desideri supportare entrambi.
+
+##### <a name="option-3-pass-a-lambda-that-instantiates-builders"></a>Opzione 3: passare un'espressione lambda che crea un'istanza di generatori
+
+Come sostituzione per `AsyncMethodBuilderOverrideAttribute` (o possibilmente in aggiunta), avremmo un attributo per contrassegnare uno dei parametri del metodo asincrono:
+```C#
+async ValueTask MyMethodAsync(/* regular parameters */, [FOR_BUILDER] Func<AsyncPooledBuilder> lambda)
+```
+Il parametro deve avere un tipo delegato senza parametri e restituire un tipo di generatore.
+
+Il compilatore potrebbe generare:
+```C#
+...
+static ValueTask<int> MyMethodAsync(/* regular parameters */, [FOR_BUILDER] Func<AsyncPooledBuilder> lambda)
+{
+    <MyMethodAsync>d__29 stateMachine;
+    stateMachine.<>t__builder = lambda();
+    ...
+}
+```
+
+È ancora presente il problema dell'inquinamento della firma del metodo e della macchina a Stati.
+
+Nel caso in cui si desideri un generatore contenente due delegati memorizzati nella cache
+
+```C#
+.ctor()
+{
+    s_func_take = () => get_item();
+    s_action_put = t => free_item(t);
+    s_func = () => Builder.Create(take: s_func_take, put: s_action_put);
+}
+
+public ValueTask MyMethodWrapperAsync(...)
+{
+    return MyMethodAsync(..., s_func);
+}
+```
 
 #### <a name="p2-enable-at-the-module-and-type-level-as-well"></a>P2: abilitare anche a livello di modulo (e digitare?)
 
 Uno sviluppatore che desidera utilizzare un generatore personalizzato specifico per tutti i relativi metodi può eseguire questa operazione inserendo l'attributo pertinente per ogni metodo.  Tuttavia, è anche possibile consentire l'attribuzione a livello di modulo o di tipo, nel qual caso ogni metodo pertinente all'interno di tale ambito si comporterebbe come se fosse annotato direttamente, ad esempio
 ```C#
-[module: PoolingAsyncValueTaskMethodBuilder]
-[module: PoolingAsyncValueTaskMethodBuilder<>]
+[module: AsyncMethodBuilderOverride(typeof(PoolingAsyncValueTaskMethodBuilder), typeof(ValueTask)]
+[module: AsyncMethodBuilderOverride(typeof(PoolingAsyncValueTaskMethodBuilder<>), typeof(ValueTask<>)]
 
 class MyClass
 {
     public async ValueTask Method1Async() { ... } // would use PoolingAsyncValueTaskMethodBuilder
     public async ValueTask<int> Method2Async() { ... } // would use PoolingAsyncValueTaskMethodBuilder<int>
     public async ValueTask<string> Method3Async() { ... } // would use PoolingAsyncValueTaskMethodBuilder<string>
+}
+```
+
+A tale proposito, aggiungere i membri seguenti all'attributo:
+```C#
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, Inherited = false, AllowMultiple = false)]
+    public sealed class AsyncMethodBuilderOverrideAttribute : Attribute
+    {
+        ...
+        // for scoped application (use property for targetReturnType? have compiler check that it's provided)
+        public AsyncMethodBuilderOverrideAttribute(Type builderType, Type targetReturnType) => ...
+
+        public Type TargetReturnType { get; }
+    }
 }
 ```
 
