@@ -1,14 +1,14 @@
 ---
-ms.openlocfilehash: ce51a11bb3370e6ffe68abca9dd81d91aa75bd33
-ms.sourcegitcommit: a7b84ea928eb18908999d442d0547af711362f38
+ms.openlocfilehash: 1785ed77ef6a4a6ab3c9a1eef31a3d255e402f34
+ms.sourcegitcommit: 660f5a2e1c5c6e3b181a82d0b2bdb17821ef9b84
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 08/12/2020
-ms.locfileid: "88140244"
+ms.lasthandoff: 02/14/2021
+ms.locfileid: "100489032"
 ---
 # <a name="unmanaged-type-constraint"></a>Vincolo di tipo non gestito
 
-## <a name="summary"></a>Summary
+## <a name="summary"></a>Riepilogo
 [summary]: #summary
 
 La funzionalità di vincolo non gestito consente di applicare il linguaggio alla classe di tipi noti come "tipi non gestiti" nelle specifiche del linguaggio C#.  Questa operazione è definita nella sezione 18,2 come tipo che non è un tipo riferimento e non contiene campi di tipo riferimento a qualsiasi livello di annidamento.  
@@ -32,7 +32,7 @@ void Hash<T>(T value) where T : unmanaged
 }
 ```
 
-Questo vincolo può essere soddisfatto solo da tipi che rientrano nella definizione di tipo non gestito nelle specifiche del linguaggio C#. Un altro modo per esaminarlo è che un tipo soddisfa il vincolo non gestito IFF, che può essere usato anche come puntatore. 
+Questo vincolo può essere soddisfatto solo da tipi che rientrano nella definizione di tipo non gestito nelle specifiche del linguaggio C#. Un altro modo per esaminarlo è che un tipo soddisfa il vincolo non gestito se può essere usato anche come puntatore. 
 
 ```csharp
 Hash(new Point()); // Okay 
