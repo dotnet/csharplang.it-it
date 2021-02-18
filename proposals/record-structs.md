@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: a62f2efa5b0a38a408fc4aaba2860be22f5d161b
-ms.sourcegitcommit: a9b70c6ee1117df36eb66cf5b8e45c47e6c4f12e
+ms.openlocfilehash: e74c60ac811dbef3768db5c0136ef4888217bc67
+ms.sourcegitcommit: 1f5b1dc19d21038b59bfce169fd49e121a5a1f4e
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 01/17/2021
-ms.locfileid: "98536273"
+ms.lasthandoff: 02/18/2021
+ms.locfileid: "101101698"
 ---
 # <a name="record-structs"></a>Struct di record
 
@@ -23,11 +23,9 @@ record_struct_body
 ```
 
 I tipi di struct di record sono tipi di valore, come altri tipi struct. Ereditano in modo implicito dalla classe `System.ValueType` .
-I modificatori e i membri di uno struct di record sono soggetti alle stesse restrizioni di struct (accessibilità sul tipo, modificatori su membri, costruttori di istanza senza parametri, `base(...)` inizializzatori di costruttori di istanza, assegnazione definita per `this` nel costruttore, distruttori,...).
+I modificatori e i membri di uno struct di record sono soggetti alle stesse restrizioni di quelle degli struct (accessibilità sul tipo, modificatori sui membri, `base(...)` inizializzatori del costruttore di istanza, assegnazione definita per `this` nel costruttore, distruttori,...). Gli struct di record seguiranno anche le stesse regole degli struct per i costruttori di istanze senza parametri e gli inizializzatori di campo, ma in questo documento si presuppone che le restrizioni per gli struct vengano elevate in generale.
 
 Vedere https://github.com/dotnet/csharplang/blob/master/spec/structs.md
-
-Tuttavia, le dichiarazioni dei campi dell'istanza per uno struct di record possono includere inizializzatori di variabile quando esiste un costruttore primario.
 
 Gli struct di record non possono usare il `ref` modificatore.
 
@@ -91,7 +89,7 @@ Il metodo può essere dichiarato in modo esplicito.
 
 Viene segnalato un avviso se uno di `Equals(R)` e `GetHashCode()` viene dichiarato in modo esplicito, ma l'altro metodo non è esplicito.
 
-L'override sintetizzato di `GetHashCode()` restituisce il `int` risultato di una funzione deterministica che combina i valori di `System.Collections.Generic.EqualityComparer<TN>.Default.GetHashCode(fieldN)` per ogni campo di istanza `fieldN` con `TN` il tipo di `fieldN` .
+L'override sintetizzato di `GetHashCode()` restituisce il `int` risultato della combinazione dei valori di `System.Collections.Generic.EqualityComparer<TN>.Default.GetHashCode(fieldN)` per ogni campo di istanza `fieldN` con `TN` il tipo di `fieldN` .
 
 Si consideri ad esempio il seguente struct di record:
 ```C#
@@ -206,7 +204,9 @@ Oltre ai membri precedenti, gli struct di record con un elenco di parametri ("re
 Uno struct di record ha un costruttore pubblico la cui firma corrisponde ai parametri del valore della dichiarazione del tipo. Questo metodo è denominato costruttore primario per il tipo. È un errore avere un costruttore primario e un costruttore con la stessa firma già presente nello struct.
 Uno struct di record non è autorizzato a dichiarare un costruttore primario senza parametri.
 
-Le dichiarazioni dei campi dell'istanza per uno struct di record possono includere inizializzatori di variabile quando è presente un costruttore primario. In fase di esecuzione il costruttore primario esegue gli inizializzatori di istanza visualizzati nel corpo della struct di record.
+Le dichiarazioni dei campi dell'istanza per uno struct di record possono includere inizializzatori di variabile.
+Se non è presente alcun costruttore primario, gli inizializzatori di istanza vengono eseguiti come parte del costruttore senza parametri.
+In caso contrario, in fase di esecuzione il costruttore primario esegue gli inizializzatori di istanza visualizzati nel corpo della struttura di record.
 
 Se uno struct di record ha un costruttore primario, qualsiasi costruttore definito dall'utente, ad eccezione del costruttore di copia, deve disporre di un `this` inizializzatore di costruttore esplicito.
 
@@ -224,7 +224,7 @@ record struct Pos(int X) // definite assignment error in primary constructor
 }
 ```
 
-### <a name="properties"></a>Properties
+### <a name="properties"></a>Proprietà
 
 Per ogni parametro dello struct di record di una dichiarazione di struct di record è presente un membro della proprietà pubblica corrispondente il cui nome e tipo vengono ricavati dalla dichiarazione del parametro value.
 
@@ -277,15 +277,27 @@ public record Base
 public record Derived(int Field);
 ```
 
+# <a name="allow-parameterless-constructors-and-member-initializers-in-structs"></a>Consenti costruttori e inizializzatori di membri senza parametri negli struct
+
+In struct verranno supportati sia costruttori senza parametri che inizializzatori di membri.
+Questa operazione verrà specificata in altri dettagli.
+
+Note non elaborate:  
+Consenti ctor senza parametri su struct e anche inizializzatori di campo (nessun rilevamento Runtime)  
+Verranno enumerati gli scenari in cui gli inizializzatori non vengono valutati: matrici, generics, default...  
+Si consideri la diagnostica per l'utilizzo di struct con un ctor senza parametri in alcuni di questi casi?  
+
 # <a name="open-questions"></a>Domande aperte
 
 - è consigliabile non consentire un costruttore definito dall'utente con una firma del costruttore di copia?
-- confermare che si vuole lasciare la progettazione PrintMembers (metodo separato che restituisce `bool` )
 - confermare che si desidera impedire i membri denominati "clone".
-- perché non sono stati consentiti tipi unsafe nei campi di istanza nei record? Si supponga di voler impedire anche negli struct di record.
 - `with` sui generics? (può influire sulla progettazione per gli struct di record)
-- confermare che non è consentito `record ref struct` (emettere con i `IEquatable<RefStruct>` campi di riferimento e)
-- confermare l'implementazione dei membri di uguaglianza. In alternativa `bool Equals(R other)` , gli operatori vengono sintetizzati `bool Equals(object? other)` e tutti semplicemente delegati a `ValueType.Equals` .
-- confermare che si desidera consentire gli inizializzatori di campo quando è presente un costruttore primario. Si vuole anche consentire i costruttori di struct senza parametri mentre ci troviamo (il problema dell'attivatore era apparentemente fisso)?
-- quanto si vuole dire sul `Combine` Metodo?
+- Verificare che la logica sintetizzata `Equals` sia equivalente dal punto di vista funzionale all'implementazione di runtime, ad esempio float. Nan
 
+## <a name="answered"></a>Rispose
+
+- confermare che si vuole lasciare la progettazione PrintMembers (metodo separato che restituisce `bool` ) (risposta: Sì)
+- confermare che non verrà consentito `record ref struct` (emettere con i `IEquatable<RefStruct>` campi di riferimento e) (risposta: Sì)
+- confermare l'implementazione dei membri di uguaglianza. In alternativa `bool Equals(R other)` , gli operatori vengono sintetizzati `bool Equals(object? other)` e tutti semplicemente delegati a `ValueType.Equals` . (risposta: Sì)
+- confermare che si desidera consentire gli inizializzatori di campo quando è presente un costruttore primario. Si vuole anche consentire i costruttori di struct senza parametri mentre ci troviamo (il problema dell'attivatore era apparentemente fisso)? (risposta: Sì, è necessario rivedere la specifica aggiornata in LDM)
+- quanto si vuole dire sul `Combine` Metodo? (risposta: il minor possibile)
