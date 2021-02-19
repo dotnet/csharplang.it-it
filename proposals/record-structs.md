@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: e74c60ac811dbef3768db5c0136ef4888217bc67
-ms.sourcegitcommit: 1f5b1dc19d21038b59bfce169fd49e121a5a1f4e
+ms.openlocfilehash: 519d546800218ac49ffdeb2d61cb311bbc57091c
+ms.sourcegitcommit: 224a2ffa412eb2e7890a6b6e2c39d9ae93776a70
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 02/18/2021
-ms.locfileid: "101101698"
+ms.lasthandoff: 02/19/2021
+ms.locfileid: "101103040"
 ---
 # <a name="record-structs"></a>Struct di record
 
@@ -293,6 +293,7 @@ Si consideri la diagnostica per l'utilizzo di struct con un ctor senza parametri
 - confermare che si desidera impedire i membri denominati "clone".
 - `with` sui generics? (può influire sulla progettazione per gli struct di record)
 - Verificare che la logica sintetizzata `Equals` sia equivalente dal punto di vista funzionale all'implementazione di runtime, ad esempio float. Nan
+- come riconoscere gli struct di record nei metadati (non è presente un metodo clone che è possibile utilizzare...)
 
 ## <a name="answered"></a>Rispose
 
