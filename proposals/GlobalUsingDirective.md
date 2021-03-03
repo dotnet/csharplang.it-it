@@ -1,17 +1,17 @@
 ---
-ms.openlocfilehash: 22d29c5186db5be559647a0c72cc749de4b7890c
-ms.sourcegitcommit: 1f5b1dc19d21038b59bfce169fd49e121a5a1f4e
+ms.openlocfilehash: e752cfc2356bbbad34f23b48791058cde4968765
+ms.sourcegitcommit: f0590512a5b191faa4ae591a89bbdd71cec819a2
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 02/18/2021
-ms.locfileid: "101101853"
+ms.lasthandoff: 02/26/2021
+ms.locfileid: "101635343"
 ---
 # <a name="global-using-directive"></a>Direttiva using globale
 
-La sintassi per una direttiva using viene estesa con una `global` parola chiave facoltativa che può seguire la `using` parola chiave:
+La sintassi per una direttiva using viene estesa con una `global` parola chiave facoltativa che può precedere la `using` parola chiave:
 ```antlr
 using_directive
-  : 'using' 'global'? ('static' | name_equals)? name ';'
+  : 'global'? 'using' ('static' | name_equals)? name ';'
   ;
 ```
 

@@ -1,24 +1,24 @@
 ---
-ms.openlocfilehash: 300d5fc2a2fadd98472d73c122226146605b01dd
-ms.sourcegitcommit: 892af9016b3317a8fae12d195014dc38ba51cf16
+ms.openlocfilehash: fe9955c66ec231a85bc2058f044e8921fc2fbbc0
+ms.sourcegitcommit: 3f8f57e294e2952af19a5231e6b9c7ff85d0ed56
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 10/01/2019
-ms.locfileid: "71703987"
+ms.lasthandoff: 03/02/2021
+ms.locfileid: "101641747"
 ---
 # <a name="introduction"></a>Introduzione
 
-C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C#ha le sue radici nella famiglia di linguaggi C e sarà immediatamente familiare ai programmatori di C++c, e Java. C#è standardizzato da ECMA International come standard ***ECMA-334*** e da ISO/IEC come standard ***iso/IEC 23270*** . Il C# compilatore Microsoft per il .NET Framework è un'implementazione conforme di entrambi questi standard.
+C#, pronunciato "See Sharp", è un linguaggio di programmazione semplice, moderno, orientato a oggetti e indipendente dai tipi. C# presenta le sue radici nella famiglia di linguaggi C e sarà immediatamente familiare ai programmatori C, C++ e Java. C# è standardizzato da ECMA International come ***ECMA-334** _ standard e ISO/IEC come lo standard _ *_iso/IEC 23270_**. Il compilatore C# di Microsoft per il .NET Framework è un'implementazione conforme di entrambi questi standard.
 
-C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C#fornisce costrutti di linguaggio per supportare direttamente questi concetti, C# rendendo un linguaggio molto naturale in cui creare e utilizzare i componenti software.
+C# è un linguaggio orientato a oggetti, ma include anche il supporto per la programmazione ***orientata ai componenti***. La progettazione software contemporanea è basata in misura sempre maggiore su componenti software costituiti da pacchetti di funzionalità autonomi e autodescrittivi. L'aspetto chiave di tali componenti è che presentano un modello di programmazione con proprietà, metodi ed eventi. Presentano inoltre attributi che forniscono informazioni dichiarative sul componente. Questi componenti, infine, includono la propria documentazione. C# fornisce costrutti di linguaggio per supportare direttamente questi concetti, rendendo C# un linguaggio molto naturale in cui creare e utilizzare i componenti software.
 
-Diverse funzionalità C# offrono un valido aiuto per la creazione di applicazioni affidabili e durevoli: ***Garbage Collection*** recupera automaticamente la memoria occupata dagli oggetti inutilizzati; la ***gestione delle eccezioni*** fornisce un approccio strutturato ed estendibile per il rilevamento e il ripristino degli errori. e la progettazione ***indipendente dai tipi*** del linguaggio rende impossibile leggere le variabili non inizializzate, indicizzare le matrici oltre i limiti o per eseguire cast di tipo non verificati.
+Diverse funzionalità C# facilitano la costruzione di applicazioni solide e durevoli: ***Garbage Collection** _ recupera automaticamente la memoria occupata dagli oggetti inutilizzati; la _*_gestione delle eccezioni_*_ fornisce un approccio strutturato ed estendibile per il rilevamento e il ripristino degli errori. e la struttura di tipo **_indipendente dai tipi_* di linguaggio rende impossibile leggere le variabili non inizializzate, indicizzare le matrici oltre i limiti o per eseguire cast di tipo non verificati.
 
 C# presenta un ***sistema di tipi unificato***. Tutti i tipi C#, inclusi i tipi di primitiva quali `int` e `double`, ereditano da un unico tipo `object` radice. Di conseguenza, tutti i tipi condividono un set di operazioni comuni e i valori dei diversi tipi possono essere archiviati, trasportati e gestiti in modo coerente. C#, inoltre, supporta sia i tipi riferimento sia i tipi valore definiti dall'utente, consentendo l'allocazione dinamica di oggetti e l'archiviazione inline di strutture leggere.
 
-Per garantire che C# i programmi e le librerie possano evolversi nel tempo in modo compatibile, è stato enfatizzato il ***controllo*** delle C#versioni nel progetto. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti C#della progettazione che sono stati influenzati direttamente dalle considerazioni sul controllo delle `virtual` versioni `override` includono i modificatori e separati, le regole per la risoluzione dell'overload del metodo e il supporto per le dichiarazioni esplicite dei membri di interfaccia.
+Per garantire che i programmi e le librerie C# possano evolversi nel tempo in modo compatibile, è stato enfatizzato il ***controllo delle versioni*** nella progettazione di c#. Molti linguaggi di programmazione prestano scarsa attenzione a questo aspetto e, di conseguenza, i programmi scritti in tali linguaggi si interrompono molto più spesso del necessario quando vengono introdotte nuove versioni delle librerie dipendenti. Gli aspetti della progettazione di C# che sono stati influenzati direttamente dalle considerazioni sul controllo delle versioni includono i `virtual` `override` modificatori e separati, le regole per la risoluzione dell'overload del metodo e il supporto per le dichiarazioni esplicite dei membri di interfaccia.
 
-Il resto di questo capitolo descrive le funzionalità essenziali del C# linguaggio. Sebbene i capitoli successivi descrivano le regole e le eccezioni in modo orientato ai dettagli e talvolta matematico, questo capitolo si impegna per la chiarezza e la brevità a scapito della completezza. Lo scopo è fornire al lettore un'introduzione al linguaggio che faciliterà la scrittura dei primi programmi e la lettura dei capitoli successivi.
+Nella parte restante di questo capitolo vengono descritte le funzionalità essenziali del linguaggio C#. Sebbene i capitoli successivi descrivano le regole e le eccezioni in modo orientato ai dettagli e talvolta matematico, questo capitolo si impegna per la chiarezza e la brevità a scapito della completezza. Lo scopo è fornire al lettore un'introduzione al linguaggio che faciliterà la scrittura dei primi programmi e la lettura dei capitoli successivi.
 
 ## <a name="hello-world"></a>Hello world
 
@@ -35,11 +35,11 @@ class Hello
 }
 ```
 
-I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel `hello.cs`file, il programma può essere compilato con il C# compilatore Microsoft tramite la riga di comando
+I file di origine C# hanno in genere l'estensione `.cs`. Supponendo che il programma "Hello, World" sia archiviato nel file `hello.cs` , è possibile compilare il programma con il compilatore Microsoft C# utilizzando la riga di comando
 ```console
 csc hello.cs
 ```
-che produce un assembly eseguibile `hello.exe`denominato. L'output prodotto da questa applicazione quando viene eseguito è
+che produce un assembly eseguibile denominato `hello.exe` . L'output prodotto da questa applicazione quando viene eseguito è
 ```console
 Hello, World
 ```
@@ -48,13 +48,13 @@ Il programma "Hello World" inizia con una direttiva `using` che fa riferimento a
 
 La classe `Hello` dichiarata dal programma "Hello World" ha un solo membro, ovvero il metodo denominato `Main`. Il `Main` metodo viene dichiarato con il `static` modificatore. Mentre i metodi di istanza possono fare riferimento a una particolare istanza dell'oggetto contenitore usando la parola chiave `this`, i metodi statici operano senza riferimento a un determinato oggetto. Per convenzione, un metodo statico denominato `Main` funge da punto di ingresso di un programma.
 
-L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita dalle librerie di classi .NET Framework, che, per impostazione predefinita, fanno riferimento al compilatore Microsoft C# automaticamente. Si noti C# che a sua volta non è presente una libreria di runtime separata. Il .NET Framework è invece la libreria di runtime di C#.
+L'output del programma viene prodotto dal metodo `WriteLine` della classe `Console` nello spazio dei nomi `System`. Questa classe viene fornita dalle librerie di classi .NET Framework, che, per impostazione predefinita, fanno riferimento automaticamente al compilatore Microsoft C#. Si noti che in C# non è presente una libreria di runtime separata. Il .NET Framework è invece la libreria di runtime di C#.
 
 ## <a name="program-structure"></a>Struttura del programma
 
-I concetti organizzativi chiave di C# sono i ***programmi***, gli ***spazi dei nomi***, i ***tipi***, i ***membri*** e gli ***assembly***. I programmi C# sono costituiti da uno o più file di origine. I programmi dichiarano i tipi, che contengono i membri e possono essere organizzati in spazi dei nomi. Le classi e le interfacce sono esempi di tipi. I campi, i metodi, le proprietà e gli eventi sono esempi di membri. Quando vengono compilati, i programmi C# vengono inseriti fisicamente in assembly. Gli assembly hanno in genere l' `.exe` estensione `.dll`di file o, a seconda che implementino ***applicazioni*** o ***librerie***.
+I concetti aziendali chiave in C# sono i ***programmi** _, gli _*_spazi dei nomi_*_, i _*_tipi_*_, _*_i membri_*_ e gli _*_assembly_*_. I programmi C# sono costituiti da uno o più file di origine. I programmi dichiarano i tipi, che contengono i membri e possono essere organizzati in spazi dei nomi. Le classi e le interfacce sono esempi di tipi. I campi, i metodi, le proprietà e gli eventi sono esempi di membri. Quando vengono compilati, i programmi C# vengono inseriti fisicamente in assembly. Gli assembly hanno in genere l'estensione di file `.exe` o `.dll` , a seconda che _**_ implementino o meno le _librerie_* *.
 
-Esempio
+L'esempio:
 
 ```csharp
 using System;
@@ -89,14 +89,14 @@ namespace Acme.Collections
     }
 }
 ```
-dichiara una classe denominata `Stack` in uno spazio dei nomi denominato. `Acme.Collections` Il nome completo di questa classe è `Acme.Collections.Stack`. La classe contiene vari membri: un campo `top`, due metodi `Push` e `Pop` e una classe annidata `Entry`. La classe `Entry` contiene altri tre membri: un campo `next`, un campo `data` e un costruttore. Supponendo che il codice sorgente dell'esempio sia archiviato nel file `acme.cs`, la riga di comando
+dichiara una classe denominata `Stack` in uno spazio dei nomi denominato `Acme.Collections` . Il nome completo di questa classe è `Acme.Collections.Stack`. La classe contiene vari membri: un campo `top`, due metodi `Push` e `Pop` e una classe annidata `Entry`. La classe `Entry` contiene altri tre membri: un campo `next`, un campo `data` e un costruttore. Supponendo che il codice sorgente dell'esempio sia archiviato nel file `acme.cs`, la riga di comando
 
 ```console
 csc /t:library acme.cs
 ```
 compila l'esempio come libreria (codice senza un punto di ingresso `Main`) e genera un assembly denominato `acme.dll`.
 
-Gli assembly contengono codice eseguibile sotto forma di istruzioni di ***linguaggio intermedio*** (il) e informazioni sui simboli sotto forma di ***metadati***. Prima di essere eseguito, il codice IL presente in un assembly viene convertito automaticamente nel codice specifico del processore dal compilatore JIT (Just-In-Time) di .NET Common Language Runtime.
+Gli assembly contengono codice eseguibile sotto forma di istruzioni ***Intermediate Language** _ (il) e informazioni sui simboli nel formato _ *_Metadata_* *. Prima di essere eseguito, il codice IL presente in un assembly viene convertito automaticamente nel codice specifico del processore dal compilatore JIT (Just-In-Time) di .NET Common Language Runtime.
 
 Poiché un assembly è un'unità autodescrittiva di funzionalità contenente codice e metadati, in C# non sono necessari file di intestazione e direttive `#include`. I membri e i tipi pubblici contenuti in un determinato assembly vengono resi disponibili in un programma C# semplicemente facendo riferimento a tale assembly durante la compilazione del programma. Questo programma usa ad esempio la classe `Acme.Collections.Stack` dell'assembly `acme.dll`:
 
@@ -117,7 +117,7 @@ class Test
     }
 }
 ```
-Se il programma è `test.cs`archiviato nel file, quando `test.cs` viene compilato, è `/r` possibile `acme.dll` fare riferimento all'assembly usando l'opzione del compilatore:
+Se il programma è archiviato nel file `test.cs` , quando `test.cs` viene compilato, è `acme.dll` possibile fare riferimento all'assembly usando l'opzione del compilatore `/r` :
 
 ```console
 csc /r:acme.dll test.cs
@@ -133,11 +133,11 @@ C# consente di archiviare il testo di origine di un programma in vari file di or
 
 ## <a name="types-and-variables"></a>Tipi e variabili
 
-In C# esistono due generi di tipi: ***tipi valore*** e ***tipi riferimento***. Le variabili dei tipi valore contengono direttamente i propri dati, mentre le variabili dei tipi riferimento archiviano i riferimenti ai propri dati, noti come oggetti. Con i tipi riferimento, due variabili possono fare riferimento allo stesso oggetto e di conseguenza le operazioni su una delle due variabili possono influire sull'oggetto a cui fa riferimento l'altra. Con i tipi valore, ogni variabile ha una propria copia dei dati e non è possibile che le operazioni su una variabile influiscano sull'altra (tranne nel caso delle variabili di parametro `ref` e `out`).
+Esistono due tipi di tipi in C#: ***tipi valore** _ e _ *_tipi di riferimento_* *. Le variabili dei tipi valore contengono direttamente i propri dati, mentre le variabili dei tipi riferimento archiviano i riferimenti ai propri dati, noti come oggetti. Con i tipi riferimento, due variabili possono fare riferimento allo stesso oggetto e di conseguenza le operazioni su una delle due variabili possono influire sull'oggetto a cui fa riferimento l'altra. Con i tipi valore, ogni variabile ha una propria copia dei dati e non è possibile che le operazioni su una variabile influiscano sull'altra (tranne nel caso delle variabili di parametro `ref` e `out`).
 
-C#i tipi di valore di sono ulteriormente divisi in ***tipi semplici***, ***tipi enum***, ***tipi struct***e ***tipi nullable***e i tipi C#di riferimento di sono ulteriormente divisi in ***tipi di classe***, tipi di ***interfaccia***, ***matrici tipi***e ***tipi delegati***.
+I tipi di valore di c# sono ulteriormente divisi in ***tipi semplici** _, _*_tipi enum_*_, _*_tipi di struct_*_ e _*_tipi nullable_*_ e i tipi di riferimento di c# sono ulteriormente divisi in _*_tipi di classe_*_, _*_tipi di interfaccia_*_, tipi di _*_matrici_*_ e _tipi delegati_ _ * * *.
 
-Nella tabella seguente viene fornita una panoramica C#del sistema di tipi di.
+La tabella seguente fornisce una panoramica del sistema di tipi di C#.
 
 | __Categoria__    |                 | __Descrizione__ |
 |-----------------|-----------------|-----------------|
@@ -150,29 +150,29 @@ Nella tabella seguente viene fornita una panoramica C#del sistema di tipi di.
 |                 | Tipi enum      | Tipi definiti dall'utente nel formato `enum E {...}` |
 |                 | Tipi struct    | Tipi definiti dall'utente nel formato `struct S {...}` |
 |                 | Tipi nullable  | Estensioni di tutti gli altri tipi valore con un valore `null` |
-| Tipi riferimento | Tipi classe     | Classe di base principale di tutti gli altri tipi: `object` |
+| Tipi riferimento | Tipi di classe     | Classe di base principale di tutti gli altri tipi: `object` |
 |                 |                 | Stringhe Unicode: `string` |
 |                 |                 | Tipi definiti dall'utente nel formato `class C {...}` |
 |                 | Tipi interfaccia | Tipi definiti dall'utente nel formato `interface I {...}` |
 |                 | Tipi matrice     | Unidimensionale e multidimensionale, ad esempio `int[]` e `int[,]` |
-|                 | Tipi delegato  | Tipi definiti dall'utente del modulo, ad esempio`delegate int  D(...)` |
+|                 | Tipi delegato  | Tipi definiti dall'utente del modulo, ad esempio `delegate int  D(...)` |
 
 Gli otto tipi integrali offrono supporto per i valori a 8, 16, 32 e 64 bit in formato con segno o senza segno.
 
-I due tipi a virgola `float` mobile `double`, e, vengono rappresentati usando i formati IEEE 754 a precisione singola a 32 bit e a 64 bit.
+I due tipi a virgola mobile, `float` e `double` , vengono rappresentati usando i formati IEEE 754 a precisione singola a 32 bit e a 64 bit.
 
 Il tipo `decimal` è un tipo dati a 128 bit adatto per i calcoli finanziari e monetari.
 
-C#il `bool` tipo di viene usato per rappresentare valori booleani, ovvero valori che `true` sono `false`o.
+Il tipo di C# `bool` viene usato per rappresentare valori booleani, ovvero valori che sono `true` o `false` .
 
 Per l'elaborazione di caratteri e stringhe, in C# viene usata la codifica Unicode. Il tipo `char` rappresenta un'unità di codice UTF-16, mentre il tipo `string` rappresenta una sequenza di unità di codice UTF-16.
 
-Nella tabella seguente C#sono riepilogati i tipi numerici.
+Nella tabella seguente sono riepilogati i tipi numerici di C#.
 
 
-| __Categoria__      | __Bit__ | __Tipo__  | __Intervallo/precisione__ |
+| __Categoria__      | __BITS__ | __Tipo__  | __Intervallo/precisione__ |
 |-------------------|----------|-----------|---------------------|
-| Integrale con segno   | 8        | `sbyte`   | -128...127 |
+| Integrale con segno   | 8        | `sbyte`   | -128... 127 |
 |                   | 16       | `short`   | -32768... 32, 767 |
 |                   | 32       | `int`     | -2147483648... 2, 147, 483, 647 |
 |                   | 64       | `long`    | -9.223.372.036.854.775.808... 9, 223, 372, 036, 854, 775, 807 |
@@ -184,7 +184,7 @@ Nella tabella seguente C#sono riepilogati i tipi numerici.
 |                   | 64       | `double`  | 5,0 × 10 ^ − 324 a 1,7 × 10 ^ 308, precisione di 15 cifre |
 | Decimal           | 128      | `decimal` | 1,0 × 10 ^ − 28 a 7,9 × 10 ^ 28, precisione di 28 cifre |
 
-I programmi C# usano le ***dichiarazioni di tipo*** per creare nuovi tipi. Una dichiarazione di tipo consente di specificare il nome e i membri del nuovo tipo. C#Cinque categorie di tipi sono definibili dall'utente: tipi di classe, tipi di struct, tipi di interfaccia, tipi enum e tipi delegati.
+I programmi C# usano le ***dichiarazioni di tipo*** per creare nuovi tipi. Una dichiarazione di tipo consente di specificare il nome e i membri del nuovo tipo. Cinque delle categorie di tipi di C# sono definibili dall'utente: tipi di classe, tipi di struct, tipi di interfaccia, tipi enum e tipi delegati.
 
 Un tipo di classe definisce una struttura di dati che contiene membri dati (campi) e membri di funzione (metodi, proprietà e altri). I tipi classe supportano l'ereditarietà singola e il polimorfismo, meccanismi in base ai quali le classi derivate possono estendere e specializzare le classi di base.
 
@@ -192,17 +192,17 @@ Un tipo di struct è simile a un tipo di classe in quanto rappresenta una strutt
 
 Un tipo di interfaccia definisce un contratto come un set denominato di membri di funzioni pubbliche. Una classe o uno struct che implementa un'interfaccia deve fornire le implementazioni dei membri della funzione dell'interfaccia. Un'interfaccia può ereditare da più interfacce di base e una classe o uno struct può implementare più interfacce.
 
-Un tipo delegato rappresenta i riferimenti ai metodi con un elenco di parametri e un tipo restituito specifici. I delegati consentono di trattare i metodi come entità che è possibile assegnare a variabili e passare come parametri. I delegati sono simili al concetto di puntatori a funzione disponibili in altri linguaggi. A differenza dei puntatori a funzione, tuttavia, i delegati sono orientati agli oggetti e indipendenti dai tipi.
+Un tipo delegato rappresenta riferimenti ai metodi con un elenco di parametri e un tipo restituito particolari. I delegati consentono di trattare i metodi come entità che è possibile assegnare a variabili e passare come parametri. I delegati sono simili al concetto di puntatori a funzione disponibili in altri linguaggi. A differenza dei puntatori a funzione, tuttavia, i delegati sono orientati agli oggetti e indipendenti dai tipi.
 
 I tipi di classe, struct, interfaccia e delegato supportano tutti i generics, in base ai quali possono essere parametrizzati con altri tipi.
 
 Un tipo enum è un tipo distinto con costanti denominate. Ogni tipo di enumerazione ha un tipo sottostante, che deve essere uno degli otto tipi integrali. Il set di valori di un tipo enum corrisponde al set di valori del tipo sottostante.
 
-C# supporta matrici unidimensionali e multidimensionali di qualsiasi tipo. A differenza dei tipi elencati in precedenza, i tipi matrice non devono essere dichiarati prima dell'uso. Al contrario, i tipi matrice vengono costruiti facendo seguire a un nome di tipo delle parentesi quadre. Ad esempio, `int[]` è una matrice unidimensionale di `int`, `int[,]` è una matrice bidimensionale di `int`e `int[][]` è una matrice unidimensionale di matrici unidimensionali di `int`.
+C# supporta matrici unidimensionali e multidimensionali di qualsiasi tipo. A differenza dei tipi elencati in precedenza, i tipi matrice non devono essere dichiarati prima dell'uso. Al contrario, i tipi matrice vengono costruiti facendo seguire a un nome di tipo delle parentesi quadre. Ad esempio, `int[]` è una matrice unidimensionale di `int` , `int[,]` è una matrice bidimensionale di `int` e `int[][]` è una matrice unidimensionale di matrici unidimensionali di `int` .
 
-Anche i tipi nullable non devono essere dichiarati prima di poter essere usati. Per ogni tipo `T` di valore non nullable esiste un tipo `T?`nullable corrispondente, che può avere un valore `null`aggiuntivo. Ad esempio, `int?` è un tipo che può ospitare qualsiasi Integer a 32 bit o il `null`valore.
+Anche i tipi nullable non devono essere dichiarati prima di poter essere usati. Per ogni tipo di valore non Nullable `T` esiste un tipo nullable corrispondente `T?` , che può avere un valore aggiuntivo `null` . Ad esempio, `int?` è un tipo che può ospitare qualsiasi Integer a 32 bit o il valore `null` .
 
-C#il sistema di tipi è unificato in modo che un valore di qualsiasi tipo possa essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi valore vengono trattati come oggetti eseguendo operazioni di ***conversione boxing e unboxing*** . Nell'esempio seguente un valore `int` viene convertito in `object` e quindi convertito nuovamente in `int`.
+Il sistema di tipi di C# è unificato in modo che un valore di qualsiasi tipo possa essere considerato come un oggetto. In C# ogni tipo deriva direttamente o indirettamente dal tipo classe `object` e `object` è la classe di base principale di tutti i tipi. I valori dei tipi riferimento vengono trattati come oggetti semplicemente visualizzando tali valori come tipi `object`. I valori dei tipi valore vengono trattati come oggetti eseguendo le operazioni ***Boxing** _ e _ *_unboxing *._* Nell'esempio seguente un valore `int` viene convertito in `object` e quindi convertito nuovamente in `int`.
 
 ```csharp
 using System;
@@ -216,14 +216,14 @@ class Test
     }
 }
 ```
-Quando un valore di un tipo di valore viene convertito nel `object`tipo, viene allocata un'istanza dell'oggetto, denominata anche "box", per mantenere il valore e il valore viene copiato in tale casella. Viceversa, quando `object` viene eseguito il cast di un riferimento a un tipo valore, viene eseguito un controllo che l'oggetto a cui si fa riferimento è una casella del tipo di valore corretto e, se il controllo ha esito positivo, il valore nella casella viene copiato.
+Quando un valore di un tipo di valore viene convertito nel tipo `object` , viene allocata un'istanza dell'oggetto, denominata anche "box", per mantenere il valore e il valore viene copiato in tale casella. Viceversa, quando `object` viene eseguito il cast di un riferimento a un tipo valore, viene eseguito un controllo che l'oggetto a cui si fa riferimento è una casella del tipo di valore corretto e, se il controllo ha esito positivo, il valore nella casella viene copiato.
 
-C#con il sistema di tipi unificato, i tipi di valore possono diventare oggetti "su richiesta". Grazie all'unificazione, le librerie generiche che usano il tipo `object` possono essere usate con entrambi i tipi riferimento e valore.
+Il sistema di tipi unificato di C# indica efficacemente che i tipi di valore possono diventare oggetti "su richiesta". Grazie all'unificazione, le librerie generiche che usano il tipo `object` possono essere usate con entrambi i tipi riferimento e valore.
 
 In C# sono disponibili diversi tipi di ***variabili***, inclusi campi, elementi matrice, variabili locali e parametri. Le variabili rappresentano i percorsi di archiviazione e ogni variabile dispone di un tipo che determina quali valori possono essere archiviati nella variabile, come illustrato nella tabella seguente.
 
 
-| __Tipo di variabile__    | __Contenuto possibile__ |
+| __Il tipo di variabile__    | __Contenuto possibile__ |
 |-------------------------|-----------------------|
 | Tipo valore non-nullable | Valore esattamente del tipo indicato |
 | Tipo valore nullable     | Un valore null o un valore di quel tipo esatto |
@@ -235,18 +235,18 @@ In C# sono disponibili diversi tipi di ***variabili***, inclusi campi, elementi 
 
 ## <a name="expressions"></a>Espressioni
 
-Le ***espressioni*** sono costituite da ***operandi*** e ***operatori***. Gli operatori di un'espressione indicano le operazioni che devono essere eseguite sugli operandi. Alcuni esempi di operatori sono `+`, `-`, `*`, `/` e `new`, mentre i valori effettivi, i campi, le variabili locali e le espressioni sono esempi di operandi.
+*Le **espressioni** _ sono costruite da _*_operandi_*_ e _*_operatori_*_. Gli operatori di un'espressione indicano le operazioni che devono essere eseguite sugli operandi. Alcuni esempi di operatori sono `+`, `-`, `_`, `/` e `new`, mentre i valori effettivi, i campi, le variabili locali e le espressioni sono esempi di operandi.
 
-Se un'espressione contiene più operatori, la ***precedenza*** degli operatori determina l'ordine in cui vengono valutati i singoli operatori. L'espressione `x + y * z`, ad esempio, viene valutata come `x + (y * z)` poiché l'operatore `*` ha la precedenza sull'operatore `+`.
+Quando un'espressione contiene più operatori, la ***precedenza** _ degli operatori controlla l'ordine in cui vengono valutati i singoli operatori. L'espressione `x + y _ z`, ad esempio, viene valutata come `x + (y * z)` poiché l'operatore `*` ha la precedenza sull'operatore `+`.
 
-La maggior parte degli operatori può essere***in overload***. L'overload degli operatori consente di specificare implementazioni di operatori definite dall'utente per le operazioni in cui uno o entrambi gli operandi appartengono a un tipo struct o a una classe definita dall'utente.
+La maggior parte degli operatori può essere ***sottoposta a overload***. L'overload degli operatori consente di specificare implementazioni di operatori definite dall'utente per le operazioni in cui uno o entrambi gli operandi appartengono a un tipo struct o a una classe definita dall'utente.
 
-Nella tabella seguente sono riepilogati C#gli operatori, che elencano le categorie di operatori in ordine di precedenza, dal più alto al più basso. Gli operatori della stessa categoria hanno uguale precedenza.
+Nella tabella seguente sono riepilogati gli operatori di C#, che elencano le categorie di operatori in ordine di precedenza dal più alto al più basso. Gli operatori nella stessa categoria hanno la stessa precedenza.
 
 
 | __Categoria__                     | __Espressione__    | __Descrizione__ |
 |----------------------------------|-------------------|-----------------|
-| Primario                          | `x.m`             | Accesso ai membri |
+| Principale                          | `x.m`             | Accesso ai membri |
 |                                  | `x(...)`          | Chiamata a metodi e delegati |
 |                                  | `x[...]`          | Accesso a matrici e indicizzatori |
 |                                  | `x++`             | Post-incremento |
@@ -260,7 +260,7 @@ Nella tabella seguente sono riepilogati C#gli operatori, che elencano le categor
 |                                  | `unchecked(x)`    | Valutare l'espressione in un contesto non controllato (unchecked) |
 |                                  | `default(T)`      | ottiene un valore predefinito di tipo `T` |
 |                                  | `delegate {...}`  | Funzione anonima (metodo anonimo) |
-| Unario                            | `+x`              | identità |
+| Unaria                            | `+x`              | Identità |
 |                                  | `-x`              | Negazione |
 |                                  | `!x`              | Negazione logica |
 |                                  | `~x`              | Negazione bit per bit |
@@ -271,27 +271,27 @@ Nella tabella seguente sono riepilogati C#gli operatori, che elencano le categor
 | Moltiplicazione                   | `x * y`           | Moltiplicazione |
 |                                  | `x / y`           | Divisione |
 |                                  | `x % y`           | Resto |
-| Addizione                         | `x + y`           | Addizione, concatenazione di stringhe, combinazione di delegati |
+| Additive                         | `x + y`           | Addizione, concatenazione di stringhe, combinazione di delegati |
 |                                  | `x - y`           | Sottrazione, rimozione di delegati |
-| Shift                            | `x << y`          | Spostamento a sinistra |
+| MAIUSC                            | `x << y`          | Spostamento a sinistra |
 |                                  | `x >> y`          | Spostamento a destra |
 | Operatori relazionali e operatori di test del tipo      | `x < y`           | Minore di |
 |                                  | `x > y`           | Maggiore di |
-|                                  | `x <= y`          | Minore o uguale |
+|                                  | `x <= y`          | Minore o uguale a |
 |                                  | `x >= y`          | Maggiore o uguale a |
 |                                  | `x is T`          | restituisce `true` se `x` è un oggetto `T`, altrimenti `false` |
 |                                  | `x as T`          | restituisce `x` tipizzato come `T` oppure `null` se `x` non è un oggetto `T` |
-| Uguaglianza                         | `x == y`          | Uguale      |
-|                                  | `x != y`          | Diverso |
+| Uguaglianza                         | `x == y`          | Uguale a      |
+|                                  | `x != y`          | Diverso da |
 | AND logico                      | `x & y`           | AND Integer bit per bit, AND logico booleano |
 | XOR logico                      | `x ^ y`           | XOR Integer bit per bit, XOR logico booleano |
 | OR logico                       | <code>x &#124; y</code> | OR Integer bit per bit, OR logico booleano |
-| AND condizionale                  | `x && y`          | Valuta solo se `x`è `y``true` |
-| OR condizionale                   | <code>x &#124;&#124; y</code> | Valuta solo se `x`è `y``false` |
-| Null-coalescing                  | `x ?? y`          | `y` Restituisce se `x` è ,`null` in`x` caso contrario |
+| AND condizionale                  | `x && y`          | Valuta `y` solo se `x` è `true` |
+| OR condizionale                   | <code>x &#124;&#124; y</code> | Valuta `y` solo se `x` è `false` |
+| Null-coalescing                  | `x ?? y`          | Restituisce `y` se `x` è `null` , in `x` caso contrario |
 | Condizionale                      | `x ? y : z`       | restituisce `y` se `x` è `true`, `z` se `x` è `false` |
 | Assegnazione o funzione anonima | `x = y`           | Assegnazione |
-|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati `*=` sono `/=` `%=` `+=` `-=` `<<=` `>>=` `&=` `^=`<code>&#124;=</code> |
+|                                  | `x op= y`         | Assegnazione composta; gli operatori supportati `*=` `/=` `%=` `+=` `-=` sono `<<=` `>>=` `&=` `^=`<code>&#124;=</code> |
 |                                  | `(T x) => y`      | Funzione anonima (espressione lambda) |
 
 ## <a name="statements"></a>Istruzioni
@@ -302,7 +302,7 @@ Un ***blocco*** consente di scrivere più istruzioni nei contesti in cui ne è c
 
 Le ***istruzioni di dichiarazione*** vengono usate per dichiarare le costanti e le variabili locali.
 
-Le ***istruzioni di espressione*** vengono usate per valutare le espressioni. Le espressioni che possono essere utilizzate come istruzioni includono chiamate al metodo, allocazioni di oggetti utilizzando `new` l'operatore, assegnazioni `=` utilizzando e gli operatori di assegnazione composta, operazioni di incremento e decremento mediante il `++`operatori `--` e e espressioni await.
+Le ***istruzioni di espressione*** vengono usate per valutare le espressioni. Le espressioni che possono essere utilizzate come istruzioni includono chiamate al metodo, allocazioni di oggetti utilizzando l' `new` operatore, assegnazioni utilizzando `=` e gli operatori di assegnazione composta, operazioni di incremento e decremento utilizzando gli `++` `--` operatori e e le espressioni await.
 
 Le ***istruzioni di selezione*** vengono usate per selezionare una tra più istruzioni che è possibile eseguire sulla base del valore di alcune espressioni. In questo gruppo sono incluse le istruzioni `if` e `switch`.
 
@@ -312,7 +312,7 @@ Le ***istruzioni di spostamento*** vengono usate per trasferire il controllo. In
 
 L'istruzione `try`...`catch` viene usata per rilevare le eccezioni che si verificano durante l'esecuzione di un blocco, mentre l'istruzione `try`...`finally` viene usata per specificare il codice di finalizzazione che viene eseguito sempre, indipendentemente dal fatto che si sia verificata un'eccezione.
 
-Le `checked` istruzioni `unchecked` e vengono utilizzate per controllare il contesto di controllo dell'overflow per le conversioni e le operazioni aritmetiche di tipo integrale.
+Le `checked` `unchecked` istruzioni e vengono utilizzate per controllare il contesto di controllo dell'overflow per le conversioni e le operazioni aritmetiche di tipo integrale.
 
 L'istruzione `lock` viene usata per ottenere il blocco a esclusione reciproca per un oggetto specificato, eseguire un'istruzione e quindi rilasciare il blocco.
 
@@ -343,7 +343,7 @@ static void Main() {
 ```
 
 
-__Istruzione Expression__
+__Istruzione di espressione__
 
 ```csharp
 static void Main() {
@@ -355,7 +355,7 @@ static void Main() {
 }
 ```
 
-__Istruzione `if`__
+__`if` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -369,7 +369,7 @@ static void Main(string[] args) {
 ```
 
 
-__Istruzione `switch`__
+__`switch` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -388,7 +388,7 @@ static void Main(string[] args) {
 }
 ```
 
-__Istruzione `while`__
+__`while` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -401,7 +401,7 @@ static void Main(string[] args) {
 ```
 
 
-__Istruzione `do`__
+__`do` istruzione__
 
 ```csharp
 static void Main() {
@@ -413,7 +413,7 @@ static void Main() {
 }
 ```
 
-__Istruzione `for`__
+__`for` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -423,7 +423,7 @@ static void Main(string[] args) {
 }
 ```
 
-__Istruzione `foreach`__
+__`foreach` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -433,7 +433,7 @@ static void Main(string[] args) {
 }
 ```
 
-__Istruzione `break`__
+__`break` istruzione__
 
 ```csharp
 static void Main() {
@@ -445,7 +445,7 @@ static void Main() {
 }
 ```
 
-__Istruzione `continue`__
+__`continue` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -456,7 +456,7 @@ static void Main(string[] args) {
 }
 ```
 
-__Istruzione `goto`__
+__`goto` istruzione__
 
 ```csharp
 static void Main(string[] args) {
@@ -469,7 +469,7 @@ static void Main(string[] args) {
 }
 ```
 
-__Istruzione `return`__
+__`return` istruzione__
 
 ```csharp
 static int Add(int a, int b) {
@@ -482,7 +482,7 @@ static void Main() {
 }
 ```
 
-__Istruzione `yield`__
+__`yield` istruzione__
 
 ```csharp
 static IEnumerable<int> Range(int from, int to) {
@@ -499,7 +499,7 @@ static void Main() {
 }
 ```
 
-__`throw`istruzioni `try` e__
+__`throw``try`istruzioni e__
 
 ```csharp
 static double Divide(double x, double y) {
@@ -525,7 +525,7 @@ static void Main(string[] args) {
 }
 ```
 
-__`checked`istruzioni `unchecked` e__
+__`checked``unchecked`istruzioni e__
 
 ```csharp
 static void Main() {
@@ -539,7 +539,7 @@ static void Main() {
 }
 ```
 
-__Istruzione `lock`__
+__`lock` istruzione__
 
 ```csharp
 class Account
@@ -556,7 +556,7 @@ class Account
 }
 ```
 
-__Istruzione `using`__
+__`using` istruzione__
 
 ```csharp
 static void Main() {
@@ -570,7 +570,7 @@ static void Main() {
 
 ## <a name="classes-and-objects"></a>Classi e oggetti
 
-Le ***classi*** sono i tipi C# più importanti. Una classe è una struttura di dati che combina in una singola unità lo stato (campi) e le azioni (metodi e altri membri di funzione). Una classe fornisce una definizione per ***istanze*** della classe create dinamicamente, note anche come ***oggetti***. Le classi supportano l'***ereditarietà*** e il ***polimorfismo***, meccanismi in base ai quali le ***classi derivate*** possono estendere e specializzare le ***classi di base***.
+*Le **classi** _ sono i più importanti dei tipi di C#. Una classe è una struttura di dati che combina in una singola unità lo stato (campi) e le azioni (metodi e altri membri di funzione). Una classe fornisce una definizione per le _*_istanze_*_ create dinamicamente della classe, note anche come _*_oggetti_*_. Le classi supportano l' _*_ereditarietà_*_ e il _*_polimorfismo_*_, meccanismi in base ai quali _*_le classi derivate_*_ possono estendere e specializzare _le classi di base_* *.
 
 Le nuove classi vengono create tramite dichiarazioni di classe. Una dichiarazione di classe inizia con un'intestazione che specifica gli attributi e i modificatori della classe, il nome della classe, la classe di base (se disponibile) e le interfacce implementate dalla classe. L'intestazione è seguita dal corpo della classe, costituito da un elenco di dichiarazioni di membro scritte tra i delimitatori `{` e `}`.
 
@@ -595,9 +595,9 @@ Point p2 = new Point(10, 20);
 ```
 La memoria occupata da un oggetto viene recuperata automaticamente quando l'oggetto non è più in uso. In C# non è possibile, né necessario, deallocare oggetti in modo esplicito.
 
-### <a name="members"></a>Members
+### <a name="members"></a>Membri
 
-I membri di una classe sono ***membri statici*** o ***membri di istanza***. I primi appartengono a classi, mentre i secondi appartengono a oggetti, ovvero a istanze di classi.
+I membri di una classe sono _i_ membri **statici*** *. I primi appartengono a classi, mentre i secondi appartengono a oggetti, ovvero a istanze di classi.
 
 Nella tabella seguente viene fornita una panoramica dei tipi di membri che possono essere contenuti in una classe.
 
@@ -630,7 +630,7 @@ A ogni membro di una classe è associata una caratteristica di accessibilità, c
 
 ### <a name="type-parameters"></a>Parametri di tipo
 
-Una definizione di classe può specificare un set di parametri di tipo se si fa seguire il nome della classe da un elenco di nomi di parametri di tipo, racchiuso tra parentesi uncinate. I parametri di tipo possono essere utilizzati nel corpo delle dichiarazioni di classe per definire i membri della classe. Nell'esempio seguente i parametri di tipo di `Pair` sono `TFirst` e `TSecond`:
+Una definizione di classe può specificare un set di parametri di tipo se si fa seguire il nome della classe da un elenco di nomi di parametri di tipo, racchiuso tra parentesi uncinate. I parametri di tipo possono essere quindi usati nel corpo delle dichiarazioni di classe per definire i membri della classe. Nell'esempio seguente i parametri di tipo di `Pair` sono `TFirst` e `TSecond`:
 
 ```csharp
 public class Pair<TFirst,TSecond>
@@ -639,7 +639,7 @@ public class Pair<TFirst,TSecond>
     public TSecond Second;
 }
 ```
-Un tipo di classe dichiarato per accetta parametri di tipo è denominato tipo di classe generico. Possono essere generici anche i tipi struct, interfaccia e delegato.
+Un tipo di classe dichiarato per accettare parametri di tipo prende il nome di tipo di classe generico. Possono essere generici anche i tipi struct, interfaccia e delegato.
 
 Quando si usa la classe generica, è necessario specificare argomenti di tipo per ogni parametro di tipo:
 
@@ -648,7 +648,7 @@ Pair<int,string> pair = new Pair<int,string> { First = 1, Second = "two" };
 int i = pair.First;     // TFirst is int
 string s = pair.Second; // TSecond is string
 ```
-Un tipo generico con argomenti di tipo forniti, `Pair<int,string>` come sopra, viene definito tipo costruito.
+Un tipo generico con argomenti di tipo forniti, come `Pair<int,string>` sopra, viene definito tipo costruito.
 
 ### <a name="base-classes"></a>Classi di base
 
@@ -710,13 +710,13 @@ public class Color
     }
 }
 ```
-Come illustrato nell'esempio precedente, i ***campi di sola lettura*** possono essere dichiarati con un modificatore `readonly`. L'assegnazione a `readonly` un campo può essere eseguita solo come parte della dichiarazione del campo o in un costruttore della stessa classe.
+Come illustrato nell'esempio precedente, i ***campi di sola lettura*** possono essere dichiarati con un modificatore `readonly`. L'assegnazione a un `readonly` campo può essere eseguita solo come parte della dichiarazione del campo o in un costruttore della stessa classe.
 
 ### <a name="methods"></a>Metodi
 
-Un ***metodo*** è un membro che implementa un calcolo o un'azione che può essere eseguita da un oggetto o una classe. I ***metodi statici*** sono accessibili tramite la classe, mentre i ***metodi di istanza*** sono accessibili tramite istanze della classe.
+Un ***Method** _ è un membro che implementa un calcolo o un'azione che può essere eseguita da un oggetto o da una classe. I _*_metodi statici_*_ sono accessibili tramite la classe. _ I *_metodi di istanza_** sono accessibili tramite istanze della classe.
 
-I metodi includono un elenco di ***parametri***(possibilmente vuoto), che rappresentano valori o riferimenti a variabili passati al metodo, e un ***tipo restituito***, che specifica il tipo di valore calcolato e restituito dal metodo. Il tipo restituito di un metodo `void` è se non restituisce alcun valore.
+I metodi hanno un elenco (possibilmente vuoto) di ***parametri** _, che rappresentano valori o riferimenti a variabili passati al metodo, e un _tipo_ _ * restituito * *, che specifica il tipo di valore calcolato e restituito dal metodo. Il tipo restituito di un metodo è `void` se non restituisce alcun valore.
 
 Come i tipi, anche i metodi possono avere un set di parametri di tipo per i quali è necessario specificare argomenti di tipo quando vengono chiamati. A differenza dei tipi, gli argomenti di tipo possono essere spesso dedotti dagli argomenti di una chiamata al metodo e non devono essere assegnati in modo esplicito.
 
@@ -769,7 +769,7 @@ class Test
     }
 }
 ```
-Una ***matrice di parametri*** consente di passare un numero variabile di argomenti a un metodo. Una matrice di parametri viene dichiarata con il modificatore `params`. Solo l'ultimo parametro di un metodo può essere costituito da una matrice di parametri, che deve essere sempre di tipo unidimensionale. I `Write` metodi `WriteLine` e della`System.Console` classe sono ottimi esempi di utilizzo delle matrici di parametri. Vengono dichiarati come illustrato di seguito.
+Una ***matrice di parametri*** consente di passare un numero variabile di argomenti a un metodo. Una matrice di parametri viene dichiarata con il modificatore `params`. Solo l'ultimo parametro di un metodo può essere costituito da una matrice di parametri, che deve essere sempre di tipo unidimensionale. I `Write` `WriteLine` metodi e della `System.Console` classe sono ottimi esempi di utilizzo delle matrici di parametri. Vengono dichiarati come illustrato di seguito.
 
 ```csharp
 public class Console
@@ -819,7 +819,7 @@ class Squares
 ```
 In C# è necessario ***assegnare esplicitamente*** una variabile locale prima di poterne ottenere il valore. Se ad esempio nella dichiarazione della variabile locale `i` precedente non fosse stato incluso un valore iniziale, il compilatore avrebbe segnalato un errore ogni volta che la variabile `i` veniva usata, perché `i` non era assegnata esplicitamente in quei punti del programma.
 
-Un metodo può usare istruzioni `return` per restituire il controllo al chiamante. In un metodo che restituisce `void`, le istruzioni `return` non possono specificare un'espressione. In un metodo che restituisce non`void`- `return` , le istruzioni devono includere un'espressione che calcola il valore restituito.
+Un metodo può usare istruzioni `return` per restituire il controllo al chiamante. In un metodo che restituisce `void`, le istruzioni `return` non possono specificare un'espressione. In un metodo che restituisce non- `void` , `return` le istruzioni devono includere un'espressione che calcola il valore restituito.
 
 #### <a name="static-and-instance-methods"></a>Metodi statici e di istanza
 
@@ -877,13 +877,13 @@ Osservare come, mentre i metodi statici `SetNextSerialNo` e `GetNextSerialNo` ve
 
 #### <a name="virtual-override-and-abstract-methods"></a>Metodi virtuali, di override e astratti
 
-Se una dichiarazione di metodo di istanza include un modificatore `virtual`, il metodo viene definito ***metodo virtuale***. Quando non `virtual` è presente alcun modificatore, il metodo viene definito come ***metodo non virtuale***.
+Quando una dichiarazione di metodo di istanza include un `virtual` modificatore, il metodo viene definito un ***metodo virtuale** _. Quando non `virtual` è presente alcun modificatore, viene definito un metodo _ *_non virtuale_* *.
 
-Quando viene richiamato un metodo virtuale, il ***tipo in fase di esecuzione*** dell'istanza per cui viene eseguita la chiamata determina l'implementazione effettiva del metodo da richiamare. In una chiamata a un metodo non virtuale, il fattore determinante è il ***tipo in fase di compilazione*** dell'istanza.
+Quando viene richiamato un metodo virtuale, il **tipo di runtime*** dell'istanza per cui viene eseguita la chiamata determina l'implementazione del metodo effettivo da richiamare. In una chiamata a un metodo non virtuale, il *_tipo_* _ in fase di compilazione * dell'istanza è il fattore determinante.
 
-Un metodo virtuale può essere ***sottoposto a override*** in una classe derivata. Quando una dichiarazione di metodo di istanza `override` include un modificatore, il metodo esegue l'override di un metodo virtuale ereditato con la stessa firma. Mentre una dichiarazione di metodo virtuale introduce un nuovo metodo, una dichiarazione di metodo di override specializza un metodo virtuale ereditato esistente specificando una nuova implementazione del metodo.
+Un metodo virtuale può essere ***sottoposto a override*** in una classe derivata. Quando una dichiarazione di metodo di istanza include un `override` modificatore, il metodo esegue l'override di un metodo virtuale ereditato con la stessa firma. Mentre una dichiarazione di metodo virtuale introduce un nuovo metodo, una dichiarazione di metodo di override specializza un metodo virtuale ereditato esistente specificando una nuova implementazione del metodo.
 
-Un metodo ***astratto*** è un metodo virtuale senza implementazione. Un metodo astratto viene dichiarato con il `abstract` modificatore ed è consentito solo in una classe che è anche `abstract`dichiarata. Un metodo astratto deve essere sottoposto a override in ogni classe derivata non astratta.
+Un metodo ***astratto*** è un metodo virtuale senza implementazione. Un metodo astratto viene dichiarato con il `abstract` modificatore ed è consentito solo in una classe che è anche dichiarata `abstract` . Un metodo astratto deve essere sottoposto a override in ogni classe derivata non astratta.
 
 Nell'esempio seguente viene dichiarata una classe astratta, `Expression`, che rappresenta un nodo dell'albero delle espressioni, e tre classi derivate, `Constant`, `VariableReference` e `Operation`, che implementano i nodi dell'albero delle espressioni relativi a costanti, riferimenti a variabili e operazioni aritmetiche. (Questo è simile a, ma non deve essere confuso con i tipi di albero delle espressioni introdotti nei [tipi di albero delle espressioni](types.md#expression-tree-types)).
 
@@ -961,7 +961,7 @@ Expression e = new Operation(
 ```
 Il metodo `Evaluate` di un'istanza `Expression` viene richiamato per valutare l'espressione specificata e generare un valore `double`. Il metodo accetta come argomento un oggetto `Hashtable` che contiene i nomi delle variabili (come chiavi delle voci) e valori (come valori delle voci). Il `Evaluate` metodo è un metodo astratto virtuale, ovvero le classi derivate non astratte devono eseguirne l'override per fornire un'implementazione effettiva.
 
-L'implementazione di un valore `Constant` del metodo `Evaluate` restituisce semplicemente la costante memorizzata. L' `VariableReference`implementazione di un oggetto cerca il nome della variabile in Hashtable e restituisce il valore risultante. L'implementazione di un valore `Operation` valuta prima gli operandi sinistro e destro (richiamando in modo ricorsivo i metodi `Evaluate`) e quindi esegue l'operazione aritmetica specificata.
+L'implementazione di un valore `Constant` del metodo `Evaluate` restituisce semplicemente la costante memorizzata. L' `VariableReference` implementazione di un oggetto cerca il nome della variabile in Hashtable e restituisce il valore risultante. L'implementazione di un valore `Operation` valuta prima gli operandi sinistro e destro (richiamando in modo ricorsivo i metodi `Evaluate`) e quindi esegue l'operazione aritmetica specificata.
 
 Il programma seguente usa le classi `Expression` per valutare l'espressione `x * (y + 2)` per valori diversi di `x` e `y`.
 
@@ -994,7 +994,7 @@ class Test
 
 #### <a name="method-overloading"></a>Overload di un metodo
 
-L'***overload*** di un metodo consente a più metodi della stessa classe di avere lo stesso nome, purché abbiano firme univoche. Quando si compila una chiamata di un metodo di overload, il compilatore usa la ***risoluzione dell'overload*** per determinare il metodo specifico da richiamare. La risoluzione dell'overload trova il metodo che meglio corrisponde agli argomenti o segnala un errore se non riesce a trovare alcuna corrispondenza. Nell'esempio seguente viene illustrato il funzionamento effettivo della risoluzione dell'overload. Il commento relativo a ogni chiamata del metodo `Main` mostra il metodo effettivamente richiamato.
+Il metodo ***Overload** _ consente a più metodi nella stessa classe di avere lo stesso nome purché dispongano di firme univoche. Quando si compila una chiamata di un metodo di overload, il compilatore USA _ la *_risoluzione dell'overload_** per determinare il metodo specifico da richiamare. La risoluzione dell'overload trova il metodo che meglio corrisponde agli argomenti o segnala un errore se non riesce a trovare alcuna corrispondenza. Nell'esempio seguente viene illustrato il funzionamento effettivo della risoluzione dell'overload. Il commento relativo a ogni chiamata del metodo `Main` mostra il metodo effettivamente richiamato.
 
 ```csharp
 class Test
@@ -1039,9 +1039,9 @@ Come illustrato nell'esempio, è sempre possibile selezionare un metodo specific
 
 ### <a name="other-function-members"></a>Altri membri di funzione
 
-I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. In questa sezione vengono descritti gli altri tipi di membri di C#funzione supportati da: costruttori, proprietà, indicizzatori, eventi, operatori e distruttori.
+I membri che contengono codice eseguibile sono noti come ***membri funzione*** di una classe. Nella sezione precedente sono stati descritti i metodi, che costituiscono i membri di funzione principali. Questa sezione descrive gli altri tipi di membri di funzione supportati da C#: costruttori, proprietà, indicizzatori, eventi, operatori e distruttori.
 
-Nel codice seguente viene illustrata una classe `List<T>`generica denominata, che implementa un elenco di oggetti espandibile. Nella classe sono contenuti alcuni esempi di membri di funzione più comuni.
+Nel codice seguente viene illustrata una classe generica denominata `List<T>` , che implementa un elenco di oggetti espandibile. Nella classe sono contenuti alcuni esempi di membri di funzione più comuni.
 
 
 ```csharp
@@ -1126,11 +1126,11 @@ public class List<T> {
 
 #### <a name="constructors"></a>Costruttori
 
-C# supporta sia costruttori di istanza sia costruttori statici. Un ***costruttore di istanza*** è un membro che implementa le azioni necessarie per inizializzare un'istanza di una classe, mentre un ***costruttore statico*** è un membro che implementa le azioni necessarie per inizializzare una classe nel momento in cui viene caricata per la prima volta.
+C# supporta sia costruttori di istanza sia costruttori statici. Un ***costruttore di istanza** _ è un membro che implementa le azioni necessarie per inizializzare un'istanza di una classe. Un *_costruttore statico_** è un membro che implementa le azioni necessarie per inizializzare una classe quando viene caricata per la prima volta.
 
-Un costruttore viene dichiarato come un metodo, senza tipo restituito e con lo stesso nome della classe in cui è contenuto. Se una dichiarazione di costruttore include `static` un modificatore, dichiara un costruttore statico. In caso contrario, dichiara un costruttore di istanza.
+Un costruttore viene dichiarato come un metodo, senza tipo restituito e con lo stesso nome della classe in cui è contenuto. Se una dichiarazione di costruttore include un `static` modificatore, dichiara un costruttore statico. In caso contrario, dichiara un costruttore di istanza.
 
-È possibile eseguire l'overload di costruttori di istanze. La classe `List<T>`, ad esempio, dichiara due costruttori di istanza, uno senza parametri e uno che accetta un parametro `int`. I costruttori di istanza vengono richiamati con l'operatore `new`. Nelle istruzioni seguenti vengono allocate due `List<string>` istanze di utilizzando ciascuno dei costruttori `List` della classe.
+È possibile eseguire l'overload di costruttori di istanze. La classe `List<T>`, ad esempio, dichiara due costruttori di istanza, uno senza parametri e uno che accetta un parametro `int`. I costruttori di istanza vengono richiamati con l'operatore `new`. Nelle istruzioni seguenti vengono allocate due `List<string>` istanze di utilizzando ciascuno dei costruttori della `List` classe.
 
 ```csharp
 List<string> list1 = new List<string>();
@@ -1140,13 +1140,13 @@ A differenza di altri membri, i costruttori di istanza non vengono ereditati e u
 
 #### <a name="properties"></a>Proprietà
 
-Le ***proprietà*** sono una naturale estensione dei campi. Entrambi sono membri denominati con tipi associati e la sintassi per accedere ai campi e alle proprietà è identica. A differenza dei campi, tuttavia, le proprietà non denotano posizioni di memoria, ma hanno ***funzioni di accesso*** che specificano le istruzioni da eseguire nel momento in cui ne vengono letti o scritti i valori.
+***Properties** _ sono un'estensione naturale dei campi. Entrambi sono membri denominati con tipi associati e la sintassi per accedere ai campi e alle proprietà è identica. A differenza dei campi, tuttavia, le proprietà non denotano posizioni di memoria, Le proprietà hanno invece _ *_funzioni di accesso_** che specificano le istruzioni da eseguire quando i relativi valori vengono letti o scritti.
 
-Una proprietà viene dichiarata come un campo, ad eccezione del fatto che `get` la dichiarazione termina con una `set` funzione di accesso e/o una `{` funzione `}` di accesso scritta tra i delimitatori e anziché terminare con un punto e virgola. `get` Una proprietà con una funzione di accesso e una `set` funzione di accesso è una proprietà di ***lettura/scrittura***, una proprietà con `get` una sola funzione di accesso è una proprietà di sola ***lettura***e una proprietà con `set` solo una funzione di accesso è un ***proprietà di sola scrittura***.
+Una proprietà viene dichiarata come un campo, ad eccezione del fatto che la dichiarazione termina con una `get` funzione di accesso e/o una `set` funzione di accesso scritta tra i delimitatori `{` e `}` anziché terminare con un punto e virgola. Una proprietà con una funzione di `get` accesso e una `set` funzione di accesso è una **proprietà di lettura/scrittura** _, una proprietà che ha solo una `get` funzione di accesso è una _*_proprietà di sola lettura_*_ e una proprietà che ha solo una funzione di `set` accesso è una proprietà _ * di _sola scrittura_* *.
 
-Una `get` funzione di accesso corrisponde a un metodo senza parametri con un valore restituito del tipo di proprietà. Fatta eccezione per la destinazione di un'assegnazione, quando si fa riferimento a una proprietà in un'espressione `get` , viene richiamata la funzione di accesso della proprietà per calcolare il valore della proprietà.
+Una `get` funzione di accesso corrisponde a un metodo senza parametri con un valore restituito del tipo di proprietà. Fatta eccezione per la destinazione di un'assegnazione, quando si fa riferimento a una proprietà in un'espressione, `get` viene richiamata la funzione di accesso della proprietà per calcolare il valore della proprietà.
 
-Una `set` funzione di accesso corrisponde a un metodo con un solo `value` parametro denominato e nessun tipo restituito. Quando si fa riferimento a una proprietà come destinazione di un'assegnazione o come operando di `++` o `--`, la `set` funzione di accesso viene richiamata con un argomento che fornisce il nuovo valore.
+Una `set` funzione di accesso corrisponde a un metodo con un solo parametro denominato `value` e nessun tipo restituito. Quando si fa riferimento a una proprietà come destinazione di un'assegnazione o come operando di `++` o `--` , la `set` funzione di accesso viene richiamata con un argomento che fornisce il nuovo valore.
 
 La classe `List<T>` dichiara due proprietà, `Count` e `Capacity`, che sono rispettivamente di sola lettura e di lettura/scrittura. Di seguito è riportato un esempio d'uso di queste proprietà.
 
@@ -1156,7 +1156,7 @@ names.Capacity = 100;            // Invokes set accessor
 int i = names.Count;             // Invokes get accessor
 int j = names.Capacity;          // Invokes get accessor
 ```
-Come per i campi e i metodi, C# supporta sia proprietà di istanza sia proprietà statiche. Le proprietà statiche vengono dichiarate con il modificatore e le proprietà dell' `static` istanza vengono dichiarate senza di essa.
+Come per i campi e i metodi, C# supporta sia proprietà di istanza sia proprietà statiche. Le proprietà statiche vengono dichiarate con il `static` modificatore e le proprietà dell'istanza vengono dichiarate senza di essa.
 
 Le funzioni di accesso di una proprietà possono essere virtuali. Se una dichiarazione di proprietà contiene un modificatore `virtual`, `abstract` o `override`, questo viene applicato anche alle funzioni di accesso della proprietà.
 
@@ -1164,7 +1164,7 @@ Le funzioni di accesso di una proprietà possono essere virtuali. Se una dichiar
 
 Un ***indicizzatore*** è un membro che consente di indicizzare gli oggetti esattamente come una matrice. Un indicizzatore viene dichiarato come una proprietà, ma a differenza di questa il nome del membro è `this` seguito da un elenco di parametri scritti tra i delimitatori `[` e `]`. I parametri sono disponibili nelle funzioni di accesso dell'indicizzatore. Analogamente alle proprietà, gli indicizzatori possono essere di lettura/scrittura, di sola lettura o di sola scrittura e le funzioni di accesso di un indicizzatore possono essere virtuali.
 
-La classe `List` dichiara un indicizzatore di lettura/scrittura che accetta un parametro `int` e consente di indicizzare istanze `List` con valori `int`. Esempio:
+La classe `List` dichiara un indicizzatore di lettura/scrittura che accetta un parametro `int` e consente di indicizzare istanze `List` con valori `int`. Ad esempio:
 
 ```csharp
 List<string> names = new List<string>();
@@ -1180,11 +1180,11 @@ Gli indicizzatori possono essere sottoposti a overload, ovvero una classe può d
 
 #### <a name="events"></a>Eventi
 
-Un ***evento*** è un membro che consente a una classe o a un oggetto di inviare notifiche. Un evento viene dichiarato come un campo, ad eccezione del fatto che `event` la dichiarazione include una parola chiave e il tipo deve essere un tipo delegato.
+Un ***evento*** è un membro che consente a una classe o a un oggetto di inviare notifiche. Un evento viene dichiarato come un campo, ad eccezione del fatto che la dichiarazione include una `event` parola chiave e il tipo deve essere un tipo delegato.
 
-In una classe che dichiara un membro di evento, l'evento si comporta esattamente come un campo di un tipo delegato, purché l'evento non sia astratto e non dichiari funzioni di accesso. Il campo archivia un riferimento a un delegato che rappresenta i gestori eventi aggiunti all'evento. Se non sono presenti handle di evento, il campo `null`è.
+In una classe che dichiara un membro di evento, l'evento si comporta esattamente come un campo di un tipo delegato, purché l'evento non sia astratto e non dichiari funzioni di accesso. Il campo archivia un riferimento a un delegato che rappresenta i gestori eventi aggiunti all'evento. Se non sono presenti handle di evento, il campo è `null` .
 
-La classe `List<T>` dichiara un singolo membro di evento denominato `Changed`, con cui si indica che un nuovo elemento è stato aggiunto all'elenco. L' `Changed` evento viene generato `OnChanged` dal metodo virtuale, che verifica prima di tutto se l'evento `null` è (ovvero non è presente alcun gestore). Generare un evento equivale a richiamare il delegato rappresentato dall'evento. Non sono quindi necessari speciali costrutti di linguaggio per generare eventi.
+La classe `List<T>` dichiara un singolo membro di evento denominato `Changed`, con cui si indica che un nuovo elemento è stato aggiunto all'elenco. L' `Changed` evento viene generato dal `OnChanged` metodo virtuale, che verifica prima di tutto se l'evento è `null` (ovvero non è presente alcun gestore). Generare un evento equivale a richiamare il delegato rappresentato dall'evento. Non sono quindi necessari speciali costrutti di linguaggio per generare eventi.
 
 I client rispondono agli eventi tramite ***gestori eventi***, che possono essere aggiunti con l'operatore `+=` e rimossi con l'operatore `-=`. Nell'esempio seguente un gestore eventi viene aggiunto all'evento `Changed` di `List<string>`.
 
@@ -1215,7 +1215,7 @@ Negli scenari avanzati in cui è auspicabile controllare l'archiviazione sottost
 
 Un ***operatore*** è un membro che definisce il significato dell'applicazione di un particolare operatore di espressione alle istanze di una classe. È possibile definire tre tipi di operatori: unari, binari e di conversione. Tutti gli operatori devono essere dichiarati come `public` e `static`.
 
-La classe `List<T>` dichiara due operatori, `operator==` e `operator!=`, attribuendo così un nuovo significato alle espressioni che applicano questi operatori alle istanze di `List`. In particolare, gli operatori definiscono l'uguaglianza `List<T>` di due istanze di confrontando ognuno degli oggetti contenuti `Equals` usando i relativi metodi. Nell'esempio seguente viene usato l'operatore `==` per confrontare due istanze di `List<int>`.
+La classe `List<T>` dichiara due operatori, `operator==` e `operator!=`, attribuendo così un nuovo significato alle espressioni che applicano questi operatori alle istanze di `List`. In particolare, gli operatori definiscono l'uguaglianza di due `List<T>` istanze di confrontando ognuno degli oggetti contenuti usando i relativi `Equals` metodi. Nell'esempio seguente viene usato l'operatore `==` per confrontare due istanze di `List<int>`.
 
 ```csharp
 using System;
@@ -1271,7 +1271,7 @@ class Test
     }
 }
 ```
-In alternativa, è possibile `Point` creare uno struct.
+In alternativa, è possibile creare `Point` uno struct.
 
 ```csharp
 struct Point
@@ -1288,7 +1288,7 @@ Viene ora creata un'istanza di un solo oggetto, quello relativo alla matrice, e 
 
 Con l'operatore `new` vengono chiamati i costruttori di struct, ma questo non implica l'allocazione di memoria. Anziché allocare dinamicamente un oggetto e restituire un riferimento a quest'ultimo, un costruttore di struct restituisce semplicemente il valore del tipo struct (in genere una posizione temporanea nello stack), che viene quindi copiato in base alle esigenze.
 
-Con le classi, due variabili possono fare riferimento allo stesso oggetto e pertanto le operazioni su una variabile possono influire sull'oggetto a cui fa riferimento l'altra. Con i tipi struct, ogni variabile ha una propria copia dei dati e le operazioni su una variabile non possono influire sull'altra. L'output prodotto dal frammento di codice seguente, ad esempio, dipende dalla `Point` presenza di una classe o di uno struct.
+Con le classi, due variabili possono fare riferimento allo stesso oggetto e pertanto le operazioni su una variabile possono influire sull'oggetto a cui fa riferimento l'altra. Con i tipi struct, ogni variabile ha una propria copia dei dati e le operazioni su una variabile non possono influire sull'altra. L'output prodotto dal frammento di codice seguente, ad esempio, dipende dalla presenza di `Point` una classe o di uno struct.
 
 ```csharp
 Point a = new Point(10, 10);
@@ -1296,15 +1296,15 @@ Point b = a;
 a.x = 20;
 Console.WriteLine(b.x);
 ```
-Se `Point` è una classe, l'output è `20` perché `a` e `b` fanno riferimento allo stesso oggetto. Se `Point` è uno struct, l'output è `10` perché l'assegnazione di `a` a `b` crea una copia del valore e questa copia non è interessata dall'assegnazione successiva a `a.x`.
+Se `Point` è una classe, l'output è `20` perché `a` e `b` fanno riferimento allo stesso oggetto. Se `Point` è uno struct, l'output è `10` perché l'assegnazione di `a` a `b` Crea una copia del valore e questa copia non è interessata dall'assegnazione successiva a `a.x` .
 
 L'esempio precedente evidenzia due delle limitazioni dei tipi struct. In primo luogo, la copia di un intero tipo struct è in genere meno efficiente della copia di un riferimento all'oggetto. Di conseguenza, il passaggio dei parametri di assegnazione e valore può risultare molto più costoso con i tipi struct che con i tipi riferimento. In secondo luogo, ad eccezione dei parametri `ref` e `out`, non è possibile creare riferimenti ai tipi struct e questa condizione che ne limita l'uso in varie situazioni.
 
 ## <a name="arrays"></a>Matrici
 
-Una ***matrice*** è una struttura di dati contenente una serie di variabili accessibili tramite indici calcolati. Le variabili contenute in una matrice, chiamate anche ***elementi*** della matrice, sono tutte dello stesso tipo, definito ***tipo di elemento*** della matrice.
+***Array** _ è una struttura di dati che contiene un numero di variabili a cui si accede tramite indici calcolati. Le variabili contenute in una matrice, denominate anche _*_elementi_*_ della matrice, sono tutti dello stesso tipo e questo tipo è denominato _ *_tipo di elemento_** della matrice.
 
-Poiché i tipi di matrice sono tipi di riferimento, la dichiarazione di una variabile di matrice si limita a riservare spazio per un riferimento a un'istanza di matrice. Le istanze di matrice effettive vengono create dinamicamente in fase di `new` esecuzione usando l'operatore. L' `new` operazione specifica la ***lunghezza*** della nuova istanza della matrice, che viene quindi corretta per la durata dell'istanza. Gli indici degli elementi di una matrice sono compresi tra `0` e `Length - 1`. L'operatore `new` inizializza automaticamente gli elementi di una matrice sul rispettivo valore predefinito che, ad esempio, equivale a zero per tutti i tipi numerici e a `null` per tutti i tipi di riferimento.
+Poiché i tipi di matrice sono tipi di riferimento, la dichiarazione di una variabile di matrice si limita a riservare spazio per un riferimento a un'istanza di matrice. Le istanze di matrice effettive vengono create dinamicamente in fase di esecuzione usando l' `new` operatore. L' `new` operazione specifica la ***lunghezza*** della nuova istanza della matrice, che viene quindi corretta per la durata dell'istanza. Gli indici degli elementi di una matrice sono compresi tra `0` e `Length - 1`. L'operatore `new` inizializza automaticamente gli elementi di una matrice sul rispettivo valore predefinito che, ad esempio, equivale a zero per tutti i tipi numerici e a `null` per tutti i tipi di riferimento.
 
 Nell'esempio seguente viene creata una matrice di elementi `int`, viene inizializzata la matrice e ne viene stampato il contenuto.
 
@@ -1324,7 +1324,7 @@ class Test
     }
 }
 ```
-In questo esempio viene creata e usata una ***matrice unidimensionale***. C# supporta anche ***matrici multidimensionali***. Il numero di dimensioni di un tipo di matrice, chiamato anche ***rango*** del tipo di matrice, è pari a uno più il numero di virgole tra parentesi quadre del tipo di matrice. Nell'esempio seguente vengono allocate una matrice unidimensionale, bidimensionale e tridimensionale.
+Questo esempio crea e opera su un ***Array unidimensionale** _. C# supporta anche _*_matrici multidimensionali_*_. Il numero di dimensioni di un tipo di matrice, noto anche come _ *_Rank_** del tipo di matrice, è uno più il numero di virgole scritte tra le parentesi quadre del tipo di matrice. Nell'esempio seguente vengono allocate una matrice unidimensionale, bidimensionale e tridimensionale.
 
 ```csharp
 int[] a1 = new int[10];
@@ -1343,12 +1343,12 @@ a[2] = new int[20];
 ```
 La prima riga crea una matrice con tre elementi, ognuno di tipo `int[]` e con un valore iniziale di `null`. Le righe successive inizializzano quindi i tre elementi con riferimenti a singole istanze di matrice di lunghezza variabile.
 
-L' `new` operatore consente di specificare i valori iniziali degli elementi della matrice utilizzando un ***inizializzatore di matrice***, ovvero un elenco di espressioni scritte tra `{` i delimitatori e. `}` Nell'esempio seguente viene allocata e inizializzata una matrice `int[]` con tre elementi.
+L' `new` operatore consente di specificare i valori iniziali degli elementi della matrice utilizzando un ***inizializzatore di matrice***, ovvero un elenco di espressioni scritte tra i delimitatori `{` e `}` . Nell'esempio seguente viene allocata e inizializzata una matrice `int[]` con tre elementi.
 
 ```csharp
 int[] a = new int[] {1, 2, 3};
 ```
-Si noti che la lunghezza della matrice viene dedotta dal numero di espressioni tra `{` e. `}` Per evitare di ridefinire il tipo di matrice, è possibile abbreviare le dichiarazioni di campo e variabile locale.
+Si noti che la lunghezza della matrice viene dedotta dal numero di espressioni tra `{` e `}` . Per evitare di ridefinire il tipo di matrice, è possibile abbreviare le dichiarazioni di campo e variabile locale.
 
 ```csharp
 int[] a = {1, 2, 3};
@@ -1400,21 +1400,21 @@ public class EditBox: IControl, IDataBound
     public void Bind(Binder b) {...}
 }
 ```
-Quando una classe o un tipo struct implementa un'interfaccia specifica, le istanze di tale classe o struct possono essere convertite in modo implicito in quel tipo di interfaccia. Esempio:
+Quando una classe o un tipo struct implementa un'interfaccia specifica, le istanze di tale classe o struct possono essere convertite in modo implicito in quel tipo di interfaccia. Ad esempio:
 
 ```csharp
 EditBox editBox = new EditBox();
 IControl control = editBox;
 IDataBound dataBound = editBox;
 ```
-Nei casi in cui un'istanza non implementa staticamente un'interfaccia specifica è possibile usare cast di tipo dinamico. Ad esempio, le istruzioni seguenti usano i cast di tipo dinamico per ottenere le implementazioni `IDataBound` dell' `IControl` interfaccia e dell'oggetto. Poiché il tipo effettivo dell'oggetto è, `EditBox`il cast ha esito positivo.
+Nei casi in cui un'istanza non implementa staticamente un'interfaccia specifica è possibile usare cast di tipo dinamico. Ad esempio, le istruzioni seguenti usano i cast di tipo dinamico per ottenere le `IControl` implementazioni dell'interfaccia e dell'oggetto `IDataBound` . Poiché il tipo effettivo dell'oggetto è `EditBox` , il cast ha esito positivo.
 
 ```csharp
 object obj = new EditBox();
 IControl control = (IControl)obj;
 IDataBound dataBound = (IDataBound)obj;
 ```
-Nella classe precedente `EditBox` , il `Paint` metodo `IControl` dell'interfaccia e il `Bind` metodo `IDataBound` dell'interfaccia vengono implementati usando `public` i membri. C#supporta anche ***implementazioni esplicite di membri di interfaccia***, usando le quali la classe o lo struct `public`può evitare di creare membri. Un'implementazione esplicita di un membro dell'interfaccia viene scritta usando il nome completo del membro dell'interfaccia. La classe `EditBox` può ad esempio implementare i metodi `IControl.Paint` e `IDataBound.Bind` usando implementazioni esplicite di un membro dell'interfaccia, come indicato di seguito.
+Nella classe precedente `EditBox` , il `Paint` metodo dell' `IControl` interfaccia e il metodo dell' `Bind` `IDataBound` interfaccia vengono implementati usando `public` i membri. C# supporta anche ***implementazioni esplicite di membri di interfaccia***, usando le quali la classe o lo struct può evitare di creare membri `public` . Un'implementazione esplicita di un membro dell'interfaccia viene scritta usando il nome completo del membro dell'interfaccia. La classe `EditBox` può ad esempio implementare i metodi `IControl.Paint` e `IDataBound.Bind` usando implementazioni esplicite di un membro dell'interfaccia, come indicato di seguito.
 
 ```csharp
 public class EditBox: IControl, IDataBound
@@ -1423,7 +1423,7 @@ public class EditBox: IControl, IDataBound
     void IDataBound.Bind(Binder b) {...}
 }
 ```
-È possibile accedere ai membri dell'interfaccia esplicita solo tramite il tipo di interfaccia. Ad esempio, l'implementazione di `IControl.Paint` fornita dalla classe precedente `EditBox` può essere richiamata solo `IControl` convertendo prima il `EditBox` riferimento al tipo di interfaccia.
+È possibile accedere ai membri dell'interfaccia esplicita solo tramite il tipo di interfaccia. Ad esempio, l'implementazione di `IControl.Paint` fornita dalla classe precedente `EditBox` può essere richiamata solo convertendo prima il `EditBox` riferimento al `IControl` tipo di interfaccia.
 
 ```csharp
 EditBox editBox = new EditBox();
@@ -1434,7 +1434,7 @@ control.Paint();                        // Ok
 
 ## <a name="enums"></a>Enumerazioni
 
-Un ***tipo enum*** è un tipo valore distinto con un set di costanti denominate. Nell'esempio seguente viene dichiarato e usato un tipo enum denominato `Color` con tre valori costanti `Green`, `Red`, e `Blue`.
+Un ***tipo enum*** è un tipo valore distinto con un set di costanti denominate. Nell'esempio seguente viene dichiarato e usato un tipo enum denominato `Color` con tre valori costanti, `Red` , `Green` e `Blue` .
 
 ```csharp
 using System;
@@ -1472,9 +1472,9 @@ class Test
     }
 }
 ```
-Ogni tipo di enumerazione ha un tipo integrale corrispondente denominato ***tipo sottostante*** del tipo enum. Un tipo enum che non dichiara in modo esplicito un tipo sottostante ha un tipo sottostante `int`di. Il formato di archiviazione e l'intervallo di valori possibili di un tipo enum sono determinati dal tipo sottostante. Il set di valori che un tipo enum può assumere non è limitato dai relativi membri enum. In particolare, è possibile eseguire il cast di qualsiasi valore del tipo sottostante di un'enumerazione al tipo enum ed è un valore valido distinto di tale tipo enum.
+Ogni tipo di enumerazione ha un tipo integrale corrispondente denominato ***tipo sottostante*** del tipo enum. Un tipo enum che non dichiara in modo esplicito un tipo sottostante ha un tipo sottostante di `int` . Il formato di archiviazione e l'intervallo di valori possibili di un tipo enum sono determinati dal tipo sottostante. Il set di valori che un tipo enum può assumere non è limitato dai relativi membri enum. In particolare, è possibile eseguire il cast di qualsiasi valore del tipo sottostante di un'enumerazione al tipo enum ed è un valore valido distinto di tale tipo enum.
 
-Nell'esempio seguente viene dichiarato un tipo enum denominato `Alignment` con un tipo sottostante di `sbyte`.
+Nell'esempio seguente viene dichiarato un tipo enum denominato `Alignment` con un tipo sottostante di `sbyte` .
 
 ```csharp
 enum Alignment: sbyte
@@ -1486,13 +1486,13 @@ enum Alignment: sbyte
 ```
 Come illustrato nell'esempio precedente, una dichiarazione di membro enum può includere un'espressione costante che specifica il valore del membro. Il valore costante per ogni membro enum deve essere compreso nell'intervallo del tipo sottostante dell'enumerazione. Quando una dichiarazione di un membro enum non specifica in modo esplicito un valore, al membro viene assegnato il valore zero (se è il primo membro del tipo enum) o il valore del membro enum testuale precedente, più uno.
 
-I valori enum possono essere convertiti in valori integrali e viceversa usando i cast di tipo. Esempio:
+I valori enum possono essere convertiti in valori integrali e viceversa usando i cast di tipo. Ad esempio:
 
 ```csharp
 int i = (int)Color.Blue;        // int i = 2;
 Color c = (Color)2;             // Color c = Color.Blue;
 ```
-Il valore predefinito di qualsiasi tipo enum è il valore integrale zero convertito nel tipo enum. Nei casi in cui le variabili vengono inizializzate automaticamente su un valore predefinito, si tratta del valore assegnato alle variabili dei tipi enum. Affinché il valore predefinito di un tipo enum sia facilmente disponibile, il valore letterale `0` viene convertito in modo implicito in qualsiasi tipo enum. Di conseguenza, quanto riportato di seguito è consentito.
+Il valore predefinito di qualsiasi tipo enum è il valore integrale zero convertito nel tipo enum. Nei casi in cui le variabili vengono inizializzate automaticamente su un valore predefinito, si tratta del valore assegnato alle variabili dei tipi enum. Affinché il valore predefinito di un tipo enum sia facilmente disponibile, il valore letterale viene `0` convertito in modo implicito in qualsiasi tipo enum. Di conseguenza, quanto riportato di seguito è consentito.
 
 ```csharp
 Color c = 0;
@@ -1543,7 +1543,7 @@ class Test
     }
 }
 ```
-Un'istanza del tipo delegato `Function` può fare riferimento a qualsiasi metodo che accetta un argomento `double` e restituisce un valore `double`. Il `Apply` metodo applica un oggetto `Function` specificato agli elementi di un `double[]`oggetto, restituendo un oggetto `double[]` con i risultati. Nel metodo `Main`, `Apply` viene usato per applicare a `double[]` tre funzioni differenti.
+Un'istanza del tipo delegato `Function` può fare riferimento a qualsiasi metodo che accetta un argomento `double` e restituisce un valore `double`. Il `Apply` metodo applica un oggetto specificato `Function` agli elementi di un oggetto `double[]` , restituendo un oggetto `double[]` con i risultati. Nel metodo `Main`, `Apply` viene usato per applicare a `double[]` tre funzioni differenti.
 
 Un delegato può fare riferimento a un metodo statico, come `Square` o `Math.Sin` nell'esempio precedente, o a un metodo di istanza, come `m.Multiply` nell'esempio precedente. Un delegato che fa riferimento a un metodo di istanza fa riferimento anche a un oggetto particolare. Quando il metodo di istanza viene richiamato tramite il delegato, l'oggetto diventa `this` nella chiamata.
 
@@ -1582,7 +1582,7 @@ public class HelpAttribute: Attribute
     }
 }
 ```
-Tutte le classi di attributi derivano dalla `System.Attribute` classe di base fornita dal .NET Framework. Gli attributi possono essere applicati specificandone il nome (con eventuali argomenti) tra parentesi quadre appena prima della dichiarazione associata. Se il nome di un attributo termina `Attribute`in, tale parte del nome può essere omessa quando si fa riferimento all'attributo. L'attributo `HelpAttribute`, ad esempio, può essere usato come illustrato di seguito.
+Tutte le classi di attributi derivano dalla `System.Attribute` classe di base fornita dal .NET Framework. Gli attributi possono essere applicati specificandone il nome (con eventuali argomenti) tra parentesi quadre appena prima della dichiarazione associata. Se il nome di un attributo termina in `Attribute` , tale parte del nome può essere omessa quando si fa riferimento all'attributo. L'attributo `HelpAttribute`, ad esempio, può essere usato come illustrato di seguito.
 
 ```csharp
 [Help("http://msdn.microsoft.com/.../MyClass.htm")]
@@ -1592,7 +1592,7 @@ public class Widget
     public void Display(string text) {}
 }
 ```
-Questo esempio connette un oggetto `HelpAttribute` `Widget` `HelpAttribute` alla`Display` classe e un altro al metodo nella classe. I costruttori pubblici di una classe di attributo controllano le informazioni che devono essere specificate quando l'attributo è associato a un'entità di programma. È possibile specificare informazioni aggiuntive facendo riferimento a proprietà di lettura/scrittura pubbliche della classe di attributo, ad esempio il riferimento alla proprietà `Topic` precedente.
+Questo esempio connette un oggetto `HelpAttribute` alla `Widget` classe e un altro `HelpAttribute` al `Display` metodo nella classe. I costruttori pubblici di una classe di attributo controllano le informazioni che devono essere specificate quando l'attributo è associato a un'entità di programma. È possibile specificare informazioni aggiuntive facendo riferimento a proprietà di lettura/scrittura pubbliche della classe di attributo, ad esempio il riferimento alla proprietà `Topic` precedente.
 
 Nell'esempio seguente viene illustrato come recuperare le informazioni sugli attributi per un'entità programma specificata in fase di esecuzione tramite reflection.
 
