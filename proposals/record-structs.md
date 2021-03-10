@@ -1,10 +1,10 @@
 ---
-ms.openlocfilehash: 519d546800218ac49ffdeb2d61cb311bbc57091c
-ms.sourcegitcommit: 224a2ffa412eb2e7890a6b6e2c39d9ae93776a70
+ms.openlocfilehash: fa26fb116d1efb06a3ba587791026bb46265a0b8
+ms.sourcegitcommit: 003c0606c3494f5920742b3daf548e359ecf60ac
 ms.translationtype: MT
 ms.contentlocale: it-IT
-ms.lasthandoff: 02/19/2021
-ms.locfileid: "101103040"
+ms.lasthandoff: 03/10/2021
+ms.locfileid: "102532907"
 ---
 # <a name="record-structs"></a>Struct di record
 
@@ -208,7 +208,7 @@ Le dichiarazioni dei campi dell'istanza per uno struct di record possono include
 Se non è presente alcun costruttore primario, gli inizializzatori di istanza vengono eseguiti come parte del costruttore senza parametri.
 In caso contrario, in fase di esecuzione il costruttore primario esegue gli inizializzatori di istanza visualizzati nel corpo della struttura di record.
 
-Se uno struct di record ha un costruttore primario, qualsiasi costruttore definito dall'utente, ad eccezione del costruttore di copia, deve disporre di un `this` inizializzatore di costruttore esplicito.
+Se uno struct di record ha un costruttore primario, qualsiasi costruttore definito dall'utente deve disporre di un `this` inizializzatore di costruttore esplicito.
 
 I parametri del costruttore primario e i membri dello struct di record sono inclusi nell'ambito all'interno degli inizializzatori dei campi o delle proprietà dell'istanza. I membri di istanza sarebbero un errore in queste posizioni (analogamente a come i membri dell'istanza sono inclusi nell'ambito negli inizializzatori di costruttori normali, ma un errore da usare), ma i parametri del costruttore primario sarebbero inclusi nell'ambito e utilizzabili e verrebbero nascosti ai membri. I membri statici sarebbero anche utilizzabili.
 
